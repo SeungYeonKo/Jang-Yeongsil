@@ -138,8 +138,6 @@ public class PhotonManager : MonoBehaviourPunCallbacks
     {
         NextRoomName = nextRoom;
         StartCoroutine(LeaveRoomAndLoadDescriptionScene());
-        SoundManager.instance.StopBgm();
-        SoundManager.instance.PlaySfx(SoundManager.Sfx.SceneMove);
         PhotonNetwork.LeaveRoom();
     }
 

@@ -5979,6 +5979,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: f_1
       objectReference: {fileID: 0}
+    - target: {fileID: 6828049218474164978, guid: c187441754e722e449fe043c0c07845d, type: 3}
+      propertyPath: sceneViewId
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -6125,6 +6129,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1256893487}
+  - component: {fileID: 1256893488}
   m_Layer: 0
   m_Name: WeatherManager
   m_TagString: Untagged
@@ -6148,6 +6153,20 @@ Transform:
   - {fileID: 1436430967}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1256893488
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1256893486}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2464834229f92624f99bcc178fcfaaf5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  RainProfile: {fileID: 11400000, guid: bffc18c31bd6fb343abce94bcd982ed8, type: 2}
+  NoneProfile: {fileID: 11400000, guid: ade9cd73fa679bb4598c943e6978a8ac, type: 2}
 --- !u!1 &1341087156
 GameObject:
   m_ObjectHideFlags: 0
@@ -19681,7 +19700,7 @@ Light:
   m_BounceIntensity: 1
   m_ColorTemperature: 6570
   m_UseColorTemperature: 0
-  m_BoundingSphereOverride: {x: 0, y: 8.1e-44, z: 0, w: NaN}
+  m_BoundingSphereOverride: {x: 0, y: 0, z: 0, w: 8e-45}
   m_UseBoundingSphereOverride: 0
   m_UseViewFrustumForShadowCasterCull: 1
   m_ShadowRadius: 0

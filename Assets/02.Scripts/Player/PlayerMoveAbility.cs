@@ -22,9 +22,9 @@ public class PlayerMoveAbility : PlayerAbility
 
     private float _JumpPower;
 
-    public bool isGrounded;		// ¶¥¿¡ ¼­ÀÖ´ÂÁö Ã¼Å©ÇÏ±â À§ÇÑ bool°ª
-    public LayerMask LayerMask;	// ·¹ÀÌ¾î¸¶½ºÅ© ¼³Á¤
-    public float groundDistance = 0.4f;		// Ray¸¦ ½÷¼­ °Ë»çÇÏ´Â °Å¸®
+    public bool isGrounded;		// ë•…ì— ì„œìˆëŠ”ì§€ ì²´í¬í•˜ê¸° ìœ„í•œ boolê°’
+    public LayerMask LayerMask;	// ë ˆì´ì–´ë§ˆìŠ¤í¬ ì„¤ì •
+    public float groundDistance = 0.4f;		// Rayë¥¼ ì´ì„œ ê²€ì‚¬í•˜ëŠ” ê±°ë¦¬
 
     public bool _isRunning;
 
@@ -43,11 +43,11 @@ public class PlayerMoveAbility : PlayerAbility
 
     //public ParticleSystem WalkVFX;
     //public ParticleSystem JumpVFX;
-    private ParticleSystem[] walkVFX; // Walk VFX ¹è¿­
-    private int currentVFXIndex = 0; // ÇöÀç Àç»ı ÁßÀÎ Walk VFX ÀÎµ¦½º
+    private ParticleSystem[] walkVFX; // Walk VFX ë°°ì—´
+    private int currentVFXIndex = 0; // í˜„ì¬ ì¬ìƒ ì¤‘ì¸ Walk VFX ì¸ë±ìŠ¤
     private float vfxTimer = 0;
 
-    private bool _isFallGuysScene = false; // Æú°¡ÀÌÁî ¾ÀÀÎÁö È®ÀÎ
+    private bool _isFallGuysScene = false; // í´ê°€ì´ì¦ˆ ì”¬ì¸ì§€ í™•ì¸
     private bool _isTowerClimbScene = false;
     private bool _isBattleTileScene = false;
 
@@ -83,7 +83,7 @@ public class PlayerMoveAbility : PlayerAbility
         }
     }
 
-    // Å° ÀÔ·Â°ú ÀÌµ¿¹æÇâ °è»ê
+    // í‚¤ ì…ë ¥ê³¼ ì´ë™ë°©í–¥ ê³„ì‚°
     void Update()
     {
         if (!_owner.PhotonView.IsMine)
@@ -133,59 +133,50 @@ public class PlayerMoveAbility : PlayerAbility
         {
             return;
         }
-        if (_isFallGuysScene)
-        {
-            if (FallGuysManager.Instance._currentGameState == GameState.Loading)
-            { return; }
-        }
-        else if (_isBattleTileScene)
-        {
-            if (BattleTileManager.Instance.CurrentGameState == GameState.Loading)
-            { return; }
-        }
+        
         InputAndDir();
     }
 
-    // Å° ÀÔ·Â°ú ±×¿¡ µû¸¥ ÀÌµ¿¹æÇâÀ» °è»êÇÏ´Â ÇÔ¼ö
+    // í‚¤ ì…ë ¥ê³¼ ê·¸ì— ë”°ë¥¸ ì´ë™ë°©í–¥ì„ ê³„ì‚°í•˜ëŠ” í•¨ìˆ˜
     void InputAndDir()
     {
-        // Å° ÀÔ·Â¿¡ µû¶ó ¹æÇâ º¤ÅÍ ¼³Á¤
-        dir.x = Input.GetAxis("Horizontal");   // xÃà ¹æÇâ Å° ÀÔ·Â
-        dir.z = Input.GetAxis("Vertical");     // zÃà ¹æÇâ Å° ÀÔ·Â
+        // í‚¤ ì…ë ¥ì— ë”°ë¼ ë°©í–¥ ë²¡í„° ì„¤ì •
+        dir.x = Input.GetAxis("Horizontal");   // xì¶• ë°©í–¥ í‚¤ ì…ë ¥
+        dir.z = Input.GetAxis("Vertical");     // zì¶• ë°©í–¥ í‚¤ ì…ë ¥
         Vector3 direction = new Vector3(dir.x, 0f, dir.z);
         float movementMagnitude = direction.magnitude;
 
-        // ÀÌµ¿ ¾Ö´Ï¸ŞÀÌ¼Ç ¼³Á¤
+        // ì´ë™ ì• ë‹ˆë©”ì´ì…˜ ì„¤ì •
         _animator.SetFloat("Move", Mathf.Clamp01(movementMagnitude));
         //Instantiate(WalkVFX, dir, Quaternion.identity);
 
-        // ±âÁ¸ yÃà ¼Óµµ¸¦ À¯ÁöÇÏ¸é¼­ »õ·Î¿î ¹æÇâÀ¸·Î ¼Óµµ ¼³Á¤
+        // ê¸°ì¡´ yì¶• ì†ë„ë¥¼ ìœ ì§€í•˜ë©´ì„œ ìƒˆë¡œìš´ ë°©í–¥ìœ¼ë¡œ ì†ë„ ì„¤ì •
         rb.velocity = new Vector3(direction.x, rb.velocity.y, direction.z);
 
-        if (dir != Vector3.zero)   // Å° ÀÔ·ÂÀÌ ÀÖ´Â °æ¿ì
+        if (dir != Vector3.zero)   // í‚¤ ì…ë ¥ì´ ìˆëŠ” ê²½ìš°
         {
-            // Ä«¸Ş¶óÀÇ ¾Õ ¹æÇâÀ» ±âÁØÀ¸·Î ÀÌµ¿ ¹æÇâ ¼³Á¤
+            // ì¹´ë©”ë¼ì˜ ì• ë°©í–¥ì„ ê¸°ì¤€ìœ¼ë¡œ ì´ë™ ë°©í–¥ ì„¤ì •
             Vector3 forward = Camera.main.transform.forward;
             forward.y = 0;
             direction = (forward.normalized * dir.z + Camera.main.transform.right * dir.x).normalized;
 
             var a = direction;
             a.y = 0f;
-            // ÀÌµ¿ ¹æÇâÀ¸·Î Ä³¸¯ÅÍ È¸Àü
+            // ì´ë™ ë°©í–¥ìœ¼ë¡œ ìºë¦­í„° íšŒì „
             Quaternion targetRotation = Quaternion.LookRotation(a);
             rb.MoveRotation(Quaternion.Slerp(transform.rotation, targetRotation, Time.fixedDeltaTime * 10f));
 
-            // °È±â ¾Ö´Ï¸ŞÀÌ¼Ç ¼³Á¤
+            // ê±·ê¸° ì• ë‹ˆë©”ì´ì…˜ ì„¤ì •
             _animator.SetBool("Walk", true);
         }
-        else // Å° ÀÔ·ÂÀÌ ¾ø´Â °æ¿ì
+        else // í‚¤ ì…ë ¥ì´ ì—†ëŠ” ê²½ìš°
         {
             _animator.SetBool("Walk", false);
         }
 
         direction.y = 0f;
 
-        // ´Ş¸®±â ¿©ºÎ¿¡ µû¶ó ÀÌµ¿ ¼Óµµ ¹× ¾Ö´Ï¸ŞÀÌ¼Ç ¼³Á¤
+        // ë‹¬ë¦¬ê¸° ì—¬ë¶€ì— ë”°ë¼ ì´ë™ ì†ë„ ë° ì• ë‹ˆë©”ì´ì…˜ ì„¤ì •
         if (_isFallGuysScene || Input.GetKey(KeyCode.LeftShift))
         {
 
@@ -229,7 +220,7 @@ public class PlayerMoveAbility : PlayerAbility
             }
 
         }
-        if ((Input.GetKey(KeyCode.Space) || Input.GetKey(KeyCode.V)) && isGrounded && !_isTowerClimbScene) 	// IsGrounded°¡ trueÀÏ ¶§¸¸ Á¡ÇÁÇÒ ¼ö ÀÖµµ·Ï
+        if ((Input.GetKey(KeyCode.Space) || Input.GetKey(KeyCode.V)) && isGrounded && !_isTowerClimbScene) 	// IsGroundedê°€ trueì¼ ë•Œë§Œ ì í”„í•  ìˆ˜ ìˆë„ë¡
         {
             if (_isBattleTileScene)
             { return; }
@@ -278,25 +269,25 @@ public class PlayerMoveAbility : PlayerAbility
         vfxTimer -= Time.deltaTime;
     }
 
-    // Á¡ÇÁ µ¿ÀÛ ±¸Çö
+    // ì í”„ ë™ì‘ êµ¬í˜„
     void JumpCounter()
     {
 
         if (isGrounded && JumpCount < 1)
         {
             JumpCount += 1;
-            // Ãß°¡ µ¿ÀÛ ±¸Çö
+            // ì¶”ê°€ ë™ì‘ êµ¬í˜„
         }
     }
 
-    // ¶¥¿¡ ÀÖ´ÂÁö °Ë»çÇÏ´Â ÇÔ¼ö
+    // ë•…ì— ìˆëŠ”ì§€ ê²€ì‚¬í•˜ëŠ” í•¨ìˆ˜
     void GroundCheck()
     {
         RaycastHit hit;
-        // Default ·¹ÀÌ¾î¸¸ Æ÷ÇÔµÈ ·¹ÀÌ¾î ¸¶½ºÅ© »ı¼º
+        // Default ë ˆì´ì–´ë§Œ í¬í•¨ëœ ë ˆì´ì–´ ë§ˆìŠ¤í¬ ìƒì„±
         int defaultLayerMask = LayerMask.GetMask("Default");
 
-        // ÇÃ·¹ÀÌ¾îÀÇ À§Ä¡¿¡¼­, ¾Æ·¡¹æÇâÀ¸·Î, groundDistance ¸¸Å­ ray¸¦ ½÷¼­, Default ·¹ÀÌ¾î°¡ ÀÖ´ÂÁö °Ë»ç
+        // í”Œë ˆì´ì–´ì˜ ìœ„ì¹˜ì—ì„œ, ì•„ë˜ë°©í–¥ìœ¼ë¡œ, groundDistance ë§Œí¼ rayë¥¼ ì´ì„œ, Default ë ˆì´ì–´ê°€ ìˆëŠ”ì§€ ê²€ì‚¬
         if (Physics.Raycast(LayerPoint.position, Vector3.down, out hit, groundDistance, defaultLayerMask))
         {
             isGrounded = true;
@@ -318,20 +309,20 @@ public class PlayerMoveAbility : PlayerAbility
 
         if (vfxTimer <= 0)
         {
-            // ÇöÀç È°¼ºÈ­µÈ VFX ¿ÀºêÁ§Æ®¸¦ ºñÈ°¼ºÈ­
+            // í˜„ì¬ í™œì„±í™”ëœ VFX ì˜¤ë¸Œì íŠ¸ë¥¼ ë¹„í™œì„±í™”
             if (currentVFXIndex >= 0 && currentVFXIndex < walkVFX.Length)
             {
                 walkVFX[currentVFXIndex].gameObject.SetActive(false);
             }
 
-            // ´ÙÀ½ VFX ¿ÀºêÁ§Æ®¸¦ È°¼ºÈ­
+            // ë‹¤ìŒ VFX ì˜¤ë¸Œì íŠ¸ë¥¼ í™œì„±í™”
             currentVFXIndex = (currentVFXIndex + 1) % walkVFX.Length;
             walkVFX[currentVFXIndex].gameObject.SetActive(true);
 
-            // VFX È°¼ºÈ­ ÀÌº¥Æ® Àü¼Û
+            // VFX í™œì„±í™” ì´ë²¤íŠ¸ ì „ì†¡
             photonView.RPC("ActivateVFX", RpcTarget.Others, currentVFXIndex);
 
-            vfxTimer = 1; // Å¸ÀÌ¸Ó Àç¼³Á¤
+            vfxTimer = 1; // íƒ€ì´ë¨¸ ì¬ì„¤ì •
         }
         else
         {
@@ -344,13 +335,13 @@ public class PlayerMoveAbility : PlayerAbility
     {
         if (vfxIndex >= 0 && vfxIndex < walkVFX.Length)
         {
-            // ¸ğµç VFX ºñÈ°¼ºÈ­
+            // ëª¨ë“  VFX ë¹„í™œì„±í™”
             foreach (var vfx in walkVFX)
             {
                 vfx.gameObject.SetActive(false);
             }
 
-            // ÁöÁ¤µÈ VFX È°¼ºÈ­
+            // ì§€ì •ëœ VFX í™œì„±í™”
             walkVFX[vfxIndex].gameObject.SetActive(true);
         }
     }
@@ -359,13 +350,13 @@ public class PlayerMoveAbility : PlayerAbility
     {
         if (stream.IsWriting)
         {
-            // Å¸ÀÌ¸Ó¿Í ÀÎµ¦½º¸¦ Àü¼Û
+            // íƒ€ì´ë¨¸ì™€ ì¸ë±ìŠ¤ë¥¼ ì „ì†¡
             stream.SendNext(vfxTimer);
             stream.SendNext(currentVFXIndex);
         }
         else
         {
-            // Å¸ÀÌ¸Ó¿Í ÀÎµ¦½º¸¦ ¼ö½Å
+            // íƒ€ì´ë¨¸ì™€ ì¸ë±ìŠ¤ë¥¼ ìˆ˜ì‹ 
             vfxTimer = (float)stream.ReceiveNext();
             currentVFXIndex = (int)stream.ReceiveNext();
         }

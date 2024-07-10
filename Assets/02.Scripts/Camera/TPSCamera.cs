@@ -5,37 +5,37 @@ using UnityEngine.UIElements;
 
 public class TPSCamera : MonoBehaviourPunCallbacks
 {
-    public float distance = 3f; // Ä«¸Ş¶ó¿Í Ä³¸¯ÅÍ °£ÀÇ °Å¸®
-    public float height = 2f; // Ä«¸Ş¶óÀÇ ³ôÀÌ
-    public float smoothSpeed = 0.125f; // Ä«¸Ş¶ó ÀÌµ¿À» ºÎµå·´°Ô ÇÏ±â À§ÇÑ ¼Óµµ
-    public float sensitivity = 2.0f; // Ä«¸Ş¶ó È¸Àü °¨µµ
+    public float distance = 3f; // ì¹´ë©”ë¼ì™€ ìºë¦­í„° ê°„ì˜ ê±°ë¦¬
+    public float height = 2f; // ì¹´ë©”ë¼ì˜ ë†’ì´
+    public float smoothSpeed = 0.125f; // ì¹´ë©”ë¼ ì´ë™ì„ ë¶€ë“œëŸ½ê²Œ í•˜ê¸° ìœ„í•œ ì†ë„
+    public float sensitivity = 2.0f; // ì¹´ë©”ë¼ íšŒì „ ê°ë„
 
     private float rotationX = 0.0f;
     private float rotationY = 0.0f;
 
-    private Vector3 offset; // ÃÊ±â À§Ä¡
+    private Vector3 offset; // ì´ˆê¸° ìœ„ì¹˜
 
-    public Transform target; // Ä«¸Ş¶ó°¡ µû¶ó´Ù´Ò ´ë»ó Ä³¸¯ÅÍÀÇ Transform
+    public Transform target; // ì¹´ë©”ë¼ê°€ ë”°ë¼ë‹¤ë‹ ëŒ€ìƒ ìºë¦­í„°ì˜ Transform
 
     private void Start()
     {
 
-        offset = new Vector3(0, height, -distance); // ÃÊ±â À§Ä¡ ¼³Á¤
-        Cursor.lockState = CursorLockMode.Locked;
+        offset = new Vector3(0, height, -distance); // ì´ˆê¸° ìœ„ì¹˜ ì„¤ì •
+        //Cursor.lockState = CursorLockMode.Locked;
 
-        // ÀÚ½ÅÀÇ Ä³¸¯ÅÍ Ã£±â
+        // ìì‹ ì˜ ìºë¦­í„° ì°¾ê¸°
         FindLocalPlayer();
     }
 
     public override void OnJoinedRoom()
     {
-        // ¹æ¿¡ µé¾î¿ÔÀ» ¶§ ÀÚ½ÅÀÇ Ä³¸¯ÅÍ ´Ù½Ã Ã£±â
+        // ë°©ì— ë“¤ì–´ì™”ì„ ë•Œ ìì‹ ì˜ ìºë¦­í„° ë‹¤ì‹œ ì°¾ê¸°
         FindLocalPlayer();
     }
 
     void Update()
     {
-        if (target == null) return; // Å¸°ÙÀÌ ¾øÀ¸¸é ¸®ÅÏ
+        if (target == null) return; // íƒ€ê²Ÿì´ ì—†ìœ¼ë©´ ë¦¬í„´
 
         rotationX += Input.GetAxis("Mouse X") * sensitivity;
         rotationY -= Input.GetAxis("Mouse Y") * sensitivity;
@@ -45,15 +45,15 @@ public class TPSCamera : MonoBehaviourPunCallbacks
     {
         if (target == null) return;
 
-        rotationY = Mathf.Clamp(rotationY, -90f, 90f); // »óÇÏ È¸Àü °¢µµ Á¦ÇÑ
+        rotationY = Mathf.Clamp(rotationY, -90f, 90f); // ìƒí•˜ íšŒì „ ê°ë„ ì œí•œ
 
-        Quaternion targetRotation = Quaternion.Euler(rotationY, rotationX, 0); // Ä«¸Ş¶ó È¸Àü°ª °è»ê
-        Vector3 targetPosition = target.position + targetRotation * offset; // Å¸°Ù ÁÖÀ§ÀÇ À§Ä¡ °è»ê
+        Quaternion targetRotation = Quaternion.Euler(rotationY, rotationX, 0); // ì¹´ë©”ë¼ íšŒì „ê°’ ê³„ì‚°
+        Vector3 targetPosition = target.position + targetRotation * offset; // íƒ€ê²Ÿ ì£¼ìœ„ì˜ ìœ„ì¹˜ ê³„ì‚°
 
 
 
-        transform.position = Vector3.Lerp(transform.position, targetPosition, smoothSpeed); // ºÎµå·¯¿î ÀÌµ¿ °è»ê
-        transform.LookAt(target.position); // Ä³¸¯ÅÍ¸¦ ¹Ù¶óº¸µµ·Ï ¼³Á¤
+        transform.position = Vector3.Lerp(transform.position, targetPosition, smoothSpeed); // ë¶€ë“œëŸ¬ìš´ ì´ë™ ê³„ì‚°
+        transform.LookAt(target.position); // ìºë¦­í„°ë¥¼ ë°”ë¼ë³´ë„ë¡ ì„¤ì •
 
 
     }
@@ -61,15 +61,15 @@ public class TPSCamera : MonoBehaviourPunCallbacks
 
     private void FindLocalPlayer()
     {
-        // ¸ğµç ÇÃ·¹ÀÌ¾î ¿ÀºêÁ§Æ®¸¦ Ã£À½
+        // ëª¨ë“  í”Œë ˆì´ì–´ ì˜¤ë¸Œì íŠ¸ë¥¼ ì°¾ìŒ
         GameObject[] players = GameObject.FindGameObjectsWithTag("Player");
 
-        // °¢ ÇÃ·¹ÀÌ¾î ¿ÀºêÁ§Æ®¸¦ °Ë»ç
+        // ê° í”Œë ˆì´ì–´ ì˜¤ë¸Œì íŠ¸ë¥¼ ê²€ì‚¬
         foreach (GameObject player in players)
         {
             PhotonView photonView = player.GetComponent<PhotonView>();
             string nickname = PlayerPrefs.GetString("LoggedInId");
-            // ÀÚ½ÅÀÇ Ä³¸¯ÅÍÀÎÁö È®ÀÎ
+            // ìì‹ ì˜ ìºë¦­í„°ì¸ì§€ í™•ì¸
             if (photonView != null && photonView.IsMine)
             {
                 Transform cameraRoot = player.transform.Find("CameraRoot");

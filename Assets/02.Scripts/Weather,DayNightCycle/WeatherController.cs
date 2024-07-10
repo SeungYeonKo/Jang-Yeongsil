@@ -28,12 +28,12 @@ namespace DigitalRuby.WeatherMaker
 
         private IEnumerator DailyWeatherRoutine()
         {
-            yield return new WaitForSeconds(60f); // 1분마다 날씨 변경
+            yield return new WaitForSeconds(10f); // n초마다 날씨 변경
 
             while (true)
             {
                 SetDailyWeather();
-                yield return new WaitForSeconds(60f); // 1분마다 날씨 변경
+                yield return new WaitForSeconds(10f);   // n초마다 날씨 변경
 
             }
         }
@@ -47,11 +47,13 @@ namespace DigitalRuby.WeatherMaker
             {
                 SetWeather(RainProfile);
                 weatherType = 1;
+                Debug.Log("날씨 랜덤 : 비");
             }
             else
             {
                 SetWeather(NoneProfile);
                 weatherType = 0;
+                Debug.Log("날씨 랜덤 : 맑음");
             }
             photonView.RPC("SyncWeather", RpcTarget.Others, weatherType);
         }
@@ -72,7 +74,7 @@ namespace DigitalRuby.WeatherMaker
 
         private void SetWeather(WeatherMakerPrecipitationProfileScript profile)
         {
-            //precipitationManager.SetPrecipitationProfile(profile);
+            precipitationManager.SetPrecipitationProfile(profile);
         }
     }
 }

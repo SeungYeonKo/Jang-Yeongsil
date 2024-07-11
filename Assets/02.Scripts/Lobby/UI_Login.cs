@@ -15,21 +15,22 @@ public class UI_Login : MonoBehaviour
 
     public void Start()
     {
+        // 0 : ID, PW 입력 창 팝업후 
         LoadLoginInfo();
         AutoLogin();
     }
+    
+    // 로그인 정보를 PlayerPrefs에 저장해두고 있다면 자동으로 채워서 불러오기
     private void LoadLoginInfo()
     {
-        // 로그인 정보를 PlayerPrefs에 저장해두고 있다면 자동으로 채워서 불러오기
         string loggedInUser = PlayerPrefs.GetString("LoggedInId", string.Empty);
         string loggedInPassword = PlayerPrefs.GetString("LoggedInPassword", string.Empty);
         ID_input.text = loggedInUser;
         PW_input.text = loggedInPassword;
     }
-
+    
     private void AutoLogin()
     {
-
         string loggedInUser = PlayerPrefs.GetString("LoggedInId", string.Empty);
         string loggedInPassword = PlayerPrefs.GetString("LoggedInPassword", string.Empty);
         // 로그인 정보가 있다면
@@ -63,13 +64,7 @@ public class UI_Login : MonoBehaviour
             // 토글이 선택되었다면 해당 함수 불러오기
             RememberUserInfo(nickname, password);
         }
-        // 퍼스널매니저에 있는 로그인 함수 불러오기
-        var user = PersonalManager.Instance.Login(nickname, password);
-        if (user != null)
-        {
-            PhotonNetwork.NickName = nickname;
-        }
-        else
+        else // 토글이 선택되지 않았다면 
         {
             Debug.Log("Login failed.");
         }
@@ -77,13 +72,13 @@ public class UI_Login : MonoBehaviour
     }
     private void RememberUserInfo(string nickname, string password)
     {
-        /*// 몽고디비에서 아이디랑 비밀번호가 없다면
+        // 몽고디비에서 아이디랑 비밀번호가 없다면
         if (!PersonalManager.Instance.CheckUser(nickname, password))
         {
             // 몽고디비에 새로 저장
             PersonalManager.Instance.JoinList(nickname, password);
             Debug.Log("New user registered.");
-        }*/
+        }
         // 혹시 몰라서 써놓는 해시테이블로 아이디, 비밀번호 저장하는 방법
         Hashtable loginInfo = new Hashtable
         {

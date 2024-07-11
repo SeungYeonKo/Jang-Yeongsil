@@ -6074,7 +6074,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 45de03bf90803496ea507e99722fa159, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 83afa4ad43e64435b844a3be7ad985a6, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -6283,19 +6283,19 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 2317730892824784251, guid: c187441754e722e449fe043c0c07845d, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 608.02
+      value: 608.25604
       objectReference: {fileID: 0}
     - target: {fileID: 2317730892824784251, guid: c187441754e722e449fe043c0c07845d, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.218
+      value: 1.51
       objectReference: {fileID: 0}
     - target: {fileID: 2317730892824784251, guid: c187441754e722e449fe043c0c07845d, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 644.69
+      value: 655.1246
       objectReference: {fileID: 0}
     - target: {fileID: 2317730892824784251, guid: c187441754e722e449fe043c0c07845d, type: 3}
       propertyPath: m_LocalRotation.w
-      value: 1
+      value: 0.8169853
       objectReference: {fileID: 0}
     - target: {fileID: 2317730892824784251, guid: c187441754e722e449fe043c0c07845d, type: 3}
       propertyPath: m_LocalRotation.x
@@ -6303,7 +6303,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2317730892824784251, guid: c187441754e722e449fe043c0c07845d, type: 3}
       propertyPath: m_LocalRotation.y
-      value: -0
+      value: 0.5766585
       objectReference: {fileID: 0}
     - target: {fileID: 2317730892824784251, guid: c187441754e722e449fe043c0c07845d, type: 3}
       propertyPath: m_LocalRotation.z
@@ -6315,7 +6315,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2317730892824784251, guid: c187441754e722e449fe043c0c07845d, type: 3}
       propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
+      value: 70.432
       objectReference: {fileID: 0}
     - target: {fileID: 2317730892824784251, guid: c187441754e722e449fe043c0c07845d, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
@@ -20660,7 +20660,7 @@ Light:
   m_BounceIntensity: 1
   m_ColorTemperature: 6570
   m_UseColorTemperature: 0
-  m_BoundingSphereOverride: {x: 1.02e-43, y: 1e-44, z: 5.97456e-40, w: -11.333252}
+  m_BoundingSphereOverride: {x: 0, y: 0, z: 0, w: 0}
   m_UseBoundingSphereOverride: 0
   m_UseViewFrustumForShadowCasterCull: 1
   m_ShadowRadius: 0
@@ -82777,7 +82777,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 45de03bf90803496ea507e99722fa159, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 43aa8638ec7ac40debfb4e82e97fdda7, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -82851,9 +82851,9 @@ SceneRoots:
   - {fileID: 2108179123}
   - {fileID: 1750623724}
   - {fileID: 531203625}
-  - {fileID: 1081678147}
   - {fileID: 1256893487}
   - {fileID: 4424889158530224}
   - {fileID: 616725215}
   - {fileID: 1902613233}
   - {fileID: 1890664546}
+  - {fileID: 1081678147}

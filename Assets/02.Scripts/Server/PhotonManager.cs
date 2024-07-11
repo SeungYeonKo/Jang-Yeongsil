@@ -1,5 +1,4 @@
 using Photon.Pun;
-using Photon.Pun.Demo.Cockpit;
 using Photon.Realtime;
 using System.Collections;
 using UnityEngine;

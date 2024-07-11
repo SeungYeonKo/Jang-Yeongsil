@@ -13,14 +13,15 @@ namespace DigitalRuby.WeatherMaker
 
         void Start()
         {
-            precipitationManager = GetComponent<WeatherMakerPrecipitationManagerScript>();
+            precipitationManager = FindObjectOfType<WeatherMakerPrecipitationManagerScript>();
             if (precipitationManager == null)
             {
                 Debug.LogError("WeatherMakerPrecipitationManagerScript is not found.");
                 return;
             }
 
-            if (PhotonNetwork.IsMasterClient)
+            //if (PhotonNetwork.IsMasterClient)
+            else
             {
                 StartCoroutine(DailyWeatherRoutine());
             }
@@ -28,6 +29,7 @@ namespace DigitalRuby.WeatherMaker
 
         private IEnumerator DailyWeatherRoutine()
         {
+            Debug.Log("날씨 랜덤 돌리기 시작");
             yield return new WaitForSeconds(10f); // n초마다 날씨 변경
 
             while (true)
@@ -40,10 +42,10 @@ namespace DigitalRuby.WeatherMaker
 
         private void SetDailyWeather()
         {
-            float randomValue = Random.Range(0f, 1f);
+            int randomValue = Random.Range(0, 2); // 0 또는 1의 값을 생성
             int weatherType = 0;
 
-            if (randomValue < 0.2f)
+            if (randomValue == 0)
             {
                 SetWeather(RainProfile);
                 weatherType = 1;
@@ -55,10 +57,10 @@ namespace DigitalRuby.WeatherMaker
                 weatherType = 0;
                 Debug.Log("날씨 랜덤 : 맑음");
             }
-            photonView.RPC("SyncWeather", RpcTarget.Others, weatherType);
+            //photonView.RPC("SyncWeather", RpcTarget.Others, weatherType);
         }
 
-        [PunRPC]
+       // [PunRPC]
         private void SyncWeather(int weatherType)
         {
             switch (weatherType)

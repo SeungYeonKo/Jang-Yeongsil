@@ -26,7 +26,7 @@ RenderSettings:
   m_AmbientIntensity: 1
   m_AmbientMode: 1
   m_SubtractiveShadowColor: {r: 0.42, g: 0.478, b: 0.627, a: 1}
-  m_SkyboxMaterial: {fileID: 10304, guid: 0000000000000000f000000000000000, type: 0}
+  m_SkyboxMaterial: {fileID: 0}
   m_HaloStrength: 0.5
   m_FlareStrength: 1
   m_FlareFadeSpeed: 3
@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.44893378, g: 0.49900275, b: 0.57570875, a: 1}
+  m_IndirectSpecularColor: {r: 0, g: 0, b: 0, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -5594,6 +5594,51 @@ Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 5aebbf1b366fa3b418fdccbeb83bcacf, type: 3}
   m_PrefabInstance: {fileID: 600726127}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &616725213
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 616725215}
+  - component: {fileID: 616725214}
+  m_Layer: 0
+  m_Name: GameTimeManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &616725214
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 616725213}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cd1b70bcc481f804691ba27ba81924a7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  CurrentTimeType: 0
+--- !u!4 &616725215
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 616725213}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 607.9802, y: 1.6124885, z: 644.6688}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!43 &681706419
 Mesh:
   m_ObjectHideFlags: 0
@@ -10955,8 +11000,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1384820311}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 1, z: -10}
+  m_LocalRotation: {x: 0.14507483, y: 0.09418208, z: 0.013171967, w: -0.98483986}
+  m_LocalPosition: {x: 608.52045, y: 0.7554364, z: 641.8733}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -16525,7 +16570,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!1 &1137444239972864
 GameObject:
   m_ObjectHideFlags: 0
@@ -17684,7 +17729,7 @@ Transform:
   m_GameObject: {fileID: 1953708172267162}
   serializedVersion: 2
   m_LocalRotation: {x: 0.033286728, y: 0.9272978, z: -0.36301664, w: 0.085028365}
-  m_LocalPosition: {x: -38.45547, y: 196.52596, z: 197.92975}
+  m_LocalPosition: {x: 570.065, y: 196.28139, z: 849.80304}
   m_LocalScale: {x: 360, y: 360, z: 360}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -18030,7 +18075,7 @@ Transform:
   m_GameObject: {fileID: 1616679568887392}
   serializedVersion: 2
   m_LocalRotation: {x: -0.34403673, y: -0.25638637, z: -0.0982344, w: 0.8979169}
-  m_LocalPosition: {x: 271.52744, y: -460.86313, z: -446.70676}
+  m_LocalPosition: {x: 880.04785, y: -461.1077, z: 205.16653}
   m_LocalScale: {x: 28.8, y: 28.8, z: 28.8}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -19654,7 +19699,7 @@ Light:
   serializedVersion: 10
   m_Type: 1
   m_Shape: 0
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 0.9764706, g: 0.88235295, b: 0.8117647, a: 1}
   m_Intensity: 1
   m_Range: 10
   m_SpotAngle: 30
@@ -19700,7 +19745,7 @@ Light:
   m_BounceIntensity: 1
   m_ColorTemperature: 6570
   m_UseColorTemperature: 0
-  m_BoundingSphereOverride: {x: 0, y: 0, z: 0, w: 8e-45}
+  m_BoundingSphereOverride: {x: 1.02e-43, y: 0, z: 5.88464e-40, w: 0}
   m_UseBoundingSphereOverride: 0
   m_UseViewFrustumForShadowCasterCull: 1
   m_ShadowRadius: 0
@@ -19893,9 +19938,6 @@ MonoBehaviour:
   PrecipitationChangeThreshold: 0.1
   RainScript: {fileID: 114413786218856382}
   SnowScript: {fileID: 114977274408071408}
-  HailScript: {fileID: 114015360752933504}
-  SleetScript: {fileID: 114630168806541750}
-  CustomPrecipitationScript: {fileID: 0}
   FollowNonNormalCameras: 0
 --- !u!114 &114115331240456698
 MonoBehaviour:
@@ -81471,3 +81513,4 @@ SceneRoots:
   - {fileID: 1081678147}
   - {fileID: 1256893487}
   - {fileID: 4424889158530224}
+  - {fileID: 616725215}

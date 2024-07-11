@@ -69,3 +69,12 @@ crashlytics-build.properties
 # Temporary auto-generated Android Assets
 /[Aa]ssets/[Ss]treamingAssets/aa.meta
 /[Aa]ssets/[Ss]treamingAssets/aa/*
+Assets/10.DownloadAssets/KoreanScienceTech_new/Models/Sundials/Mesh/SM_Sundials.obj
+Assets/10.DownloadAssets/KoreanScienceTech_new/Prefabs/BombShell.prefab
+Assets/10.DownloadAssets/KoreanScienceTech_new/Prefabs/BronzeHumanFigure.prefab
+Assets/10.DownloadAssets/KoreanScienceTech_new/Prefabs/Clepsydra.prefab
+Assets/10.DownloadAssets/KoreanScienceTech_new/Prefabs/HorizontalSundial 01.prefab
+Assets/10.DownloadAssets/KoreanScienceTech_new/Prefabs/HorizontalSundial 02.prefab
+Assets/10.DownloadAssets/KoreanScienceTech_new/Prefabs/RainGaugePedestal.prefab
+Assets/10.DownloadAssets/KoreanScienceTech_new/Prefabs/SmallGun.prefab
+Assets/10.DownloadAssets/KoreanScienceTech_new/Prefabs/Sundials.prefab

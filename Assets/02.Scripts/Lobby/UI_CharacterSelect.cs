@@ -1,19 +1,22 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using Photon.Pun;
+using Unity.VisualScripting;
 
 public class UI_CharacterSelect : MonoBehaviour
 {
     public Button MaleButton;
     public Button FemaleButton;
-    // Start is called before the first frame update
     void Start()
     {
         MaleButton.onClick.AddListener(() => SelectGender("Male"));
         FemaleButton.onClick.AddListener(() => SelectGender("Female"));
     }
+
+
     private void SelectGender(string gender)
     {
         // 선택된 성별을 저장

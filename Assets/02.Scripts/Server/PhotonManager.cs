@@ -81,7 +81,7 @@ public class PhotonManager : MonoBehaviourPunCallbacks
             return;
         }
 
-        StartButton.SetActive(true);
+        // StartButton.SetActive(true);
     }
 
     public override void OnCreatedRoom()

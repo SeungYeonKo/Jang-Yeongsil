@@ -36,5 +36,25 @@ public class PersonalManager : MonoBehaviour
         IMongoDatabase db = mongoClient.GetDatabase("LoginsInfo");
         _personalCollection = db.GetCollection<Personal>("Login");
     }
-
+    public void JoinList(string nickname, string password)
+    {
+        Personal personal = new Personal()
+        {
+            Name = nickname,
+            Password = password,
+        };
+        _personalCollection.InsertOne(personal);
+    }
+    // 몽고디비에 아이디, 비밀번호가 있는지 체크하는 함수
+    public Personal Login(string nickname, string password)
+    {
+        var filter = Builders<Personal>.Filter.Eq("Name", nickname) & Builders<Personal>.Filter.Eq("Password", password);
+        return _personalCollection.Find(filter).FirstOrDefault();
+    }
+    // 몽고디비에 아이디, 비밀번호가 있는지 체크하는 조건문을 위한 함수
+    public bool CheckUser(string nickname, string password)
+    {
+        var filter = Builders<Personal>.Filter.Eq("Name", nickname) & Builders<Personal>.Filter.Eq("Password", password);
+        return _personalCollection.Find(filter).Any();
+    }
 }

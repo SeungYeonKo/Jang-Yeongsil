@@ -9,6 +9,12 @@ public enum RememberID
     Nope
 }
 
+public enum CharacterGender
+{
+    Male,
+    Female
+}
+
 [Serializable]
 public class Personal
 {
@@ -19,7 +25,7 @@ public class Personal
     public string Name;
     public string Password;
     public int Coins;
-    public int CharacterIndex;
+    public CharacterGender SelectCharacter;
 }
 [Serializable]
 public class PersonalData

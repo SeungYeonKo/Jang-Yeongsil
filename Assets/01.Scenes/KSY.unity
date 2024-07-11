@@ -5715,63 +5715,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1001 &639100507
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    serializedVersion: 3
-    m_TransformParent: {fileID: 0}
-    m_Modifications:
-    - target: {fileID: 5268943179307375150, guid: ef758fa49b1957a4ba9eb1a112bf6f32, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 609.22144
-      objectReference: {fileID: 0}
-    - target: {fileID: 5268943179307375150, guid: ef758fa49b1957a4ba9eb1a112bf6f32, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 1.5513947
-      objectReference: {fileID: 0}
-    - target: {fileID: 5268943179307375150, guid: ef758fa49b1957a4ba9eb1a112bf6f32, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 659.34
-      objectReference: {fileID: 0}
-    - target: {fileID: 5268943179307375150, guid: ef758fa49b1957a4ba9eb1a112bf6f32, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5268943179307375150, guid: ef758fa49b1957a4ba9eb1a112bf6f32, type: 3}
-      propertyPath: m_LocalRotation.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5268943179307375150, guid: ef758fa49b1957a4ba9eb1a112bf6f32, type: 3}
-      propertyPath: m_LocalRotation.y
-      value: -1
-      objectReference: {fileID: 0}
-    - target: {fileID: 5268943179307375150, guid: ef758fa49b1957a4ba9eb1a112bf6f32, type: 3}
-      propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5268943179307375150, guid: ef758fa49b1957a4ba9eb1a112bf6f32, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5268943179307375150, guid: ef758fa49b1957a4ba9eb1a112bf6f32, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: -180
-      objectReference: {fileID: 0}
-    - target: {fileID: 5268943179307375150, guid: ef758fa49b1957a4ba9eb1a112bf6f32, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6935402220762578692, guid: ef758fa49b1957a4ba9eb1a112bf6f32, type: 3}
-      propertyPath: m_Name
-      value: Clepsydra
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-    m_RemovedGameObjects: []
-    m_AddedGameObjects: []
-    m_AddedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: ef758fa49b1957a4ba9eb1a112bf6f32, type: 3}
 --- !u!43 &681706419
 Mesh:
   m_ObjectHideFlags: 0
@@ -20717,7 +20660,7 @@ Light:
   m_BounceIntensity: 1
   m_ColorTemperature: 6570
   m_UseColorTemperature: 0
-  m_BoundingSphereOverride: {x: 1.02e-43, y: 0, z: 5.99117e-40, w: 1.2317112e-32}
+  m_BoundingSphereOverride: {x: 0, y: 0, z: 0, w: 0}
   m_UseBoundingSphereOverride: 0
   m_UseViewFrustumForShadowCasterCull: 1
   m_ShadowRadius: 0
@@ -82914,4 +82857,3 @@ SceneRoots:
   - {fileID: 1902613233}
   - {fileID: 1890664546}
   - {fileID: 1081678147}
-  - {fileID: 639100507}

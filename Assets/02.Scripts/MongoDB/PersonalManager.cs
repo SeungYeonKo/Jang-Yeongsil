@@ -63,4 +63,10 @@ public class PersonalManager : MonoBehaviour
         var update = Builders<Personal>.Update.Set("CharacterGender", gender);
         _personalCollection.UpdateOne(filter, update);
     }
+
+    public void ReloadGender(string userId, string gender)
+    {
+        var filter = Builders<Personal>.Filter.Eq("Name", userId) & Builders<Personal>.Filter.Eq("CharacterGender", gender);
+        
+    }
 }

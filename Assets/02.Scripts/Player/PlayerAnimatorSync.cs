@@ -14,7 +14,6 @@ public class PlayerAnimatorSync : MonoBehaviourPun, IPunObservable
     private bool win;
     private bool sad;
     private bool isGrabbing;
-    private bool grab;
     private bool attack;
     private bool flyingAttack;
 
@@ -31,7 +30,6 @@ public class PlayerAnimatorSync : MonoBehaviourPun, IPunObservable
         photonAnimatorView.SetParameterSynchronized("Win", PhotonAnimatorView.ParameterType.Bool, PhotonAnimatorView.SynchronizeType.Discrete);
         photonAnimatorView.SetParameterSynchronized("Sad", PhotonAnimatorView.ParameterType.Bool, PhotonAnimatorView.SynchronizeType.Discrete);
         photonAnimatorView.SetParameterSynchronized("isGrabbing", PhotonAnimatorView.ParameterType.Bool, PhotonAnimatorView.SynchronizeType.Discrete);
-        photonAnimatorView.SetParameterSynchronized("Grab", PhotonAnimatorView.ParameterType.Bool, PhotonAnimatorView.SynchronizeType.Discrete);
         photonAnimatorView.SetParameterSynchronized("Attack", PhotonAnimatorView.ParameterType.Bool, PhotonAnimatorView.SynchronizeType.Discrete);
         photonAnimatorView.SetParameterSynchronized("FlyingAttack", PhotonAnimatorView.ParameterType.Bool, PhotonAnimatorView.SynchronizeType.Discrete);
     }
@@ -52,7 +50,6 @@ public class PlayerAnimatorSync : MonoBehaviourPun, IPunObservable
             animator.SetBool("Win", win);
             animator.SetBool("Sad", sad);
             animator.SetBool("isGrabbing", isGrabbing);
-            animator.SetBool("Grab", grab);
             animator.SetBool("Attack", attack);
             animator.SetBool("FlyingAttack", flyingAttack);
         }
@@ -77,16 +74,7 @@ public class PlayerAnimatorSync : MonoBehaviourPun, IPunObservable
 
         animator.SetBool("Attack", attack);
 
-        if (Input.GetMouseButtonDown(0))
-        {
-            isGrabbing = true;
-        }
-        else if (Input.GetMouseButtonUp(0))
-        {
-            isGrabbing = false;
-        }
-
-        animator.SetBool("isGrabbing", isGrabbing);
+       
 
         if (Input.GetKeyDown(KeyCode.Space))
         {
@@ -137,7 +125,6 @@ public class PlayerAnimatorSync : MonoBehaviourPun, IPunObservable
             win = (bool)stream.ReceiveNext();
             sad = (bool)stream.ReceiveNext();
             isGrabbing = (bool)stream.ReceiveNext();
-            grab = (bool)stream.ReceiveNext();
             attack = (bool)stream.ReceiveNext();
             flyingAttack = (bool)stream.ReceiveNext();
         }

@@ -18,7 +18,7 @@ public class UI_Login : MonoBehaviour
     {
         // 0 : ID, PW 입력 창 팝업후 
         LoadLoginInfo();
-        AutoLogin();
+        //AutoLogin();
     }
     
     // 로그인 정보를 PlayerPrefs에 저장해두고 있다면 자동으로 채워서 불러오기
@@ -31,7 +31,7 @@ public class UI_Login : MonoBehaviour
         PW_input.text = loggedInPassword;
     }
     // 재접속시 정보가 있다면 : C (자동 로그인)
-    private void AutoLogin()
+    public void AutoLogin()
     {
         string loggedInUser = PlayerPrefs.GetString("LoggedInId", string.Empty);
         string loggedInPassword = PlayerPrefs.GetString("LoggedInPassword", string.Empty);
@@ -98,6 +98,7 @@ public class UI_Login : MonoBehaviour
         }
         // 로그인 창 종료
         lobbyScene.LoginPopup.SetActive(false);
+        lobbyScene.CharacterPopup.SetActive(true);
     }
     private void RememberUserInfo(string nickname, string password)
     {
@@ -121,5 +122,6 @@ public class UI_Login : MonoBehaviour
     {
         yield return new WaitForSeconds(1f);
         lobbyScene.LoginPopup.SetActive(false);
+        lobbyScene.CharacterPopup.SetActive(true);
     }
 }

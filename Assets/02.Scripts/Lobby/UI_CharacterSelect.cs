@@ -57,7 +57,16 @@ public class UI_CharacterSelect : MonoBehaviour
 
     public void OnClickStartButton()
     {
-        PhotonManager.Instance.NextRoomName = "MainScene";
-        PhotonNetwork.LoadLevel("MainScene");
+            RoomOptions roomOptions = new RoomOptions
+            {
+                MaxPlayers = 20,
+                IsVisible = true,
+                IsOpen = true,
+                EmptyRoomTtl = 1000 * 20,
+            };
+
+            PhotonNetwork.JoinOrCreateRoom("Main", roomOptions, TypedLobby.Default);
+       // PhotonManager.Instance.NextRoomName = "Main";
+        PhotonNetwork.LoadLevel("LoadingScene");
     }
 }

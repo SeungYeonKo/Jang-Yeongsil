@@ -1,0 +1,17 @@
+fileFormatVersion: 2
+<<<<<<<< HEAD:Assets/07.Animations/JS_Player.controller.meta
+<<<<<<< HEAD
+guid: 3a43de6ccfc755040be8b0d2ce0bd27d
+=======
+guid: c20b1513a2226114d8636c281da1a578
+>>>>>>> 210f3c0 ([이윤석] 마을 레벨디자인 99%완성 (포털이미지 필요))
+NativeFormatImporter:
+========
+guid: 7ab418b9d3fabc14aa8e377d7e38d90b
+DefaultImporter:
+>>>>>>>> 834b31643334f0100e5c153d0a6d04c426974835:Assets/01.Scenes/FallGuysScene3.unity.meta
+  externalObjects: {}
+  mainObjectFileID: 9100000
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

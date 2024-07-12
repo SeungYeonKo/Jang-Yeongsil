@@ -6,7 +6,7 @@ using UnityEngine.Networking;
 public class ChatGPTAPI : MonoBehaviour
 {
     private const string apiUrl = "https://api.openai.com/v1/chat/completions";
-    [SerializeField] private string apiKey = "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"; // Inspector에서 API 키를 입력하세요
+    private string apiKey = "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"; // Inspector에서 API 키를 입력하세요
 
     [System.Serializable]
     public class Message

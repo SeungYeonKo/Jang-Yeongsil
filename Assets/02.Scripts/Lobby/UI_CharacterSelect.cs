@@ -56,6 +56,6 @@ public class UI_CharacterSelect : MonoBehaviour
 
     public void OnClickStartButton()
     {
-        PhotonNetwork.LoadLevel("VillageScene");
+        PhotonNetwork.LoadLevel("MainScene");
     }
 }

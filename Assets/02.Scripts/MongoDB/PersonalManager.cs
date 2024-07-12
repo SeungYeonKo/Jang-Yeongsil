@@ -2,6 +2,7 @@ using MongoDB.Driver;
 using MongoDB.Bson;
 using Photon.Pun;
 using System.Collections.Generic;
+using ExitGames.Client.Photon;
 using UnityEngine;
 using Hashtable = ExitGames.Client.Photon.Hashtable;
 public class PersonalManager : MonoBehaviour
@@ -70,6 +71,7 @@ public class PersonalManager : MonoBehaviour
         var filter = Builders<Personal>.Filter.Eq("Name", userId);
         var update = Builders<Personal>.Update.Set("SelectCharacter", gender);
         _personalCollection.UpdateOne(filter, update);
+        Debug.Log($"{gender}정보가 저장되었습니다.");
     }
 
     public CharacterGender? ReloadGender(string userId)

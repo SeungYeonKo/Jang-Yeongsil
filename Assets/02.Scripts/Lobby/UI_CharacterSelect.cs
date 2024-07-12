@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using Photon.Pun;
+using Photon.Realtime;
 using Unity.VisualScripting;
 
 public class UI_CharacterSelect : MonoBehaviour
@@ -56,6 +57,7 @@ public class UI_CharacterSelect : MonoBehaviour
 
     public void OnClickStartButton()
     {
+        PhotonManager.Instance.NextRoomName = "MainScene";
         PhotonNetwork.LoadLevel("MainScene");
     }
 }

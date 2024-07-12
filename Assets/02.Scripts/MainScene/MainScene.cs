@@ -12,11 +12,10 @@ public class MainScene : MonoBehaviourPunCallbacks
 
     void Start()
     {
-        InitializePlayer(PhotonNetwork.LocalPlayer);
-        /*if (PhotonNetwork.InRoom && !localPlayerInitialized)
+        if (PhotonNetwork.InRoom && !localPlayerInitialized)
         {
             InitializePlayer(PhotonNetwork.LocalPlayer);
-        }*/
+        }
     }
 
     private void InitializePlayer(Photon.Realtime.Player player)

@@ -1,13 +1,12 @@
 using System.Collections;
 using System.Collections.Generic;
+using ExitGames.Client.Photon;
 using UnityEngine;
 using Photon.Pun;
 
 public class MainScene : MonoBehaviourPunCallbacks
 {
     public List<Transform> SpawnPoints;
-    public GameObject PlayerMalePrefab;
-    public GameObject PlayerFemalePrefab;
 
     private bool localPlayerInitialized = false;
 
@@ -21,6 +20,7 @@ public class MainScene : MonoBehaviourPunCallbacks
 
     private void InitializePlayer(Photon.Realtime.Player player)
     {
+        Debug.Log("캐릭터 불러오기 로직");
         if (!player.IsLocal) return;
         Vector3 spawnPoint = GetRandomSpawnPoint();
 
@@ -33,25 +33,11 @@ public class MainScene : MonoBehaviourPunCallbacks
             {
                 Debug.Log($"Loaded Gender: {gender}");
 
-                GameObject characterPrefab = null;
-                if (gender == CharacterGender.Male)
-                {
-                    characterPrefab = PlayerMalePrefab;
-                }
-                else if (gender == CharacterGender.Female)
-                {
-                    characterPrefab = PlayerFemalePrefab;
-                }
+                string prefabName = gender == CharacterGender.Male ? "Player_male" : "Player_female";
 
-                if (characterPrefab != null)
-                {
-                    // 캐릭터 생성
-                    PhotonNetwork.Instantiate(characterPrefab.name, spawnPoint, Quaternion.identity);
-                }
-                else
-                {
-                    Debug.LogError("Character prefab is not assigned.");
-                }
+                // 캐릭터 생성
+                Debug.Log($"{prefabName}");
+                PhotonNetwork.Instantiate(prefabName, spawnPoint, Quaternion.identity);
             }
             else
             {

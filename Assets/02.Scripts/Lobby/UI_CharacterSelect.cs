@@ -15,6 +15,7 @@ public class UI_CharacterSelect : MonoBehaviour
     {
         MaleButton.onClick.AddListener(() => SelectGender(CharacterGender.Male));
         FemaleButton.onClick.AddListener(() => SelectGender(CharacterGender.Female));
+        ReloadCharacter();
     }
 
 

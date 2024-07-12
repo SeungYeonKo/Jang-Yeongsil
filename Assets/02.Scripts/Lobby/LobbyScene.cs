@@ -5,6 +5,8 @@ using UnityEngine;
 public class LobbyScene : MonoBehaviour
 {    
     public GameObject LoginPopup;
+    public GameObject CharacterPopup;
+    public UI_Login UILogin;
     void Start()
     {
         StartCoroutine(Show_Coroutine());
@@ -14,5 +16,10 @@ public class LobbyScene : MonoBehaviour
         LoginPopup.SetActive(false);
         yield return new WaitForSeconds(5f);
         LoginPopup.SetActive(true);
+        UILogin.AutoLogin();
+    }
+    public void ShowCharacterSelectPanel()
+    {
+        CharacterPopup.SetActive(true);
     }
 }

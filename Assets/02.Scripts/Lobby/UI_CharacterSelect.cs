@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using Photon.Pun;
+using Photon.Realtime;
 using Unity.VisualScripting;
 
 public class UI_CharacterSelect : MonoBehaviour
@@ -14,6 +15,7 @@ public class UI_CharacterSelect : MonoBehaviour
     {
         MaleButton.onClick.AddListener(() => SelectGender(CharacterGender.Male));
         FemaleButton.onClick.AddListener(() => SelectGender(CharacterGender.Female));
+        ReloadCharacter();
     }
 
 
@@ -56,6 +58,16 @@ public class UI_CharacterSelect : MonoBehaviour
 
     public void OnClickStartButton()
     {
-        PhotonNetwork.LoadLevel("MainScene");
+            RoomOptions roomOptions = new RoomOptions
+            {
+                MaxPlayers = 20,
+                IsVisible = true,
+                IsOpen = true,
+                EmptyRoomTtl = 1000 * 20,
+            };
+
+            PhotonNetwork.JoinOrCreateRoom("Main", roomOptions, TypedLobby.Default);
+       // PhotonManager.Instance.NextRoomName = "Main";
+        PhotonNetwork.LoadLevel("LoadingScene");
     }
 }

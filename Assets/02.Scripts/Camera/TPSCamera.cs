@@ -13,6 +13,7 @@ public class TPSCamera : MonoBehaviourPunCallbacks
     private float rotationY = 0.0f;
 
     private Vector3 offset;
+    private Vector3 currentVelocity;
 
     public Transform target;
 
@@ -27,7 +28,7 @@ public class TPSCamera : MonoBehaviourPunCallbacks
         FindLocalPlayer();
     }
 
-    void Update()
+    private void Update()
     {
         if (target == null) return;
 
@@ -36,14 +37,14 @@ public class TPSCamera : MonoBehaviourPunCallbacks
         rotationY = Mathf.Clamp(rotationY, -90f, 90f);
     }
 
-    private void FixedUpdate()
+    private void LateUpdate()
     {
         if (target == null) return;
 
         Quaternion targetRotation = Quaternion.Euler(rotationY, rotationX, 0);
         Vector3 targetPosition = target.position + targetRotation * offset;
 
-        transform.position = Vector3.Lerp(transform.position, targetPosition, smoothSpeed);
+        transform.position = Vector3.SmoothDamp(transform.position, targetPosition, ref currentVelocity, smoothSpeed);
         transform.LookAt(target.position);
     }
 

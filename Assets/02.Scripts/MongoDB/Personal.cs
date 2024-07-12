@@ -11,8 +11,8 @@ public enum RememberID
 
 public enum CharacterGender
 {
-    Male,
-    Female
+    Male = 1,
+    Female = 2
 }
 
 [Serializable]

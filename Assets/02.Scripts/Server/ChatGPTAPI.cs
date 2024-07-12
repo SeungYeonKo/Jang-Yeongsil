@@ -6,7 +6,7 @@ using UnityEngine.Networking;
 public class ChatGPTAPI : MonoBehaviour
 {
     private const string apiUrl = "https://api.openai.com/v1/chat/completions";
-    [SerializeField] private string apiKey = "YOUR_API_KEY_HERE"; // Inspector에서 API 키를 입력하세요
+    [SerializeField] private string apiKey = "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"; // Inspector에서 API 키를 입력하세요
 
     [System.Serializable]
     public class Message
@@ -46,7 +46,7 @@ public class ChatGPTAPI : MonoBehaviour
 
         ChatRequest chatRequest = new ChatRequest
         {
-            model = "gpt-3.5-turbo", // 사용하려는 모델의 이름을 입력하세요
+            model = "gpt-3.5-turbo",
             messages = messages,
             max_tokens = 150,
             temperature = 0.7f
@@ -73,7 +73,10 @@ public class ChatGPTAPI : MonoBehaviour
             else
             {
                 Debug.LogError($"Error: {request.error}");
-                callback(null);
+
+                // 실패 시 재시도 로직 구현 예시:
+                yield return new WaitForSeconds(1f); // 1초 대기 후 다시 시도
+                StartCoroutine(GetChatResponse(userMessage, callback)); // 재귀적으로 다시 호출
             }
         }
     }

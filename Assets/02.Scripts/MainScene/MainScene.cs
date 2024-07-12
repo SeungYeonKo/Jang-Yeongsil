@@ -6,8 +6,6 @@ using Photon.Pun;
 public class MainScene : MonoBehaviourPunCallbacks
 {
     public List<Transform> SpawnPoints;
-    public GameObject PlayerMalePrefab;
-    public GameObject PlayerFemalePrefab;
 
     private bool localPlayerInitialized = false;
 
@@ -33,25 +31,10 @@ public class MainScene : MonoBehaviourPunCallbacks
             {
                 Debug.Log($"Loaded Gender: {gender}");
 
-                GameObject characterPrefab = null;
-                if (gender == CharacterGender.Male)
-                {
-                    characterPrefab = PlayerMalePrefab;
-                }
-                else if (gender == CharacterGender.Female)
-                {
-                    characterPrefab = PlayerFemalePrefab;
-                }
+                string prefabName = gender == CharacterGender.Male ? "PlayerMale" : "PlayerFemale";
 
-                if (characterPrefab != null)
-                {
-                    // 캐릭터 생성
-                    PhotonNetwork.Instantiate(characterPrefab.name, spawnPoint, Quaternion.identity);
-                }
-                else
-                {
-                    Debug.LogError("Character prefab is not assigned.");
-                }
+                // 캐릭터 생성
+                PhotonNetwork.Instantiate(prefabName, spawnPoint, Quaternion.identity);
             }
             else
             {

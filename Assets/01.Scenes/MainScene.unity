@@ -401,6 +401,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: f_1
       objectReference: {fileID: 0}
+    - target: {fileID: 3126038392672188353, guid: c187441754e722e449fe043c0c07845d, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6828049218474164978, guid: c187441754e722e449fe043c0c07845d, type: 3}
       propertyPath: sceneViewId
       value: 1
@@ -1032,6 +1036,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1fbe511b6aa4a3344a5f844915a9a1bb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  SpawnPoints:
+  - {fileID: 1633773966}
+  - {fileID: 1090933311}
+  - {fileID: 1212958109}
 --- !u!4 &1571441158
 Transform:
   m_ObjectHideFlags: 0

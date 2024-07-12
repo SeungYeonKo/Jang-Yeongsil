@@ -16,7 +16,7 @@ public class UI_CharacterSelect : MonoBehaviour
     public Animator FemaleAnimator;
     public Camera MaleCamera;
     public Camera FemaleCamera;
-
+    public GameObject StartButton;
     void Start()
     {
         MaleButton.onClick.AddListener(() => SelectGender(CharacterGender.Male));
@@ -75,6 +75,7 @@ public class UI_CharacterSelect : MonoBehaviour
         animator.SetTrigger("Win");
         
         yield return new WaitForSeconds(2f); // 좋아하기 애니메이션 시간 조정
+        StartButton.SetActive(true);
     }
 
     private void ReloadCharacter()

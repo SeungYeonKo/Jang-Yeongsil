@@ -869,7 +869,7 @@ GameObject:
   - component: {fileID: -3488705660600917199}
   - component: {fileID: 512434628644764637}
   m_Layer: 0
-  m_Name: f_1
+  m_Name: Player_female
   m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1013,7 +1013,7 @@ MonoBehaviour:
   speed: 5
   jumpSpeed: 8
   gravity: 20
-  rotationSpeed: 200
+  cameraTransform: {fileID: 0}
 --- !u!1 &3130735984207184154
 GameObject:
   m_ObjectHideFlags: 0

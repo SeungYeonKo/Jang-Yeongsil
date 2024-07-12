@@ -5,8 +5,8 @@ using UnityEngine.Networking;
 
 public class ChatGPTAPI : MonoBehaviour
 {
-    private const string apiUrl = "https://api.openai.com/v1/chat/completions";
-    //private string apiKey = ""; // ChatGPT API
+    /*private const string apiUrl = "https://api.openai.com/v1/chat/completions";
+    private string apiKey = ""; // ChatGPT API
 
     [System.Serializable]
     public class Message
@@ -79,5 +79,5 @@ public class ChatGPTAPI : MonoBehaviour
                 StartCoroutine(GetChatResponse(userMessage, callback)); // 재귀적으로 다시 호출
             }
         }
-    }
+    }*/
 }

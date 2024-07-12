@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using ExitGames.Client.Photon;
 using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
@@ -34,6 +35,10 @@ public class UI_Login : MonoBehaviour
     {
         string loggedInUser = PlayerPrefs.GetString("LoggedInId", string.Empty);
         string loggedInPassword = PlayerPrefs.GetString("LoggedInPassword", string.Empty);
+        Debug.Log($"{loggedInUser}");
+        Debug.Log($"{loggedInPassword}");
+        
+        
         // 로그인 정보가 있다면
         if (!string.IsNullOrEmpty(loggedInUser) && !string.IsNullOrEmpty(loggedInPassword))
         {
@@ -43,6 +48,7 @@ public class UI_Login : MonoBehaviour
             {
                 // 포톤네트워크의 닉네임은 아이디가 되고
                 PhotonNetwork.NickName = loggedInUser;
+                StartCoroutine(FadeOutLogin());
             }
             else
             {
@@ -109,5 +115,11 @@ public class UI_Login : MonoBehaviour
         PlayerPrefs.Save();
 
         Debug.Log("새로운 정보로 로그인 되었습니다.");
+    }
+
+    IEnumerator FadeOutLogin()
+    {
+        yield return new WaitForSeconds(1f);
+        lobbyScene.LoginPopup.SetActive(false);
     }
 }

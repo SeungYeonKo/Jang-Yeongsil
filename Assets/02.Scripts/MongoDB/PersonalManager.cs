@@ -2,6 +2,7 @@ using MongoDB.Driver;
 using MongoDB.Bson;
 using Photon.Pun;
 using System.Collections.Generic;
+using ExitGames.Client.Photon;
 using UnityEngine;
 using Hashtable = ExitGames.Client.Photon.Hashtable;
 public class PersonalManager : MonoBehaviour
@@ -49,7 +50,15 @@ public class PersonalManager : MonoBehaviour
     public Personal Login(string nickname, string password)
     {
         var filter = Builders<Personal>.Filter.Eq("Name", nickname) & Builders<Personal>.Filter.Eq("Password", password);
-        return _personalCollection.Find(filter).FirstOrDefault();
+        var user = _personalCollection.Find(filter).FirstOrDefault();
+
+        if (user != null)
+        {
+            _cachedUserName = user.Name;
+            PlayerPrefs.SetString("CachedUserName", _cachedUserName);
+        }
+
+        return user;
     }
     // 몽고디비에 아이디, 비밀번호가 있는지 체크하는 조건문을 위한 함수
     public bool CheckUser(string nickname, string password)
@@ -57,10 +66,32 @@ public class PersonalManager : MonoBehaviour
         var filter = Builders<Personal>.Filter.Eq("Name", nickname) & Builders<Personal>.Filter.Eq("Password", password);
         return _personalCollection.Find(filter).Any();
     }
-    public void UpdateGender(string userId, string gender)
+    public void UpdateGender(string userId, CharacterGender gender)
     {
         var filter = Builders<Personal>.Filter.Eq("Name", userId);
-        var update = Builders<Personal>.Update.Set("CharacterGender", gender);
+        var update = Builders<Personal>.Update.Set("SelectCharacter", gender);
         _personalCollection.UpdateOne(filter, update);
+        Debug.Log($"{gender}정보가 저장되었습니다.");
+    }
+
+    public CharacterGender? ReloadGender(string userId)
+    {
+        var filter = Builders<Personal>.Filter.Eq("Name", userId);
+        var user = _personalCollection.Find(filter).FirstOrDefault();
+
+        if (user != null)
+        {
+            return user.SelectCharacter;
+        }
+        else
+        {
+            return null; // 사용자 정보를 찾을 수 없는 경우
+        }
+    }
+    // 사용자 이름을 캐시에서 가져오는 메서드
+    public string GetCachedUserName()
+    {
+        _cachedUserName = PlayerPrefs.GetString("CachedUserName", string.Empty);
+        return _cachedUserName;
     }
 }

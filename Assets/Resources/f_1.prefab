@@ -835,6 +835,8 @@ GameObject:
   - component: {fileID: 6828049218474164978}
   - component: {fileID: -3387636036764956254}
   - component: {fileID: -6920314485101693653}
+  - component: {fileID: -3488705660600917199}
+  - component: {fileID: 512434628644764637}
   m_Layer: 0
   m_Name: f_1
   m_TagString: Untagged
@@ -900,6 +902,7 @@ MonoBehaviour:
   observableSearch: 2
   ObservedComponents:
   - {fileID: -3387636036764956254}
+  - {fileID: -6920314485101693653}
   sceneViewId: 0
   InstantiationId: 0
   isRuntimeInstantiated: 0
@@ -935,6 +938,48 @@ MonoBehaviour:
   ShowParameterInspector: 1
   m_SynchronizeParameters: []
   m_SynchronizeLayers: []
+--- !u!143 &-3488705660600917199
+CharacterController:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3126038392672188353}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Height: 1.8
+  m_Radius: 0.5
+  m_SlopeLimit: 45
+  m_StepOffset: 0.3
+  m_SkinWidth: 0.08
+  m_MinMoveDistance: 0.001
+  m_Center: {x: 0, y: 0.9, z: 0}
+--- !u!114 &512434628644764637
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3126038392672188353}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3ab8d77e9330d434cb09ed2ca3843c60, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  speed: 6
+  jumpSpeed: 8
+  gravity: 20
+  rotationSpeed: 700
 --- !u!1 &3130735984207184154
 GameObject:
   m_ObjectHideFlags: 0

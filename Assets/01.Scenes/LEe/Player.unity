@@ -230,7 +230,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   distance: 3
   height: 2
-  smoothSpeed: 0.125
+  smoothSpeed: 0.1
   sensitivity: 2
   target: {fileID: 0}
 --- !u!1 &771734278

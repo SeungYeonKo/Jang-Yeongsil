@@ -6,7 +6,7 @@ using UnityEngine.Networking;
 public class ChatGPTAPI : MonoBehaviour
 {
     private const string apiUrl = "https://api.openai.com/v1/chat/completions";
-    private string apiKey = ""; // ChatGPT API
+    //private string apiKey = ""; // ChatGPT API
 
     [System.Serializable]
     public class Message

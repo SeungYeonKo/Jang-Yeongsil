@@ -69,6 +69,17 @@ crashlytics-build.properties
 # Temporary auto-generated Android Assets
 /[Aa]ssets/[Ss]treamingAssets/aa.meta
 /[Aa]ssets/[Ss]treamingAssets/aa/*
+<<<<<<< HEAD
+Assets/10.DownloadAssets/KoreanScienceTech_new/Models/Sundials/Mesh/SM_Sundials.obj
+Assets/10.DownloadAssets/KoreanScienceTech_new/Prefabs/BombShell.prefab
+Assets/10.DownloadAssets/KoreanScienceTech_new/Prefabs/BronzeHumanFigure.prefab
+Assets/10.DownloadAssets/KoreanScienceTech_new/Prefabs/Clepsydra.prefab
+Assets/10.DownloadAssets/KoreanScienceTech_new/Prefabs/HorizontalSundial 01.prefab
+Assets/10.DownloadAssets/KoreanScienceTech_new/Prefabs/HorizontalSundial 02.prefab
+Assets/10.DownloadAssets/KoreanScienceTech_new/Prefabs/RainGaugePedestal.prefab
+Assets/10.DownloadAssets/KoreanScienceTech_new/Prefabs/SmallGun.prefab
+Assets/10.DownloadAssets/KoreanScienceTech_new/Prefabs/Sundials.prefab
+=======
 UpgradeLog2.htm
 .vscode/extensions.json
 .vscode/launch.json
@@ -339,3 +350,16 @@ Assets/Plugins/MongoDB.Driver.dll.meta
 Packages/AWSSDK.Core.3.7.100.14/tools/account-management.ps1
 Packages/AWSSDK.SecurityToken.3.7.100.14/tools/install.ps1
 Packages/AWSSDK.SecurityToken.3.7.100.14/tools/uninstall.ps1
+>>>>>>> b41c9b948a356ff6712eed2cdd02f07c9cd89ad0
+Assets/Packages/MongoDB.Driver.2.27.0.meta
+Assets/Packages/MongoDB.Driver.2.27.0/.signature.p7s
+Assets/Packages/MongoDB.Driver.2.27.0/lib.meta
+Assets/Packages/MongoDB.Driver.2.27.0/MongoDB.Driver.nuspec
+Assets/Packages/MongoDB.Driver.2.27.0/MongoDB.Driver.nuspec.meta
+Assets/Packages/MongoDB.Driver.2.27.0/packageIcon.png
+Assets/Packages/MongoDB.Driver.2.27.0/packageIcon.png.meta
+Assets/Packages/MongoDB.Driver.2.27.0/lib/netstandard2.1.meta
+Assets/Packages/MongoDB.Driver.2.27.0/lib/netstandard2.1/MongoDB.Driver.dll
+Assets/Packages/MongoDB.Driver.2.27.0/lib/netstandard2.1/MongoDB.Driver.dll.meta
+Assets/Packages/MongoDB.Driver.2.27.0/lib/netstandard2.1/MongoDB.Driver.xml
+Assets/Packages/MongoDB.Driver.2.27.0/lib/netstandard2.1/MongoDB.Driver.xml.meta

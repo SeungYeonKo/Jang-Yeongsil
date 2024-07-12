@@ -1424,6 +1424,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 41f0ad1f93a48ef47bc8ae085a310676, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  SendButton: {fileID: 0}
   ChatLog: {fileID: 711682421}
   ChatInputField: {fileID: 499684513}
 --- !u!4 &1157960028

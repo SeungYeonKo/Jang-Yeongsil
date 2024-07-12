@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using ExitGames.Client.Photon;
 using UnityEngine;
 using Photon.Pun;
 
@@ -11,14 +12,16 @@ public class MainScene : MonoBehaviourPunCallbacks
 
     void Start()
     {
-        if (PhotonNetwork.InRoom && !localPlayerInitialized)
+        InitializePlayer(PhotonNetwork.LocalPlayer);
+        /*if (PhotonNetwork.InRoom && !localPlayerInitialized)
         {
             InitializePlayer(PhotonNetwork.LocalPlayer);
-        }
+        }*/
     }
 
     private void InitializePlayer(Photon.Realtime.Player player)
     {
+        Debug.Log("캐릭터 불러오기 로직");
         if (!player.IsLocal) return;
         Vector3 spawnPoint = GetRandomSpawnPoint();
 
@@ -31,9 +34,10 @@ public class MainScene : MonoBehaviourPunCallbacks
             {
                 Debug.Log($"Loaded Gender: {gender}");
 
-                string prefabName = gender == CharacterGender.Male ? "PlayerMale" : "PlayerFemale";
+                string prefabName = gender == CharacterGender.Male ? "Player_male" : "Player_female";
 
                 // 캐릭터 생성
+                Debug.Log($"{prefabName}");
                 PhotonNetwork.Instantiate(prefabName, spawnPoint, Quaternion.identity);
             }
             else

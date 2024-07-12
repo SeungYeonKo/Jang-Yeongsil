@@ -11,7 +11,7 @@ public class PhotonManager : MonoBehaviourPunCallbacks
 
     public static PhotonManager Instance;
 
-    public GameObject StartButton;
+    //public GameObject StartButton;
 
     [HideInInspector]
     public string NextRoomName = string.Empty;
@@ -31,7 +31,7 @@ public class PhotonManager : MonoBehaviourPunCallbacks
 
     private void Start()
     {
-        StartButton?.SetActive(false);
+        //StartButton?.SetActive(false);
         _nickname = PlayerPrefs.GetString("LoggedInId", "Player");
 
         PhotonNetwork.GameVersion = "0.0.1";
@@ -98,8 +98,8 @@ public class PhotonManager : MonoBehaviourPunCallbacks
 
         switch (PhotonNetwork.CurrentRoom.Name)
         {
-            case "Village":
-                PhotonNetwork.LoadLevel("VillageScene");
+            case "Main":
+                PhotonNetwork.LoadLevel("MainScene");
                 break;
             case "MiniGame1":
                 PhotonNetwork.LoadLevel("BattleTileScene");

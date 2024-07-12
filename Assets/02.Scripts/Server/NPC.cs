@@ -5,7 +5,7 @@ using TMPro;
 
 public class NPC : MonoBehaviour
 {
-    public TextMeshProUGUI dialogueText;
+    /*public TextMeshProUGUI dialogueText;
     public TMP_InputField inputField;
     private ChatGPTAPI chatGPTAPI;
 
@@ -35,5 +35,5 @@ public class NPC : MonoBehaviour
         {
             dialogueText.text += "\n" + "Something went wrong. Please try again.";
         }
-    }
+    }*/
 }

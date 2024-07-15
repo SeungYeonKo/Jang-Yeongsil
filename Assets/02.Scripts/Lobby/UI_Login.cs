@@ -1,8 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using ExitGames.Client.Photon;
-using TMPro;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 using Photon.Pun;
@@ -10,8 +8,8 @@ using Hashtable = ExitGames.Client.Photon.Hashtable;
 public class UI_Login : MonoBehaviour
 {
     public LobbyScene lobbyScene;
-    public TMP_InputField ID_input;
-    public TMP_InputField PW_input;
+    public InputField ID_input;
+    public InputField PW_input;
     public Toggle RememberToggle;
 
     public void Start()

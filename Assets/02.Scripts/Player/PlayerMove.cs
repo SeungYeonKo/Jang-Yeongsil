@@ -3,7 +3,7 @@ using UnityEngine;
 [RequireComponent(typeof(CharacterController))]
 public class PlayerMove : MonoBehaviour
 {
-    public float speed = 6.0f;
+    public float Speed = 6.0f;
     public float jumpSpeed = 8.0f;
     public float gravity = 20.0f;
 
@@ -11,6 +11,7 @@ public class PlayerMove : MonoBehaviour
 
     private Vector3 moveDirection = Vector3.zero;
     private CharacterController controller;
+    Vector3 dir = Vector3.zero;
 
     void Start()
     {
@@ -26,32 +27,7 @@ public class PlayerMove : MonoBehaviour
     {
         if (controller.isGrounded)
         {
-            // 지면에 있을 때만 WASD로 이동
-            Vector3 inputDirection = new Vector3(Input.GetAxis("Horizontal"), 0, Input.GetAxis("Vertical"));
-
-            if (inputDirection.magnitude > 0.1f)
-            {
-                // 카메라의 방향을 기준으로 이동 방향 설정
-                Vector3 forward = cameraTransform.forward;
-                Vector3 right = cameraTransform.right;
-
-                forward.y = 0;
-                right.y = 0;
-
-                forward.Normalize();
-                right.Normalize();
-
-                moveDirection = forward * inputDirection.z + right * inputDirection.x;
-                moveDirection *= speed;
-
-                // 카메라의 방향으로 캐릭터 회전
-                Quaternion targetRotation = Quaternion.LookRotation(moveDirection);
-                transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, Time.deltaTime * speed);
-            }
-            else
-            {
-                moveDirection = Vector3.zero;
-            }
+            InputAndDir();
 
             if (Input.GetButton("Jump"))
             {
@@ -65,4 +41,36 @@ public class PlayerMove : MonoBehaviour
         // 캐릭터 이동
         controller.Move(moveDirection * Time.deltaTime);
     }
+    void InputAndDir()
+    {
+        // 키 입력에 따라 방향 벡터 설정
+        dir.x = Input.GetAxis("Horizontal");   // x축 방향 키 입력
+        dir.z = Input.GetAxis("Vertical");     // z축 방향 키 입력
+        Vector3 direction = new Vector3(dir.x, 0f, dir.z);
+        float movementMagnitude = direction.magnitude;
+
+        
+        
+        //Instantiate(WalkVFX, dir, Quaternion.identity);
+
+        if (dir != Vector3.zero)   // 키 입력이 있는 경우
+        {
+            // 카메라의 앞 방향을 기준으로 이동 방향 설정
+            Vector3 forward = Camera.main.transform.forward;
+            forward.y = 0;
+            direction = (forward.normalized * dir.z + Camera.main.transform.right * dir.x).normalized;
+
+            var a = direction;
+            a.y = 0f;
+            // 이동 방향으로 캐릭터 회전
+            Quaternion targetRotation = Quaternion.LookRotation(a);
+            transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, Time.fixedDeltaTime * 10f);
+
+            // 캐릭터 컨트롤러를 사용한 이동
+            CharacterController controller = GetComponent<CharacterController>();
+            controller.Move(direction * Time.deltaTime * Speed);
+        }
+    }
+
+
 }

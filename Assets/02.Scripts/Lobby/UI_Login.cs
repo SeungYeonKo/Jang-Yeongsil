@@ -12,6 +12,7 @@ public class UI_Login : MonoBehaviour
     public InputField PW_input;
     public Toggle RememberToggle;
 
+
     public void Start()
     {
         // 0 : ID, PW 입력 창 팝업후 

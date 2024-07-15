@@ -13,13 +13,13 @@ MonoBehaviour:
   m_Name: PhotonServerSettings
   m_EditorClassIdentifier: 
   AppSettings:
-    AppIdRealtime: 484d819a-c2d3-431d-9bb3-9e4639c4ebf0
+    AppIdRealtime: 64500618-0eac-48e2-b177-23eb6726d8bc
     AppIdFusion: 
-    AppIdChat: 7372face-5d03-4d9d-ba05-11e8fa00f61b
+    AppIdChat: 1a013ea8-d080-4538-b168-b2f0165adbcf
     AppIdVoice: 
     AppVersion: 
     UseNameServer: 1
-    FixedRegion: 
+    FixedRegion: kr
     Server: 
     Port: 0
     ProxyServer: 
@@ -35,5 +35,5 @@ MonoBehaviour:
   StartInOfflineMode: 0
   RpcList: []
   DisableAutoOpenWizard: 1
-  ShowSettings: 0
+  ShowSettings: 1
   DevRegionSetOnce: 0

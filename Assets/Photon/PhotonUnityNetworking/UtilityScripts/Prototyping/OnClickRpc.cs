@@ -6,7 +6,6 @@
 // <author>developer@exitgames.com</author>
 // --------------------------------------------------------------------------------------------------------------------
 
-
 using System.Collections;
 
 
@@ -14,7 +13,6 @@ namespace Photon.Pun.UtilityScripts
 {
     using UnityEngine;
     using UnityEngine.EventSystems;
-
 
     /// <summary>
     /// This component will instantiate a network GameObject when in a room and the user click on that component's GameObject.
@@ -26,17 +24,15 @@ namespace Photon.Pun.UtilityScripts
         public KeyCode ModifierKey;
 
         public RpcTarget Target;
-
-        void IPointerClickHandler.OnPointerClick(PointerEventData eventData)
+        void OnPointerClick(PointerEventData eventData)
         {
             if (!PhotonNetwork.InRoom || (this.ModifierKey != KeyCode.None && !Input.GetKey(this.ModifierKey)) || eventData.button != this.Button)
             {
                 return;
             }
-            
+
             this.photonView.RPC("ClickRpc", this.Target);
         }
-
 
         #region RPC Implementation
 

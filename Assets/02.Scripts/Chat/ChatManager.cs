@@ -51,9 +51,10 @@ public class ChatManager : MonoBehaviour, IChatClientListener
 
         var response = await client.PostAsync(chatGptApiUrl, content);
         var responseString = await response.Content.ReadAsStringAsync();
-        dynamic responseObject = JsonConvert.DeserializeObject(responseString);
 
-        return responseObject.choices[0].text.ToString();
+        var responseObject = JsonConvert.DeserializeObject<ChatGptResponse>(responseString);
+
+        return responseObject.choices[0].text.Trim();
     }
 
     // IChatClientListener 구현
@@ -77,4 +78,16 @@ public class ChatManager : MonoBehaviour, IChatClientListener
     public void OnStatusUpdate(string user, int status, bool gotMessage, object message) { }
     public void OnUserSubscribed(string channel, string user) { }
     public void OnUserUnsubscribed(string channel, string user) { }
+
+    [System.Serializable]
+    public class ChatGptResponse
+    {
+        public Choice[] choices;
+
+        [System.Serializable]
+        public class Choice
+        {
+            public string text;
+        }
+    }
 }

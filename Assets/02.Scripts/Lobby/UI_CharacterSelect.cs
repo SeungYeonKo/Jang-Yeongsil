@@ -3,8 +3,6 @@ using UnityEngine;
 using UnityEngine.UI;
 using Photon.Pun;
 using Photon.Realtime;
-using TMPro;
-using UnityEngine.Playables;
 
 public class UI_CharacterSelect : MonoBehaviour
 {

@@ -18,7 +18,6 @@ public class TPSCamera : MonoBehaviourPunCallbacks
 
     private void Start()
     {
-
         offset = new Vector3(0, height, -distance); // 초기 위치 설정
         Cursor.lockState = CursorLockMode.Locked;
 
@@ -49,14 +48,9 @@ public class TPSCamera : MonoBehaviourPunCallbacks
         Quaternion targetRotation = Quaternion.Euler(rotationY, rotationX, 0); // 카메라 회전값 계산
         Vector3 targetPosition = target.position + targetRotation * offset; // 타겟 주위의 위치 계산
 
-
-
         transform.position = Vector3.Lerp(transform.position, targetPosition, smoothSpeed); // 부드러운 이동 계산
         transform.LookAt(target.position); // 캐릭터를 바라보도록 설정
-
-
     }
-
 
     private void FindLocalPlayer()
     {
@@ -67,7 +61,6 @@ public class TPSCamera : MonoBehaviourPunCallbacks
         foreach (GameObject player in players)
         {
             PhotonView photonView = player.GetComponent<PhotonView>();
-            string nickname = PlayerPrefs.GetString("LoggedInId");
             // 자신의 캐릭터인지 확인
             if (photonView != null && photonView.IsMine)
             {

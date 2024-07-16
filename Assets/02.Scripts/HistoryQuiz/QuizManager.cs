@@ -3,15 +3,27 @@ using UnityEngine.UI;
 
 public class QuizManager : MonoBehaviour
 {
-    public ToggleGroup[] toggleGroups; // 여섯 문제의 ToggleGroup 배열
-    public Toggle[] answerToggles; // 정답인 토글들
-    public Image[] correctImages; // 정답 시 활성화되는 이미지 배열
-    public Image[] wrongImages; // 오답 시 활성화되는 이미지 배열
+    public ToggleGroup[] toggleGroups; 
+    public Toggle[] answerToggles; 
+    public Image[] correctImages;
+    public Image[] wrongImages;
 
-    // Start is called before the first frame update
+    private void OnEnable()
+    {
+        // 시작할 때마다 모든 토글 초기화(는잘안됨 왜지?)
+        foreach (ToggleGroup group in toggleGroups)
+        {
+            foreach (Toggle toggle in group.GetComponentsInChildren<Toggle>())
+            {
+                // 토글을 강제로 초기화해보겠음
+                toggle.isOn = true;
+                toggle.isOn = false;
+            }
+        }
+    }
+
     void Start()
     {
-        // 모든 정답/오답 이미지를 비활성화
         foreach (Image img in correctImages)
         {
             img.gameObject.SetActive(false);
@@ -23,7 +35,7 @@ public class QuizManager : MonoBehaviour
         }
     }
 
-    // 제출 버튼을 눌렀을 때 실행되는 함수
+    // 제출 버튼
     public void Submit()
     {
         for (int i = 0; i < toggleGroups.Length; i++)
@@ -40,7 +52,7 @@ public class QuizManager : MonoBehaviour
         }
     }
 
-    // 선택된 토글을 반환하는 함수
+    // 선택된 토글을 반환
     private Toggle GetSelectedToggle(ToggleGroup group)
     {
         foreach (Toggle toggle in group.GetComponentsInChildren<Toggle>())

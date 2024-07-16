@@ -15,7 +15,7 @@ public class QuizManager : MonoBehaviour
         {
             foreach (Toggle toggle in group.GetComponentsInChildren<Toggle>())
             {
-                // 토글을 강제로 초기화해보겠음
+                // 토글을 강제로 초기화해보겠음->안됨,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
                 toggle.isOn = true;
                 toggle.isOn = false;
             }

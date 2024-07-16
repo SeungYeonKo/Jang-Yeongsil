@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: a00ebe153d1a73e498a279f9fee43e68
+guid: 9af3364adf8b77f43b03595b298b6115
 labels:
 - NuGetForUnity
 PluginImporter:
@@ -18,6 +18,12 @@ PluginImporter:
     second:
       enabled: 1
       settings: {}
+  - first:
+      Editor: Editor
+    second:
+      enabled: 0
+      settings:
+        DefaultValueInitialized: true
   userData: 
   assetBundleName: 
   assetBundleVariant: 

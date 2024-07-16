@@ -1940,10 +1940,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3ab8d77e9330d434cb09ed2ca3843c60, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 6
-  jumpSpeed: 8
-  gravity: 20
-  cameraTransform: {fileID: 0}
+  Speed: 0
+  JumpCount: 0
+  isGrounded: 0
+  LayerMask:
+    serializedVersion: 2
+    m_Bits: 0
+  groundDistance: 0.4
+  _isRunning: 0
+  LayerPoint: {fileID: 0}
+  CameraRoot: {fileID: 0}
 --- !u!114 &-6687760053186245833
 MonoBehaviour:
   m_ObjectHideFlags: 0

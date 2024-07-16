@@ -1038,13 +1038,12 @@ MonoBehaviour:
   Speed: 0
   JumpCount: 0
   isGrounded: 0
-  LayerMask:
-    serializedVersion: 2
-    m_Bits: 1
-  groundDistance: 0.4
   _isRunning: 0
-  LayerPoint: {fileID: 8744754342764202041}
-  CameraRoot: {fileID: 7028614974399306034}
+  LayerPoint: {fileID: 0}
+  CameraRoot: {fileID: 0}
+  boxSize: {x: 0, y: 0, z: 0}
+  maxDistance: 0
+  drawGizmo: 0
 --- !u!114 &-4456594737478369042
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -593,7 +593,8 @@ GameObject:
   - component: {fileID: 4013630940997874409}
   - component: {fileID: 7027819914768407897}
   - component: {fileID: 1185002228079490914}
-  - component: {fileID: 2433734127481030719}
+  - component: {fileID: 7004830598499291973}
+  - component: {fileID: 8837649557778417151}
   m_Layer: 0
   m_Name: f_1
   m_TagString: Player
@@ -633,7 +634,7 @@ Animator:
   m_Controller: {fileID: 9100000, guid: 3a43de6ccfc755040be8b0d2ce0bd27d, type: 2}
   m_CullingMode: 1
   m_UpdateMode: 0
-  m_ApplyRootMotion: 1
+  m_ApplyRootMotion: 0
   m_LinearVelocityBlending: 0
   m_StabilizeFeet: 0
   m_WarningMessage: 
@@ -796,13 +797,12 @@ MonoBehaviour:
   Speed: 0
   JumpCount: 0
   isGrounded: 0
-  LayerMask:
-    serializedVersion: 2
-    m_Bits: 0
-  groundDistance: 0.4
   _isRunning: 0
   LayerPoint: {fileID: 1733226042355159812}
   CameraRoot: {fileID: 7018334595906578899}
+  boxSize: {x: 0, y: 0, z: 0}
+  maxDistance: 0
+  drawGizmo: 0
 --- !u!54 &1185002228079490914
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -828,9 +828,9 @@ Rigidbody:
   m_UseGravity: 1
   m_IsKinematic: 0
   m_Interpolate: 0
-  m_Constraints: 0
+  m_Constraints: 112
   m_CollisionDetection: 0
---- !u!136 &2433734127481030719
+--- !u!136 &7004830598499291973
 CapsuleCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -845,14 +845,32 @@ CapsuleCollider:
     serializedVersion: 2
     m_Bits: 0
   m_LayerOverridePriority: 0
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 2
   m_Radius: 0.5
   m_Height: 1.8
   m_Direction: 1
-  m_Center: {x: 0, y: 0.88, z: 0}
+  m_Center: {x: 0, y: 0.9, z: 0}
+--- !u!114 &8837649557778417151
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2624467209199942967}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ee1bdd68e6f9d9b42be437da09484ce8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  boxSize: {x: 0.6, y: 0.1, z: 0.6}
+  maxDistance: 0
+  groundLayer:
+    serializedVersion: 2
+    m_Bits: 1
+  drawGizmo: 1
 --- !u!1 &2777504913355630741
 GameObject:
   m_ObjectHideFlags: 0

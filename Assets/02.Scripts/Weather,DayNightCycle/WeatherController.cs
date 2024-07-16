@@ -1,6 +1,7 @@
 using System.Collections;
 using Photon.Pun;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 namespace DigitalRuby.WeatherMaker
 {
@@ -20,6 +21,11 @@ namespace DigitalRuby.WeatherMaker
                 return;
             }
 
+            if (SceneManager.GetActiveScene().name == "RainGauge")
+            {
+                SetWeather(RainProfile);
+                Debug.Log("현재 씬이 'RainGauge'입니다. 비가 내립니다.");
+            }
             //if (PhotonNetwork.IsMasterClient)
             else
             {

@@ -363,9 +363,16 @@ Assets/Packages/MongoDB.Driver.2.27.0/lib/netstandard2.1/MongoDB.Driver.dll
 Assets/Packages/MongoDB.Driver.2.27.0/lib/netstandard2.1/MongoDB.Driver.dll.meta
 Assets/Packages/MongoDB.Driver.2.27.0/lib/netstandard2.1/MongoDB.Driver.xml
 Assets/Packages/MongoDB.Driver.2.27.0/lib/netstandard2.1/MongoDB.Driver.xml.meta
+<<<<<<< HEAD
 Assets/01.Scenes/PersonalScene/JHS.unity
 Assets/01.Scenes/PersonalScene/JHS.unity.meta
 Assets/01.Scenes/PersonalScene/KSY.unity
 Assets/01.Scenes/PersonalScene/KSY.unity.meta
 Assets/01.Scenes/PersonalScene/KYE.unity
 Assets/01.Scenes/PersonalScene/KYE.unity.meta
+=======
+Assets/10.DownloadAssets/Fireball/Materials/fireball.mat
+Assets/10.DownloadAssets/Fireball/Materials/fireball.mat.meta
+Assets/10.DownloadAssets/Fireball/Materials/fireball.trail.mat
+Assets/10.DownloadAssets/Fireball/Materials/fireball.trail.mat.meta
+>>>>>>> 4926ba8c2d4b08c6d543e31240f87188a6a2fbe1

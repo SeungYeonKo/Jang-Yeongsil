@@ -101,13 +101,14 @@ public class UI_Login : MonoBehaviour
     }
     private void RememberUserInfo(string nickname, string password)
     {
-        // 몽고디비에서 아이디랑 비밀번호가 없다면
+        // 몽고디비에 새로 저장
+        PersonalManager.Instance.JoinList(nickname, password);
+        Debug.Log("서버에 로그인 정보를 저장했습니다.");
+        /*// 몽고디비에서 아이디랑 비밀번호가 없다면
         if (!PersonalManager.Instance.CheckUser(nickname, password))
         {
-            // 몽고디비에 새로 저장
-            PersonalManager.Instance.JoinList(nickname, password);
-            Debug.Log("서버에 로그인 정보를 저장했습니다.");
-        }
+
+        }*/
 
         // 로그인 정보 저장
         PlayerPrefs.SetString("LoggedInId", nickname);

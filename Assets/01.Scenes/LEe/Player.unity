@@ -1138,6 +1138,7 @@ GameObject:
   - component: {fileID: 7027819914108660994}
   - component: {fileID: 1185002227401115449}
   - component: {fileID: 7004830597833384734}
+  - component: {fileID: 7027819914108660995}
   m_Layer: 0
   m_Name: f_1
   m_TagString: Player
@@ -2303,6 +2304,24 @@ MonoBehaviour:
   boxSize: {x: 0.6, y: 0.1, z: 0.7}
   maxDistance: 0
   drawGizmo: 1
+--- !u!114 &7027819914108660995
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2624467209886813548}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ee1bdd68e6f9d9b42be437da09484ce8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  boxSize: {x: 0, y: 0, z: 0}
+  maxDistance: 0
+  groundLayer:
+    serializedVersion: 2
+    m_Bits: 0
+  drawGizmo: 0
 --- !u!1 &7033749598960335319
 GameObject:
   m_ObjectHideFlags: 0

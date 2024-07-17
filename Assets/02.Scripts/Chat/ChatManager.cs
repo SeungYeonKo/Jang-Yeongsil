@@ -12,7 +12,7 @@ public class ChatManager : MonoBehaviour, IChatClientListener
 {
     private ChatClient chatClient; // 채팅 클라이언트
     private string chatChannel = "global"; // 기본 채팅 채널
-    private string chatGptApiKey = "sk-proj-xS0J6A4EzczmkgCUlz5iT3BlbkFJpDpHmONFxM9y9yL2L0gV"; // ChatGPT API 키
+    private string chatGptApiKey = ""; // ChatGPT API 키
     private string chatGptApiUrl = "https://api.openai.com/v1/chat/completions";
     public ChatUI chatUI; // ChatUI 참조
 
@@ -31,8 +31,21 @@ public class ChatManager : MonoBehaviour, IChatClientListener
     {
         if (chatClient != null && chatClient.CanChat)
         {
-            string formattedMessage = $"[{PhotonNetwork.NickName ?? "Null"}] {message}";
-            chatClient.PublishMessage(chatChannel, formattedMessage);
+            if (message.StartsWith("/장영실"))
+            {
+                // ChatGPT API 호출
+                var query = message.Substring("/장영실".Length).Trim();
+                SendMessageToChatGPT(query).ContinueWith(task => {
+                    string response = task.Result;
+                    string formattedMessage = $"[장영실] {response}";
+                    chatClient.PublishMessage(chatChannel, formattedMessage);
+                });
+            }
+            else
+            {
+                string formattedMessage = $"[{PhotonNetwork.NickName ?? "Null"}] {message}";
+                chatClient.PublishMessage(chatChannel, formattedMessage);
+            }
         }
     }
 

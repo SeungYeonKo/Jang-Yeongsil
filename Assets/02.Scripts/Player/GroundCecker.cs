@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class GroundCecker : PlayerAbility
+public class GroundCecker : MonoBehaviour
 {
     [Header("Boxcast Property")]
     [SerializeField] private Vector3 boxSize;
@@ -11,6 +11,14 @@ public class GroundCecker : PlayerAbility
 
     [Header("Debug")]
     [SerializeField] private bool drawGizmo;
+
+    public bool isGrounded;
+
+    private void Update()
+    {
+        isGrounded = IsGrounded();
+       
+    }
 
     private void OnDrawGizmos()
     {
@@ -22,7 +30,13 @@ public class GroundCecker : PlayerAbility
 
     public bool IsGrounded()
     {
-        return Physics.BoxCast(transform.position, boxSize, -transform.up, transform.rotation, maxDistance, groundLayer);
+        bool grounded = Physics.BoxCast(transform.position, boxSize, -transform.up, transform.rotation, maxDistance, groundLayer);
+        
+        return grounded;
     }
 
+    public bool GetIsGrounded()
+    {
+        return isGrounded;
+    }
 }

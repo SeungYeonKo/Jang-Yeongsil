@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-public class QuizManager : MonoBehaviour
+public class MultipleSelectType : MonoBehaviour
 {
     public ToggleGroup[] toggleGroups; 
     public Toggle[] answerToggles; 

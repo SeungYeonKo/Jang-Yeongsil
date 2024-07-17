@@ -102,7 +102,7 @@ public class PhotonManager : MonoBehaviourPunCallbacks
                 PhotonNetwork.LoadLevel("MainScene");
                 break;
             case "MiniGame1":
-                PhotonNetwork.LoadLevel("BattleTileScene");
+                PhotonNetwork.LoadLevel("RainGauge");
                 break;
             case "MiniGame2":
                 PhotonNetwork.LoadLevel("FallGuysScene");
@@ -148,9 +148,9 @@ public class PhotonManager : MonoBehaviourPunCallbacks
         {
             switch (NextRoomName)
             {
-                case "MiniGame1":
-                    descriptionSceneName = "BattleTileDescriptionScene";
-                    break;
+                /*case "MiniGame1":
+                    descriptionSceneName = "RainGaugeDescriptionScene";
+                    break;*/
                 case "MiniGame2":
                     descriptionSceneName = "FallGuysDescriptionScene";
                     break;

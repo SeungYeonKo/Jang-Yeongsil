@@ -1,9 +1,7 @@
 using JetBrains.Annotations;
 using Photon.Pun;
-using System.Security.Cryptography;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using UnityEngine.UIElements;
 
 public class PlayerMoveAbility : PlayerAbility
 {
@@ -11,39 +9,27 @@ public class PlayerMoveAbility : PlayerAbility
     private float Movespeed = 3f;
     private float RunSpeed = 5f;
 
-    private float NormalJumpPower = 2;
-    private float RunningJumpPower = 4;
-    private float JumpPower = 3f;
-
-    public int JumpCount;
-    private int MaxJumpCount = 1;
+    private float NormalJumpPower = 5f; // 점프 힘을 증가
+    private float RunningJumpPower = 8f; // 점프 힘을 증가
 
     private float _JumpPower;
 
     public bool isGrounded;
-
+    public Transform LayerPoint;
+    public LayerMask groundMask;
+    public float groundDistance = 0.5f;
     public bool _isRunning;
 
-    private bool _isJumping;
-    private bool _isRunningJumping;
-
-    public Transform LayerPoint;
     private Animator _animator;
 
     Rigidbody rb;
     public Transform CameraRoot;
     Vector3 dir = Vector3.zero;
 
-    
-
-    public GroundCecker groundChecker;
-
     void Start()
     {
         rb = GetComponent<Rigidbody>();
         _animator = GetComponent<Animator>();
-
-        groundChecker = GetComponent<GroundCecker>();
 
         if (_owner != null && _owner.PhotonView.IsMine)
         {
@@ -65,26 +51,10 @@ public class PlayerMoveAbility : PlayerAbility
         {
             return;
         }
-
-        if (groundChecker != null)
-        {
-            isGrounded = groundChecker.IsGrounded();
-        }
-        else
-        {
-            Debug.LogWarning("GroundChecker is not assigned.");
-        }
-
-        JumpCounter();
-
+        GroundCheck();
         if (_animator != null && Input.GetKeyDown(KeyCode.T))
         {
             _animator.SetTrigger("Punching");
-        }
-
-        if (JumpCount >= MaxJumpCount)
-        {
-            JumpCount = MaxJumpCount;
         }
     }
 
@@ -128,45 +98,50 @@ public class PlayerMoveAbility : PlayerAbility
 
         if (Input.GetKey(KeyCode.LeftShift))
         {
-            Speed = RunSpeed * 2;
+            Speed = RunSpeed;
             rb.MovePosition(rb.position + direction * Speed * Time.fixedDeltaTime);
             _isRunning = true;
         }
         else
         {
-            Speed = Movespeed * 2;
+            Speed = Movespeed;
             rb.MovePosition(rb.position + direction * Speed * Time.fixedDeltaTime);
             _isRunning = false;
         }
 
         if (Input.GetKeyDown(KeyCode.Space) && isGrounded)
         {
-            _JumpPower = JumpPower;
-            JumpCount -= 1;
+            if (_isRunning)
+            {
+                _JumpPower = RunningJumpPower;
+            }
+            else
+            {
+                _JumpPower = NormalJumpPower;
+            }
             JumpCode();
         }
     }
 
-    public void Jump(float jumpPower)
-    {
-        rb.AddForce((Vector3.up * jumpPower) / 2f, ForceMode.Impulse);
-    }
-
     private void JumpCode()
     {
-        rb.AddForce((Vector3.up * _JumpPower) / 2f, ForceMode.Impulse);
+        rb.velocity = new Vector3(rb.velocity.x, _JumpPower, rb.velocity.z); // y-속도를 직접 설정
+        Debug.Log("스페이스바 누름");
+        
     }
 
-    void JumpCounter()
+    void GroundCheck()
     {
-        if (isGrounded && JumpCount < 1)
+        RaycastHit hit;
+
+        if (Physics.Raycast(LayerPoint.position, Vector3.down, out hit, groundDistance, groundMask))
         {
-            JumpCount += 1;
+            isGrounded = true;
+            
+        }
+        else
+        {
+            isGrounded = false;
         }
     }
-
-    
-    
 }
-
-

@@ -40,7 +40,7 @@ public class ChatUI : MonoBehaviour
                 string response = await chatManager.SendMessageToChatGPT(message);
 
                 // 응답 메시지 표시
-                DisplayMessage("ChatGPT: " + response);
+                DisplayMessage("[장영실] " + response);
             }
             catch (Exception ex)
             {

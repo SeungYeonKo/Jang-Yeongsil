@@ -12,8 +12,8 @@ public class ChatManager : MonoBehaviour, IChatClientListener
 {
     private ChatClient chatClient; // 채팅 클라이언트
     private string chatChannel = "global"; // 기본 채팅 채널
-    private string chatGptApiKey = "sk-proj-8M75VJlpoaxjcAMQArWDT3BlbkFJaxLFEwzES64BjpHk65Lf"; // ChatGPT API 키
-    private string chatGptApiUrl = "https://api.openai.com/v1/completions";
+    private string chatGptApiKey = "sk-proj-xS0J6A4EzczmkgCUlz5iT3BlbkFJpDpHmONFxM9y9yL2L0gV"; // ChatGPT API 키
+    private string chatGptApiUrl = "https://api.openai.com/v1/chat/completions";
     public ChatUI chatUI; // ChatUI 참조
 
     private void Start()
@@ -41,7 +41,7 @@ public class ChatManager : MonoBehaviour, IChatClientListener
     var client = new HttpClient();
     var requestData = new
     {
-        model = "text-davinci-003", // 모델 엔진 ID
+        model = "gpt-3.5-turbo-0125", // 모델 엔진 ID
         prompt = message, // 프롬프트
         max_tokens = 150, // 최대 토큰 수
         n = 1, // 생성할 응답 수

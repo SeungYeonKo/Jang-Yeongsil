@@ -36,6 +36,7 @@ public class PersonalManager : MonoBehaviour
         MongoClient mongoClient = new MongoClient(connectionString);
         IMongoDatabase db = mongoClient.GetDatabase("LoginsInfo");
         _personalCollection = db.GetCollection<Personal>("Login");
+        Debug.Log("몽고디비접속");
     }
     public void JoinList(string nickname, string password)
     {

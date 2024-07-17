@@ -28,59 +28,59 @@ public class ChatManager : MonoBehaviour, IChatClientListener
     }
 
     public void SendMessageToChat(string message)
-{
-    if (chatClient != null && chatClient.CanChat)
     {
-        string formattedMessage = $"[{PhotonNetwork.NickName ?? "Null"}] {message}";
-        chatClient.PublishMessage(chatChannel, formattedMessage);
+        if (chatClient != null && chatClient.CanChat)
+        {
+            string formattedMessage = $"[{PhotonNetwork.NickName ?? "Null"}] {message}";
+            chatClient.PublishMessage(chatChannel, formattedMessage);
+        }
     }
-}
 
     public async Task<string> SendMessageToChatGPT(string message)
-{
-    var client = new HttpClient();
-    var requestData = new
     {
-        model = "gpt-3.5-turbo-0125", // 모델 엔진 ID
-        prompt = message, // 프롬프트
-        max_tokens = 150, // 최대 토큰 수
-        n = 1, // 생성할 응답 수
-        stop = (string)null, // 응답 생성을 중단할 텍스트
-        temperature = 0.7 // 텍스트 생성의 다양성
-    };
-
-    var content = new StringContent(JsonConvert.SerializeObject(requestData), Encoding.UTF8, "application/json");
-    client.DefaultRequestHeaders.Add("Authorization", $"Bearer {chatGptApiKey}");
-
-    try
-    {
-        var response = await client.PostAsync(chatGptApiUrl, content);
-
-        if (response.IsSuccessStatusCode)
+        var client = new HttpClient();
+        var requestData = new
         {
-            var responseString = await response.Content.ReadAsStringAsync();
-            var responseObject = JsonConvert.DeserializeObject<ChatGptResponse>(responseString);
-            return responseObject.choices[0].text.Trim();
+            model = "gpt-3.5-turbo",
+            messages = new[]
+            {
+                new { role = "system", content = "You are a helpful assistant." },
+                new { role = "user", content = message }
+            },
+            max_tokens = 150,
+            temperature = 0.7
+        };
+
+        var content = new StringContent(JsonConvert.SerializeObject(requestData), Encoding.UTF8, "application/json");
+        client.DefaultRequestHeaders.Add("Authorization", $"Bearer {chatGptApiKey}");
+
+        try
+        {
+            var response = await client.PostAsync(chatGptApiUrl, content);
+
+            if (response.IsSuccessStatusCode)
+            {
+                var responseString = await response.Content.ReadAsStringAsync();
+                var responseObject = JsonConvert.DeserializeObject<ChatGptResponse>(responseString);
+                return responseObject.choices[0].message.content.Trim();
+            }
+            else if (response.StatusCode == System.Net.HttpStatusCode.NotFound)
+            {
+                Debug.LogError("Error: API Endpoint not found. Please check the URL.");
+                return "Error: API Endpoint not found.";
+            }
+            else
+            {
+                Debug.LogError($"Error: {response.StatusCode}");
+                return "Error communicating with ChatGPT";
+            }
         }
-        else if (response.StatusCode == System.Net.HttpStatusCode.NotFound)
+        catch (Exception ex)
         {
-            Debug.LogError("Error: API Endpoint not found. Please check the URL.");
-            return "Error: API Endpoint not found.";
-        }
-        else
-        {
-            Debug.LogError($"Error: {response.StatusCode}");
+            Debug.LogError($"Exception: {ex.Message}");
             return "Error communicating with ChatGPT";
         }
     }
-    catch (Exception ex)
-    {
-        Debug.LogError($"Exception: {ex.Message}");
-        return "Error communicating with ChatGPT";
-    }
-}
-
-
 
     // IChatClientListener 구현
     public void DebugReturn(DebugLevel level, string message) { }
@@ -91,13 +91,13 @@ public class ChatManager : MonoBehaviour, IChatClientListener
     }
     public void OnDisconnected() { }
     public void OnGetMessages(string channelName, string[] senders, object[] messages)
-{
-    for (int i = 0; i < messages.Length; i++)
     {
-        string formattedMessage = messages[i].ToString(); // 메시지를 그대로 사용
-        chatUI.DisplayMessage(formattedMessage);
+        for (int i = 0; i < messages.Length; i++)
+        {
+            string formattedMessage = messages[i].ToString(); // 메시지를 그대로 사용
+            chatUI.DisplayMessage(formattedMessage);
+        }
     }
-}
     public void OnPrivateMessage(string sender, object message, string channelName) { }
     public void OnSubscribed(string[] channels, bool[] results) { }
     public void OnUnsubscribed(string[] channels) { }
@@ -113,7 +113,14 @@ public class ChatManager : MonoBehaviour, IChatClientListener
         [System.Serializable]
         public class Choice
         {
-            public string text;
+            public Message message;
+        }
+
+        [System.Serializable]
+        public class Message
+        {
+            public string role;
+            public string content;
         }
     }
 }

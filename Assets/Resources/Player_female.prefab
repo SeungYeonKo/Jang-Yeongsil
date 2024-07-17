@@ -863,15 +863,15 @@ GameObject:
   m_Component:
   - component: {fileID: 2317730892824784251}
   - component: {fileID: 8559679481176454913}
+  - component: {fileID: 2898793413247747974}
   - component: {fileID: 6828049218474164978}
+  - component: {fileID: 4518357883984468901}
   - component: {fileID: -3387636036764956254}
   - component: {fileID: -6920314485101693653}
   - component: {fileID: 512434628644764637}
   - component: {fileID: -4456594737478369042}
   - component: {fileID: 4934483612441920105}
   - component: {fileID: 2929087773457640666}
-  - component: {fileID: 2898793413247747974}
-  - component: {fileID: 4518357883984468901}
   m_Layer: 0
   m_Name: Player_female
   m_TagString: Player
@@ -919,6 +919,18 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &2898793413247747974
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3126038392672188353}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8c36d86bb78b7ad4ebc6f5f98b408a25, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &6828049218474164978
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -945,6 +957,18 @@ MonoBehaviour:
   sceneViewId: 0
   InstantiationId: 0
   isRuntimeInstantiated: 0
+--- !u!114 &4518357883984468901
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3126038392672188353}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2120b89f0b4a4a747b08e6a4faae807b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &-3387636036764956254
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1036,14 +1060,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Speed: 0
-  JumpCount: 0
-  isGrounded: 0
+  isGrounded: 1
+  LayerPoint: {fileID: 7028614974399306034}
+  groundMask:
+    serializedVersion: 2
+    m_Bits: 1
+  groundDistance: 0.3
   _isRunning: 0
-  LayerPoint: {fileID: 0}
-  CameraRoot: {fileID: 0}
-  boxSize: {x: 0, y: 0, z: 0}
-  maxDistance: 0
-  drawGizmo: 0
+  CameraRoot: {fileID: 8744754342764202041}
 --- !u!114 &-4456594737478369042
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1106,30 +1130,6 @@ CapsuleCollider:
   m_Height: 1.8
   m_Direction: 1
   m_Center: {x: 0, y: 0.88, z: 0}
---- !u!114 &2898793413247747974
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3126038392672188353}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8c36d86bb78b7ad4ebc6f5f98b408a25, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &4518357883984468901
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3126038392672188353}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2120b89f0b4a4a747b08e6a4faae807b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &3130735984207184154
 GameObject:
   m_ObjectHideFlags: 0
@@ -2322,7 +2322,7 @@ GameObject:
   - component: {fileID: 7028614974399306034}
   m_Layer: 0
   m_Name: GroundCecker
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

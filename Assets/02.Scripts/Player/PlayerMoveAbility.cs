@@ -34,21 +34,16 @@ public class PlayerMoveAbility : PlayerAbility
     public Transform CameraRoot;
     Vector3 dir = Vector3.zero;
 
-    [Header("Boxcast Property")]
-    [SerializeField] private Vector3 boxSize;
-    [SerializeField] private float maxDistance;
+    
 
-    [Header("Debug")]
-    [SerializeField] private bool drawGizmo;
-
-    private GroundChecker groundChecker;
+    public GroundCecker groundChecker;
 
     void Start()
     {
         rb = GetComponent<Rigidbody>();
         _animator = GetComponent<Animator>();
 
-        groundChecker = GetComponent<GroundChecker>();
+        groundChecker = GetComponent<GroundCecker>();
 
         if (_owner != null && _owner.PhotonView.IsMine)
         {
@@ -170,35 +165,8 @@ public class PlayerMoveAbility : PlayerAbility
         }
     }
 
-    private void OnDrawGizmos()
-    {
-        if (!drawGizmo) return;
-
-        Gizmos.color = Color.cyan;
-        Gizmos.DrawCube(transform.position - transform.up * maxDistance, boxSize);
-    }
+    
+    
 }
 
-public class GroundChecker : MonoBehaviour
-{
-    [Header("Boxcast Property")]
-    [SerializeField] private Vector3 boxSize;
-    [SerializeField] private float maxDistance;
-    [SerializeField] private LayerMask groundLayer;
 
-    [Header("Debug")]
-    [SerializeField] private bool drawGizmo;
-
-    private void OnDrawGizmos()
-    {
-        if (!drawGizmo) return;
-
-        Gizmos.color = Color.cyan;
-        Gizmos.DrawCube(transform.position - transform.up * maxDistance, boxSize);
-    }
-
-    public bool IsGrounded()
-    {
-        return Physics.BoxCast(transform.position, boxSize / 2, -transform.up, transform.rotation, maxDistance, groundLayer);
-    }
-}

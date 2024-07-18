@@ -1,32 +1,25 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using ExitGames.Client.Photon;
-using UnityEngine;
 using Photon.Pun;
-using UnityEngine.SceneManagement;
-using Random = UnityEngine.Random;
+using System.Collections.Generic;
+using UnityEngine;
 
-public class MainScene : MonoBehaviourPunCallbacks
+public class PlayerSpawn : MonoBehaviourPunCallbacks
 {
     public List<Transform> SpawnPoints;
+    private bool _init = false;
 
-    private bool localPlayerInitialized = false;
-
-
-    void Start()
+    private void Start()
     {
-        if (PhotonNetwork.InRoom && !localPlayerInitialized)
+        if (!_init)
         {
-            InitializePlayer(PhotonNetwork.LocalPlayer);
+            Init(PhotonNetwork.LocalPlayer);
         }
     }
-
-    private void InitializePlayer(Photon.Realtime.Player player)
+    private void Init(Photon.Realtime.Player player)
     {
-        Debug.Log("캐릭터 불러오기 로직");
-        if (!player.IsLocal) return;
+        if (!player.IsLocal) { return; }
+        _init = true;
         Vector3 spawnPoint = GetRandomSpawnPoint();
+        Debug.Log($"스폰 위치: {spawnPoint}");
 
         // 캐릭터 인덱스 값을 받아와서
         string userId = PlayerPrefs.GetString("LoggedInId", string.Empty);
@@ -53,7 +46,6 @@ public class MainScene : MonoBehaviourPunCallbacks
             Debug.LogError("User ID is not set in PlayerPrefs");
         }
 
-        localPlayerInitialized = true; // 로컬 플레이어가 생성되었음을 표시
     }
 
     public Vector3 GetRandomSpawnPoint()
@@ -61,6 +53,5 @@ public class MainScene : MonoBehaviourPunCallbacks
         int randomIndex = Random.Range(0, SpawnPoints.Count);
         return SpawnPoints[randomIndex].position;
     }
-
 
 }

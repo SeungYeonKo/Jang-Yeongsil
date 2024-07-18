@@ -17,6 +17,8 @@ public class PlayerAnimatorSync : MonoBehaviourPun, IPunObservable
     private bool attack;
     private bool flyingAttack;
 
+    private bool isGround;
+
     private void Awake()
     {
         animator = GetComponent<Animator>();
@@ -33,6 +35,11 @@ public class PlayerAnimatorSync : MonoBehaviourPun, IPunObservable
         photonAnimatorView.SetParameterSynchronized("Attack", PhotonAnimatorView.ParameterType.Bool, PhotonAnimatorView.SynchronizeType.Discrete);
         photonAnimatorView.SetParameterSynchronized("FlyingAttack", PhotonAnimatorView.ParameterType.Bool, PhotonAnimatorView.SynchronizeType.Discrete);
     }
+    void Start()
+    {
+        isGround = GetComponent< PlayerMoveAbility >();
+    }
+
 
     private void Update()
     {
@@ -75,8 +82,8 @@ public class PlayerAnimatorSync : MonoBehaviourPun, IPunObservable
         animator.SetBool("Attack", attack);
 
        
-/*
-        if (Input.GetKeyDown(KeyCode.Space))
+
+/*        if (Input.GetKeyDown(KeyCode.Space))
         {
             jump = true;
         }

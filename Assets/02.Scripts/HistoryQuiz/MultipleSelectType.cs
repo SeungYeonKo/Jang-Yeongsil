@@ -10,6 +10,7 @@ public class MultipleSelectType : MonoBehaviour
 
     public Button CloseButton;
     public Button SubmitButton;
+    public Button ResetButton;
 
     private void OnEnable()
     {
@@ -40,6 +41,7 @@ public class MultipleSelectType : MonoBehaviour
 
         CloseButton.onClick.AddListener(CloseButtonClick);
         SubmitButton.onClick.AddListener(SubmitButtonClick);
+        ResetButton.onClick.AddListener(SubmitButtonClick);
     }
 
     // 제출 버튼
@@ -75,5 +77,10 @@ public class MultipleSelectType : MonoBehaviour
     public void CloseButtonClick()
     {
         this.gameObject.SetActive(false);
+    }
+
+    public void ResetButtonClick()
+    {
+
     }
 }

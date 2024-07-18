@@ -12,6 +12,7 @@ public class BlankSelectType : MonoBehaviour
 
     public Button ResetButton;
     public Button SubmitButton;
+    public Button CloseButton;
 
     private Vector3[] _initialPositions;
     private Transform[] _initialParents; // 초기 부모를 저장
@@ -42,8 +43,9 @@ public class BlankSelectType : MonoBehaviour
             img.gameObject.SetActive(false);
         }
 
-        ResetButton.onClick.AddListener(ResetPositions);
-        SubmitButton.onClick.AddListener(SubmitAnswers);
+        ResetButton.onClick.AddListener(ResetButtonClick);
+        SubmitButton.onClick.AddListener(SubmitButtonClick);
+        CloseButton.onClick.AddListener(CloseButtonClick);
     }
 
     // 정답 버튼
@@ -62,7 +64,7 @@ public class BlankSelectType : MonoBehaviour
     }
 
     // 다시하기 버튼
-    public void ResetPositions()
+    public void ResetButtonClick()
     {
         for (int i = 0; i < AnswerButtons.Length; i++)
         {
@@ -84,7 +86,7 @@ public class BlankSelectType : MonoBehaviour
     }
 
     // 제출하기 버튼
-    public void SubmitAnswers()
+    public void SubmitButtonClick()
     {
         bool allCorrect = true;
 
@@ -119,5 +121,10 @@ public class BlankSelectType : MonoBehaviour
         {
             // 모든 정답이 맞으면 뭐할지는 나중에
         }
+    }
+
+    public void CloseButtonClick()
+    {
+        this.gameObject.SetActive(false);
     }
 }

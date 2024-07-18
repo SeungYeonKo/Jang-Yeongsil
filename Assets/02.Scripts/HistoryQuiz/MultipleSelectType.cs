@@ -8,6 +8,10 @@ public class MultipleSelectType : MonoBehaviour
     public Image[] CorrectImages;
     public Image[] WrongImages;
 
+    public Button CloseButton;
+    public Button SubmitButton;
+    public Button ResetButton;
+
     private void OnEnable()
     {
         // 시작할 때마다 모든 토글 초기화(는잘안됨 왜지?)
@@ -24,6 +28,7 @@ public class MultipleSelectType : MonoBehaviour
 
     void Start()
     {
+        // 이미지 비활성화
         foreach (Image img in CorrectImages)
         {
             img.gameObject.SetActive(false);
@@ -33,10 +38,14 @@ public class MultipleSelectType : MonoBehaviour
         {
             img.gameObject.SetActive(false);
         }
+
+        CloseButton.onClick.AddListener(CloseButtonClick);
+        SubmitButton.onClick.AddListener(SubmitButtonClick);
+        ResetButton.onClick.AddListener(SubmitButtonClick);
     }
 
     // 제출 버튼
-    public void Submit()
+    public void SubmitButtonClick()
     {
         for (int i = 0; i < ToggleGroups.Length; i++)
         {
@@ -63,5 +72,15 @@ public class MultipleSelectType : MonoBehaviour
             }
         }
         return null;
+    }
+
+    public void CloseButtonClick()
+    {
+        this.gameObject.SetActive(false);
+    }
+
+    public void ResetButtonClick()
+    {
+
     }
 }

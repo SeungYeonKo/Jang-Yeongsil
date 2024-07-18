@@ -31,21 +31,29 @@ public class ChatUI : MonoBehaviour
         string message = chatInputField.text;
         if (!string.IsNullOrEmpty(message))
         {
-            // 채팅 메시지 보내기
-            chatManager.SendMessageToChat(message);
+            // 사용자가 입력한 메시지를 채팅창에 출력
+            DisplayMessage($"[{Photon.Pun.PhotonNetwork.NickName ?? "Null"}] {message}");
 
-            try
+            // 만약 메시지가 /장영실로 시작하는 경우 ChatGPT에 메시지 보내고 응답 받기
+            if (message.StartsWith("/장영실"))
             {
-                // ChatGPT에 메시지 보내고 응답 받기
-                string response = await chatManager.SendMessageToChatGPT(message);
+                string chatGptMessage = message.Substring(5).Trim();
+                if (!string.IsNullOrEmpty(chatGptMessage))
+                {
+                    try
+                    {
+                        // ChatGPT에 메시지 보내고 응답 받기
+                        string response = await chatManager.SendMessageToChatGPT(chatGptMessage);
 
-                // 응답 메시지 표시
-                DisplayMessage("[장영실] " + response);
-            }
-            catch (Exception ex)
-            {
-                Debug.LogError($"Exception: {ex.Message}");
-                DisplayMessage("Error communicating with ChatGPT");
+                        // ChatGPT의 응답을 채팅창에 출력
+                        DisplayMessage("[장영실] " + response);
+                    }
+                    catch (Exception ex)
+                    {
+                        Debug.LogError($"Exception: {ex.Message}");
+                        DisplayMessage("Error communicating with ChatGPT");
+                    }
+                }
             }
 
             chatInputField.text = string.Empty; // 메시지를 보낸 후 입력 필드를 초기화

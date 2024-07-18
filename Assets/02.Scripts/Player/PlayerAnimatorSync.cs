@@ -75,7 +75,7 @@ public class PlayerAnimatorSync : MonoBehaviourPun, IPunObservable
         animator.SetBool("Attack", attack);
 
        
-
+/*
         if (Input.GetKeyDown(KeyCode.Space))
         {
             jump = true;
@@ -85,7 +85,7 @@ public class PlayerAnimatorSync : MonoBehaviourPun, IPunObservable
             jump = false;
         }
 
-        animator.SetBool("Jump", jump);
+        animator.SetBool("Jump", jump);*/
 
         if (Input.GetKey(KeyCode.LeftShift))
         {

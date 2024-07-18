@@ -1170,6 +1170,9 @@ AnimatorStateTransition:
   - m_ConditionMode: 1
     m_ConditionEvent: Jump
     m_EventTreshold: 0
+  - m_ConditionMode: 1
+    m_ConditionEvent: Walk
+    m_EventTreshold: 0
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: 7809901666955928603}
   m_Solo: 0
@@ -1524,7 +1527,7 @@ AnimatorState:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: Jump
-  m_Speed: 0.7
+  m_Speed: 1
   m_CycleOffset: 0
   m_Transitions:
   - {fileID: 162300208440534385}

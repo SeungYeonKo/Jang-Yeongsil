@@ -6,14 +6,14 @@ using UnityEngine.SceneManagement;
 public class PlayerMoveAbility : PlayerAbility
 {
     public float Speed;
-    private float Movespeed = 3f;
-    private float RunSpeed = 5f;
+    private float Movespeed = 4f;
+    private float RunSpeed = 6f;
 
     private float NormalJumpPower = 5f; // 점프 힘을 증가
     private float RunningJumpPower = 8f; // 점프 힘을 증가
 
     private float _JumpPower;
-    private float _jumpCooldown = 1.1f; // 점프 쿨타임
+    private float _jumpCooldown = 1.7f; // 점프 쿨타임
     private float _lastJumpTime; // 마지막 점프 시간
 
     public bool isGrounded;

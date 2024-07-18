@@ -24,6 +24,7 @@ public class MultipleSelectType : MonoBehaviour
 
     void Start()
     {
+        // 이미지 비활성화
         foreach (Image img in CorrectImages)
         {
             img.gameObject.SetActive(false);

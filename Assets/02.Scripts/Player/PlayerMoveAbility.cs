@@ -13,6 +13,8 @@ public class PlayerMoveAbility : PlayerAbility
     private float RunningJumpPower = 8f; // 점프 힘을 증가
 
     private float _JumpPower;
+    private float _jumpCooldown = 1.1f; // 점프 쿨타임
+    private float _lastJumpTime; // 마지막 점프 시간
 
     public bool isGrounded;
     public Transform LayerPoint;
@@ -55,6 +57,21 @@ public class PlayerMoveAbility : PlayerAbility
         if (_animator != null && Input.GetKeyDown(KeyCode.T))
         {
             _animator.SetTrigger("Punching");
+        }
+
+        if (Input.GetKeyDown(KeyCode.Space) && isGrounded && Time.time >= _lastJumpTime + _jumpCooldown)
+        {
+            if (_isRunning)
+            {
+                _JumpPower = RunningJumpPower;
+            }
+            else
+            {
+                _JumpPower = NormalJumpPower;
+            }
+            _animator.SetBool("Jump", true);
+            JumpCode();
+            _lastJumpTime = Time.time; // 마지막 점프 시간을 현재 시간으로 갱신
         }
     }
 
@@ -108,27 +125,12 @@ public class PlayerMoveAbility : PlayerAbility
             rb.MovePosition(rb.position + direction * Speed * Time.fixedDeltaTime);
             _isRunning = false;
         }
-
-        if (Input.GetKeyDown(KeyCode.Space) && isGrounded)
-        {
-            if (_isRunning)
-            {
-                _JumpPower = RunningJumpPower;
-            }
-            else
-            {
-                _JumpPower = NormalJumpPower;
-            }
-            JumpCode();
-        }
     }
 
     private void JumpCode()
     {
         rb.velocity = new Vector3(rb.velocity.x, _JumpPower, rb.velocity.z); // y-속도를 직접 설정
-        _animator.SetBool("Jump", true);
         Debug.Log("스페이스바 누름");
-        
     }
 
     void GroundCheck()
@@ -139,11 +141,11 @@ public class PlayerMoveAbility : PlayerAbility
         {
             isGrounded = true;
             Physics.gravity = new Vector3(0, -9.81f, 0);
+            _animator.SetBool("Jump", false);
         }
         else
         {
             isGrounded = false;
-            _animator.SetBool("Jump", false);
         }
     }
 }

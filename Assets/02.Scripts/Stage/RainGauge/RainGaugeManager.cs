@@ -1,7 +1,9 @@
 using Photon.Pun;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
+using UnityEngine.SocialPlatforms;
 public enum GameState
 {
     Ready,
@@ -34,7 +36,7 @@ public class RainGaugeManager : MonoBehaviour
         switch (CurrentGameState)
         {
             case GameState.Ready:
-                //if (AreAllPlayersReady())
+                if (AreAllPlayersReady())
                 {
                     SetGameState(GameState.Loading);
                 }
@@ -44,14 +46,14 @@ public class RainGaugeManager : MonoBehaviour
                 break;
 
             case GameState.Go:
-               // UpdateGameTimer();
+               UpdateGameTimer();
                 break;
 
             case GameState.Over:
                 if (!_isGameOver)
                 {
                     _isGameOver = true;
-                    //StartCoroutine(ShowVictoryAndLoadScene());
+                    StartCoroutine(ShowVictoryAndLoadScene());
                 }
                 break;
         }
@@ -60,6 +62,7 @@ public class RainGaugeManager : MonoBehaviour
     public void SetGameState(GameState newState)
     {
         CurrentGameState = newState;
+        Debug.Log($"Game state changed to: {CurrentGameState}");
         HandleGameStateChange(newState);
     }
 
@@ -93,5 +96,57 @@ public class RainGaugeManager : MonoBehaviour
         SetGameState(GameState.Go);
     }
 
+    public bool AreAllPlayersReady()
+    {
+        Photon.Realtime.Player[] players = PhotonNetwork.PlayerList.ToArray(); 
+        Debug.Log("Player count: " + players.Length);
+        foreach (Photon.Realtime.Player player in players)
+        {
+            if (player.CustomProperties.TryGetValue("IsReady_RainGauge", out object isReadyObj))
+            {
+                if (!(bool)isReadyObj)
+                {
+                    Debug.Log("플레이어가 준비되지 않았습니다: " + player.NickName);
+                    return false; 
+                }
+            }
+            else
+            {
+                Debug.Log("플레이어 준비 상태가 없습니다: " + player.NickName);
+                return false; 
+            }
+        }
+        Debug.Log("플레이어 모두 레디");
+        return true; 
+    }
+
+    private void UpdateGameTimer()
+    {
+        if (TimeRemaining > 0)
+        {
+            TimeRemaining -= Time.deltaTime;
+            
+        }
+        else
+        {
+            TimeRemaining = 0;
+            SetGameState(GameState.Over);
+        }
+    }
+
+    private IEnumerator ShowVictoryAndLoadScene()
+    {
+        //RainGaugeScore.Instance.DetermineWinner(); // 승자 결정
+
+        // 몇 초 동안 대기합니다 (카운트다운).
+        while (_countEnd > 0)
+        {
+            Debug.Log($"CountDown: {_countEnd}");
+            yield return new WaitForSeconds(1);
+            _countEnd--;
+        }
+
+        PhotonNetwork.LoadLevel("MainScene");
+    }
 
 }

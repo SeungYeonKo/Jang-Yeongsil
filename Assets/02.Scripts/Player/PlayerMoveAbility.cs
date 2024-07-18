@@ -126,6 +126,7 @@ public class PlayerMoveAbility : PlayerAbility
     private void JumpCode()
     {
         rb.velocity = new Vector3(rb.velocity.x, _JumpPower, rb.velocity.z); // y-속도를 직접 설정
+        _animator.SetBool("Jump", true);
         Debug.Log("스페이스바 누름");
         
     }
@@ -133,15 +134,16 @@ public class PlayerMoveAbility : PlayerAbility
     void GroundCheck()
     {
         RaycastHit hit;
-
-        if (Physics.Raycast(LayerPoint.position, Vector3.down, out hit, groundDistance, groundMask))
+        int defaultLayerMask = LayerMask.GetMask("Default");
+        if (Physics.Raycast(LayerPoint.position, Vector3.down, out hit, groundDistance, defaultLayerMask))
         {
             isGrounded = true;
-            
+            Physics.gravity = new Vector3(0, -9.81f, 0);
         }
         else
         {
             isGrounded = false;
+            _animator.SetBool("Jump", false);
         }
     }
 }

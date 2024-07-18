@@ -1,14 +1,18 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using ExitGames.Client.Photon;
 using UnityEngine;
 using Photon.Pun;
+using UnityEngine.SceneManagement;
+using Random = UnityEngine.Random;
 
 public class MainScene : MonoBehaviourPunCallbacks
 {
     public List<Transform> SpawnPoints;
 
     private bool localPlayerInitialized = false;
+
 
     void Start()
     {
@@ -57,4 +61,6 @@ public class MainScene : MonoBehaviourPunCallbacks
         int randomIndex = Random.Range(0, SpawnPoints.Count);
         return SpawnPoints[randomIndex].position;
     }
+
+
 }

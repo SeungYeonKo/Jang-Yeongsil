@@ -1,4 +1,5 @@
 using System.Collections;
+using Cinemachine;
 using UnityEngine;
 using UnityEngine.UI;
 using Photon.Pun;
@@ -15,6 +16,7 @@ public class UI_CharacterSelect : MonoBehaviour
     public Camera MaleCamera;
     public Camera FemaleCamera;
     public GameObject StartButton;
+
     void Start()
     {
         MaleButton.onClick.AddListener(() => SelectGender(CharacterGender.Male));

@@ -89,6 +89,20 @@ public class PersonalManager : MonoBehaviour
             return null; // 사용자 정보를 찾을 수 없는 경우
         }
     }
+
+    public int ChoiceGender()
+    {
+        string name = GetCachedUserName();
+        if (string.IsNullOrEmpty(name)) return -1;
+
+        var filter = Builders<Personal>.Filter.Eq(p => p.Name, name);
+        var user = _personalCollection.Find(filter).FirstOrDefault();
+    
+        // user가 null이 아니고, SelectCharacter 값이 유효한 경우 해당 값을 반환합니다.
+        // 그렇지 않으면 -1을 반환합니다.
+        return user != null ? (int)user.SelectCharacter : -1;
+    }
+
     // 사용자 이름을 캐시에서 가져오는 메서드
     public string GetCachedUserName()
     {

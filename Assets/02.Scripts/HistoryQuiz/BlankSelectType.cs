@@ -2,6 +2,8 @@ using UnityEngine;
 using UnityEngine.UI;
 using System.Collections.Generic;
 using DG.Tweening;
+using System.Collections;
+using TMPro;
 
 public class BlankSelectType : MonoBehaviour
 {
@@ -9,6 +11,8 @@ public class BlankSelectType : MonoBehaviour
     public Transform[] AnswerPositions;
     public Image[] CorrectImages;
     public Image[] WrongImages;
+
+    public TextMeshProUGUI TimerText;
 
     public Button ResetButton;
     public Button SubmitButton;
@@ -30,6 +34,9 @@ public class BlankSelectType : MonoBehaviour
             _initialPositions[index] = AnswerButtons[index].transform.position;
             _initialParents[index] = AnswerButtons[index].transform.parent; // 초기 부모 저장
             AnswerButtons[index].onClick.AddListener(() => OnAnswerButtonClick(AnswerButtons[index]));
+
+            // 타이머 시작
+            StartCoroutine(StartTimer(60));
         }
 
         // 이미지 비활성화
@@ -126,5 +133,19 @@ public class BlankSelectType : MonoBehaviour
     public void CloseButtonClick()
     {
         this.gameObject.SetActive(false);
+    }
+
+    private IEnumerator StartTimer(int seconds)
+    {
+        int currentTime = seconds;
+        while (currentTime >= 0)
+        {
+            TimerText.text = currentTime.ToString();
+            yield return new WaitForSeconds(1);
+            currentTime--;
+        }
+
+        // 타이머가 끝났을 때
+        TimerText.text = "시간 종료!";
     }
 }

@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using ExitGames.Client.Photon;
@@ -19,7 +20,15 @@ public class UI_Login : MonoBehaviour
         LoadLoginInfo();
         //AutoLogin();
     }
-    
+
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Alpha9))
+        {
+            ResetIDandPW();
+        }
+    }
+
     // 로그인 정보를 PlayerPrefs에 저장해두고 있다면 자동으로 채워서 불러오기
     // 정보를 저장하는 경우 : A (로그인 정보 저장)
     private void LoadLoginInfo()
@@ -117,7 +126,16 @@ public class UI_Login : MonoBehaviour
 
         Debug.Log("새로운 정보로 로그인 되었습니다.");
     }
+    
+    // 로컬 상태 초기화 메서드
+    void ResetIDandPW()
+    {
+        PlayerPrefs.DeleteKey("LoggedInId");
+        PlayerPrefs.DeleteKey("LoggedInPassword");
+        PlayerPrefs.Save();
 
+        Debug.Log("로컬 상태 초기화됨");
+    }
     IEnumerator FadeOutLogin()
     {
         yield return new WaitForSeconds(1f);

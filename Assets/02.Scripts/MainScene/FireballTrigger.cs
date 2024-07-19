@@ -29,13 +29,7 @@ public class FireballTrigger : MonoBehaviourPunCallbacks
         }
     }
 
-    private void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.L))
-        {
-            ResetTriggerState();
-        }
-    }
+
 
     private void OnTriggerEnter(Collider other)
     {
@@ -55,12 +49,5 @@ public class FireballTrigger : MonoBehaviourPunCallbacks
         }
     }
 
-    // 로컬 상태 초기화 메서드
-    void ResetTriggerState()
-    {
-        PlayerPrefs.DeleteKey("FireballTriggerState");
-        PlayerPrefs.Save();
 
-        Debug.Log("로컬 상태 초기화됨");
-    }
 }

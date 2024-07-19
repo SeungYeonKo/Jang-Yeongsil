@@ -15,9 +15,12 @@ public class ChatManager : MonoBehaviour, IChatClientListener
     private string chatGptApiKey = ""; // ChatGPT API 키
     private string chatGptApiUrl = "https://api.openai.com/v1/chat/completions";
     public ChatUI chatUI; // ChatUI 참조
+    private bool isUIActive = false;
 
     private void Start()
     {
+        isUIActive = false;
+        chatUI.gameObject.SetActive(isUIActive);
         chatClient = new ChatClient(this);
         chatClient.Connect(PhotonNetwork.PhotonServerSettings.AppSettings.AppIdChat, PhotonNetwork.AppVersion, new Photon.Chat.AuthenticationValues(PhotonNetwork.NickName));
     }
@@ -25,6 +28,12 @@ public class ChatManager : MonoBehaviour, IChatClientListener
     private void Update()
     {
         chatClient?.Service();
+
+        if (Input.GetKeyDown(KeyCode.Tab))
+        {
+            isUIActive = !isUIActive;
+            chatUI.gameObject.SetActive(isUIActive);
+        }
     }
 
     public void SendMessageToChat(string message)

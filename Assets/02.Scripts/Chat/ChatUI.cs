@@ -15,13 +15,17 @@ public class ChatUI : MonoBehaviour
         sendButton.onClick.AddListener(OnSendButtonClicked); // 전송 버튼 클릭 시 이벤트 등록
         chatInputField.onSubmit.AddListener(delegate { OnSendButtonClicked(); }); // Enter 키로 전송 가능하게 설정
         chatDisplayText.text = string.Empty; // 처음 실행 시 로그 창 초기화
+
+        // 입력 필드를 항상 활성화 상태로 설정
+        chatInputField.interactable = true;
     }
 
     private void Update()
     {
-        // 'T' 키를 누르면 입력 필드에 포커스를 설정
-        if (Input.GetKeyDown(KeyCode.T))
+        // 입력 필드가 비활성화 상태일 때 키 입력 감지하여 활성화
+        if (!chatInputField.isFocused && Input.anyKeyDown)
         {
+            chatInputField.interactable = true;
             chatInputField.ActivateInputField();
         }
     }
@@ -57,6 +61,7 @@ public class ChatUI : MonoBehaviour
             }
 
             chatInputField.text = string.Empty; // 메시지를 보낸 후 입력 필드를 초기화
+            chatInputField.interactable = false; // 메시지 전송 후 다시 비활성화
         }
     }
 

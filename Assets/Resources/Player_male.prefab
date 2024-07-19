@@ -2269,6 +2269,7 @@ MonoBehaviour:
   - {fileID: 8473530716629835487}
   - {fileID: -6687760053186245833}
   - {fileID: 2022641637749274241}
+  - {fileID: 4338896894158230446}
   sceneViewId: 0
   InstantiationId: 0
   isRuntimeInstantiated: 0
@@ -2492,6 +2493,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isReady: 0
   MyNum: 0
+  leftHandTransform: {fileID: 4808987322386144972}
+  rightHandTransform: {fileID: 8770613210520254871}
 --- !u!1 &7399628578437524088
 GameObject:
   m_ObjectHideFlags: 0

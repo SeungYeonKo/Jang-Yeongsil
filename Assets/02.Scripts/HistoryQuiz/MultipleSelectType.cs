@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 using System.Collections;
+using TMPro;
 
 public class MultipleSelectType : MonoBehaviour
 {
@@ -9,9 +10,12 @@ public class MultipleSelectType : MonoBehaviour
     public Image[] CorrectImages;
     public Image[] WrongImages;
 
+    public TextMeshProUGUI TimerText;
+
     public Button CloseButton;
     public Button SubmitButton;
     public Button ResetButton;
+
 
     private void OnEnable()
     {
@@ -21,7 +25,6 @@ public class MultipleSelectType : MonoBehaviour
 
     void Start()
     {
-        // 이미지 비활성화
         foreach (Image img in CorrectImages)
         {
             img.gameObject.SetActive(false);
@@ -38,6 +41,9 @@ public class MultipleSelectType : MonoBehaviour
 
         // 시작할 때 모든 토글 초기화
         ResetToggles();
+
+        // 타이머 시작
+        StartCoroutine(StartTimer(60));
     }
 
     // 제출 버튼
@@ -57,7 +63,7 @@ public class MultipleSelectType : MonoBehaviour
         }
     }
 
-    // 선택된 토글을 반환
+    // 선택된 토글 반환
     private Toggle GetSelectedToggle(ToggleGroup group)
     {
         foreach (Toggle toggle in group.GetComponentsInChildren<Toggle>())
@@ -77,7 +83,6 @@ public class MultipleSelectType : MonoBehaviour
 
     public void ResetButtonClick()
     {
-        // 이미지 비활성화
         foreach (Image img in CorrectImages)
         {
             img.gameObject.SetActive(false);
@@ -111,7 +116,21 @@ public class MultipleSelectType : MonoBehaviour
 
     private IEnumerator ResetTogglesCoroutine()
     {
-        yield return null; // 프레임이 한 번 업데이트된 후 실행
+        yield return null; 
         ResetToggles();
+    }
+
+    private IEnumerator StartTimer(int seconds)
+    {
+        int currentTime = seconds;
+        while (currentTime >= 0)
+        {
+            TimerText.text = currentTime.ToString();
+            yield return new WaitForSeconds(1);
+            currentTime--;
+        }
+
+        // 타이머가 끝났을 때
+        TimerText.text = "시간 종료!";
     }
 }

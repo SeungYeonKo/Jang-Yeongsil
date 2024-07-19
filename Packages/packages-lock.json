@@ -7,6 +7,15 @@
       "dependencies": {},
       "hash": "698989e1642d269c3c7a015077ad8d2bae7c739a"
     },
+    "com.srcnalt.openai-unity": {
+      "version": "https://github.com/srcnalt/OpenAI-Unity.git",
+      "depth": 0,
+      "source": "git",
+      "dependencies": {
+        "com.unity.nuget.newtonsoft-json": "3.2.1"
+      },
+      "hash": "95503471ac85848ba0d85b597419b1303fbb2c01"
+    },
     "com.unity.cinemachine": {
       "version": "2.9.7",
       "depth": 0,
@@ -35,6 +44,13 @@
     "com.unity.ide.vscode": {
       "version": "1.2.5",
       "depth": 0,
+      "source": "registry",
+      "dependencies": {},
+      "url": "https://packages.unity.com"
+    },
+    "com.unity.nuget.newtonsoft-json": {
+      "version": "3.2.1",
+      "depth": 1,
       "source": "registry",
       "dependencies": {},
       "url": "https://packages.unity.com"

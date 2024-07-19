@@ -10,29 +10,11 @@ public class Jar : MonoBehaviour
     public GameObject Jar3;
     public GameObject Jar4;
 
-    private RainGaugePlayer _rainGaugePlayer;
-    private Transform playerHandTransform;
-
-    private void Start()
-    {
-        _rainGaugePlayer = FindObjectOfType<RainGaugePlayer>();
-        if (_rainGaugePlayer == null)
-        {
-            Debug.LogError("Player object not found.");
-            return;
-        }
-
-        playerHandTransform = _rainGaugePlayer.leftHandTransform;
-    }
-
     public void SetJarPosition(int jarNum, Vector3 position)
     {
         GameObject jar = GetJarObject(jarNum);
         if (jar != null)
         {
-            //position.y += 3; // 플레이어 이름 때문에 일단 높이 띄움
-            position.y += 1;
-            position.z += 1;
             jar.transform.position = position;
         }
     }

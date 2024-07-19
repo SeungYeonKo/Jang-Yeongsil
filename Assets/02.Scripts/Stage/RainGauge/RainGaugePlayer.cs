@@ -52,21 +52,8 @@ public class RainGaugePlayer : MonoBehaviourPunCallbacks
         if (RainGaugeManager.Instance.CurrentGameState == GameState.Go
             || RainGaugeManager.Instance.CurrentGameState == GameState.Over)
         {
-            switch (MyNum)
-            {
-                case 1:
-                    _jarController.SetJarPosition(1, transform.position);
-                    break;
-                case 2:
-                    _jarController.SetJarPosition(2, transform.position);
-                    break;
-                case 3:
-                    _jarController.SetJarPosition(3, transform.position);
-                    break;
-                case 4:
-                    _jarController.SetJarPosition(4, transform.position);
-                    break;
-            }
+            Vector3 handPosition = GetHandPosition(MyNum);
+            _jarController.SetJarPosition(MyNum, handPosition);
         }
     }
 
@@ -124,12 +111,7 @@ public class RainGaugePlayer : MonoBehaviourPunCallbacks
         }
     }
 
-    public Vector3 GetLeftHandPosition()
-    {
-        return leftHandTransform.position;
-    }
-
-    public Vector3 GetRightHandPosition()
+    public Vector3 GetHandPosition(int playerNumber)
     {
         return rightHandTransform.position;
     }

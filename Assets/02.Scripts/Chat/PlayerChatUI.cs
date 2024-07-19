@@ -6,7 +6,7 @@ using System.Collections;
 
 public class PlayerChatUI : MonoBehaviourPunCallbacks, IPunObservable
 {
-    public TMP_Text chatText; // 플레이어 채팅 텍스트 UI
+    public TextMeshProUGUI chatText; // 플레이어 채팅 텍스트 UI
     private bool isMessageShowing = false;
 
     private void Start()
@@ -26,6 +26,11 @@ public class PlayerChatUI : MonoBehaviourPunCallbacks, IPunObservable
         {
             photonView.RPC("RPCDisplayChatMessage", RpcTarget.AllBuffered, message);
         }
+    }
+
+    private void Update()
+    {
+        transform.forward = Camera.main.transform.forward;
     }
 
     // 모든 클라이언트에게 채팅 메시지를 표시하는 RPC 메서드

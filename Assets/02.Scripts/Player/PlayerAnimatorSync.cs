@@ -1,5 +1,6 @@
 using Photon.Pun;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class PlayerAnimatorSync : MonoBehaviourPun, IPunObservable
 {
@@ -15,10 +16,15 @@ public class PlayerAnimatorSync : MonoBehaviourPun, IPunObservable
     private bool sad;
     private bool isGrabbing;
     private bool attack;
+    private bool attack2;
     private bool flyingAttack;
 
     private bool isGround;
+    private bool dance1;
+    private bool dance2;
+    private bool dance3;
 
+    private bool isDancing;
     private void Awake()
     {
         animator = GetComponent<Animator>();
@@ -34,10 +40,13 @@ public class PlayerAnimatorSync : MonoBehaviourPun, IPunObservable
         photonAnimatorView.SetParameterSynchronized("isGrabbing", PhotonAnimatorView.ParameterType.Bool, PhotonAnimatorView.SynchronizeType.Discrete);
         photonAnimatorView.SetParameterSynchronized("Attack", PhotonAnimatorView.ParameterType.Bool, PhotonAnimatorView.SynchronizeType.Discrete);
         photonAnimatorView.SetParameterSynchronized("FlyingAttack", PhotonAnimatorView.ParameterType.Bool, PhotonAnimatorView.SynchronizeType.Discrete);
+        photonAnimatorView.SetParameterSynchronized("Dance1", PhotonAnimatorView.ParameterType.Bool, PhotonAnimatorView.SynchronizeType.Discrete);
+        photonAnimatorView.SetParameterSynchronized("Dance2", PhotonAnimatorView.ParameterType.Bool, PhotonAnimatorView.SynchronizeType.Discrete);
+        photonAnimatorView.SetParameterSynchronized("Dance3", PhotonAnimatorView.ParameterType.Bool, PhotonAnimatorView.SynchronizeType.Discrete);
     }
     void Start()
     {
-        isGround = GetComponent< PlayerMoveAbility >();
+        isGround = GetComponent<PlayerMoveAbility>();
     }
 
 
@@ -58,7 +67,11 @@ public class PlayerAnimatorSync : MonoBehaviourPun, IPunObservable
             animator.SetBool("Sad", sad);
             animator.SetBool("isGrabbing", isGrabbing);
             animator.SetBool("Attack", attack);
+            animator.SetBool("Attack2", attack2);
             animator.SetBool("FlyingAttack", flyingAttack);
+            animator.SetBool("Dance1", dance1);
+            animator.SetBool("Dance2", dance2);
+            animator.SetBool("Dance3", dance3);
         }
     }
 
@@ -79,20 +92,6 @@ public class PlayerAnimatorSync : MonoBehaviourPun, IPunObservable
             attack = false;
         }
 
-        animator.SetBool("Attack", attack);
-
-       
-
-/*        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            jump = true;
-        }
-        else if (Input.GetKeyUp(KeyCode.Space))
-        {
-            jump = false;
-        }
-
-        animator.SetBool("Jump", jump);*/
 
         if (Input.GetKey(KeyCode.LeftShift))
         {
@@ -104,6 +103,22 @@ public class PlayerAnimatorSync : MonoBehaviourPun, IPunObservable
         }
 
         animator.SetBool("Run", run);
+
+
+        if (Input.GetKeyDown(KeyCode.F))
+        {
+
+            int randomValue = UnityEngine.Random.Range(1, 4);
+            ResetDanceAnimations();
+            animator.SetBool($"Dance{randomValue}", true);
+            isDancing = true;
+        }
+
+        if (isDancing ==true &&(Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.A) || Input.GetKeyDown(KeyCode.S) || Input.GetKeyDown(KeyCode.D) || Input.GetMouseButtonDown(1) || Input.GetKeyDown(KeyCode.Space)))
+        {
+            isDancing = false;
+            ResetDanceAnimations();
+        }
     }
 
     public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
@@ -136,4 +151,11 @@ public class PlayerAnimatorSync : MonoBehaviourPun, IPunObservable
             flyingAttack = (bool)stream.ReceiveNext();
         }
     }
+    private void ResetDanceAnimations()
+    {
+        animator.SetBool("Dance1", false);
+        animator.SetBool("Dance2", false);
+        animator.SetBool("Dance3", false);
+    }
+    
 }

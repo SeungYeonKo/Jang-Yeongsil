@@ -12,6 +12,9 @@ public class RainGaugePlayer : MonoBehaviourPunCallbacks
     private Jar _jarController;
     private GameObject _startpoint;
 
+    public Transform leftHandTransform; 
+    public Transform rightHandTransform;
+
     private void Awake()
     {
         if (SceneManager.GetActiveScene().name != "RainGauge")
@@ -119,5 +122,15 @@ public class RainGaugePlayer : MonoBehaviourPunCallbacks
         {
             return;
         }
+    }
+
+    public Vector3 GetLeftHandPosition()
+    {
+        return leftHandTransform.position;
+    }
+
+    public Vector3 GetRightHandPosition()
+    {
+        return rightHandTransform.position;
     }
 }

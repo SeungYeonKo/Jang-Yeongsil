@@ -136,9 +136,8 @@ public class RainGaugeManager : MonoBehaviour
 
     private IEnumerator ShowVictoryAndLoadScene()
     {
-        //RainGaugeScore.Instance.DetermineWinner(); // 승자 결정
+        //JarScore.Instance.DetermineWinner();// 승자 결정
 
-        // 몇 초 동안 대기합니다 (카운트다운).
         while (_countEnd > 0)
         {
             Debug.Log($"CountDown: {_countEnd}");

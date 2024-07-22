@@ -14,10 +14,18 @@ public class JarScore : MonoBehaviour
     public GameObject Jar3;
     public GameObject Jar4;
 
-    public int Player1score;
-    public int Player2score;
-    public int Player3score;
-    public int Player4score;
+    public int Player1score = 0;
+    public int Player2score = 0;
+    public int Player3score = 0;
+    public int Player4score = 0;
+
+    private float jar1Timer;
+    private float jar2Timer;
+    private float jar3Timer;
+    private float jar4Timer;
+
+    private float scoreIncreaseInterval = 1f;
+    private int maxScore = 50;
 
     private void Awake()
     {
@@ -26,48 +34,52 @@ public class JarScore : MonoBehaviour
 
     void Update()
     {
-        CountJarWater();
+        UpdateJarScores();
     }
 
-    void CountJarWater()
+    void UpdateJarScores()
     {
-        Player1score = 0;
-        Player2score = 0;
-        Player3score = 0;
-        Player4score = 0;
-
-
-        GameObject[] allObjects = FindObjectsOfType<GameObject>();
-
-        foreach (GameObject obj in allObjects)
+        if (Player1score < maxScore)
         {
-            if (obj.name.StartsWith("Jar"))
+            jar1Timer += Time.deltaTime;
+            if (jar1Timer >= scoreIncreaseInterval)
             {
-
-                if (obj.name == "Jar1")
-                {
-                    Player1score++;
-                    break;
-                }
-                else if (obj.name == "Jar2")
-                {
-                    Player2score++;
-                    break;
-                }
-                else if (obj.name == "Jar3")
-                {
-                    Player3score++;
-                    break;
-                }
-                else if (obj.name == "Jar4")
-                {
-                    Player4score++;
-                    break;
-                }
+                Player1score++;
+                jar1Timer = 0f;
             }
+        }
 
+        if (Player2score < maxScore)
+        {
+            jar2Timer += Time.deltaTime;
+            if (jar2Timer >= scoreIncreaseInterval)
+            {
+                Player2score++;
+                jar2Timer = 0f;
+            }
+        }
+
+        if (Player3score < maxScore)
+        {
+            jar3Timer += Time.deltaTime;
+            if (jar3Timer >= scoreIncreaseInterval)
+            {
+                Player3score++;
+                jar3Timer = 0f;
+            }
+        }
+
+        if (Player4score < maxScore)
+        {
+            jar4Timer += Time.deltaTime;
+            if (jar4Timer >= scoreIncreaseInterval)
+            {
+                Player4score++;
+                jar4Timer = 0f;
+            }
         }
     }
+
 
     public void DetermineWinner()
     {

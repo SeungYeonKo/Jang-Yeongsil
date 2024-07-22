@@ -46,7 +46,8 @@ public class RainGaugeManager : MonoBehaviour
                 break;
 
             case GameState.Go:
-               UpdateGameTimer();
+                UpdateGameTimer();
+                JarScore.Instance.UpdateJarScores();
                 break;
 
             case GameState.Over:

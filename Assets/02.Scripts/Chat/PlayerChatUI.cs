@@ -4,10 +4,9 @@ using Photon.Pun;
 using Photon.Realtime;
 using System.Collections;
 
-public class PlayerChatUI : MonoBehaviourPunCallbacks, IPunObservable
+public class PlayerChatUI : MonoBehaviourPunCallbacks
 {
     public TextMeshProUGUI chatText; // 플레이어 채팅 텍스트 UI
-    private bool isMessageShowing = false;
 
     private void Start()
     {
@@ -24,7 +23,7 @@ public class PlayerChatUI : MonoBehaviourPunCallbacks, IPunObservable
     {
         if (photonView.IsMine)
         {
-            photonView.RPC("RPCDisplayChatMessage", RpcTarget.AllBuffered, message);
+            photonView.RPC("RPCDisplayChatMessage", RpcTarget.All, message);
         }
     }
 
@@ -37,7 +36,7 @@ public class PlayerChatUI : MonoBehaviourPunCallbacks, IPunObservable
     [PunRPC]
     private void RPCDisplayChatMessage(string message)
     {
-        if (chatText != null)
+        if (chatText != null && photonView.IsMine)
         {
             chatText.text = message;
             chatText.gameObject.SetActive(true); // 텍스트 표시
@@ -55,11 +54,5 @@ public class PlayerChatUI : MonoBehaviourPunCallbacks, IPunObservable
         {
             chatText.gameObject.SetActive(false); // 텍스트 숨기기
         }
-    }
-
-    // 포톤의 네트워크 메시지 전송을 위한 IPunObservable 인터페이스 메서드들
-    public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
-    {
-        // 필요 없음
     }
 }

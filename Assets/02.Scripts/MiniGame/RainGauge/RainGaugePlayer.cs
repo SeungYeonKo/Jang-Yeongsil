@@ -44,16 +44,12 @@ public class RainGaugePlayer : MonoBehaviourPunCallbacks
         if (photonView.IsMine)
         {
             SetReadyStateOnInput();
+            Vector3 handPosition = GetHandPosition(MyNum);
+            photonView.RPC("RPC_SetJarPosition", RpcTarget.AllBuffered, MyNum, handPosition);
         }
         if (RainGaugeManager.Instance.CurrentGameState == GameState.Loading)
         {
             MoveStartPosition();
-        }
-        if (RainGaugeManager.Instance.CurrentGameState == GameState.Go
-            || RainGaugeManager.Instance.CurrentGameState == GameState.Over)
-        {
-            Vector3 handPosition = GetHandPosition(MyNum);
-            _jarController.SetJarPosition(MyNum, handPosition);
         }
     }
 
@@ -114,5 +110,11 @@ public class RainGaugePlayer : MonoBehaviourPunCallbacks
     public Vector3 GetHandPosition(int playerNumber)
     {
         return rightHandTransform.position;
+    }
+
+    [PunRPC]
+    private void RPC_SetJarPosition(int playerNumber, Vector3 position)
+    {
+        _jarController.SetJarPosition(playerNumber, position);
     }
 }

@@ -148,7 +148,7 @@ public class RainGaugeManager : MonoBehaviour
 
     private IEnumerator ShowVictoryAndLoadScene()
     {
-        //JarScore.Instance.DetermineWinner();// 승자 결정
+        JarScore.Instance.DetermineWinner();// 승자 결정
 
         while (_countEnd > 0)
         {

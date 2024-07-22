@@ -32,12 +32,7 @@ public class JarScore : MonoBehaviour
         Instance = this;
     }
 
-    void Update()
-    {
-        UpdateJarScores();
-    }
-
-    void UpdateJarScores()
+    public void UpdateJarScores()
     {
         if (Player1score < maxScore)
         {

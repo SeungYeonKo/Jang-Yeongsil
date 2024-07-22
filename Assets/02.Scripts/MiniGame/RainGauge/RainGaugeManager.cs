@@ -100,24 +100,36 @@ public class RainGaugeManager : MonoBehaviour
     {
         Photon.Realtime.Player[] players = PhotonNetwork.PlayerList.ToArray(); 
         Debug.Log("Player count: " + players.Length);
+        int readyPlayerCount = 0;
+
         foreach (Photon.Realtime.Player player in players)
         {
             if (player.CustomProperties.TryGetValue("IsReady_RainGauge", out object isReadyObj))
             {
-                if (!(bool)isReadyObj)
+                if ((bool)isReadyObj)
+                {
+                    readyPlayerCount++;
+                }
+                else
                 {
                     Debug.Log("플레이어가 준비되지 않았습니다: " + player.NickName);
-                    return false; 
                 }
             }
             else
             {
                 Debug.Log("플레이어 준비 상태가 없습니다: " + player.NickName);
-                return false; 
             }
         }
-        Debug.Log("플레이어 모두 레디");
-        return true; 
+        if (readyPlayerCount >= 2)
+        {
+            Debug.Log("플레이어 모두 레디");
+            return true;
+        }
+        else
+        {
+            Debug.Log("레디한 플레이어 수가 충분하지 않습니다.");
+            return false;
+        }
     }
 
     private void UpdateGameTimer()
@@ -136,7 +148,7 @@ public class RainGaugeManager : MonoBehaviour
 
     private IEnumerator ShowVictoryAndLoadScene()
     {
-        //JarScore.Instance.DetermineWinner();// 승자 결정
+        JarScore.Instance.DetermineWinner();// 승자 결정
 
         while (_countEnd > 0)
         {

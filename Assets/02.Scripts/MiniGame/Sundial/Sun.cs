@@ -5,7 +5,7 @@ public class Sun : MonoBehaviour
 {
     public Slider rotationSlider; // 슬라이더 UI를 참조
     private float minRotation = 160f; // 최소 회전 값
-    private float maxRotation = 13f; // 최대 회전 값
+    private float maxRotation = 30f; // 최대 회전 값
 
     void Start()
     {
@@ -20,8 +20,8 @@ public class Sun : MonoBehaviour
         // 슬라이더 값에 따라 회전 값을 계산
         float rotationValue = Mathf.Lerp(minRotation, maxRotation, value);
 
-        // 새로운 회전 값 설정
-        transform.rotation = Quaternion.Euler(rotationValue, transform.rotation.eulerAngles.y, transform.rotation.eulerAngles.z);
+        // 새로운 회전 값 설정, Y와 Z 값은 90도로 고정
+        transform.rotation = Quaternion.Euler(rotationValue, 90f, 90f);
     }
 
     void Update()

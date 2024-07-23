@@ -13,6 +13,12 @@ public class ChatUI : MonoBehaviourPunCallbacks
 
     private void Start()
     {
+        if (chatManager == null)
+        {
+            Debug.LogError("ChatManager is not assigned in the ChatUI script.");
+            return;
+        }
+
         sendButton.onClick.AddListener(OnSendButtonClicked); // 전송 버튼 클릭 시 이벤트 등록
         chatInputField.onSubmit.AddListener(delegate { OnSendButtonClicked(); }); // Enter 키로 전송 가능하게 설정
         chatDisplayText.text = string.Empty; // 처음 실행 시 로그 창 초기화
@@ -33,6 +39,12 @@ public class ChatUI : MonoBehaviourPunCallbacks
 
     private async void OnSendButtonClicked()
     {
+        if (chatManager == null)
+        {
+            Debug.LogError("ChatManager is not assigned.");
+            return;
+        }
+
         string message = chatInputField.text;
         if (!string.IsNullOrEmpty(message))
         {

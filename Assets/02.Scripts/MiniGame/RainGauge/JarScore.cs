@@ -32,12 +32,7 @@ public class JarScore : MonoBehaviour
         Instance = this;
     }
 
-    void Update()
-    {
-        UpdateJarScores();
-    }
-
-    void UpdateJarScores()
+    public void UpdateJarScores()
     {
         if (Player1score < maxScore)
         {
@@ -80,6 +75,24 @@ public class JarScore : MonoBehaviour
         }
     }
 
+    public void DecreaseScore(int jarNumber, int amount)
+    {
+        switch (jarNumber)
+        {
+            case 1:
+                Player1score = Mathf.Max(0, Player1score - amount);
+                break;
+            case 2:
+                Player2score = Mathf.Max(0, Player2score - amount);
+                break;
+            case 3:
+                Player3score = Mathf.Max(0, Player3score - amount);
+                break;
+            case 4:
+                Player4score = Mathf.Max(0, Player4score - amount);
+                break;
+        }
+    }
 
     public void DetermineWinner()
     {

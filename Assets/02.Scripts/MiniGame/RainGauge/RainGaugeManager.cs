@@ -18,6 +18,7 @@ public class RainGaugeManager : MonoBehaviour
     private float _gameDuration = 30f; 
     public float TimeRemaining;
 
+
     private int _countDown = 5; // 시작 카운트다운
     private int _countEnd = 5; // 종료 후 대기
     private bool _isGameOver = false;
@@ -66,6 +67,8 @@ public class RainGaugeManager : MonoBehaviour
         Debug.Log($"Game state changed to: {CurrentGameState}");
         HandleGameStateChange(newState);
     }
+
+
 
     private void HandleGameStateChange(GameState newState)
     {

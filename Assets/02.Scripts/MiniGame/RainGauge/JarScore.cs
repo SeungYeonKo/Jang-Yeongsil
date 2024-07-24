@@ -120,17 +120,17 @@ public class JarScore : MonoBehaviour
             }
         }
 
-        string winner = playerScores.Aggregate((x, y) => x.Value > y.Value ? x : y).Key;
-        int maxScore = playerScores[winner];
+        int maxScore = playerScores.Values.Max();
+        var winners = playerScores.Where(x => x.Value == maxScore).Select(x => x.Key).ToList();
 
-        Debug.Log($"Winner is {winner} with {maxScore} water!");
+        Debug.Log($"Winner(s) with {maxScore} water: {string.Join(", ", winners)}");
 
         foreach (var player in PhotonNetwork.PlayerList)
         {
 
             string playerName = player.NickName;
 
-            if (PhotonNetwork.IsMasterClient && playerName == winner)
+            if (PhotonNetwork.IsMasterClient && winners.Contains(playerName))
             {
                 Hashtable firstPlayerName = new Hashtable { { "FirstPlayerName", playerName } };
                 PhotonNetwork.CurrentRoom.SetCustomProperties(firstPlayerName);

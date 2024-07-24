@@ -48,10 +48,7 @@ public class ChatUI : MonoBehaviourPunCallbacks
         string message = chatInputField.text;
         if (!string.IsNullOrEmpty(message))
         {
-            // 사용자가 입력한 메시지를 채팅창에 출력
-            DisplayMessage($"[{PhotonNetwork.NickName ?? "Null"}] {message}");
-
-            // 만약 메시지가 /장영실로 시작하는 경우 ChatGPT에 메시지 보내고 응답 받기
+            // 메시지를 모든 플레이어에게 전송
             if (message.StartsWith("/장영실"))
             {
                 string chatGptMessage = message.Substring(5).Trim();
@@ -84,8 +81,9 @@ public class ChatUI : MonoBehaviourPunCallbacks
     }
 
     [PunRPC]
-    public void RPCDisplayMessage(string message)
+    public void RPCDisplayMessage(string message, PhotonMessageInfo info)
     {
+        // RPC를 통해 받은 메시지를 로컬 채팅창에 표시
         DisplayMessage(message);
     }
 

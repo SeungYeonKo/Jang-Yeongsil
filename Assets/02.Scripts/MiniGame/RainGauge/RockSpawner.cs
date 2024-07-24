@@ -6,7 +6,7 @@ public class RockSpawner : MonoBehaviour
 {
     public GameObject rockPrefab;
     public int poolSize = 10;
-    public float spawnRate = 1f;
+    public float spawnRate = 5f;
     public float spawnHeight = 10f;
     public float spawnAreaWidth = 5f;
 

@@ -26,7 +26,7 @@ public class RockSpawner : MonoBehaviour
 
     private void Update()
     {
-        if (Time.time >= nextSpawnTime)
+        if (RainGaugeManager.Instance.CurrentGameState == GameState.Go && Time.time >= nextSpawnTime)
         {
             SpawnRock();
             nextSpawnTime = Time.time + 1f / spawnRate;

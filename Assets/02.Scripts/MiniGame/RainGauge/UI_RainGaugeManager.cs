@@ -40,7 +40,7 @@ public class UI_RainGaugeManager : MonoBehaviourPunCallbacks
         if (PhotonNetwork.LocalPlayer.CustomProperties.TryGetValue("IsReady_RainGauge", out object isReady))
         {
             bool isReadyValue = (bool)isReady;
-            Debug.Log("IsReady: " + isReadyValue);
+            //Debug.Log("IsReady: " + isReadyValue);
             ReadyButtonPressed.gameObject.SetActive(isReadyValue);
             ReadyButton.gameObject.SetActive(!isReadyValue);
         }

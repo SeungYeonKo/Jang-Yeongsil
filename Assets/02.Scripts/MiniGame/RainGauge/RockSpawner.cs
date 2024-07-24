@@ -6,7 +6,7 @@ public class RockSpawner : MonoBehaviour
 {
     public GameObject rockPrefab;
     public int poolSize = 10;
-    public float spawnRate = 1f;
+    public float spawnRate = 5f;
     public float spawnHeight = 10f;
     public float spawnAreaWidth = 5f;
 
@@ -26,7 +26,7 @@ public class RockSpawner : MonoBehaviour
 
     private void Update()
     {
-        if (Time.time >= nextSpawnTime)
+        if (RainGaugeManager.Instance.CurrentGameState == GameState.Go && Time.time >= nextSpawnTime)
         {
             SpawnRock();
             nextSpawnTime = Time.time + 1f / spawnRate;

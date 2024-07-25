@@ -16,6 +16,10 @@ public class PlayerChatUI : MonoBehaviourPunCallbacks
         {
             chatText.gameObject.SetActive(false); // 시작 시 비활성화 상태로 설정
         }
+        else
+        {
+            Debug.LogError("chatText is not assigned or not found in children.");
+        }
     }
 
     // 채팅 메시지 표시 및 숨기기
@@ -23,6 +27,7 @@ public class PlayerChatUI : MonoBehaviourPunCallbacks
     {
         if (photonView.IsMine)
         {
+            Debug.Log("Displaying message: " + message);
             photonView.RPC("RPCDisplayChatMessage", RpcTarget.All, message);
         }
     }
@@ -36,12 +41,17 @@ public class PlayerChatUI : MonoBehaviourPunCallbacks
     [PunRPC]
     private void RPCDisplayChatMessage(string message)
     {
-        if (chatText != null && photonView.IsMine)
+        if (chatText != null)
         {
+            Debug.Log("RPC received message: " + message);
             chatText.text = message;
             chatText.gameObject.SetActive(true); // 텍스트 표시
 
             StartCoroutine(HideChatTextAfterDelay());
+        }
+        else
+        {
+            Debug.LogError("chatText is null in RPCDisplayChatMessage.");
         }
     }
 

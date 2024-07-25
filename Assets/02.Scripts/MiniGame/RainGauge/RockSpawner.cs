@@ -9,6 +9,7 @@ public class RockSpawner : MonoBehaviour
     public float spawnRate = 5f;
     public float spawnHeight = 10f;
     public float spawnAreaWidth = 5f;
+    public float spawnAreaDepth = 5f;
 
     private List<GameObject> rockPool;
     private float nextSpawnTime;
@@ -39,7 +40,8 @@ public class RockSpawner : MonoBehaviour
         if (rock != null)
         {
             float spawnX = Random.Range(-spawnAreaWidth / 2f, spawnAreaWidth / 2f);
-            Vector3 spawnPosition = new Vector3(spawnX, spawnHeight, 0f);
+            float spawnZ = Random.Range(-spawnAreaDepth / 2f, spawnAreaDepth / 2f);
+            Vector3 spawnPosition = new Vector3(spawnX, spawnHeight, spawnZ);
             rock.transform.position = spawnPosition;
             rock.SetActive(true);
         }

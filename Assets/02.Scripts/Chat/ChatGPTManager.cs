@@ -29,7 +29,7 @@ public class ChatGPTManager : MonoBehaviourPunCallbacks, IChatClientListener
     {
         if (inputField != null)
         {
-            inputField.onEndEdit.AddListener(HandleInput);
+            inputField.onEndEdit.AddListener(AskChatGPT);
         }
         else
         {
@@ -60,33 +60,13 @@ public class ChatGPTManager : MonoBehaviourPunCallbacks, IChatClientListener
         }
     }
 
-    private void HandleInput(string inputText)
+    public async void AskChatGPT(string newText)
     {
-        if (string.IsNullOrWhiteSpace(inputText))
+        if (string.IsNullOrWhiteSpace(newText))
             return;
 
-        if (inputText.StartsWith("/장영실"))
-        {
-            // ChatGPT에 메시지 요청
-            string chatGptMessage = inputText.Substring("/장영실".Length).Trim();
-            if (!string.IsNullOrEmpty(chatGptMessage))
-            {
-                AskChatGPT(chatGptMessage);
-            }
-        }
-        else
-        {
-            // 일반 채팅 메시지 전송
-            SendMessageToChat(inputText);
-        }
-
-        inputField.text = string.Empty; // 입력 필드 초기화
-    }
-
-    public async void AskChatGPT(string userMessage)
-    {
         ChatMessage newMessage = new ChatMessage();
-        newMessage.Content = userMessage;
+        newMessage.Content = newText;
         newMessage.Role = "user";
 
         messages.Add(newMessage);
@@ -121,7 +101,7 @@ public class ChatGPTManager : MonoBehaviourPunCallbacks, IChatClientListener
     // IChatClientListener 구현
     public void DebugReturn(DebugLevel level, string message) { }
     public void OnChatStateChange(ChatState state) { }
-    public void OnConnected()
+    public new void OnConnected()
     {
         chatClient.Subscribe(chatChannel);
     }

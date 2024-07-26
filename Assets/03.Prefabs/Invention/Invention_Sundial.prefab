@@ -92,8 +92,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1419047734353309644}
-  - component: {fileID: 7763734689576480748}
-  - component: {fileID: 8161891670156491801}
+  - component: {fileID: 8950163231744070241}
+  - component: {fileID: 8009517600625117926}
   m_Layer: 0
   m_Name: Invention_Sundial
   m_TagString: Invention
@@ -127,28 +127,7 @@ Transform:
   - {fileID: 6739601411038844382}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!65 &7763734689576480748
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2211923925775350850}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 1
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
---- !u!65 &8161891670156491801
+--- !u!65 &8950163231744070241
 BoxCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -167,8 +146,29 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
+  m_Size: {x: 0.008732096, y: 0.008149824, z: 0.004963532}
+  m_Center: {x: -0.0040901694, y: 0.003941874, z: 0.0026358026}
+--- !u!65 &8009517600625117926
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2211923925775350850}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 0.010777181, y: 0.010441083, z: 0.0049635326}
+  m_Center: {x: -0.004110921, y: 0.0039656777, z: 0.0026358033}
 --- !u!1 &2454354234167662566
 GameObject:
   m_ObjectHideFlags: 0

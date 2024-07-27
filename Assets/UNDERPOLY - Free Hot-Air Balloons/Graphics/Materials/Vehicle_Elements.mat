@@ -102,10 +102,10 @@ Material:
     - _ExtraActivation: 0
     - _ExtraSmoothness: 0
     - _ExtraThreshold: 0
-    - _Metallic1: 0
+    - _Metallic1: 1
     - _Metallic2: 0
     - _Metallic3: 0
-    - _Metallic4: 1
+    - _Metallic4: 0
     - _Metallic5: 0
     - _Metallic6: 0
     - _Metallic7: 0
@@ -126,7 +126,7 @@ Material:
     - _SetChannel6: 1
     - _SetChannel7: 1
     - _Smoothness: 0
-    - _Smoothness1: 0
+    - _Smoothness1: 1
     - _Smoothness2: 0
     - _Smoothness3: 0
     - _Smoothness4: 0
@@ -170,7 +170,7 @@ Material:
     - _MaskColor2: {r: 0, g: 1, b: 0, a: 0}
     - _MaskColor3: {r: 0, g: 0, b: 1, a: 0}
     - _MaskColor4: {r: 1, g: 1, b: 1, a: 1}
-    - _NewColor1: {r: 0.47899607, g: 0.5225329, b: 0.8679245, a: 0}
+    - _NewColor1: {r: 0, g: 0.6298678, b: 0.93333334, a: 0}
     - _NewColor2: {r: 1, g: 0, b: 0, a: 0}
     - _NewColor3: {r: 0, g: 1, b: 0, a: 0}
     - _NewColor4: {r: 0, g: 0, b: 1, a: 0}

@@ -32,7 +32,7 @@ public class JangYeongSil : MonoBehaviour
         speechBubbleText = speechBubbleInstance.GetComponentInChildren<TextMeshProUGUI>();
 
         // 말풍선 위치를 게임 오브젝트의 머리 위로 설정
-        speechBubbleInstance.transform.localPosition = new Vector3(0, 0, 0); // 오브젝트 머리 위로 말풍선 위치 설정
+        speechBubbleInstance.transform.localPosition = new Vector3(0, -1f, 0); // 오브젝트 머리 위로 말풍선 위치 설정
     }
 
     void Update()
@@ -102,7 +102,7 @@ public class JangYeongSil : MonoBehaviour
             speechBubbleInstance.SetActive(true);
 
             // 일정 시간 후 말풍선 비활성화
-            StartCoroutine(HideMentAfterDelay(5f)); // 5초 후 비활성화
+            StartCoroutine(HideMentAfterDelay(7f)); // 5초 후 비활성화
         }
     }
 

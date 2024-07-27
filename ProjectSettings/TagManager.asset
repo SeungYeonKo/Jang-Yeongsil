@@ -8,6 +8,7 @@ TagManager:
   - Hand
   - Jar
   - Invention
+  - Sundial
   layers:
   - Default
   - TransparentFX

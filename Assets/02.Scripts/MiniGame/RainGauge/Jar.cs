@@ -82,8 +82,8 @@ public class Jar : MonoBehaviour
             splash.Play();
 
             StartCoroutine(FollowBrokenJar(brokenJar.transform, splash));
-            StartCoroutine(StopSplashAfterDelay(splash, 2f));
-            StartCoroutine(DeactivateObjectAfterDelay(brokenJar, 2f));
+            StartCoroutine(StopSplashAfterDelay(splash, 1f));
+            StartCoroutine(DeactivateObjectAfterDelay(brokenJar, 1f));
 
             jar.SetActive(false);
 

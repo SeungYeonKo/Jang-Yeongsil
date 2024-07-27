@@ -81,6 +81,10 @@ public class Jar : MonoBehaviour
             splash.gameObject.SetActive(true);
             splash.Play();
 
+            StartCoroutine(FollowBrokenJar(brokenJar.transform, splash));
+            StartCoroutine(StopSplashAfterDelay(splash, 2f));
+            StartCoroutine(DeactivateObjectAfterDelay(brokenJar, 2f));
+
             jar.SetActive(false);
 
             StartCoroutine(ReplaceJarAfterDelay(jarNum, jarPosition, 1f));
@@ -97,6 +101,27 @@ public class Jar : MonoBehaviour
             jar.transform.position = position;
             jar.SetActive(true);
         }
+    }
+
+    private IEnumerator StopSplashAfterDelay(ParticleSystem splash, float delay)
+    {
+        yield return new WaitForSeconds(delay);
+        splash.Stop();
+        splash.gameObject.SetActive(false);
+    }
+
+    private IEnumerator FollowBrokenJar(Transform brokenJarTransform, ParticleSystem splash)
+    {
+        while (splash.isPlaying)
+        {
+            splash.transform.position = brokenJarTransform.position + Vector3.down;
+            yield return null; 
+        }
+    }
+    private IEnumerator DeactivateObjectAfterDelay(GameObject obj, float delay)
+    {
+        yield return new WaitForSeconds(delay);
+        obj.SetActive(false);
     }
 
     private GameObject GetPooledObject(List<GameObject> pool, GameObject prefab)

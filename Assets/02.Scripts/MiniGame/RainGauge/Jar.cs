@@ -10,6 +10,33 @@ public class Jar : MonoBehaviour
     public GameObject Jar3;
     public GameObject Jar4;
 
+    public GameObject brokenJarPrefab;
+    public ParticleSystem waterSplashEffect;
+
+    public int poolSize = 10;
+
+    private List<GameObject> brokenJarPool;
+    private List<ParticleSystem> splashEffectPool;
+
+    private void Start()
+    {
+        brokenJarPool = new List<GameObject>();
+        for (int i = 0; i < poolSize; i++)
+        {
+            GameObject brokenJar = Instantiate(brokenJarPrefab);
+            brokenJar.SetActive(false);
+            brokenJarPool.Add(brokenJar);
+        }
+
+        splashEffectPool = new List<ParticleSystem>();
+        for (int i = 0; i < poolSize; i++)
+        {
+            ParticleSystem splashEffect = Instantiate(waterSplashEffect);
+            splashEffect.gameObject.SetActive(false);
+            splashEffectPool.Add(splashEffect);
+        }
+    }
+
     public void SetJarPosition(int jarNum, Vector3 position)
     {
         GameObject jar = GetJarObject(jarNum);
@@ -37,4 +64,70 @@ public class Jar : MonoBehaviour
         }
     }
 
+    public void BreakJar(int jarNum)
+    {
+        GameObject jar = GetJarObject(jarNum);
+        if (jar != null)
+        {
+            Vector3 jarPosition = jar.transform.position;
+
+            GameObject brokenJar = GetPooledObject(brokenJarPool, brokenJarPrefab);
+            brokenJar.transform.position = jarPosition;
+            brokenJar.transform.rotation = jar.transform.rotation;
+            brokenJar.SetActive(true);
+
+            ParticleSystem splash = GetPooledObject(splashEffectPool, waterSplashEffect).GetComponent<ParticleSystem>();
+            splash.transform.position = jarPosition;
+            splash.gameObject.SetActive(true);
+            splash.Play();
+
+            jar.SetActive(false);
+
+            StartCoroutine(ReplaceJarAfterDelay(jarNum, jarPosition, 1f));
+        }
+    }
+
+    private IEnumerator ReplaceJarAfterDelay(int jarNum, Vector3 position, float delay)
+    {
+        yield return new WaitForSeconds(delay);
+
+        GameObject jar = GetJarObject(jarNum);
+        if (jar != null)
+        {
+            jar.transform.position = position;
+            jar.SetActive(true);
+        }
+    }
+
+    private GameObject GetPooledObject(List<GameObject> pool, GameObject prefab)
+    {
+        foreach (GameObject obj in pool)
+        {
+            if (!obj.activeInHierarchy)
+            {
+                return obj;
+            }
+        }
+
+        GameObject newObj = Instantiate(prefab);
+        newObj.SetActive(false);
+        pool.Add(newObj);
+        return newObj;
+    }
+
+    private GameObject GetPooledObject(List<ParticleSystem> pool, ParticleSystem prefab)
+    {
+        foreach (ParticleSystem obj in pool)
+        {
+            if (!obj.gameObject.activeInHierarchy)
+            {
+                return obj.gameObject;
+            }
+        }
+
+        ParticleSystem newObj = Instantiate(prefab);
+        newObj.gameObject.SetActive(false);
+        pool.Add(newObj);
+        return newObj.gameObject;
+    }
 }

@@ -1,0 +1,522 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 07c579aa4480ce64daff0ad6a9312d97, type: 3}
+  m_Name: 0727_Left_StreamingImageSequence
+  m_EditorClassIdentifier: 
+  m_folder: Assets/StreamingAssets/0727_Left
+  m_imageFiles:
+  - m_name: 0727_Left0001.png
+    m_size: 2382740
+  - m_name: 0727_Left0002.png
+    m_size: 2382627
+  - m_name: 0727_Left0003.png
+    m_size: 2382364
+  - m_name: 0727_Left0004.png
+    m_size: 2383144
+  - m_name: 0727_Left0005.png
+    m_size: 2383649
+  - m_name: 0727_Left0006.png
+    m_size: 2383276
+  - m_name: 0727_Left0007.png
+    m_size: 2382650
+  - m_name: 0727_Left0008.png
+    m_size: 2382776
+  - m_name: 0727_Left0009.png
+    m_size: 2383367
+  - m_name: 0727_Left0010.png
+    m_size: 2383212
+  - m_name: 0727_Left0011.png
+    m_size: 2382267
+  - m_name: 0727_Left0012.png
+    m_size: 2383036
+  - m_name: 0727_Left0013.png
+    m_size: 2382290
+  - m_name: 0727_Left0014.png
+    m_size: 2382574
+  - m_name: 0727_Left0015.png
+    m_size: 2382608
+  - m_name: 0727_Left0016.png
+    m_size: 2382575
+  - m_name: 0727_Left0017.png
+    m_size: 2381854
+  - m_name: 0727_Left0018.png
+    m_size: 2382226
+  - m_name: 0727_Left0019.png
+    m_size: 2381822
+  - m_name: 0727_Left0020.png
+    m_size: 2382666
+  - m_name: 0727_Left0021.png
+    m_size: 2383121
+  - m_name: 0727_Left0022.png
+    m_size: 2382538
+  - m_name: 0727_Left0023.png
+    m_size: 2383544
+  - m_name: 0727_Left0024.png
+    m_size: 2383372
+  - m_name: 0727_Left0025.png
+    m_size: 2383719
+  - m_name: 0727_Left0026.png
+    m_size: 2383708
+  - m_name: 0727_Left0027.png
+    m_size: 2383723
+  - m_name: 0727_Left0028.png
+    m_size: 2383882
+  - m_name: 0727_Left0029.png
+    m_size: 2383893
+  - m_name: 0727_Left0030.png
+    m_size: 2383649
+  - m_name: 0727_Left0031.png
+    m_size: 2384130
+  - m_name: 0727_Left0032.png
+    m_size: 2384667
+  - m_name: 0727_Left0033.png
+    m_size: 2385328
+  - m_name: 0727_Left0034.png
+    m_size: 2385536
+  - m_name: 0727_Left0035.png
+    m_size: 2385666
+  - m_name: 0727_Left0036.png
+    m_size: 2385287
+  - m_name: 0727_Left0037.png
+    m_size: 2385426
+  - m_name: 0727_Left0038.png
+    m_size: 2386424
+  - m_name: 0727_Left0039.png
+    m_size: 2386320
+  - m_name: 0727_Left0040.png
+    m_size: 2385660
+  - m_name: 0727_Left0041.png
+    m_size: 2384628
+  - m_name: 0727_Left0042.png
+    m_size: 2384661
+  - m_name: 0727_Left0043.png
+    m_size: 2385480
+  - m_name: 0727_Left0044.png
+    m_size: 2385003
+  - m_name: 0727_Left0045.png
+    m_size: 2385609
+  - m_name: 0727_Left0046.png
+    m_size: 2385245
+  - m_name: 0727_Left0047.png
+    m_size: 2385877
+  - m_name: 0727_Left0048.png
+    m_size: 2386319
+  - m_name: 0727_Left0049.png
+    m_size: 2386355
+  - m_name: 0727_Left0050.png
+    m_size: 2386631
+  - m_name: 0727_Left0051.png
+    m_size: 2386662
+  - m_name: 0727_Left0052.png
+    m_size: 2388913
+  - m_name: 0727_Left0053.png
+    m_size: 2388137
+  - m_name: 0727_Left0054.png
+    m_size: 2387644
+  - m_name: 0727_Left0055.png
+    m_size: 2389024
+  - m_name: 0727_Left0056.png
+    m_size: 2388820
+  - m_name: 0727_Left0057.png
+    m_size: 2389263
+  - m_name: 0727_Left0058.png
+    m_size: 2389856
+  - m_name: 0727_Left0059.png
+    m_size: 2390278
+  - m_name: 0727_Left0060.png
+    m_size: 2389912
+  - m_name: 0727_Left0061.png
+    m_size: 2390222
+  - m_name: 0727_Left0062.png
+    m_size: 2391086
+  - m_name: 0727_Left0063.png
+    m_size: 2390069
+  - m_name: 0727_Left0064.png
+    m_size: 2391556
+  - m_name: 0727_Left0065.png
+    m_size: 2392095
+  - m_name: 0727_Left0066.png
+    m_size: 2391797
+  - m_name: 0727_Left0067.png
+    m_size: 2391594
+  - m_name: 0727_Left0068.png
+    m_size: 2392974
+  - m_name: 0727_Left0069.png
+    m_size: 2393690
+  - m_name: 0727_Left0070.png
+    m_size: 2394364
+  - m_name: 0727_Left0071.png
+    m_size: 2394542
+  - m_name: 0727_Left0072.png
+    m_size: 2394694
+  - m_name: 0727_Left0073.png
+    m_size: 2395798
+  - m_name: 0727_Left0074.png
+    m_size: 2397071
+  - m_name: 0727_Left0075.png
+    m_size: 2396449
+  - m_name: 0727_Left0076.png
+    m_size: 2396085
+  - m_name: 0727_Left0077.png
+    m_size: 2398020
+  - m_name: 0727_Left0078.png
+    m_size: 2398600
+  - m_name: 0727_Left0079.png
+    m_size: 2396220
+  - m_name: 0727_Left0080.png
+    m_size: 2397257
+  - m_name: 0727_Left0081.png
+    m_size: 2397072
+  - m_name: 0727_Left0082.png
+    m_size: 2398745
+  - m_name: 0727_Left0083.png
+    m_size: 2397846
+  - m_name: 0727_Left0084.png
+    m_size: 2398894
+  - m_name: 0727_Left0085.png
+    m_size: 2399177
+  - m_name: 0727_Left0086.png
+    m_size: 2401451
+  - m_name: 0727_Left0087.png
+    m_size: 2398407
+  - m_name: 0727_Left0088.png
+    m_size: 2398260
+  - m_name: 0727_Left0089.png
+    m_size: 2396886
+  - m_name: 0727_Left0090.png
+    m_size: 2397612
+  - m_name: 0727_Left0091.png
+    m_size: 2397099
+  - m_name: 0727_Left0092.png
+    m_size: 2397594
+  - m_name: 0727_Left0093.png
+    m_size: 2396285
+  - m_name: 0727_Left0094.png
+    m_size: 2396721
+  - m_name: 0727_Left0095.png
+    m_size: 2397410
+  - m_name: 0727_Left0096.png
+    m_size: 2396734
+  - m_name: 0727_Left0097.png
+    m_size: 2397494
+  - m_name: 0727_Left0098.png
+    m_size: 2397495
+  - m_name: 0727_Left0099.png
+    m_size: 2397466
+  - m_name: 0727_Left0100.png
+    m_size: 2397027
+  - m_name: 0727_Left0101.png
+    m_size: 2396380
+  - m_name: 0727_Left0102.png
+    m_size: 2396638
+  - m_name: 0727_Left0103.png
+    m_size: 2396424
+  - m_name: 0727_Left0104.png
+    m_size: 2395451
+  - m_name: 0727_Left0105.png
+    m_size: 2393768
+  - m_name: 0727_Left0106.png
+    m_size: 2394708
+  - m_name: 0727_Left0107.png
+    m_size: 2393714
+  - m_name: 0727_Left0108.png
+    m_size: 2391584
+  - m_name: 0727_Left0109.png
+    m_size: 2391659
+  - m_name: 0727_Left0110.png
+    m_size: 2390144
+  - m_name: 0727_Left0111.png
+    m_size: 2391130
+  - m_name: 0727_Left0112.png
+    m_size: 2391201
+  - m_name: 0727_Left0113.png
+    m_size: 2389893
+  - m_name: 0727_Left0114.png
+    m_size: 2389446
+  - m_name: 0727_Left0115.png
+    m_size: 2389336
+  - m_name: 0727_Left0116.png
+    m_size: 2388786
+  - m_name: 0727_Left0117.png
+    m_size: 2387317
+  - m_name: 0727_Left0118.png
+    m_size: 2385682
+  - m_name: 0727_Left0119.png
+    m_size: 2385831
+  - m_name: 0727_Left0120.png
+    m_size: 2383675
+  - m_name: 0727_Left0121.png
+    m_size: 2381950
+  - m_name: 0727_Left0122.png
+    m_size: 2380631
+  - m_name: 0727_Left0123.png
+    m_size: 2380315
+  - m_name: 0727_Left0124.png
+    m_size: 2379880
+  - m_name: 0727_Left0125.png
+    m_size: 2377619
+  - m_name: 0727_Left0126.png
+    m_size: 2376708
+  - m_name: 0727_Left0127.png
+    m_size: 2374837
+  - m_name: 0727_Left0128.png
+    m_size: 2375139
+  - m_name: 0727_Left0129.png
+    m_size: 2373032
+  - m_name: 0727_Left0130.png
+    m_size: 2372499
+  - m_name: 0727_Left0131.png
+    m_size: 2370821
+  - m_name: 0727_Left0132.png
+    m_size: 2370176
+  - m_name: 0727_Left0133.png
+    m_size: 2367722
+  - m_name: 0727_Left0134.png
+    m_size: 2366972
+  - m_name: 0727_Left0135.png
+    m_size: 2366319
+  - m_name: 0727_Left0136.png
+    m_size: 2362841
+  - m_name: 0727_Left0137.png
+    m_size: 2359526
+  - m_name: 0727_Left0138.png
+    m_size: 2357403
+  - m_name: 0727_Left0139.png
+    m_size: 2356190
+  - m_name: 0727_Left0140.png
+    m_size: 2353816
+  - m_name: 0727_Left0141.png
+    m_size: 2349998
+  - m_name: 0727_Left0142.png
+    m_size: 2349153
+  - m_name: 0727_Left0143.png
+    m_size: 2347057
+  - m_name: 0727_Left0144.png
+    m_size: 2344549
+  - m_name: 0727_Left0145.png
+    m_size: 2343694
+  - m_name: 0727_Left0146.png
+    m_size: 2341435
+  - m_name: 0727_Left0147.png
+    m_size: 2339044
+  - m_name: 0727_Left0148.png
+    m_size: 2334432
+  - m_name: 0727_Left0149.png
+    m_size: 2332463
+  - m_name: 0727_Left0150.png
+    m_size: 2328306
+  - m_name: 0727_Left0151.png
+    m_size: 2326068
+  - m_name: 0727_Left0152.png
+    m_size: 2324301
+  - m_name: 0727_Left0153.png
+    m_size: 2321839
+  - m_name: 0727_Left0154.png
+    m_size: 2318785
+  - m_name: 0727_Left0155.png
+    m_size: 2316588
+  - m_name: 0727_Left0156.png
+    m_size: 2314220
+  - m_name: 0727_Left0157.png
+    m_size: 2311501
+  - m_name: 0727_Left0158.png
+    m_size: 2308845
+  - m_name: 0727_Left0159.png
+    m_size: 2305900
+  - m_name: 0727_Left0160.png
+    m_size: 2301294
+  - m_name: 0727_Left0161.png
+    m_size: 2298926
+  - m_name: 0727_Left0162.png
+    m_size: 2297185
+  - m_name: 0727_Left0163.png
+    m_size: 2293605
+  - m_name: 0727_Left0164.png
+    m_size: 2291733
+  - m_name: 0727_Left0165.png
+    m_size: 2289297
+  - m_name: 0727_Left0166.png
+    m_size: 2286177
+  - m_name: 0727_Left0167.png
+    m_size: 2283898
+  - m_name: 0727_Left0168.png
+    m_size: 2281675
+  - m_name: 0727_Left0169.png
+    m_size: 2276705
+  - m_name: 0727_Left0170.png
+    m_size: 2273662
+  - m_name: 0727_Left0171.png
+    m_size: 2271084
+  - m_name: 0727_Left0172.png
+    m_size: 2268636
+  - m_name: 0727_Left0173.png
+    m_size: 2266118
+  - m_name: 0727_Left0174.png
+    m_size: 2262452
+  - m_name: 0727_Left0175.png
+    m_size: 2258452
+  - m_name: 0727_Left0176.png
+    m_size: 2256486
+  - m_name: 0727_Left0177.png
+    m_size: 2252891
+  - m_name: 0727_Left0178.png
+    m_size: 2246890
+  - m_name: 0727_Left0179.png
+    m_size: 2241435
+  - m_name: 0727_Left0180.png
+    m_size: 2238377
+  - m_name: 0727_Left0181.png
+    m_size: 2233211
+  - m_name: 0727_Left0182.png
+    m_size: 2229825
+  - m_name: 0727_Left0183.png
+    m_size: 2227411
+  - m_name: 0727_Left0184.png
+    m_size: 2224402
+  - m_name: 0727_Left0185.png
+    m_size: 2221251
+  - m_name: 0727_Left0186.png
+    m_size: 2217915
+  - m_name: 0727_Left0187.png
+    m_size: 2217086
+  - m_name: 0727_Left0188.png
+    m_size: 2213259
+  - m_name: 0727_Left0189.png
+    m_size: 2208985
+  - m_name: 0727_Left0190.png
+    m_size: 2206316
+  - m_name: 0727_Left0191.png
+    m_size: 2199584
+  - m_name: 0727_Left0192.png
+    m_size: 2194895
+  - m_name: 0727_Left0193.png
+    m_size: 2191453
+  - m_name: 0727_Left0194.png
+    m_size: 2186016
+  - m_name: 0727_Left0195.png
+    m_size: 2183811
+  - m_name: 0727_Left0196.png
+    m_size: 2181842
+  - m_name: 0727_Left0197.png
+    m_size: 2178447
+  - m_name: 0727_Left0198.png
+    m_size: 2174492
+  - m_name: 0727_Left0199.png
+    m_size: 2170389
+  - m_name: 0727_Left0200.png
+    m_size: 2164923
+  - m_name: 0727_Left0201.png
+    m_size: 2161976
+  - m_name: 0727_Left0202.png
+    m_size: 2156791
+  - m_name: 0727_Left0203.png
+    m_size: 2153767
+  - m_name: 0727_Left0204.png
+    m_size: 2151861
+  - m_name: 0727_Left0205.png
+    m_size: 2149735
+  - m_name: 0727_Left0206.png
+    m_size: 2145735
+  - m_name: 0727_Left0207.png
+    m_size: 2142296
+  - m_name: 0727_Left0208.png
+    m_size: 2135529
+  - m_name: 0727_Left0209.png
+    m_size: 2130833
+  - m_name: 0727_Left0210.png
+    m_size: 2128010
+  - m_name: 0727_Left0211.png
+    m_size: 2125821
+  - m_name: 0727_Left0212.png
+    m_size: 2122657
+  - m_name: 0727_Left0213.png
+    m_size: 2118483
+  - m_name: 0727_Left0214.png
+    m_size: 2115155
+  - m_name: 0727_Left0215.png
+    m_size: 2109758
+  - m_name: 0727_Left0216.png
+    m_size: 2106856
+  - m_name: 0727_Left0217.png
+    m_size: 2104124
+  - m_name: 0727_Left0218.png
+    m_size: 2100039
+  - m_name: 0727_Left0219.png
+    m_size: 2096163
+  - m_name: 0727_Left0220.png
+    m_size: 2092921
+  - m_name: 0727_Left0221.png
+    m_size: 2089467
+  - m_name: 0727_Left0222.png
+    m_size: 2086205
+  - m_name: 0727_Left0223.png
+    m_size: 2082374
+  - m_name: 0727_Left0224.png
+    m_size: 2079494
+  - m_name: 0727_Left0225.png
+    m_size: 2074993
+  - m_name: 0727_Left0226.png
+    m_size: 2070663
+  - m_name: 0727_Left0227.png
+    m_size: 2066908
+  - m_name: 0727_Left0228.png
+    m_size: 2063626
+  - m_name: 0727_Left0229.png
+    m_size: 2059491
+  - m_name: 0727_Left0230.png
+    m_size: 2057497
+  - m_name: 0727_Left0231.png
+    m_size: 2054624
+  - m_name: 0727_Left0232.png
+    m_size: 2053004
+  - m_name: 0727_Left0233.png
+    m_size: 2050037
+  - m_name: 0727_Left0234.png
+    m_size: 2048314
+  - m_name: 0727_Left0235.png
+    m_size: 2043319
+  - m_name: 0727_Left0236.png
+    m_size: 2041259
+  - m_name: 0727_Left0237.png
+    m_size: 2040120
+  - m_name: 0727_Left0238.png
+    m_size: 2036454
+  - m_name: 0727_Left0239.png
+    m_size: 2034350
+  - m_name: 0727_Left0240.png
+    m_size: 2034424
+  - m_name: 0727_Left0241.png
+    m_size: 2033003
+  - m_name: 0727_Left0242.png
+    m_size: 2031962
+  - m_name: 0727_Left0243.png
+    m_size: 2031465
+  - m_name: 0727_Left0244.png
+    m_size: 2029234
+  - m_name: 0727_Left0245.png
+    m_size: 2027719
+  - m_name: 0727_Left0246.png
+    m_size: 2027086
+  - m_name: 0727_Left0247.png
+    m_size: 2026589
+  - m_name: 0727_Left0248.png
+    m_size: 2026220
+  - m_name: 0727_Left0249.png
+    m_size: 2025925
+  - m_name: 0727_Left0250.png
+    m_size: 2026097
+  m_timelineBGColor: {r: 0.5, g: 0.5, b: 0.5, a: 1}
+  m_version: 3
+  m_time: 0
+  m_textureFilterMode: 1
+  Folder: 
+  m_timelineDefaultAsset: {fileID: 0}

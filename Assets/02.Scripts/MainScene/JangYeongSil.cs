@@ -8,8 +8,10 @@ public class JangYeongSil : MonoBehaviour
 
     private Vector3 targetPosition;
 
-    public GameObject JangYeongSilMent;
-    public TextMeshProUGUI JangYeongSilMentText;
+    public GameObject speechBubblePrefab; 
+    private GameObject speechBubbleInstance; 
+    private TextMeshProUGUI speechBubbleText;
+
     public string[] mentArray;
     public float minMentInterval = 20f;
     public float maxMentInterval = 40f;
@@ -20,10 +22,17 @@ public class JangYeongSil : MonoBehaviour
     void Start()
     {
         SetRandomTargetPosition();
-        // 방향변경 코루틴
+        // 방향 변경 코루틴
         StartCoroutine(ChangeDirectionPeriodically());
-        // 멘트 코루틴
+        // 멘트 변경 코루틴
         StartCoroutine(ChangeMentPeriodically());
+
+        // 말풍선 인스턴스 생성
+        speechBubbleInstance = Instantiate(speechBubblePrefab, transform);
+        speechBubbleText = speechBubbleInstance.GetComponentInChildren<TextMeshProUGUI>();
+
+        // 말풍선 위치를 게임 오브젝트의 머리 위로 설정
+        speechBubbleInstance.transform.localPosition = new Vector3(0, 0, 0); // 오브젝트 머리 위로 말풍선 위치 설정
     }
 
     void Update()
@@ -36,6 +45,10 @@ public class JangYeongSil : MonoBehaviour
         {
             SetRandomTargetPosition();
         }
+
+        // 말풍선을 카메라 방향으로 회전
+        speechBubbleInstance.transform.LookAt(Camera.main.transform);
+        speechBubbleInstance.transform.Rotate(0, 180, 0); // 텍스트가 뒤집히지 않도록 180도 회전
     }
 
     void SetRandomTargetPosition()
@@ -83,10 +96,10 @@ public class JangYeongSil : MonoBehaviour
         {
             // 랜덤으로 멘트 선택
             int randomIndex = Random.Range(0, mentArray.Length);
-            JangYeongSilMentText.text = mentArray[randomIndex];
+            speechBubbleText.text = mentArray[randomIndex];
 
             // 말풍선 활성화
-            JangYeongSilMent.SetActive(true);
+            speechBubbleInstance.SetActive(true);
 
             // 일정 시간 후 말풍선 비활성화
             StartCoroutine(HideMentAfterDelay(5f)); // 5초 후 비활성화
@@ -96,6 +109,6 @@ public class JangYeongSil : MonoBehaviour
     System.Collections.IEnumerator HideMentAfterDelay(float delay)
     {
         yield return new WaitForSeconds(delay);
-        JangYeongSilMent.SetActive(false);
+        speechBubbleInstance.SetActive(false);
     }
 }

@@ -9,15 +9,19 @@ public class ChatUI : MonoBehaviourPunCallbacks
     public TMP_InputField chatInputField; // 채팅 입력 필드
     public TextMeshProUGUI chatDisplayText; // 채팅 내용 표시 텍스트
     public Button sendButton; // 전송 버튼
-    public ChatManager chatManager; // ChatManager 참조
+    public ChatGPTManager chatGPTManager; // ChatGPTManager 참조
 
     private void Start()
     {
-        if (chatManager == null)
+        if (chatGPTManager == null)
         {
-            Debug.LogError("ChatManager is not assigned in the ChatUI script.");
+            Debug.LogError("ChatGPTManager is not assigned in the ChatUI script.");
             return;
         }
+
+        // ChatGPTManager의 inputField를 ChatUI의 chatInputField로 설정
+        chatGPTManager.inputField = chatInputField;
+        chatGPTManager.OnResponse.AddListener(DisplayMessage);
 
         sendButton.onClick.AddListener(OnSendButtonClicked); // 전송 버튼 클릭 시 이벤트 등록
         chatInputField.onSubmit.AddListener(delegate { OnSendButtonClicked(); }); // Enter 키로 전송 가능하게 설정
@@ -37,14 +41,8 @@ public class ChatUI : MonoBehaviourPunCallbacks
         }
     }
 
-    private async void OnSendButtonClicked()
+    private void OnSendButtonClicked()
     {
-        if (chatManager == null)
-        {
-            Debug.LogError("ChatManager is not assigned.");
-            return;
-        }
-
         string message = chatInputField.text;
         if (!string.IsNullOrEmpty(message))
         {
@@ -54,19 +52,7 @@ public class ChatUI : MonoBehaviourPunCallbacks
                 string chatGptMessage = message.Substring(5).Trim();
                 if (!string.IsNullOrEmpty(chatGptMessage))
                 {
-                    try
-                    {
-                        // ChatGPT에 메시지 보내고 응답 받기
-                        string response = await chatManager.SendMessageToChatGPT(chatGptMessage);
-
-                        // ChatGPT의 응답을 모든 플레이어에게 전송
-                        photonView.RPC("RPCDisplayMessage", RpcTarget.All, "[장영실] " + response);
-                    }
-                    catch (Exception ex)
-                    {
-                        Debug.LogError($"Exception: {ex.Message}");
-                        DisplayMessage("Error communicating with ChatGPT");
-                    }
+                    chatGPTManager.AskChatGPT(chatGptMessage);
                 }
             }
             else

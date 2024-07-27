@@ -1,4 +1,5 @@
 using Photon.Pun;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using Hashtable = ExitGames.Client.Photon.Hashtable;
@@ -28,12 +29,29 @@ public class RainGaugePlayer : MonoBehaviourPunCallbacks
     private void Start()
     {
         MyNum = GetUniqueRandomNumber();
+        AssignPlayerNumber();
         PhotonNetwork.LocalPlayer.SetCustomProperties
             (new Hashtable { { "PlayerNumber", MyNum }, { "PlayerJarNumber", MyNum } });
         _startpoint = GameObject.Find($"Start{MyNum}");
         MoveStartPosition();
         _jarController = FindObjectOfType<Jar>();
     }
+
+    private void AssignPlayerNumber()
+    {
+        if (!PhotonNetwork.LocalPlayer.CustomProperties.ContainsKey("PlayerNumber"))
+        {
+            int assignedNumber = PhotonNetwork.LocalPlayer.ActorNumber; // Use ActorNumber as unique identifier
+            Debug.Log($"Assigning PlayerNumber: {assignedNumber} to player: {PhotonNetwork.LocalPlayer.NickName}");
+            MyNum = assignedNumber % 4 + 1;
+            PhotonNetwork.LocalPlayer.SetCustomProperties(new Hashtable { { "PlayerNumber", MyNum } });
+        }
+        else
+        {
+            MyNum = (int)PhotonNetwork.LocalPlayer.CustomProperties["PlayerNumber"];
+        }
+    }
+
     public void MoveStartPosition()
     {
         transform.position = _startpoint.transform.position;
@@ -55,9 +73,7 @@ public class RainGaugePlayer : MonoBehaviourPunCallbacks
 
     private int GetUniqueRandomNumber()
     {
-        int num = PhotonNetwork.CurrentRoom.PlayerCount;
-        Debug.Log($"playernum = {num}");
-        return num;
+        return PhotonNetwork.LocalPlayer.ActorNumber;
     }
 
     private void SetReadyStateOnInput()
@@ -76,7 +92,7 @@ public class RainGaugePlayer : MonoBehaviourPunCallbacks
 
     public override void OnRoomPropertiesUpdate(Hashtable propertiesThatChanged)
     {
-        string firstPlayerName = (string)PhotonNetwork.CurrentRoom.CustomProperties["FirstPlayerName"]; // JarScore에서 저장
+        string firstPlayerName = (string)PhotonNetwork.CurrentRoom.CustomProperties["FirstPlayerName"];
         if (firstPlayerName != null)
         {
             if (RainGaugeManager.Instance.CurrentGameState == GameState.Over)
@@ -106,6 +122,7 @@ public class RainGaugePlayer : MonoBehaviourPunCallbacks
             return;
         }
     }
+
 
     public Vector3 GetHandPosition(int playerNumber)
     {

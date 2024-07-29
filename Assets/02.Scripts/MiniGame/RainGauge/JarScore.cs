@@ -35,7 +35,7 @@ public class JarScore : MonoBehaviour
 
     public void UpdateJarScores()
     {
-        if (Player1score < maxScore)
+        if (IsJarAssigned(1) && Player1score < maxScore)
         {
             jar1Timer += Time.deltaTime;
             if (jar1Timer >= scoreIncreaseInterval)
@@ -45,7 +45,7 @@ public class JarScore : MonoBehaviour
             }
         }
 
-        if (Player2score < maxScore)
+        if (IsJarAssigned(2) && Player2score < maxScore)
         {
             jar2Timer += Time.deltaTime;
             if (jar2Timer >= scoreIncreaseInterval)
@@ -55,7 +55,7 @@ public class JarScore : MonoBehaviour
             }
         }
 
-        if (Player3score < maxScore)
+        if (IsJarAssigned(3) && Player3score < maxScore)
         {
             jar3Timer += Time.deltaTime;
             if (jar3Timer >= scoreIncreaseInterval)
@@ -65,7 +65,7 @@ public class JarScore : MonoBehaviour
             }
         }
 
-        if (Player4score < maxScore)
+        if (IsJarAssigned(4) && Player4score < maxScore)
         {
             jar4Timer += Time.deltaTime;
             if (jar4Timer >= scoreIncreaseInterval)
@@ -75,6 +75,19 @@ public class JarScore : MonoBehaviour
             }
         }
     }
+
+    private bool IsJarAssigned(int jarNumber)
+    {
+        foreach (var player in PhotonNetwork.PlayerList)
+        {
+            if (player.CustomProperties.ContainsKey("PlayerNumber") && (int)player.CustomProperties["PlayerNumber"] == jarNumber)
+            {
+                return true;
+            }
+        }
+        return false;
+    }
+
 
     public void IncreaseScore(int jarNumber, int amount)
     {

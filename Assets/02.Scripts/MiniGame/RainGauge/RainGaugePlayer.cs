@@ -68,15 +68,19 @@ public class RainGaugePlayer : MonoBehaviourPunCallbacks
 
     public void MoveStartPosition()
     {
-        if (_startpoint != null)
+        if (photonView.IsMine)
         {
-            transform.position = _startpoint.transform.position;
-            Debug.Log($"Player {MyNum} moved to start position: {transform.position}");
+            if (_startpoint != null)
+            {
+                transform.position = _startpoint.transform.position;
+                Debug.Log($"Player {MyNum} moved to start position: {transform.position}");
+            }
+            else
+            {
+                Debug.LogError($"Start point not found for player {MyNum}, cannot move to start position.");
+            }
         }
-        else
-        {
-            Debug.LogError($"Start point not found for player {MyNum}, cannot move to start position.");
-        }
+          
     }
 
     private void Update()
@@ -86,10 +90,11 @@ public class RainGaugePlayer : MonoBehaviourPunCallbacks
             SetReadyStateOnInput();
             Vector3 handPosition = GetHandPosition(MyNum);
             photonView.RPC("RPC_SetJarPosition", RpcTarget.AllBuffered, MyNum, handPosition);
-        }
-        if (RainGaugeManager.Instance.CurrentGameState == GameState.Loading)
-        {
-            MoveStartPosition();
+
+            if (RainGaugeManager.Instance.CurrentGameState == GameState.Loading)
+            {
+                MoveStartPosition();
+            }
         }
     }
 

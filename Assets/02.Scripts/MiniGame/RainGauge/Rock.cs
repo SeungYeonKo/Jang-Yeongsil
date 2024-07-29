@@ -26,6 +26,11 @@ public class Rock : MonoBehaviour
             {
                 Debug.Log($"Decreasing score for jar number: {jarNumber}");
                 JarScore.Instance.DecreaseScore(jarNumber, 30);
+                Jar jarController = FindObjectOfType<Jar>();
+                if (jarController != null)
+                {
+                    jarController.BreakJar(jarNumber);
+                }
                 gameObject.SetActive(false);
             }
         }

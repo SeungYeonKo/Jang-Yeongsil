@@ -25,7 +25,7 @@ public class WaterItem : MonoBehaviour
             if (jarNumber != -1)
             {
                 Debug.Log($"Increasing score for jar number: {jarNumber}");
-                JarScore.Instance.IncreaseScore(jarNumber, 20);
+                JarScore.Instance.IncreaseScore(jarNumber, 100);
                 gameObject.SetActive(false);
             }
         }

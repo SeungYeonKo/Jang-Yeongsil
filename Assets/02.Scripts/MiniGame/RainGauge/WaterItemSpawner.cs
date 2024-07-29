@@ -41,7 +41,7 @@ public class WaterItemSpawner : MonoBehaviour
         {
             float spawnX = Random.Range(-spawnAreaWidth / 2f, spawnAreaWidth / 2f);
             float spawnZ = Random.Range(-spawnAreaDepth / 2f, spawnAreaDepth / 2f);
-            Vector3 spawnPosition = new Vector3(spawnX, spawnHeight, spawnZ);
+            Vector3 spawnPosition = new Vector3(spawnX, spawnHeight, spawnZ) + transform.position;
             waterItem.transform.position = spawnPosition;
             waterItem.SetActive(true);
         }

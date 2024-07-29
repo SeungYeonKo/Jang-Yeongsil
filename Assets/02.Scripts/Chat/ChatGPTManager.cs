@@ -23,7 +23,6 @@ public class ChatGPTManager : MonoBehaviourPunCallbacks, IChatClientListener
     private ChatClient chatClient; // 채팅 클라이언트
     private string chatChannel = "global"; // 기본 채팅 채널
     private bool isUIActive = false;
-    private bool isProcessing = false; // GPT가 응답 중인지 확인하는 플래그
 
     // Unity가 시작될 때 호출되는 메서드
     void Start()
@@ -46,7 +45,6 @@ public class ChatGPTManager : MonoBehaviourPunCallbacks, IChatClientListener
         isUIActive = false;
         chatUI.gameObject.SetActive(isUIActive);
 
-        // 포톤 연결 설정
         chatClient = new ChatClient(this);
         chatClient.Connect(PhotonNetwork.PhotonServerSettings.AppSettings.AppIdChat, PhotonNetwork.AppVersion, new Photon.Chat.AuthenticationValues(PhotonNetwork.NickName));
     }
@@ -67,20 +65,19 @@ public class ChatGPTManager : MonoBehaviourPunCallbacks, IChatClientListener
         if (string.IsNullOrWhiteSpace(inputText))
             return;
 
-        if (inputText.StartsWith("/장영실") && !isProcessing)
+        if (inputText.StartsWith("/장영실"))
         {
             // ChatGPT에 메시지 요청
             string chatGptMessage = inputText.Substring("/장영실".Length).Trim();
             if (!string.IsNullOrEmpty(chatGptMessage))
             {
-                isProcessing = true;
                 AskChatGPT(chatGptMessage);
             }
         }
         else
         {
             // 일반 채팅 메시지 전송
-            SendMessageToChat(inputText);
+            SendMessageToChat($"[{PhotonNetwork.NickName ?? "Null"}] {inputText}");
         }
 
         inputField.text = string.Empty; // 입력 필드 초기화
@@ -112,32 +109,33 @@ public class ChatGPTManager : MonoBehaviourPunCallbacks, IChatClientListener
 
             Debug.Log(chatResponse.Content);
 
+            // ChatGPT 응답에 닉네임을 포함하지 않도록 변경
             OnResponse.Invoke(chatResponse.Content);
-            SendMessageToChat($"[장영실] {chatResponse.Content}");
+            string responseMessage = $"[장영실] {chatResponse.Content}";
 
-            chatUI.DisplayMessage($"[장영실] {chatResponse.Content}");  // 기존 텍스트에 ChatGPT의 응답 추가
+            // ChatGPT 응답을 네트워크로 전송하지 않고 로컬에만 표시
+            chatUI.DisplayMessage(responseMessage);
         }
-
-        isProcessing = false; // 응답 완료 후 처리 플래그 리셋
     }
 
     public void SendMessageToChat(string message)
     {
-        string formattedMessage = $"[{PhotonNetwork.NickName ?? "Null"}] {message}";
-
         if (chatClient != null && chatClient.CanChat)
         {
-            chatClient.PublishMessage(chatChannel, formattedMessage);
+            chatClient.PublishMessage(chatChannel, message);
+            chatUI.DisplayMessage(message);  // 기존 텍스트에 사용자 메시지 추가
         }
-
-        // 메시지를 로컬 채팅창에 표시
-        chatUI.DisplayMessage(formattedMessage);
+        else
+        {
+            // 포톤 연결이 되지 않은 경우에도 로컬에 메시지 표시
+            chatUI.DisplayMessage(message);
+        }
     }
 
     // IChatClientListener 구현
     public void DebugReturn(DebugLevel level, string message) { }
     public void OnChatStateChange(ChatState state) { }
-    public void OnConnected()
+    public new void OnConnected()
     {
         chatClient.Subscribe(chatChannel);
     }
@@ -157,3 +155,4 @@ public class ChatGPTManager : MonoBehaviourPunCallbacks, IChatClientListener
     public void OnUserSubscribed(string channel, string user) { }
     public void OnUserUnsubscribed(string channel, string user) { }
 }
+

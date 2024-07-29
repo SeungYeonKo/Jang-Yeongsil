@@ -14,6 +14,6 @@ public class FireballController : MonoBehaviour
     IEnumerator Particle_Coroutine()
     {
         yield return new WaitForSeconds(10f);
-        SceneManager.LoadScene("MainScene");
+        SceneManager.LoadScene("LoadingScene");
     }
 }

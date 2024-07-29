@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using Photon.Pun;
 using Photon.Realtime;
+using UnityEngine.SceneManagement;
 
 public class UI_CharacterSelect : MonoBehaviour
 {
@@ -120,6 +121,6 @@ public class UI_CharacterSelect : MonoBehaviour
         };
 
         PhotonNetwork.JoinOrCreateRoom("Main", roomOptions, TypedLobby.Default);
-        PhotonNetwork.LoadLevel("LoadingScene");
+        SceneManager.LoadScene("IntroFireball");
     }
 }

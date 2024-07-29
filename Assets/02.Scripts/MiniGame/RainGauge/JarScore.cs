@@ -2,6 +2,7 @@ using Photon.Pun;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using Unity.Burst.CompilerServices;
 using UnityEngine;
 using Hashtable = ExitGames.Client.Photon.Hashtable;
 
@@ -14,10 +15,10 @@ public class JarScore : MonoBehaviour
     public GameObject Jar3;
     public GameObject Jar4;
 
-    public float Player1score = 0;
-    public float Player2score = 0;
-    public float Player3score = 0;
-    public float Player4score = 0;
+    public int Player1score = 0;
+    public int Player2score = 0;
+    public int Player3score = 0;
+    public int Player4score = 0;
 
     private float jar1Timer;
     private float jar2Timer;
@@ -25,8 +26,7 @@ public class JarScore : MonoBehaviour
     private float jar4Timer;
 
     private float scoreIncreaseInterval = 1f;
-    private float scoreIncreaseAmount = 0.1f;
-    private float maxScore = 1000f;
+    private int maxScore = 10000;
 
     private void Awake()
     {
@@ -40,7 +40,7 @@ public class JarScore : MonoBehaviour
             jar1Timer += Time.deltaTime;
             if (jar1Timer >= scoreIncreaseInterval)
             {
-                Player1score += scoreIncreaseAmount;
+                Player1score++;
                 jar1Timer = 0f;
             }
         }
@@ -50,7 +50,7 @@ public class JarScore : MonoBehaviour
             jar2Timer += Time.deltaTime;
             if (jar2Timer >= scoreIncreaseInterval)
             {
-                Player2score += scoreIncreaseAmount;
+                Player2score++;
                 jar2Timer = 0f;
             }
         }
@@ -60,7 +60,7 @@ public class JarScore : MonoBehaviour
             jar3Timer += Time.deltaTime;
             if (jar3Timer >= scoreIncreaseInterval)
             {
-                Player3score += scoreIncreaseAmount;
+                Player3score++;
                 jar3Timer = 0f;
             }
         }
@@ -70,7 +70,7 @@ public class JarScore : MonoBehaviour
             jar4Timer += Time.deltaTime;
             if (jar4Timer >= scoreIncreaseInterval)
             {
-                Player4score += scoreIncreaseAmount;
+                Player4score++;
                 jar4Timer = 0f;
             }
         }
@@ -135,7 +135,7 @@ public class JarScore : MonoBehaviour
 
     public void DetermineWinner()
     {
-        Dictionary<string, float> playerScores = new Dictionary<string, float>();
+        Dictionary<string, int> playerScores = new Dictionary<string, int>();
 
         foreach (var player in PhotonNetwork.PlayerList)
         {
@@ -179,7 +179,7 @@ public class JarScore : MonoBehaviour
         }
 
         string winner = playerScores.Aggregate((x, y) => x.Value > y.Value ? x : y).Key;
-        float maxScore = playerScores[winner];
+        int maxScore = playerScores[winner];
 
         Debug.Log($"Winner is {winner} with {maxScore} water!");
 

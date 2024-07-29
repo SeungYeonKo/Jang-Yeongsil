@@ -1,4 +1,5 @@
 using Photon.Pun;
+using System.Collections;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -124,16 +125,7 @@ public class RainGaugePlayer : MonoBehaviourPunCallbacks
                     Animator animator = GetComponent<Animator>();
                     if (photonView.IsMine)
                     {
-                        if (firstPlayerName == photonView.Owner.NickName)
-                        {
-                            //UI_GameOver.Instance.CheckFirst();
-                            animator.SetBool("Win", true);
-                        }
-                        else
-                        {
-                            //UI_GameOver.Instance.CheckLast();
-                            animator.SetBool("Sad", true);
-                        }
+                        StartCoroutine(PlayWinOrSadAnimation(animator, firstPlayerName));
                     }
                     _isFinished = true;
                 }
@@ -145,6 +137,22 @@ public class RainGaugePlayer : MonoBehaviourPunCallbacks
         }
     }
 
+    private IEnumerator PlayWinOrSadAnimation(Animator animator, string firstPlayerName)
+    {
+        yield return new WaitForSeconds(1f); 
+
+        if (firstPlayerName == photonView.Owner.NickName)
+        {
+
+            //UI_GameOver.Instance.CheckFirst();
+            animator.SetBool("Win", true);
+        }
+        else
+        {
+            //UI_GameOver.Instance.CheckLast();
+            animator.SetBool("Sad", true);
+        }
+    }
 
     public Vector3 GetHandPosition(int playerNumber)
     {

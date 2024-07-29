@@ -2,7 +2,6 @@ using Photon.Pun;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using Unity.Burst.CompilerServices;
 using UnityEngine;
 using Hashtable = ExitGames.Client.Photon.Hashtable;
 
@@ -148,6 +147,14 @@ public class JarScore : MonoBehaviour
 
     public void DetermineWinner()
     {
+        StartCoroutine(DetermineWinnerWithDelay());
+    }
+
+
+    private IEnumerator DetermineWinnerWithDelay()
+    {
+        yield return new WaitForSeconds(1f);
+
         Dictionary<string, int> playerScores = new Dictionary<string, int>();
 
         foreach (var player in PhotonNetwork.PlayerList)
@@ -188,7 +195,7 @@ public class JarScore : MonoBehaviour
         if (playerScores.Count == 0)
         {
             Debug.LogError("No player scores found.");
-            return;
+            yield break;
         }
 
         string winner = playerScores.Aggregate((x, y) => x.Value > y.Value ? x : y).Key;

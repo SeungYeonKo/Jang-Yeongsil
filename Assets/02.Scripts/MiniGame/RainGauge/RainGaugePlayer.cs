@@ -28,22 +28,36 @@ public class RainGaugePlayer : MonoBehaviourPunCallbacks
 
     private void Start()
     {
-        MyNum = GetUniqueRandomNumber();
         AssignPlayerNumber();
         PhotonNetwork.LocalPlayer.SetCustomProperties
             (new Hashtable { { "PlayerNumber", MyNum }, { "PlayerJarNumber", MyNum } });
+        
         _startpoint = GameObject.Find($"Start{MyNum}");
+        if (_startpoint != null)
+        {
+            Debug.Log($"Start point found for player {MyNum}: {_startpoint.transform.position}");
+        }
+        else
+        {
+            Debug.LogError($"Start point not found for player {MyNum}");
+        }
+
         MoveStartPosition();
         _jarController = FindObjectOfType<Jar>();
+        if (_jarController == null)
+        {
+           // Debug.LogError("JarController is not found. Make sure there is a Jar object in the scene.");
+        }
     }
 
     private void AssignPlayerNumber()
     {
         if (!PhotonNetwork.LocalPlayer.CustomProperties.ContainsKey("PlayerNumber"))
         {
-            int assignedNumber = PhotonNetwork.LocalPlayer.ActorNumber; // Use ActorNumber as unique identifier
-            Debug.Log($"Assigning PlayerNumber: {assignedNumber} to player: {PhotonNetwork.LocalPlayer.NickName}");
-            MyNum = assignedNumber % 4 + 1;
+            int assignedNumber = PhotonNetwork.LocalPlayer.ActorNumber % 4 + 1;
+            MyNum = assignedNumber;
+            Debug.Log($"Assigning PlayerNumber: {MyNum} to player: {PhotonNetwork.LocalPlayer.NickName}");
+            
             PhotonNetwork.LocalPlayer.SetCustomProperties(new Hashtable { { "PlayerNumber", MyNum } });
         }
         else
@@ -54,7 +68,15 @@ public class RainGaugePlayer : MonoBehaviourPunCallbacks
 
     public void MoveStartPosition()
     {
-        transform.position = _startpoint.transform.position;
+        if (_startpoint != null)
+        {
+            transform.position = _startpoint.transform.position;
+            Debug.Log($"Player {MyNum} moved to start position: {transform.position}");
+        }
+        else
+        {
+            Debug.LogError($"Start point not found for player {MyNum}, cannot move to start position.");
+        }
     }
 
     private void Update()
@@ -69,11 +91,6 @@ public class RainGaugePlayer : MonoBehaviourPunCallbacks
         {
             MoveStartPosition();
         }
-    }
-
-    private int GetUniqueRandomNumber()
-    {
-        return PhotonNetwork.LocalPlayer.ActorNumber;
     }
 
     private void SetReadyStateOnInput()
@@ -132,6 +149,13 @@ public class RainGaugePlayer : MonoBehaviourPunCallbacks
     [PunRPC]
     private void RPC_SetJarPosition(int playerNumber, Vector3 position)
     {
-        _jarController.SetJarPosition(playerNumber, position);
+        if (_jarController != null)
+        {
+            _jarController.SetJarPosition(playerNumber, position);
+        }
+        else
+        {
+           // Debug.LogError("JarController is not assigned.");
+        }
     }
 }

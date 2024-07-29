@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
-using UnityEngine.SocialPlatforms;
+using Hashtable = ExitGames.Client.Photon.Hashtable;
 public enum GameState
 {
     Ready,
@@ -18,7 +18,6 @@ public class RainGaugeManager : MonoBehaviour
     private float _gameDuration = 30f; 
     public float TimeRemaining;
 
-
     private int _countDown = 5; // 시작 카운트다운
     private int _countEnd = 5; // 종료 후 대기
     private bool _isGameOver = false;
@@ -26,10 +25,39 @@ public class RainGaugeManager : MonoBehaviour
 
     public GameState CurrentGameState = GameState.Ready;
 
-    private void Start()
+    private void Awake()
     {
-        Instance = this;
+        if (Instance == null)
+        {
+            Instance = this;
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
+    }
+
+    private void OnEnable()
+    {
+        InitializeGame();
+    }
+
+    private void OnDisable()
+    {
+        InitializeGame();
+    }
+
+    private void InitializeGame()
+    {
+        CurrentGameState = GameState.Ready;
         TimeRemaining = _gameDuration;
+        _isGameOver = false;
+        _isStartCoroutine = false;
+
+        foreach (Photon.Realtime.Player player in PhotonNetwork.PlayerList)
+        {
+            player.SetCustomProperties(new Hashtable { { "IsReady_RainGauge", false } });
+        }
     }
 
     private void Update()
@@ -92,7 +120,7 @@ public class RainGaugeManager : MonoBehaviour
 
     private IEnumerator StartCountDown()
     {
-        for (int i = 0; i < _countDown + 1; i++)
+        for (int i = _countDown; i >= 0; i--)
         {
             yield return new WaitForSeconds(1);
             Debug.Log($"CountDown: {i}");

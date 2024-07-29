@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using Photon.Pun;
 using Photon.Realtime;
+using UnityEngine.SceneManagement;
 
 public class UI_CharacterSelect : MonoBehaviour
 {
@@ -111,15 +112,6 @@ public class UI_CharacterSelect : MonoBehaviour
 
     public void OnClickStartButton()
     {
-        RoomOptions roomOptions = new RoomOptions
-        {
-            MaxPlayers = 20,
-            IsVisible = true,
-            IsOpen = true,
-            EmptyRoomTtl = 1000 * 20,
-        };
-
-        PhotonNetwork.JoinOrCreateRoom("Main", roomOptions, TypedLobby.Default);
-        PhotonNetwork.LoadLevel("LoadingScene");
+        SceneManager.LoadScene("IntroFireball");
     }
 }

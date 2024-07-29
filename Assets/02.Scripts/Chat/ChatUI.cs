@@ -2,7 +2,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 using Photon.Pun;
-using System;
+using System.Collections.Generic;
 
 public class ChatUI : MonoBehaviourPunCallbacks
 {
@@ -10,6 +10,8 @@ public class ChatUI : MonoBehaviourPunCallbacks
     public TextMeshProUGUI chatDisplayText; // 채팅 내용 표시 텍스트
     public Button sendButton; // 전송 버튼
     public ChatGPTManager chatGPTManager; // ChatGPTManager 참조
+
+    private HashSet<string> displayedMessages = new HashSet<string>(); // 이미 표시된 메시지 저장용
 
     private void Start()
     {
@@ -75,6 +77,11 @@ public class ChatUI : MonoBehaviourPunCallbacks
 
     public void DisplayMessage(string message)
     {
-        chatDisplayText.text += "\n" + message; // 채팅 내용 추가
+        // 메시지가 이미 표시된 적이 있는지 확인
+        if (!displayedMessages.Contains(message))
+        {
+            displayedMessages.Add(message); // 표시된 메시지로 추가
+            chatDisplayText.text += "\n" + message; // 채팅 내용 추가
+        }
     }
 }

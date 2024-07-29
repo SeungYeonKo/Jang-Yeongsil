@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 6739601411038844382}
   - component: {fileID: 8425878973524583455}
   - component: {fileID: 2469989227535844462}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: G-Object.8383
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -94,7 +94,8 @@ GameObject:
   - component: {fileID: 1419047734353309644}
   - component: {fileID: 8950163231744070241}
   - component: {fileID: 8009517600625117926}
-  m_Layer: 0
+  - component: {fileID: 2839585425024830442}
+  m_Layer: 6
   m_Name: Invention_Sundial
   m_TagString: Invention
   m_Icon: {fileID: 0}
@@ -169,6 +170,19 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 0.010777181, y: 0.010441083, z: 0.0049635326}
   m_Center: {x: -0.004110921, y: 0.0039656777, z: 0.0026358033}
+--- !u!114 &2839585425024830442
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2211923925775350850}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0201f004f5a038f4f948cb4f3380c17d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  InventionType: 0
 --- !u!1 &2454354234167662566
 GameObject:
   m_ObjectHideFlags: 0
@@ -180,7 +194,7 @@ GameObject:
   - component: {fileID: 3290404746132800605}
   - component: {fileID: 3612266370007063962}
   - component: {fileID: 1836250193649907468}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: "C-\uD574\uC2DC\uACC4 \uB2E4\uB9AC.003"
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -263,7 +277,7 @@ GameObject:
   - component: {fileID: 4780689283871528123}
   - component: {fileID: 9098882581000354922}
   - component: {fileID: 6631005892943945613}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: "C-\uD574\uC2DC\uACC4 \uCE68"
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -346,7 +360,7 @@ GameObject:
   - component: {fileID: 1086250532603812910}
   - component: {fileID: 9207071788981312972}
   - component: {fileID: 6727740528656586612}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: "C-\uD574\uC2DC\uACC4 \uCE68.003"
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -429,7 +443,7 @@ GameObject:
   - component: {fileID: 1146150236414487616}
   - component: {fileID: 3967191978973156887}
   - component: {fileID: 5053700895058607000}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: "C-\uD574\uC2DC\uACC4 \uB2E4\uB9AC.001"
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -512,7 +526,7 @@ GameObject:
   - component: {fileID: 3820805856867959628}
   - component: {fileID: 1992826530337354724}
   - component: {fileID: 4282076585487895413}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: "C-\uD574\uC2DC\uACC4 \uCE68.002"
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -593,7 +607,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3150264292456438385}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: G-Object.8381
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -630,7 +644,7 @@ GameObject:
   - component: {fileID: 1992509399916778001}
   - component: {fileID: 3026178333855774484}
   - component: {fileID: 7348464488079016240}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: G-Difference.349
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -713,7 +727,7 @@ GameObject:
   - component: {fileID: 2975362335514105517}
   - component: {fileID: 7919624506614515480}
   - component: {fileID: 2479653928199731842}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: G-Object.8382
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -796,7 +810,7 @@ GameObject:
   - component: {fileID: 2631919343927800353}
   - component: {fileID: 2290578093107262145}
   - component: {fileID: 6253227919605536746}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: "C-\uD574\uC2DC\uACC4 \uB2E4\uB9AC"
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -879,7 +893,7 @@ GameObject:
   - component: {fileID: 8502210269308790522}
   - component: {fileID: 3437549993385757917}
   - component: {fileID: 1682475045615586756}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: G-Object.8380
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -962,7 +976,7 @@ GameObject:
   - component: {fileID: 5019114952899932923}
   - component: {fileID: 8756787570899047287}
   - component: {fileID: 465272428843721872}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: G-Object.8379
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1045,7 +1059,7 @@ GameObject:
   - component: {fileID: 3243756778680675147}
   - component: {fileID: 5232550553472230118}
   - component: {fileID: 6694745503942338549}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: G-Object.8378
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1128,7 +1142,7 @@ GameObject:
   - component: {fileID: 6729014829578498307}
   - component: {fileID: 6943172014886575562}
   - component: {fileID: 8541297985027619384}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: "C-\uD574\uC2DC\uACC4 \uCE68.001"
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1211,7 +1225,7 @@ GameObject:
   - component: {fileID: 1653735332804001976}
   - component: {fileID: 1129691913829153465}
   - component: {fileID: 7091743925383261491}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: "C-\uD574\uC2DC\uACC4 \uB2E4\uB9AC.002"
   m_TagString: Untagged
   m_Icon: {fileID: 0}

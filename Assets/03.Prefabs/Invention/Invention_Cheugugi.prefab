@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 2632195030729738724}
   - component: {fileID: 3693838256137427039}
   - component: {fileID: 2680244847829886934}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: G-Object.8374
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -94,7 +94,7 @@ GameObject:
   - component: {fileID: 2355269902963756376}
   - component: {fileID: 4964708199808849574}
   - component: {fileID: 7758371038097407354}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: G-Object.8372
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -177,7 +177,8 @@ GameObject:
   - component: {fileID: 5119721583072246099}
   - component: {fileID: 358790415774394479}
   - component: {fileID: 4202165351825691556}
-  m_Layer: 0
+  - component: {fileID: 5582011018121446713}
+  m_Layer: 6
   m_Name: Invention_Cheugugi
   m_TagString: Invention
   m_Icon: {fileID: 0}
@@ -246,6 +247,19 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 0.010037028, y: 0.010248626, z: 0.011406081}
   m_Center: {x: -0.0035727946, y: 0.0040220325, z: 0.0051874816}
+--- !u!114 &5582011018121446713
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2742880615490746241}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0201f004f5a038f4f948cb4f3380c17d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  InventionType: 1
 --- !u!1 &4297386277676013062
 GameObject:
   m_ObjectHideFlags: 0
@@ -257,7 +271,7 @@ GameObject:
   - component: {fileID: 4296867561056984306}
   - component: {fileID: 5701829823815070599}
   - component: {fileID: 6196370576431148212}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: G-Object.8375
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -340,7 +354,7 @@ GameObject:
   - component: {fileID: 9063663309629350659}
   - component: {fileID: 8489226547824090077}
   - component: {fileID: 8782402512505438793}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: G-Object.8376
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -423,7 +437,7 @@ GameObject:
   - component: {fileID: 7507328372699517363}
   - component: {fileID: 8332958350631070725}
   - component: {fileID: 4781196767678464529}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: G-Object.8373
   m_TagString: Untagged
   m_Icon: {fileID: 0}

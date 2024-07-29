@@ -1,7 +1,6 @@
 using UnityEngine;
 using TMPro;
 using Photon.Pun;
-using Photon.Realtime;
 using System.Collections;
 
 public class PlayerChatUI : MonoBehaviourPunCallbacks

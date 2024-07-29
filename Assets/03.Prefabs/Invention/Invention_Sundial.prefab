@@ -94,7 +94,7 @@ GameObject:
   - component: {fileID: 1419047734353309644}
   - component: {fileID: 8950163231744070241}
   - component: {fileID: 8009517600625117926}
-  - component: {fileID: 2839585425024830442}
+  - component: {fileID: 8098448116783158447}
   m_Layer: 6
   m_Name: Invention_Sundial
   m_TagString: Invention
@@ -170,7 +170,7 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 0.010777181, y: 0.010441083, z: 0.0049635326}
   m_Center: {x: -0.004110921, y: 0.0039656777, z: 0.0026358033}
---- !u!114 &2839585425024830442
+--- !u!114 &8098448116783158447
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -179,7 +179,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 2211923925775350850}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0201f004f5a038f4f948cb4f3380c17d, type: 3}
+  m_Script: {fileID: 11500000, guid: f9eb15556809932479cf51839fc6492c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   InventionType: 0

@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 
 public enum InventionType
@@ -9,9 +10,4 @@ public enum InventionType
     AstronomicalChart,
     ArmillarySphere,
     Clepsydra
-}
-
-public class QuickSlot : MonoBehaviour
-{ 
-    public InventionType InventionType;
 }

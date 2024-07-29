@@ -14,10 +14,10 @@ public class JarScore : MonoBehaviour
     public GameObject Jar3;
     public GameObject Jar4;
 
-    public int Player1score = 0;
-    public int Player2score = 0;
-    public int Player3score = 0;
-    public int Player4score = 0;
+    public float Player1score = 0;
+    public float Player2score = 0;
+    public float Player3score = 0;
+    public float Player4score = 0;
 
     private float jar1Timer;
     private float jar2Timer;
@@ -25,7 +25,8 @@ public class JarScore : MonoBehaviour
     private float jar4Timer;
 
     private float scoreIncreaseInterval = 1f;
-    private int maxScore = 50;
+    private float scoreIncreaseAmount = 0.1f;
+    private float maxScore = 1000f;
 
     private void Awake()
     {
@@ -39,7 +40,7 @@ public class JarScore : MonoBehaviour
             jar1Timer += Time.deltaTime;
             if (jar1Timer >= scoreIncreaseInterval)
             {
-                Player1score++;
+                Player1score += scoreIncreaseAmount;
                 jar1Timer = 0f;
             }
         }
@@ -49,7 +50,7 @@ public class JarScore : MonoBehaviour
             jar2Timer += Time.deltaTime;
             if (jar2Timer >= scoreIncreaseInterval)
             {
-                Player2score++;
+                Player2score += scoreIncreaseAmount;
                 jar2Timer = 0f;
             }
         }
@@ -59,7 +60,7 @@ public class JarScore : MonoBehaviour
             jar3Timer += Time.deltaTime;
             if (jar3Timer >= scoreIncreaseInterval)
             {
-                Player3score++;
+                Player3score += scoreIncreaseAmount;
                 jar3Timer = 0f;
             }
         }
@@ -69,7 +70,7 @@ public class JarScore : MonoBehaviour
             jar4Timer += Time.deltaTime;
             if (jar4Timer >= scoreIncreaseInterval)
             {
-                Player4score++;
+                Player4score += scoreIncreaseAmount;
                 jar4Timer = 0f;
             }
         }
@@ -113,9 +114,28 @@ public class JarScore : MonoBehaviour
         }
     }
 
+    public void ResetScore(int jarNumber)
+    {
+        switch (jarNumber)
+        {
+            case 1:
+                Player1score = 0;
+                break;
+            case 2:
+                Player2score = 0;
+                break;
+            case 3:
+                Player3score = 0;
+                break;
+            case 4:
+                Player4score = 0;
+                break;
+        }
+    }
+
     public void DetermineWinner()
     {
-        Dictionary<string, int> playerScores = new Dictionary<string, int>();
+        Dictionary<string, float> playerScores = new Dictionary<string, float>();
 
         foreach (var player in PhotonNetwork.PlayerList)
         {
@@ -159,7 +179,7 @@ public class JarScore : MonoBehaviour
         }
 
         string winner = playerScores.Aggregate((x, y) => x.Value > y.Value ? x : y).Key;
-        int maxScore = playerScores[winner];
+        float maxScore = playerScores[winner];
 
         Debug.Log($"Winner is {winner} with {maxScore} water!");
 

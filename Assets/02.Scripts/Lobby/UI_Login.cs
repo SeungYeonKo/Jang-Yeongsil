@@ -138,7 +138,7 @@ public class UI_Login : MonoBehaviour
     }
     IEnumerator FadeOutLogin()
     {
-        yield return new WaitForSeconds(1f);
+        yield return new WaitForSeconds(0.5f);
         AutoLogin();
         lobbyScene.LoginPopup.SetActive(false);
         lobbyScene.CharacterPopup.SetActive(true);

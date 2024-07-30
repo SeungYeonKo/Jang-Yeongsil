@@ -2,7 +2,6 @@ using Photon.Pun;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using Unity.Burst.CompilerServices;
 using UnityEngine;
 using Hashtable = ExitGames.Client.Photon.Hashtable;
 
@@ -148,6 +147,14 @@ public class JarScore : MonoBehaviour
 
     public void DetermineWinner()
     {
+        StartCoroutine(DetermineWinnerWithDelay());
+    }
+
+
+    private IEnumerator DetermineWinnerWithDelay()
+    {
+        yield return new WaitForSeconds(1f);
+
         Dictionary<string, int> playerScores = new Dictionary<string, int>();
 
         foreach (var player in PhotonNetwork.PlayerList)
@@ -188,25 +195,19 @@ public class JarScore : MonoBehaviour
         if (playerScores.Count == 0)
         {
             Debug.LogError("No player scores found.");
-            return;
+            yield break;
         }
 
-        string winner = playerScores.Aggregate((x, y) => x.Value > y.Value ? x : y).Key;
-        int maxScore = playerScores[winner];
+        int maxScore = playerScores.Values.Max();
+        List<string> winners = playerScores.Where(x => x.Value == maxScore).Select(x => x.Key).ToList();
 
-        Debug.Log($"Winner is {winner} with {maxScore} water!");
+        Debug.Log($"Winner(s) with {maxScore} water: {string.Join(", ", winners)}");
 
-        foreach (var player in PhotonNetwork.PlayerList)
+        if (PhotonNetwork.IsMasterClient)
         {
-
-            string playerName = player.NickName;
-
-            if (PhotonNetwork.IsMasterClient && playerName == winner)
-            {
-                Hashtable firstPlayerName = new Hashtable { { "FirstPlayerName", playerName } };
-                PhotonNetwork.CurrentRoom.SetCustomProperties(firstPlayerName);
-                Debug.Log($"{firstPlayerName} 저장");
-            }
+            Hashtable winnersHashtable = new Hashtable { { "FirstPlayerNames", winners.ToArray() } };
+            PhotonNetwork.CurrentRoom.SetCustomProperties(winnersHashtable);
+            Debug.Log($"{string.Join(", ", winners)} 저장");
         }
     }
 }

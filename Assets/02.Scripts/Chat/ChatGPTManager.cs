@@ -67,6 +67,10 @@ public class ChatGPTManager : MonoBehaviourPunCallbacks, IChatClientListener
 
         if (inputText.StartsWith("/장영실"))
         {
+            // 사용자 입력을 채팅창에 표시
+            string userMessage = $"[{PhotonNetwork.NickName ?? "Null"}] {inputText}";
+            chatUI.DisplayMessage(userMessage);
+            
             // ChatGPT에 메시지 요청
             string chatGptMessage = inputText.Substring("/장영실".Length).Trim();
             if (!string.IsNullOrEmpty(chatGptMessage))
@@ -110,7 +114,6 @@ public class ChatGPTManager : MonoBehaviourPunCallbacks, IChatClientListener
             Debug.Log(chatResponse.Content);
 
             // ChatGPT 응답에 닉네임을 포함하지 않도록 변경
-            OnResponse.Invoke(chatResponse.Content);
             string responseMessage = $"[장영실] {chatResponse.Content}";
 
             // ChatGPT 응답을 네트워크로 전송하지 않고 로컬에만 표시
@@ -155,4 +158,3 @@ public class ChatGPTManager : MonoBehaviourPunCallbacks, IChatClientListener
     public void OnUserSubscribed(string channel, string user) { }
     public void OnUserUnsubscribed(string channel, string user) { }
 }
-

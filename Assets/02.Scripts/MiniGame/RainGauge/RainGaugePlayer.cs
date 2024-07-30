@@ -1,4 +1,5 @@
 using Photon.Pun;
+using System.Collections;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -28,22 +29,36 @@ public class RainGaugePlayer : MonoBehaviourPunCallbacks
 
     private void Start()
     {
-        MyNum = GetUniqueRandomNumber();
         AssignPlayerNumber();
         PhotonNetwork.LocalPlayer.SetCustomProperties
             (new Hashtable { { "PlayerNumber", MyNum }, { "PlayerJarNumber", MyNum } });
+        
         _startpoint = GameObject.Find($"Start{MyNum}");
+        if (_startpoint != null)
+        {
+            Debug.Log($"Start point found for player {MyNum}: {_startpoint.transform.position}");
+        }
+        else
+        {
+            Debug.LogError($"Start point not found for player {MyNum}");
+        }
+
         MoveStartPosition();
         _jarController = FindObjectOfType<Jar>();
+        if (_jarController == null)
+        {
+           // Debug.LogError("JarController is not found. Make sure there is a Jar object in the scene.");
+        }
     }
 
     private void AssignPlayerNumber()
     {
         if (!PhotonNetwork.LocalPlayer.CustomProperties.ContainsKey("PlayerNumber"))
         {
-            int assignedNumber = PhotonNetwork.LocalPlayer.ActorNumber; // Use ActorNumber as unique identifier
-            Debug.Log($"Assigning PlayerNumber: {assignedNumber} to player: {PhotonNetwork.LocalPlayer.NickName}");
-            MyNum = assignedNumber % 4 + 1;
+            int assignedNumber = PhotonNetwork.LocalPlayer.ActorNumber % 4 + 1;
+            MyNum = assignedNumber;
+            Debug.Log($"Assigning PlayerNumber: {MyNum} to player: {PhotonNetwork.LocalPlayer.NickName}");
+            
             PhotonNetwork.LocalPlayer.SetCustomProperties(new Hashtable { { "PlayerNumber", MyNum } });
         }
         else
@@ -54,7 +69,19 @@ public class RainGaugePlayer : MonoBehaviourPunCallbacks
 
     public void MoveStartPosition()
     {
-        transform.position = _startpoint.transform.position;
+        if (photonView.IsMine)
+        {
+            if (_startpoint != null)
+            {
+                transform.position = _startpoint.transform.position;
+                Debug.Log($"Player {MyNum} moved to start position: {transform.position}");
+            }
+            else
+            {
+                Debug.LogError($"Start point not found for player {MyNum}, cannot move to start position.");
+            }
+        }
+          
     }
 
     private void Update()
@@ -64,16 +91,12 @@ public class RainGaugePlayer : MonoBehaviourPunCallbacks
             SetReadyStateOnInput();
             Vector3 handPosition = GetHandPosition(MyNum);
             photonView.RPC("RPC_SetJarPosition", RpcTarget.AllBuffered, MyNum, handPosition);
-        }
-        if (RainGaugeManager.Instance.CurrentGameState == GameState.Loading)
-        {
-            MoveStartPosition();
-        }
-    }
 
-    private int GetUniqueRandomNumber()
-    {
-        return PhotonNetwork.LocalPlayer.ActorNumber;
+            if (RainGaugeManager.Instance.CurrentGameState == GameState.Loading)
+            {
+                MoveStartPosition();
+            }
+        }
     }
 
     private void SetReadyStateOnInput()
@@ -102,16 +125,7 @@ public class RainGaugePlayer : MonoBehaviourPunCallbacks
                     Animator animator = GetComponent<Animator>();
                     if (photonView.IsMine)
                     {
-                        if (firstPlayerName == photonView.Owner.NickName)
-                        {
-                            //UI_GameOver.Instance.CheckFirst();
-                            animator.SetBool("Win", true);
-                        }
-                        else
-                        {
-                            //UI_GameOver.Instance.CheckLast();
-                            animator.SetBool("Sad", true);
-                        }
+                        StartCoroutine(PlayWinOrSadAnimation(animator, firstPlayerName));
                     }
                     _isFinished = true;
                 }
@@ -123,6 +137,22 @@ public class RainGaugePlayer : MonoBehaviourPunCallbacks
         }
     }
 
+    private IEnumerator PlayWinOrSadAnimation(Animator animator, string firstPlayerName)
+    {
+        yield return new WaitForSeconds(1f); 
+
+        if (firstPlayerName == photonView.Owner.NickName)
+        {
+
+            //UI_GameOver.Instance.CheckFirst();
+            animator.SetBool("Win", true);
+        }
+        else
+        {
+            //UI_GameOver.Instance.CheckLast();
+            animator.SetBool("Sad", true);
+        }
+    }
 
     public Vector3 GetHandPosition(int playerNumber)
     {
@@ -132,6 +162,13 @@ public class RainGaugePlayer : MonoBehaviourPunCallbacks
     [PunRPC]
     private void RPC_SetJarPosition(int playerNumber, Vector3 position)
     {
-        _jarController.SetJarPosition(playerNumber, position);
+        if (_jarController != null)
+        {
+            _jarController.SetJarPosition(playerNumber, position);
+        }
+        else
+        {
+           // Debug.LogError("JarController is not assigned.");
+        }
     }
 }

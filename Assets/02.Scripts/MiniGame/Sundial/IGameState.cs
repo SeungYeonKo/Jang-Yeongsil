@@ -40,6 +40,7 @@ public class GamePlayingState : IGameState
     public void UpdateState(SunGameManager gameManager)
     {
         // 게임 중에 실행될 업데이트 로직
+        gameManager.CheckSliderValue();
     }
 
     public void ExitState(SunGameManager gameManager)

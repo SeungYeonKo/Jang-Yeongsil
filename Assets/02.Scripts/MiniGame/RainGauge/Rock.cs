@@ -24,7 +24,7 @@ public class Rock : MonoBehaviour
             int jarNumber = GetJarNumber(other.gameObject);
             if (jarNumber != -1)
             {
-                Debug.Log($"Decreasing score for jar number: {jarNumber}");
+                Debug.Log($"Reset score for jar number: {jarNumber}");
                 JarScore.Instance.ResetScore(jarNumber);
                 Jar jarController = FindObjectOfType<Jar>();
                 if (jarController != null)

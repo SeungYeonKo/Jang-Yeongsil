@@ -2,17 +2,25 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+public enum TriggerType
+{
+    SundialTrigger,
+    CheugugiTrigger,
+    AstronomicalChartTrigger,
+    ArmillarySphereTrigger,
+    ClepsydraSundialTrigger
+}
+
 public class Museum : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+    public TriggerType TriggerType;
+
+    private void OnTriggerEnter(Collider other)
     {
-        
+        if (CompareTag("Player"))
+        {
+          
+        }
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
 }

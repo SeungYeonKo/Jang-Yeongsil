@@ -23,12 +23,17 @@ public class TextPopup : MonoBehaviour
     {
         if (GameReady && Input.GetKeyDown(KeyCode.Q))
         {
-            if (textPopup != null)
-            {
-                textPopup.gameObject.SetActive(false); // 텍스트 비활성화
-                GameReady = false; // 상태 리셋
-                isPlayerInTrigger = false; // 트리거 상태 초기화
-            }
+            HideText();
+        }
+    }
+
+    public void HideText()
+    {
+        if (textPopup != null)
+        {
+            textPopup.gameObject.SetActive(false); // 텍스트 비활성화
+            GameReady = false; // 상태 리셋
+            isPlayerInTrigger = false; // 트리거 상태 초기화
         }
     }
 

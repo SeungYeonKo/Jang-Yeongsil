@@ -14,6 +14,10 @@ public class GamePortal : MonoBehaviour
             {
                 PhotonManager.Instance.LeaveAndLoadRoom("MiniGame1");
             }
+            if (gameObject.name == "MuseumPortal")
+            {
+                PhotonManager.Instance.LeaveAndLoadRoom("MuseumScene");
+            }
         }
     }
 }

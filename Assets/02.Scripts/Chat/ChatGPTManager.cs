@@ -88,38 +88,44 @@ public class ChatGPTManager : MonoBehaviourPunCallbacks, IChatClientListener
     }
 
     public async void AskChatGPT(string userMessage)
+{
+    ChatMessage systemMessage = new ChatMessage
     {
-        ChatMessage newMessage = new ChatMessage
-        {
-            Content = userMessage,
-            Role = "user"
-        };
+        Role = "system",
+        Content = "한국어로 말하세요. 당신은 장영실의 혼입니다. 그는 플레이어들에게 자신의 발명품을 알리고 싶어합니다. 당신은 플레이어들을 미니게임으로 이끌도록 하며, 플레이어들이 발명품을 다 찾아 수집하여 박물관에 자신의 발명품을 다 전시하면 장영실의 혼이 기뻐합니다. 무조건 한 문장으로 끝날 수 있게 존댓말로 말하세요. 장영실의 혼은 플레이어들에게 측우기, 해시계 미니게임을 통해 해당 발명품의 작동원리와 만든 의도를 알게 하여 박물관에 발명품이 수집되는 것이 목적입니다. 플레이어가 어떻게 할지 모를 때에는 측우기나 해시계 미니게임을 하게 하세요."
+    };
 
-        messages.Clear();  // 중복을 피하기 위해 메시지 리스트를 초기화
-        messages.Add(newMessage);
+    ChatMessage userChatMessage = new ChatMessage
+    {
+        Content = userMessage,
+        Role = "user"
+    };
 
-        CreateChatCompletionRequest request = new CreateChatCompletionRequest
-        {
-            Messages = messages,
-            Model = "gpt-3.5-turbo"
-        };
+    messages.Clear();  // 중복을 피하기 위해 메시지 리스트를 초기화
+    messages.Add(systemMessage);  // 시스템 메시지 추가
+    messages.Add(userChatMessage);  // 유저 메시지 추가
 
-        var response = await openAI.CreateChatCompletion(request);
+    CreateChatCompletionRequest request = new CreateChatCompletionRequest
+    {
+        Messages = messages,
+        Model = "gpt-3.5-turbo"
+    };
 
-        if (response.Choices != null && response.Choices.Count > 0)
-        {
-            var chatResponse = response.Choices[0].Message;
-            messages.Add(chatResponse);
+    var response = await openAI.CreateChatCompletion(request);
 
-            Debug.Log(chatResponse.Content);
+    if (response.Choices != null && response.Choices.Count > 0)
+    {
+        var chatResponse = response.Choices[0].Message;
+        messages.Add(chatResponse);
 
-            // ChatGPT 응답에 닉네임을 포함하지 않도록 변경
-            string responseMessage = $"[장영실] {chatResponse.Content}";
+        Debug.Log(chatResponse.Content);
 
-            // ChatGPT 응답을 네트워크로 전송하지 않고 로컬에만 표시
-            chatUI.DisplayMessage(responseMessage);
-        }
+        string responseMessage = $"[장영실] {chatResponse.Content}";
+
+        chatUI.DisplayMessage(responseMessage);
     }
+}
+
 
     public void SendMessageToChat(string message)
     {

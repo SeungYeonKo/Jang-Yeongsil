@@ -110,6 +110,10 @@ public class PhotonManager : MonoBehaviourPunCallbacks
             case "MiniGame3":
                 PhotonNetwork.LoadLevel("TowerClimbScene");
                 break;
+            case "MuseumScene":
+                PhotonNetwork.LoadLevel("MuseumScene");
+                break;
+
         }
     }
 

@@ -19,15 +19,12 @@ public class TPSCamera : MonoBehaviourPunCallbacks
     private void Start()
     {
         offset = new Vector3(0, height, -distance); // 초기 위치 설정
-        Cursor.lockState = CursorLockMode.Locked;
-
-        // 자신의 캐릭터 찾기
+        LockCursor(); // 초기 커서 상태 설정
         FindLocalPlayer();
     }
 
     public override void OnJoinedRoom()
     {
-        // 방에 들어왔을 때 자신의 캐릭터 다시 찾기
         FindLocalPlayer();
     }
 
@@ -54,14 +51,11 @@ public class TPSCamera : MonoBehaviourPunCallbacks
 
     private void FindLocalPlayer()
     {
-        // 모든 플레이어 오브젝트를 찾음
         GameObject[] players = GameObject.FindGameObjectsWithTag("Player");
 
-        // 각 플레이어 오브젝트를 검사
         foreach (GameObject player in players)
         {
             PhotonView photonView = player.GetComponent<PhotonView>();
-            // 자신의 캐릭터인지 확인
             if (photonView != null && photonView.IsMine)
             {
                 Transform cameraRoot = player.transform.Find("CameraRoot");
@@ -76,5 +70,17 @@ public class TPSCamera : MonoBehaviourPunCallbacks
                 break;
             }
         }
+    }
+
+    public void LockCursor()
+    {
+        Cursor.lockState = CursorLockMode.Locked;
+        Cursor.visible = false;
+    }
+
+    public void UnlockCursor()
+    {
+        Cursor.lockState = CursorLockMode.None;
+        Cursor.visible = true;
     }
 }

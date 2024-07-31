@@ -9,6 +9,7 @@ public enum SceneType
     MiniGame1,
     MiniGame2,
     MiniGame3,
+    MuseumScene,
 }
 
 public class GameManager : MonoBehaviourPunCallbacks

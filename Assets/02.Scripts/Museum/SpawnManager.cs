@@ -36,7 +36,10 @@ public class SpawnManager : MonoBehaviourPunCallbacks
 
                 // 캐릭터 생성
                 Debug.Log($"{prefabName}");
-                PhotonNetwork.Instantiate(prefabName, spawnPoint, Quaternion.identity);
+                GameObject playerObject = PhotonNetwork.Instantiate(prefabName, spawnPoint, Quaternion.identity);
+
+                // 생성된 플레이어의 위치 확인
+                Debug.Log($"생성된 플레이어 위치: {playerObject.transform.position}");
             }
             else
             {

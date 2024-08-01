@@ -10,6 +10,8 @@ public class UI_RainGaugeManager : MonoBehaviourPunCallbacks
     public GameObject ReadyButtonPressed;
     public GameObject ReadyButton;
 
+    private bool _isFinished = true;
+
     private void Start()
     {
         ReadyImg.gameObject.SetActive(false);
@@ -21,11 +23,19 @@ public class UI_RainGaugeManager : MonoBehaviourPunCallbacks
     {
         if (RainGaugeManager.Instance.CurrentGameState == GameState.Loading)
         {
-            StartCoroutine(Show_Coroutine(ReadyImg));
+            if (!_isFinished)
+            {
+                StartCoroutine(Show_Coroutine(ReadyImg));
+                _isFinished = true;
+            }
         }
         else if (RainGaugeManager.Instance.CurrentGameState == GameState.Go)
         {
-            StartCoroutine(Show_Coroutine(StartImg));
+            if (!_isFinished)
+            {
+                StartCoroutine(Show_Coroutine(StartImg));
+                _isFinished = true;
+            }
         }
         CheakReadyButton();
     }

@@ -69,7 +69,7 @@ public class ChatGPTManager : MonoBehaviourPunCallbacks, IChatClientListener
         {
             // 사용자 입력을 채팅창에 표시
             string userMessage = $"[{PhotonNetwork.NickName ?? "Null"}] {inputText}";
-            chatUI.DisplayMessage(userMessage);
+            //chatUI.DisplayMessage(userMessage);
             
             // ChatGPT에 메시지 요청
             string chatGptMessage = inputText.Substring("/장영실".Length).Trim();

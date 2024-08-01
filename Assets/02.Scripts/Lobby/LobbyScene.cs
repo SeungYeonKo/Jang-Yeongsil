@@ -9,6 +9,8 @@ public class LobbyScene : MonoBehaviour
     public UI_Login UILogin;
     void Start()
     {
+        Cursor.visible = true;
+        Cursor.lockState = CursorLockMode.None;
         StartCoroutine(Show_Coroutine());
     }
     IEnumerator Show_Coroutine()

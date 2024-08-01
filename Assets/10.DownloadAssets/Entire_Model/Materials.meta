@@ -1,6 +1,10 @@
 fileFormatVersion: 2
+<<<<<<<< HEAD:Assets/10.DownloadAssets/Microsoft.Bcl.AsyncInterfaces.nuspec.meta
+guid: 05699a93a5ec0a240bf6f11f8f32f89f
+========
 guid: e1f19560efcd73448b50d34d617b9a9c
 folderAsset: yes
+>>>>>>>> 55e3d447246137700a1b3cc1c64079423012c6d1:Assets/10.DownloadAssets/Entire_Model/Materials.meta
 DefaultImporter:
   externalObjects: {}
   userData: 

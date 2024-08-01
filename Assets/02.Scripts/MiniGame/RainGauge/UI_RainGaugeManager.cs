@@ -1,5 +1,6 @@
 using System;
 using System.Collections;
+using System.Collections.Generic;
 using Photon.Pun;
 using TMPro;
 using UnityEngine;
@@ -17,9 +18,14 @@ public class UI_RainGaugeManager : MonoBehaviourPunCallbacks
     public TMP_Text NumberThree;
     public TMP_Text NumberFour;
 
+    public TMP_Text PlayNameOne;
+    public TMP_Text PlayNameTwo;
+    public TMP_Text PlayNameThree;
+    public TMP_Text PlayNameFour;
+    
     private bool _isReadyFinished = false;
     private bool _isGoFinished = false;
-
+    private Dictionary<int, RainGaugePlayer> players = new Dictionary<int, RainGaugePlayer>();
     private void Start()
     {
         ReadyImg.gameObject.SetActive(false);
@@ -27,6 +33,7 @@ public class UI_RainGaugeManager : MonoBehaviourPunCallbacks
         ReadyButtonPressed.SetActive(false);
 
         UpdateScore();
+        UpdatePlayerNames();
     }
 
     void Update()
@@ -78,5 +85,40 @@ public class UI_RainGaugeManager : MonoBehaviourPunCallbacks
         NumberThree.text = JarScore.Instance.Player3score.ToString();
         NumberFour.text = JarScore.Instance.Player4score.ToString();
     }
+    
+    private void UpdatePlayerNames()
+    {
+        foreach (var player in PhotonNetwork.PlayerList)
+        {
+            if (player.CustomProperties.TryGetValue("PlayerNumber", out object playerNumberObj))
+            {
+                int playerNumber = (int)playerNumberObj;
+                string playerName = player.NickName;
 
+                SetPlayerName(playerNumber, playerName);
+            }
+        }
+    }
+
+    private void SetPlayerName(int playerNumber, string playerName)
+    {
+        switch (playerNumber)
+        {
+            case 1:
+                PlayNameOne.text = playerName;
+                break;
+            case 2:
+                PlayNameTwo.text = playerName;
+                break;
+            case 3:
+                PlayNameThree.text = playerName;
+                break;
+            case 4:
+                PlayNameFour.text = playerName;
+                break;
+            default:
+                Debug.LogError("Invalid player number.");
+                break;
+        }
+    }
 }

@@ -45,7 +45,7 @@ public class RainGaugeManager : MonoBehaviourPunCallbacks
         // 플레이어 번호에 맞는 UI를 활성화
         if (playerNumber >= 1 && playerNumber <= playerUI.Length)
         {
-            playerUI[playerNumber - 1].SetActive(true);
+            playerUI[playerNumber - 2].SetActive(true);
         }
         else
         {

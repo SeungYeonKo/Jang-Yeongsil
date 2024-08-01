@@ -69,7 +69,7 @@ public class ChatGPTManager : MonoBehaviourPunCallbacks, IChatClientListener
         {
             // 사용자 입력을 채팅창에 표시
             string userMessage = $"[{PhotonNetwork.NickName ?? "Null"}] {inputText}";
-            //chatUI.DisplayMessage(userMessage);
+            SendMessageToChat(userMessage); // 포톤 네트워크를 통해 메시지를 전송
             
             // ChatGPT에 메시지 요청
             string chatGptMessage = inputText.Substring("/장영실".Length).Trim();
@@ -88,51 +88,49 @@ public class ChatGPTManager : MonoBehaviourPunCallbacks, IChatClientListener
     }
 
     public async void AskChatGPT(string userMessage)
-{
-    ChatMessage systemMessage = new ChatMessage
     {
-        Role = "system",
-        Content = "한국어로 말하세요. 당신은 장영실의 혼입니다. 그는 플레이어들에게 자신의 발명품을 알리고 싶어합니다. 당신은 플레이어들을 미니게임으로 이끌도록 하며, 플레이어들이 발명품을 다 찾아 수집하여 박물관에 자신의 발명품을 다 전시하면 장영실의 혼이 기뻐합니다. 무조건 한 문장으로 끝날 수 있게 존댓말로 말하세요. 장영실의 혼은 플레이어들에게 측우기, 해시계 미니게임을 통해 해당 발명품의 작동원리와 만든 의도를 알게 하여 박물관에 발명품이 수집되는 것이 목적입니다. 플레이어가 어떻게 할지 모를 때에는 측우기나 해시계 미니게임을 하게 하세요."
-    };
+        ChatMessage systemMessage = new ChatMessage
+        {
+            Role = "system",
+            Content = "한국어로 말하세요. 당신은 장영실의 혼입니다. 그는 플레이어들에게 자신의 발명품을 알리고 싶어합니다. 당신은 플레이어들을 미니게임으로 이끌도록 하며, 플레이어들이 발명품을 다 찾아 수집하여 박물관에 자신의 발명품을 다 전시하면 장영실의 혼이 기뻐합니다. 무조건 한 문장으로 끝날 수 있게 존댓말로 말하세요. 장영실의 혼은 플레이어들에게 측우기, 해시계 미니게임을 통해 해당 발명품의 작동원리와 만든 의도를 알게 하여 박물관에 발명품이 수집되는 것이 목적입니다. 플레이어가 어떻게 할지 모를 때에는 측우기나 해시계 미니게임을 하게 하세요."
+        };
 
-    ChatMessage userChatMessage = new ChatMessage
-    {
-        Content = userMessage,
-        Role = "user"
-    };
+        ChatMessage userChatMessage = new ChatMessage
+        {
+            Content = userMessage,
+            Role = "user"
+        };
 
-    messages.Clear();  // 중복을 피하기 위해 메시지 리스트를 초기화
-    messages.Add(systemMessage);  // 시스템 메시지 추가
-    messages.Add(userChatMessage);  // 유저 메시지 추가
+        messages.Clear();  // 중복을 피하기 위해 메시지 리스트를 초기화
+        messages.Add(systemMessage);  // 시스템 메시지 추가
+        messages.Add(userChatMessage);  // 유저 메시지 추가
 
-    CreateChatCompletionRequest request = new CreateChatCompletionRequest
-    {
-        Messages = messages,
-        Model = "gpt-3.5-turbo"
-    };
+        CreateChatCompletionRequest request = new CreateChatCompletionRequest
+        {
+            Messages = messages,
+            Model = "gpt-3.5-turbo"
+        };
 
-    var response = await openAI.CreateChatCompletion(request);
+        var response = await openAI.CreateChatCompletion(request);
 
-    if (response.Choices != null && response.Choices.Count > 0)
-    {
-        var chatResponse = response.Choices[0].Message;
-        messages.Add(chatResponse);
+        if (response.Choices != null && response.Choices.Count > 0)
+        {
+            var chatResponse = response.Choices[0].Message;
+            messages.Add(chatResponse);
 
-        Debug.Log(chatResponse.Content);
+            Debug.Log(chatResponse.Content);
 
-        string responseMessage = $"[장영실] {chatResponse.Content}";
+            string responseMessage = $"[장영실] {chatResponse.Content}";
 
-        chatUI.DisplayMessage(responseMessage);
+            SendMessageToChat(responseMessage); // GPT의 응답을 포톤 네트워크를 통해 전송
+        }
     }
-}
-
 
     public void SendMessageToChat(string message)
     {
         if (chatClient != null && chatClient.CanChat)
         {
             chatClient.PublishMessage(chatChannel, message);
-            chatUI.DisplayMessage(message);  // 기존 텍스트에 사용자 메시지 추가
         }
         else
         {

@@ -1,5 +1,7 @@
 using System;
 using System.Collections;
+using System.Collections.Generic;
+using ExitGames.Client.Photon;
 using Photon.Pun;
 using TMPro;
 using UnityEngine;
@@ -17,35 +19,44 @@ public class UI_RainGaugeManager : MonoBehaviourPunCallbacks
     public TMP_Text NumberThree;
     public TMP_Text NumberFour;
 
-    private bool _isFinished = true;
-
+    public TMP_Text PlayNameOne;
+    public TMP_Text PlayNameTwo;
+    public TMP_Text PlayNameThree;
+    public TMP_Text PlayNameFour;
+    
+    private bool _isReadyFinished = false;
+    private bool _isGoFinished = false;
+    private Dictionary<int, RainGaugePlayer> players = new Dictionary<int, RainGaugePlayer>();
     private void Start()
     {
         ReadyImg.gameObject.SetActive(false);
         StartImg.gameObject.SetActive(false);
         ReadyButtonPressed.SetActive(false);
+
+        UpdatePlayerUI();
     }
 
     void Update()
     {
         if (RainGaugeManager.Instance.CurrentGameState == GameState.Loading)
         {
-            if (!_isFinished)
+            if (!_isReadyFinished)
             {
                 StartCoroutine(Show_Coroutine(ReadyImg));
-                _isFinished = true;
+                _isReadyFinished = true;
+                _isGoFinished = false;
             }
         }
         else if (RainGaugeManager.Instance.CurrentGameState == GameState.Go)
         {
-            if (!_isFinished)
+            if (!_isGoFinished)
             {
                 StartCoroutine(Show_Coroutine(StartImg));
-                _isFinished = true;
+                _isGoFinished = true;
+                _isReadyFinished = false;
             }
-            UpdateScore();
         }
-
+        UpdatePlayerUI();
         CheakReadyButton();
     }
 
@@ -67,12 +78,57 @@ public class UI_RainGaugeManager : MonoBehaviourPunCallbacks
         }
     }
 
-    private void UpdateScore()
+    private void UpdatePlayerUI()
     {
-        NumberOne.text = JarScore.Instance.Player1score.ToString();
-        NumberTwo.text = JarScore.Instance.Player2score.ToString();
-        NumberThree.text = JarScore.Instance.Player3score.ToString();
-        NumberFour.text = JarScore.Instance.Player4score.ToString();
+        foreach (var player in PhotonNetwork.PlayerList)
+        {
+            if (player.CustomProperties.TryGetValue("PlayerNumber", out object playerNumberObj))
+            {
+                int playerNumber = (int)playerNumberObj;
+                string playerName = player.NickName;
+                int score = GetPlayerScore(playerNumber); // 플레이어의 점수를 가져옵니다.
+                
+                Debug.Log($"{playerName}");
+                SetPlayerUI(playerNumber - 1, playerName, score);
+            }
+        }
     }
 
+    private void SetPlayerUI(int index, string playerName, int playerScore)
+    {
+        switch (index)
+        {
+            case 1:
+                PlayNameOne.text = playerName;
+                NumberOne.text = playerScore.ToString();
+                break;
+            case 2:
+                PlayNameTwo.text = playerName;
+                NumberTwo.text = playerScore.ToString();
+                break;
+            case 3:
+                PlayNameThree.text = playerName;
+                NumberThree.text = playerScore.ToString();
+                break;
+            case 4:
+                PlayNameFour.text = playerName;
+                NumberFour.text = playerScore.ToString();
+                break;
+            default:
+                Debug.LogError("Invalid player index.");
+                break;
+        }
+    }
+
+    private int GetPlayerScore(int playerNumber)
+    {
+        switch (playerNumber)
+        {
+            case 1: return JarScore.Instance.Player1score;
+            case 2: return JarScore.Instance.Player2score;
+            case 3: return JarScore.Instance.Player3score;
+            case 4: return JarScore.Instance.Player4score;
+            default: return 0;
+        }
+    }
 }

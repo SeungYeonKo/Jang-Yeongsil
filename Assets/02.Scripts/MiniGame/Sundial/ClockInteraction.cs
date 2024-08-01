@@ -4,28 +4,30 @@ using UnityEngine.UI;
 public class ClockInteraction : MonoBehaviour
 {
     public Camera mainCamera; // 메인 카메라
-    public Transform clockViewTransform; // 해시계를 바라보는 위치와 회전값
-    public GameObject uiCanvas; // 전체 UI 캔버스
+    public Camera miniGameCamera; // 미니게임 전용 카메라
+    public GameObject sundialSliderCanvas; // 전체 UI 캔버스 (SundialSlider_Canvas)
     public TextPopup textPopup; // 텍스트 팝업 스크립트
     public GameObject sundialSlider; // 슬라이더 오브젝트
     public GameObject sunImage; // 슬라이더 이미지 오브젝트
     public GameObject qzText; // 문제 텍스트
     public GameObject qKeyText; // Q 키 텍스트
     public GameObject additionalImage; // 추가 이미지 오브젝트
-    public TPSCamera tpsCamera; // TPS 카메라 스크립트 참조
 
-    private Vector3 originalCameraPosition;
-    private Quaternion originalCameraRotation;
     private bool isNearClock = false;
     private bool isClockViewActive = false;
 
     void Start()
     {
-        // 초기 설정: 슬라이더와 이미지, 문제 텍스트 비활성화
+        // 초기 설정: 미니게임 카메라 비활성화, 개별 UI 오브젝트 비활성화
+        if (miniGameCamera != null) miniGameCamera.gameObject.SetActive(false);
         if (sundialSlider != null) sundialSlider.SetActive(false);
         if (sunImage != null) sunImage.SetActive(false);
         if (qzText != null) qzText.SetActive(false);
         if (additionalImage != null) additionalImage.SetActive(false);
+
+        // 시작할 때 마우스 커서 숨김
+        Cursor.lockState = CursorLockMode.Locked;
+        Cursor.visible = false;
     }
 
     void Update()
@@ -39,21 +41,13 @@ public class ClockInteraction : MonoBehaviour
 
     void ToggleClockView()
     {
-        // 카메라 위치와 회전 전환
         if (!isClockViewActive)
         {
-            // 현재 카메라 위치와 회전 저장
-            originalCameraPosition = mainCamera.transform.position;
-            originalCameraRotation = mainCamera.transform.rotation;
+            // 메인 카메라 비활성화, 미니게임 카메라 활성화
+            if (mainCamera != null) mainCamera.gameObject.SetActive(false);
+            if (miniGameCamera != null) miniGameCamera.gameObject.SetActive(true);
 
-            // 해시계를 바라보는 위치로 카메라 이동
-            mainCamera.transform.position = clockViewTransform.position;
-            mainCamera.transform.rotation = clockViewTransform.rotation;
-
-            // TPS 카메라 스크립트 비활성화
-            if (tpsCamera != null) tpsCamera.enabled = false;
-
-            // 슬라이더와 이미지, 문제 텍스트 활성화
+            // SundialSlider_Canvas를 전체적으로 끄지 않고 개별 요소만 활성화
             if (sundialSlider != null) sundialSlider.SetActive(true);
             if (sunImage != null) sunImage.SetActive(true);
             if (qzText != null) qzText.SetActive(true);
@@ -68,14 +62,11 @@ public class ClockInteraction : MonoBehaviour
         }
         else
         {
-            // 원래 위치로 카메라 이동
-            mainCamera.transform.position = originalCameraPosition;
-            mainCamera.transform.rotation = originalCameraRotation;
+            // 메인 카메라 활성화, 미니게임 카메라 비활성화
+            if (mainCamera != null) mainCamera.gameObject.SetActive(true);
+            if (miniGameCamera != null) miniGameCamera.gameObject.SetActive(false);
 
-            // TPS 카메라 스크립트 활성화
-            if (tpsCamera != null) tpsCamera.enabled = true;
-
-            // 슬라이더와 이미지, 문제 텍스트 비활성화
+            // SundialSlider_Canvas 내의 개별 UI 요소 비활성화
             if (sundialSlider != null) sundialSlider.SetActive(false);
             if (sunImage != null) sunImage.SetActive(false);
             if (qzText != null) qzText.SetActive(false);

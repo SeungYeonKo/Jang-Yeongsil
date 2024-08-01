@@ -33,6 +33,7 @@ public class RainGaugeManager : MonoBehaviourPunCallbacks
         if (Instance == null)
         {
             Instance = this;
+            DisableAllUI();
         }
         else
         {
@@ -57,6 +58,7 @@ public class RainGaugeManager : MonoBehaviourPunCallbacks
         {
             players[player.MyNum] = player;
             Debug.Log($"Player {player.MyNum} registered.");
+            AssignUI(player.MyNum);
         }
     }
     public void DisableAllUI()

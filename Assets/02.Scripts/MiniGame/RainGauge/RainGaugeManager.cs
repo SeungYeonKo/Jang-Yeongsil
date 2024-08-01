@@ -24,6 +24,9 @@ public class RainGaugeManager : MonoBehaviourPunCallbacks
 
     public GameState CurrentGameState = GameState.Ready;
 
+    public GameObject[] playerUI; // 0번 인덱스부터 4개의 플레이어 UI를 배열로 관리
+    private int playerNumber;
+    
     private void Awake()
     {
         if (Instance == null)
@@ -35,7 +38,21 @@ public class RainGaugeManager : MonoBehaviourPunCallbacks
             Destroy(gameObject);
         }
     }
-
+    private void Start()
+    {
+        if (photonView.IsMine)
+        {
+            playerNumber = PhotonNetwork.LocalPlayer.ActorNumber % 4; // 방에 들어온 순서에 따라 0,1,2,3 중 하나로 할당
+            ActivatePlayerUI(playerNumber);
+        }
+    }
+    private void ActivatePlayerUI(int number)
+    {
+        for (int i = 0; i < playerUI.Length; i++)
+        {
+            playerUI[i].SetActive(i == number);
+        }
+    }
     public override void OnEnable()
     {
         InitializeGame();
@@ -156,7 +173,7 @@ public class RainGaugeManager : MonoBehaviourPunCallbacks
                 //Debug.Log("플레이어 준비 상태가 없습니다: " + player.NickName);
             }
         }
-        if (readyPlayerCount >= 2)
+        if (readyPlayerCount >= 1)
         {
             //Debug.Log("플레이어 모두 레디");
             return true;

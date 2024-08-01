@@ -33,17 +33,24 @@ public class PlayerChatUI : MonoBehaviourPunCallbacks
 
     private void Update()
     {
-        transform.forward = Camera.main.transform.forward;
+        // 카메라를 향해 항상 정면을 바라보도록 설정
+        if (Camera.main != null)
+        {
+            transform.forward = Camera.main.transform.forward;
+        }
     }
 
     // 모든 클라이언트에게 채팅 메시지를 표시하는 RPC 메서드
     [PunRPC]
-    private void RPCDisplayChatMessage(string message)
+    private void RPCDisplayChatMessage(string message, PhotonMessageInfo info)
     {
         if (chatText != null)
         {
-            Debug.Log("RPC received message: " + message);
-            chatText.text = message;
+            string playerName = info.Sender.NickName; // 메시지를 보낸 플레이어의 이름
+            string formattedMessage = $"[{playerName}]: {message}";
+
+            Debug.Log("RPC received message: " + formattedMessage);
+            chatText.text = formattedMessage;
             chatText.gameObject.SetActive(true); // 텍스트 표시
 
             StartCoroutine(HideChatTextAfterDelay());

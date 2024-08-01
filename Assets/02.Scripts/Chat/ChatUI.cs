@@ -56,8 +56,8 @@ public class ChatUI : MonoBehaviourPunCallbacks
             }
             else
             {
-                // 메시지를 로컬 채팅창에 표시
-                DisplayMessage($"[{PhotonNetwork.NickName ?? "Null"}] {message}");
+                // 메시지를 포톤 네트워크를 통해 전송
+                chatGPTManager.SendMessageToChat($"[{PhotonNetwork.NickName ?? "Null"}] {message}");
             }
 
             chatInputField.text = string.Empty; // 메시지를 보낸 후 입력 필드를 초기화

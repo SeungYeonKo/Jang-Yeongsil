@@ -17,35 +17,39 @@ public class UI_RainGaugeManager : MonoBehaviourPunCallbacks
     public TMP_Text NumberThree;
     public TMP_Text NumberFour;
 
-    private bool _isFinished = true;
+    private bool _isReadyFinished = false;
+    private bool _isGoFinished = false;
 
     private void Start()
     {
         ReadyImg.gameObject.SetActive(false);
         StartImg.gameObject.SetActive(false);
         ReadyButtonPressed.SetActive(false);
+
+        UpdateScore();
     }
 
     void Update()
     {
         if (RainGaugeManager.Instance.CurrentGameState == GameState.Loading)
         {
-            if (!_isFinished)
+            if (!_isReadyFinished)
             {
                 StartCoroutine(Show_Coroutine(ReadyImg));
-                _isFinished = true;
+                _isReadyFinished = true;
+                _isGoFinished = false;
             }
         }
         else if (RainGaugeManager.Instance.CurrentGameState == GameState.Go)
         {
-            if (!_isFinished)
+            if (!_isGoFinished)
             {
                 StartCoroutine(Show_Coroutine(StartImg));
-                _isFinished = true;
+                _isGoFinished = true;
+                _isReadyFinished = false;
             }
-            UpdateScore();
         }
-
+        UpdateScore();
         CheakReadyButton();
     }
 

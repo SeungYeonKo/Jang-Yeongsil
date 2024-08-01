@@ -729,7 +729,7 @@ namespace DigitalRuby.WeatherMaker
                 }
                 else if (IsPermanent)
                 {
-                    DontDestroyOnLoad(gameObject);
+                   // DontDestroyOnLoad(gameObject);
                 }
                 if (HasXRDevice() && Camera.main != null && Camera.main.actualRenderingPath != RenderingPath.Forward)
                 {

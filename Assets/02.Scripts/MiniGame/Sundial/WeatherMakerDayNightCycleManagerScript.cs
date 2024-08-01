@@ -81,7 +81,7 @@ namespace DigitalRuby.WeatherMaker
             // 게임이 실행 중일 때만 시간을 진행
             if (Application.isPlaying)
             {
-                // 하루 주기를 n초로 설정
+                /*// 하루 주기를 n초로 설정
                 float secondsInDay = 86400f;
                 float dayDurationInSeconds = 60f; // 하루가 n초 
                 float timeIncrement = secondsInDay / dayDurationInSeconds * Time.deltaTime;
@@ -91,7 +91,10 @@ namespace DigitalRuby.WeatherMaker
                 if (TimeOfDay >= secondsInDay)
                 {
                     TimeOfDay -= secondsInDay;
-                }
+                }*/
+
+                // 낮 시간대로 설정 (예: 12:00 PM)
+                TimeOfDay = 43200f; // 43200초는 12:00 PM
 
                 // 낮/밤 프로필 업데이트
                 DayNightProfile.UpdateFromProfile(WeatherMakerScript.Instance != null && WeatherMakerScript.Instance.NetworkConnection.IsServer);

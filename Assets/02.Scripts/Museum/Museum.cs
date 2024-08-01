@@ -1,26 +1,83 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public enum TriggerType
 {
     SundialTrigger,
     CheugugiTrigger,
-    AstronomicalChartTrigger,
+    ClepsydraTrigger,
     ArmillarySphereTrigger,
-    ClepsydraSundialTrigger
+    AstronomicalChartTrigger,
 }
 
 public class Museum : MonoBehaviour
 {
     public TriggerType TriggerType;
 
+    public Image[] InventionMentImages;
+
+    private void Start()
+    {
+        DeactivateAllImages();
+    }
+
     private void OnTriggerEnter(Collider other)
     {
-        if (CompareTag("Player"))
+        if (other.CompareTag("Player"))
         {
-          
+            switch (TriggerType)
+            {
+                case TriggerType.SundialTrigger:
+                    Debug.Log("해시계트리거");
+                    ActivateImage(0);
+                    break;
+                case TriggerType.CheugugiTrigger:
+                    Debug.Log("측우기트리거");
+                    ActivateImage(1);
+                    break;
+                case TriggerType.ClepsydraTrigger:
+                    Debug.Log("자격루트리거");
+                    ActivateImage(2);
+                    break;
+                case TriggerType.ArmillarySphereTrigger:
+                    Debug.Log("혼천의트리거");
+                    ActivateImage(3);
+                    break;
+                case TriggerType.AstronomicalChartTrigger:
+                    Debug.Log("천문도트리거");
+                    ActivateImage(4);
+                    break;
+                default:
+                    DeactivateAllImages();
+                    break;
+            }
         }
     }
 
+    private void OnTriggerExit(Collider other)
+    {
+        if (other.CompareTag("Player"))
+        {
+            Debug.Log("트리거 벗어남");
+            DeactivateAllImages();
+        }
+    }
+
+    private void ActivateImage(int index)
+    {
+        for (int i = 0; i < InventionMentImages.Length; i++)
+        {
+            InventionMentImages[i].gameObject.SetActive(i == index);
+        }
+    }
+
+    private void DeactivateAllImages()
+    {
+        foreach (var image in InventionMentImages)
+        {
+            image.gameObject.SetActive(false);
+        }
+    }
 }

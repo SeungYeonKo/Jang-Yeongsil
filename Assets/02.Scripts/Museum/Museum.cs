@@ -7,9 +7,9 @@ public enum TriggerType
 {
     SundialTrigger,
     CheugugiTrigger,
-    AstronomicalChartTrigger,
+    ClepsydraTrigger,
     ArmillarySphereTrigger,
-    ClepsydraSundialTrigger
+    AstronomicalChartTrigger,
 }
 
 public class Museum : MonoBehaviour
@@ -18,6 +18,11 @@ public class Museum : MonoBehaviour
 
     public Image[] InventionMentImages;
 
+    private void Start()
+    {
+        DeactivateAllImages();
+    }
+
     private void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("Player"))
@@ -25,24 +30,38 @@ public class Museum : MonoBehaviour
             switch (TriggerType)
             {
                 case TriggerType.SundialTrigger:
+                    Debug.Log("해시계트리거");
                     ActivateImage(0);
                     break;
                 case TriggerType.CheugugiTrigger:
+                    Debug.Log("측우기트리거");
                     ActivateImage(1);
                     break;
-                case TriggerType.ClepsydraSundialTrigger:
+                case TriggerType.ClepsydraTrigger:
+                    Debug.Log("자격루트리거");
                     ActivateImage(2);
                     break;
                 case TriggerType.ArmillarySphereTrigger:
+                    Debug.Log("혼천의트리거");
                     ActivateImage(3);
                     break;
                 case TriggerType.AstronomicalChartTrigger:
+                    Debug.Log("천문도트리거");
                     ActivateImage(4);
                     break;
                 default:
                     DeactivateAllImages();
                     break;
             }
+        }
+    }
+
+    private void OnTriggerExit(Collider other)
+    {
+        if (other.CompareTag("Player"))
+        {
+            Debug.Log("트리거 벗어남");
+            DeactivateAllImages();
         }
     }
 
@@ -54,8 +73,6 @@ public class Museum : MonoBehaviour
         }
     }
 
-
-    // 나머지 다 비활성화
     private void DeactivateAllImages()
     {
         foreach (var image in InventionMentImages)

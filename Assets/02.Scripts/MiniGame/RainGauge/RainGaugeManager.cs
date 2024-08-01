@@ -1,6 +1,5 @@
 using Photon.Pun;
 using System.Collections;
-using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using Hashtable = ExitGames.Client.Photon.Hashtable;
@@ -11,7 +10,7 @@ public enum GameState
     Go,
     Over,
 }
-public class RainGaugeManager : MonoBehaviour
+public class RainGaugeManager : MonoBehaviourPunCallbacks
 {
     public static RainGaugeManager Instance { get; private set; }
 
@@ -37,14 +36,19 @@ public class RainGaugeManager : MonoBehaviour
         }
     }
 
-    private void OnEnable()
+    public override void OnEnable()
     {
         InitializeGame();
     }
 
-    private void OnDisable()
+    public override void OnDisable()
     {
         InitializeGame();
+
+        if (PhotonNetwork.LocalPlayer != null)
+        {
+            PhotonNetwork.DestroyPlayerObjects(PhotonNetwork.LocalPlayer);
+        }
     }
 
     private void InitializeGame()
@@ -191,5 +195,4 @@ public class RainGaugeManager : MonoBehaviour
 
         PhotonNetwork.LoadLevel("MainScene");
     }
-
 }

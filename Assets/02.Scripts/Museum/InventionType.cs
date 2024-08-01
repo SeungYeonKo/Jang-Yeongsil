@@ -5,9 +5,9 @@ using UnityEngine;
 
 public enum InventionType
 {
+    ArmillarySphere,
     Sundial,
     Cheugugi,
     AstronomicalChart,
-    ArmillarySphere,
     Clepsydra
 }

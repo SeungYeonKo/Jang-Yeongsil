@@ -1,5 +1,6 @@
 using Photon.Pun;
 using System.Collections;
+using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using Hashtable = ExitGames.Client.Photon.Hashtable;
@@ -24,6 +25,9 @@ public class RainGaugeManager : MonoBehaviourPunCallbacks
 
     public GameState CurrentGameState = GameState.Ready;
 
+    public GameObject[] playerUI; // 0번 인덱스부터 4개의 플레이어 UI를 배열로 관리
+    private int playerNumber;
+    private Dictionary<int, RainGaugePlayer> players = new Dictionary<int, RainGaugePlayer>();
     private void Awake()
     {
         if (Instance == null)
@@ -35,7 +39,38 @@ public class RainGaugeManager : MonoBehaviourPunCallbacks
             Destroy(gameObject);
         }
     }
-
+    public void AssignUI(int playerNumber)
+    {
+        // 플레이어 번호에 맞는 UI를 활성화
+        if (playerNumber >= 1 && playerNumber <= playerUI.Length)
+        {
+            playerUI[playerNumber - 1].SetActive(true);
+        }
+        else
+        {
+            Debug.LogError("Invalid player number or playerUI not set in RainGaugeManager.");
+        }
+    }
+    public void RegisterPlayer(RainGaugePlayer player)
+    {
+        if (!players.ContainsKey(player.MyNum))
+        {
+            players[player.MyNum] = player;
+            Debug.Log($"Player {player.MyNum} registered.");
+        }
+    }
+    public void DisableAllUI()
+    {
+        foreach (GameObject ui in playerUI)
+        {
+            ui.SetActive(false);
+        }
+    }
+    public RainGaugePlayer GetPlayer(int playerNumber)
+    {
+        players.TryGetValue(playerNumber, out RainGaugePlayer player);
+        return player;
+    }
     public override void OnEnable()
     {
         InitializeGame();
@@ -156,7 +191,7 @@ public class RainGaugeManager : MonoBehaviourPunCallbacks
                 //Debug.Log("플레이어 준비 상태가 없습니다: " + player.NickName);
             }
         }
-        if (readyPlayerCount >= 2)
+        if (readyPlayerCount >= 1)
         {
             //Debug.Log("플레이어 모두 레디");
             return true;

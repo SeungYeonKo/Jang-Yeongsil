@@ -25,6 +25,8 @@ public class RainGaugePlayer : MonoBehaviourPunCallbacks
             return;
         }
         if (!photonView.IsMine) return;
+        AssignPlayerNumber();
+        RainGaugeManager.Instance.RegisterPlayer(this);
     }
 
     private void Start()
@@ -49,16 +51,14 @@ public class RainGaugePlayer : MonoBehaviourPunCallbacks
         {
            // Debug.LogError("JarController is not found. Make sure there is a Jar object in the scene.");
         }
+        
     }
 
     private void AssignPlayerNumber()
     {
         if (!PhotonNetwork.LocalPlayer.CustomProperties.ContainsKey("PlayerNumber"))
         {
-            int assignedNumber = PhotonNetwork.LocalPlayer.ActorNumber % 4 + 1;
-            MyNum = assignedNumber;
-            Debug.Log($"Assigning PlayerNumber: {MyNum} to player: {PhotonNetwork.LocalPlayer.NickName}");
-            
+            MyNum = PhotonNetwork.LocalPlayer.ActorNumber % 4 + 1;
             PhotonNetwork.LocalPlayer.SetCustomProperties(new Hashtable { { "PlayerNumber", MyNum } });
         }
         else

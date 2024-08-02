@@ -91,6 +91,7 @@ public class ClockInteraction : MonoBehaviour
             if (sunImage != null)
             {
                 sunImage.gameObject.SetActive(true);
+                sunImage.sprite = sliderImageAnimator.sprites[1];
                 Debug.Log("Sun Image activated");
             }
             if (qzText != null)

@@ -6,7 +6,7 @@ public class SliderImageAnimator : MonoBehaviour
     public Slider imageSlider; // 슬라이더 컴포넌트
     public Image displayImage; // 이미지 컴포넌트
     public Sprite[] sprites; // 연속된 이미지 배열
-
+    
     private void Start()
     {
         // 슬라이더의 최대 값을 이미지 배열의 길이 - 1로 설정

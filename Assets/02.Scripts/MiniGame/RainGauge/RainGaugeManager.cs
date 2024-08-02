@@ -71,7 +71,7 @@ public class RainGaugeManager : MonoBehaviourPunCallbacks
         {
             AssignPlayerNumber(newPlayer);
         }
-
+        Debug.Log($"{newPlayer}님이 입장했습니다.");
         UpdateAllPlayerUI();
     }
 
@@ -84,15 +84,35 @@ public class RainGaugeManager : MonoBehaviourPunCallbacks
  
     private void AssignPlayerNumber(Photon.Realtime.Player player)
     {
-        int playerCount = PhotonNetwork.PlayerList.Length;
-        int newPlayerNumber = playerCount % 4;
+        // 사용 중인 번호를 추적하기 위해 HashSet 사용
+        HashSet<int> usedNumbers = new HashSet<int>();
+        foreach (Photon.Realtime.Player p in PhotonNetwork.PlayerList)
+        {
+            if (p.CustomProperties.TryGetValue("PlayerNumber", out object playerNumberObj))
+            {
+                usedNumbers.Add((int)playerNumberObj);
+            }
+        }
 
+        // 사용되지 않은 가장 작은 번호 찾기
+        int newPlayerNumber = 0;
+        for (int i = 0; i < 4; i++) // 최대 플레이어 수 4로 가정
+        {
+            if (!usedNumbers.Contains(i))
+            {
+                newPlayerNumber = i;
+                break;
+            }
+        }
+
+        // 새로운 플레이어에게 번호 할당
         Hashtable props = new Hashtable
         {
             { "PlayerNumber", newPlayerNumber }
         };
-        player.SetCustomProperties(props);
+        player.SetCustomProperties(props); // Custom Properties 설정 및 동기화
     }
+
     private void UpdateAllPlayerUI()
     {
         DisableAllUI(); // 모든 UI를 비활성화
@@ -268,8 +288,7 @@ public class RainGaugeManager : MonoBehaviourPunCallbacks
             yield return new WaitForSeconds(1);
             _countEnd--;
         }
-
-        PhotonNetwork.LeaveRoom();
+        
         PhotonNetwork.LoadLevel("MainScene");
     }
 }

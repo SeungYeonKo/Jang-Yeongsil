@@ -24,12 +24,13 @@ public class UI_RainGaugeManager : MonoBehaviourPunCallbacks
     public TMP_Text PlayNameThree;
     public TMP_Text PlayNameFour;
     
+    public GameObject WinImage;
+    public GameObject LoseImage;
+    
     private bool _isReadyFinished = false;
     private bool _isGoFinished = false;
     private Dictionary<int, RainGaugePlayer> players = new Dictionary<int, RainGaugePlayer>();
 
-    public GameObject WinImage;
-    public GameObject LoseImage;
     
     private void Start()
     {

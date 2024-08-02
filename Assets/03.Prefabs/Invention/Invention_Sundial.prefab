@@ -95,6 +95,7 @@ GameObject:
   - component: {fileID: 8950163231744070241}
   - component: {fileID: 8009517600625117926}
   - component: {fileID: 8098448116783158447}
+  - component: {fileID: 6772530769775781950}
   m_Layer: 6
   m_Name: Invention_Sundial
   m_TagString: Invention
@@ -182,7 +183,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f9eb15556809932479cf51839fc6492c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  InventionType: 1
+  inventionName: 
+--- !u!114 &6772530769775781950
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2211923925775350850}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 083a18aa6ebf67843b302daaf1a262c8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  InventionName: Sundial
 --- !u!1 &2454354234167662566
 GameObject:
   m_ObjectHideFlags: 0

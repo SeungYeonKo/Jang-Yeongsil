@@ -3,9 +3,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class MuseumManager : MonoBehaviour
+public class MuseumManager : MonoBehaviourPun
 {
-    public GameObject[] MuseumInventionObjects;
+    public GameObject[] MuseumInventionObjects; 
 
     private void Start()
     {
@@ -13,8 +13,7 @@ public class MuseumManager : MonoBehaviour
         {
             string inventionName = obj.name;
 
-            if (GlobalInventionManager.InventionState.ContainsKey(inventionName) &&
-                (bool)GlobalInventionManager.InventionState[inventionName])
+            if (GlobalInventionManager.Instance.GetInventionState(inventionName))
             {
                 obj.SetActive(true);
             }

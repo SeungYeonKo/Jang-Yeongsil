@@ -67,6 +67,11 @@ public class RainGaugeManager : MonoBehaviourPunCallbacks
     {
         base.OnPlayerEnteredRoom(newPlayer);
 
+        if (PhotonNetwork.IsMasterClient)
+        {
+            AssignPlayerNumber(newPlayer);
+        }
+
         UpdateAllPlayerUI();
     }
 
@@ -75,6 +80,18 @@ public class RainGaugeManager : MonoBehaviourPunCallbacks
         base.OnPlayerLeftRoom(otherPlayer);
 
         UpdateAllPlayerUI();
+    }
+ 
+    private void AssignPlayerNumber(Photon.Realtime.Player player)
+    {
+        int playerCount = PhotonNetwork.PlayerList.Length;
+        int newPlayerNumber = playerCount % 4;
+
+        Hashtable props = new Hashtable
+        {
+            { "PlayerNumber", newPlayerNumber }
+        };
+        player.SetCustomProperties(props);
     }
     private void UpdateAllPlayerUI()
     {
@@ -252,7 +269,7 @@ public class RainGaugeManager : MonoBehaviourPunCallbacks
             _countEnd--;
         }
 
-        PhotonNetwork.LoadLevel("MainScene");
         PhotonNetwork.LeaveRoom();
+        PhotonNetwork.LoadLevel("MainScene");
     }
 }

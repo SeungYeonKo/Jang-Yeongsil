@@ -13,7 +13,8 @@ public class UI_Countdown : MonoBehaviour
     private void Start()
     {
         previousGameState = RainGaugeManager.Instance.CurrentGameState;
-        CountDownUI.SetActive(false);
+        CountDownUI.SetActive(true); 
+        CountText.gameObject.SetActive(false);
     }
 
     private void Update()
@@ -33,13 +34,13 @@ public class UI_Countdown : MonoBehaviour
 
     private IEnumerator ShowCountDown()
     {
-        CountDownUI.SetActive(true);
+        CountText.gameObject.SetActive(true);
         for (int i = 5; i > 0; i--)
         {
             CountText.text = i.ToString();
             yield return new WaitForSeconds(1);
         }
-        CountDownUI.SetActive(false);
+        CountText.gameObject.SetActive(false);
     }
 
 }

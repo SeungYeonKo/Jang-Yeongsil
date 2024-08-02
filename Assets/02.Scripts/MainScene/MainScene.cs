@@ -21,14 +21,6 @@ public class MainScene : MonoBehaviourPunCallbacks
             InitializePlayer(PhotonNetwork.LocalPlayer);
         }
     }
-    private void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.L))
-        {
-            ResetTriggerState();
-            Debug.Log("L버튼 누름");
-        }
-    }
     private void InitializePlayer(Photon.Realtime.Player player)
     {
         Debug.Log("캐릭터 불러오기 로직");
@@ -67,14 +59,5 @@ public class MainScene : MonoBehaviourPunCallbacks
     {
         int randomIndex = Random.Range(0, SpawnPoints.Count);
         return SpawnPoints[randomIndex].position;
-    }
-
-    // 로컬 상태 초기화 메서드
-    void ResetTriggerState()
-    {
-        PlayerPrefs.DeleteKey("FireballTriggerState");
-        PlayerPrefs.Save();
-
-        Debug.Log("로컬 상태 초기화됨");
     }
 }

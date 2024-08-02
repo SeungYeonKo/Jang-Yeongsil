@@ -1,17 +1,17 @@
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro; // TextMeshPro를 사용하기 위한 네임스페이스
 
 public class ClockInteraction : MonoBehaviour
 {
     public Camera mainCamera; // 메인 카메라
     public Camera miniGameCamera; // 미니게임 전용 카메라
-    public GameObject sundialSliderCanvas; // 전체 UI 캔버스 (SundialSlider_Canvas)
-    public TextPopup textPopup; // 텍스트 팝업 스크립트
-    public GameObject sundialSlider; // 슬라이더 오브젝트
-    public GameObject sunImage; // 슬라이더 이미지 오브젝트
-    public GameObject qzText; // 문제 텍스트
-    public GameObject qKeyText; // Q 키 텍스트
-    public GameObject additionalImage; // 추가 이미지 오브젝트
+    public Canvas sundialSliderCanvas; // 전체 UI 캔버스 (SundialSlider_Canvas)
+    public Slider sundialSlider; // 슬라이더 오브젝트
+    public Image sunImage; // 슬라이더 이미지 오브젝트
+    public TextMeshProUGUI qzText; // 문제 텍스트
+    public TextMeshProUGUI qKeyText; // Q 키 텍스트
+    public Image additionalImage; // 추가 이미지 오브젝트
 
     private bool isNearClock = false;
     private bool isClockViewActive = false;
@@ -20,10 +20,10 @@ public class ClockInteraction : MonoBehaviour
     {
         // 초기 설정: 미니게임 카메라 비활성화, 개별 UI 오브젝트 비활성화
         if (miniGameCamera != null) miniGameCamera.gameObject.SetActive(false);
-        if (sundialSlider != null) sundialSlider.SetActive(false);
-        if (sunImage != null) sunImage.SetActive(false);
-        if (qzText != null) qzText.SetActive(false);
-        if (additionalImage != null) additionalImage.SetActive(false);
+        if (sundialSlider != null) sundialSlider.gameObject.SetActive(false);
+        if (sunImage != null) sunImage.gameObject.SetActive(false);
+        if (qzText != null) qzText.gameObject.SetActive(false);
+        if (additionalImage != null) additionalImage.gameObject.SetActive(false);
 
         // 시작할 때 마우스 커서 숨김
         Cursor.lockState = CursorLockMode.Locked;
@@ -41,73 +41,66 @@ public class ClockInteraction : MonoBehaviour
 
     void ToggleClockView()
     {
+        Debug.Log("ToggleClockView() called"); // 디버깅 메시지 추가
+
         if (!isClockViewActive)
         {
-            // 메인 카메라 비활성화, 미니게임 카메라 활성화
+            Debug.Log("Activating mini game camera and UI elements");
+
             if (mainCamera != null) mainCamera.gameObject.SetActive(false);
             if (miniGameCamera != null) miniGameCamera.gameObject.SetActive(true);
 
-            // SundialSlider_Canvas를 전체적으로 끄지 않고 개별 요소만 활성화
-            if (sundialSlider != null) sundialSlider.SetActive(true);
-            if (sunImage != null) sunImage.SetActive(true);
-            if (qzText != null) qzText.SetActive(true);
-            if (additionalImage != null) additionalImage.SetActive(true);
+            if (sundialSlider != null) sundialSlider.gameObject.SetActive(true);
+            if (sunImage != null) sunImage.gameObject.SetActive(true);
+            if (qzText != null) qzText.gameObject.SetActive(true);
+            if (additionalImage != null) additionalImage.gameObject.SetActive(true);
 
-            // Q 키 텍스트 비활성화
-            if (qKeyText != null) qKeyText.SetActive(false);
+            if (qKeyText != null) qKeyText.gameObject.SetActive(false);
 
-            // 마우스 커서 활성화
             Cursor.lockState = CursorLockMode.None;
             Cursor.visible = true;
         }
         else
         {
-            // 메인 카메라 활성화, 미니게임 카메라 비활성화
+            Debug.Log("Deactivating mini game camera and UI elements");
+
             if (mainCamera != null) mainCamera.gameObject.SetActive(true);
             if (miniGameCamera != null) miniGameCamera.gameObject.SetActive(false);
 
-            // SundialSlider_Canvas 내의 개별 UI 요소 비활성화
-            if (sundialSlider != null) sundialSlider.SetActive(false);
-            if (sunImage != null) sunImage.SetActive(false);
-            if (qzText != null) qzText.SetActive(false);
-            if (additionalImage != null) additionalImage.SetActive(false);
+            if (sundialSlider != null) sundialSlider.gameObject.SetActive(false);
+            if (sunImage != null) sunImage.gameObject.SetActive(false);
+            if (qzText != null) qzText.gameObject.SetActive(false);
+            if (additionalImage != null) additionalImage.gameObject.SetActive(false);
 
-            // Q 키 텍스트 활성화
-            if (qKeyText != null) qKeyText.SetActive(true);
+            if (qKeyText != null) qKeyText.gameObject.SetActive(true);
 
-            // 마우스 커서 비활성화
             Cursor.lockState = CursorLockMode.Locked;
             Cursor.visible = false;
         }
 
-        // 텍스트 팝업 비활성화
-        if (textPopup != null && isClockViewActive)
-        {
-            textPopup.HideText();
-        }
-
         isClockViewActive = !isClockViewActive;
+        Debug.Log("isClockViewActive: " + isClockViewActive); // 상태 확인
     }
 
     void OnTriggerEnter(Collider other)
     {
-        if (other.CompareTag("Player"))
+        if (other.CompareTag("Sundial"))
         {
             isNearClock = true;
 
             // Q 키 텍스트 활성화
-            if (qKeyText != null) qKeyText.SetActive(true);
+            if (qKeyText != null) qKeyText.gameObject.SetActive(true);
         }
     }
 
     void OnTriggerExit(Collider other)
     {
-        if (other.CompareTag("Player"))
+        if (other.CompareTag("Sundial"))
         {
             isNearClock = false;
 
             // Q 키 텍스트 비활성화
-            if (qKeyText != null) qKeyText.SetActive(false);
+            if (qKeyText != null) qKeyText.gameObject.SetActive(false);
         }
     }
 }

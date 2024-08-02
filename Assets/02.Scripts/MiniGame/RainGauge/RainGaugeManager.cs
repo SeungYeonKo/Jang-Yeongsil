@@ -259,5 +259,6 @@ public class RainGaugeManager : MonoBehaviourPunCallbacks
         }
 
         PhotonNetwork.LoadLevel("MainScene");
+        PhotonNetwork.LeaveRoom();
     }
 }

@@ -1,4 +1,5 @@
 using Photon.Pun;
+using Photon.Realtime;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -65,13 +66,12 @@ public class RainGaugeManager : MonoBehaviourPunCallbacks
     }
     public override void OnPlayerEnteredRoom(Photon.Realtime.Player newPlayer)
     {
-        base.OnPlayerEnteredRoom(newPlayer);
-
         if (PhotonNetwork.IsMasterClient)
         {
             AssignPlayerNumber(newPlayer);
         }
         Debug.Log($"{newPlayer}님이 입장했습니다.");
+        Debug.Log($"{PhotonNetwork.PlayerList}");
         UpdateAllPlayerUI();
     }
 

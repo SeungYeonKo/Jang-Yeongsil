@@ -6,6 +6,7 @@ using Photon.Pun;
 using TMPro;
 using UnityEngine;
 using Hashtable = ExitGames.Client.Photon.Hashtable;
+using System.Linq;
 
 public class UI_RainGaugeManager : MonoBehaviourPunCallbacks
 {
@@ -66,10 +67,14 @@ public class UI_RainGaugeManager : MonoBehaviourPunCallbacks
         CheakReadyButton();
         if (RainGaugeManager.Instance.CurrentGameState == GameState.Over)
         {
-            if (players.ContainsKey("FirstPlayerNames"))
+            object winnersObj;
+            if (PhotonNetwork.CurrentRoom.CustomProperties.TryGetValue("Winners", out winnersObj))
             {
-                // 'FirstPlayerNames'의 값이 내 이름과 같은지 비교
-                if (players["FirstPlayerNames"].ToString() == PhotonNetwork.LocalPlayer.NickName) 
+                string[] winners = (string[])winnersObj;
+
+                bool isWinner = winners.Contains(PhotonNetwork.LocalPlayer.NickName);
+
+                if (isWinner)
                 {
                     StartCoroutine(ShowImage_Coroutine(WinImage));
                 }

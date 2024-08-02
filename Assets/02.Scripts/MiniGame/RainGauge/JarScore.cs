@@ -166,32 +166,29 @@ public class JarScore : MonoBehaviour
                 continue;
             }
             int playerNumber = (int)player.CustomProperties["PlayerNumber"];
-            Debug.Log($"Player {playerName} with PlayerNumber {playerNumber} has scores:");
+            int playerScore = 0;
 
             switch (playerNumber)
             {
                 case 1:
-                    playerScores[playerName] = Player1score;
-                    Debug.Log($"Player1score: {Player1score}");
+                    playerScore = Player1score;
                     break;
                 case 2:
-                    playerScores[playerName] = Player2score;
-                    Debug.Log($"Player2score: {Player2score}");
+                    playerScore = Player2score;
                     break;
                 case 3:
-                    playerScores[playerName] = Player3score;
-                    Debug.Log($"Player3score: {Player3score}");
+                    playerScore = Player3score;
                     break;
                 case 4:
-                    playerScores[playerName] = Player4score;
-                    Debug.Log($"Player4score: {Player4score}");
+                    playerScore = Player4score;
                     break;
                 default:
                     Debug.LogWarning($"Player {playerName} has an invalid player number: {playerNumber}");
-                    break;
+                    continue;
             }
-        }
 
+            playerScores[playerName] = playerScore;
+        }
         if (playerScores.Count == 0)
         {
             Debug.LogError("No player scores found.");
@@ -205,9 +202,9 @@ public class JarScore : MonoBehaviour
 
         if (PhotonNetwork.IsMasterClient)
         {
-            Hashtable winnersHashtable = new Hashtable { { "FirstPlayerNames", winners.ToArray() } };
+            Hashtable winnersHashtable = new Hashtable { { "Winners", winners.ToArray() } };
             PhotonNetwork.CurrentRoom.SetCustomProperties(winnersHashtable);
-            Debug.Log($"{string.Join(", ", winners)} 저장");
+            Debug.Log($"{string.Join(", ", winners)} stored as winners.");
         }
     }
 }

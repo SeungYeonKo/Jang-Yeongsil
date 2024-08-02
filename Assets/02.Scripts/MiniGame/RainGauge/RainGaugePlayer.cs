@@ -58,7 +58,7 @@ public class RainGaugePlayer : MonoBehaviourPunCallbacks
     {
         if (!PhotonNetwork.LocalPlayer.CustomProperties.ContainsKey("PlayerNumber"))
         {
-            MyNum = PhotonNetwork.LocalPlayer.ActorNumber % 4 + 1;
+            MyNum = PhotonNetwork.LocalPlayer.ActorNumber % 4;
             PhotonNetwork.LocalPlayer.SetCustomProperties(new Hashtable { { "PlayerNumber", MyNum } });
         }
         else

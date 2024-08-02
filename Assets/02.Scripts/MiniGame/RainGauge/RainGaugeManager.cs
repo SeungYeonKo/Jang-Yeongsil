@@ -42,16 +42,9 @@ public class RainGaugeManager : MonoBehaviourPunCallbacks
     }
     public void AssignUI(int playerNumber)
     {
-        int index = playerNumber - 2; // 배열 인덱스는 0부터 시작하므로 1을 뺍니다.
-
-        // 플레이어 번호에 맞는 UI를 활성화
-        if (index >= 0 && index < playerUI.Length)
-        {
-            playerUI[index].SetActive(true);
-        }
-        else
-        {
-            Debug.LogError("Invalid player number or playerUI not set in RainGaugeManager.");
+        for (int i = 0; i < playerNumber && i < playerUI.Length; i++)
+        { 
+            playerUI[i].SetActive(true);
         }
     }
     public void RegisterPlayer(RainGaugePlayer player)
@@ -93,6 +86,7 @@ public class RainGaugeManager : MonoBehaviourPunCallbacks
             {
                 int playerNumber = (int)playerNumberObj;
                 AssignUI(playerNumber); // 각 플레이어의 UI를 활성화
+                Debug.Log($"{playerNumber}");
             }
         }
     }

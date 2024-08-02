@@ -27,12 +27,17 @@ public class UI_RainGaugeManager : MonoBehaviourPunCallbacks
     private bool _isReadyFinished = false;
     private bool _isGoFinished = false;
     private Dictionary<int, RainGaugePlayer> players = new Dictionary<int, RainGaugePlayer>();
+
+    public GameObject WinImage;
+    public GameObject LoseImage;
+    
     private void Start()
     {
         ReadyImg.gameObject.SetActive(false);
         StartImg.gameObject.SetActive(false);
         ReadyButtonPressed.SetActive(false);
-
+        WinImage.gameObject.SetActive(false);
+        LoseImage.gameObject.SetActive(false);
         UpdatePlayerUI();
     }
 
@@ -58,6 +63,21 @@ public class UI_RainGaugeManager : MonoBehaviourPunCallbacks
         }
         UpdatePlayerUI();
         CheakReadyButton();
+        if (RainGaugeManager.Instance.CurrentGameState == GameState.Over)
+        {
+            if (players.ContainsKey("FirstPlayerNames"))
+            {
+                // 'FirstPlayerNames'의 값이 내 이름과 같은지 비교
+                if (players["FirstPlayerNames"].ToString() == PhotonNetwork.LocalPlayer.NickName) 
+                {
+                    StartCoroutine(ShowImage_Coroutine(WinImage));
+                }
+                else
+                {
+                    StartCoroutine(ShowImage_Coroutine(LoseImage));
+                }
+            }
+        }
     }
 
     private IEnumerator Show_Coroutine(GameObject obj)
@@ -130,5 +150,11 @@ public class UI_RainGaugeManager : MonoBehaviourPunCallbacks
             case 4: return JarScore.Instance.Player4score;
             default: return 0;
         }
+    }
+
+    IEnumerator ShowImage_Coroutine(GameObject img)
+    {
+        yield return new WaitForSeconds(1f);
+        img.SetActive(true);
     }
 }

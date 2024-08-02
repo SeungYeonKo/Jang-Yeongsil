@@ -53,6 +53,8 @@ public class UI_RainGaugeManager : MonoBehaviourPunCallbacks
                 _isReadyFinished = true;
                 _isGoFinished = false;
             }
+            ReadyButtonPressed.gameObject.SetActive(false);
+            ReadyButton.gameObject.SetActive(false);
         }
         else if (RainGaugeManager.Instance.CurrentGameState == GameState.Go)
         {
@@ -141,7 +143,6 @@ public class UI_RainGaugeManager : MonoBehaviourPunCallbacks
                 NumberFour.text = playerScore.ToString();
                 break;
             default:
-                Debug.LogError("Invalid player index.");
                 break;
         }
     }

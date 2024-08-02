@@ -10,11 +10,14 @@ public class UI_Countdown : MonoBehaviour
     public TextMeshProUGUI CountText;
     private GameState previousGameState;
 
+    private UI_RainGaugeManager rainGaugeManager;
+
     private void Start()
     {
         previousGameState = RainGaugeManager.Instance.CurrentGameState;
         CountDownUI.SetActive(true); 
         CountText.gameObject.SetActive(false);
+        rainGaugeManager = FindObjectOfType<UI_RainGaugeManager>();
     }
 
     private void Update()
@@ -35,6 +38,8 @@ public class UI_Countdown : MonoBehaviour
     private IEnumerator ShowCountDown()
     {
         CountText.gameObject.SetActive(true);
+        rainGaugeManager.ReadyImg.SetActive(false);
+
         for (int i = 5; i > 0; i--)
         {
             CountText.text = i.ToString();

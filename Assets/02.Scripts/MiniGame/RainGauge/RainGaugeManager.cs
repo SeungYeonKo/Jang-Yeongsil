@@ -70,6 +70,32 @@ public class RainGaugeManager : MonoBehaviourPunCallbacks
             ui.SetActive(false);
         }
     }
+    public override void OnPlayerEnteredRoom(Photon.Realtime.Player newPlayer)
+    {
+        base.OnPlayerEnteredRoom(newPlayer);
+
+        UpdateAllPlayerUI();
+    }
+
+    public override void OnPlayerLeftRoom(Photon.Realtime.Player otherPlayer)
+    {
+        base.OnPlayerLeftRoom(otherPlayer);
+
+        UpdateAllPlayerUI();
+    }
+    private void UpdateAllPlayerUI()
+    {
+        DisableAllUI(); // 모든 UI를 비활성화
+
+        foreach (Photon.Realtime.Player player in PhotonNetwork.PlayerList)
+        {
+            if (player.CustomProperties.TryGetValue("PlayerNumber", out object playerNumberObj))
+            {
+                int playerNumber = (int)playerNumberObj;
+                AssignUI(playerNumber); // 각 플레이어의 UI를 활성화
+            }
+        }
+    }
     public RainGaugePlayer GetPlayer(int playerNumber)
     {
         players.TryGetValue(playerNumber, out RainGaugePlayer player);

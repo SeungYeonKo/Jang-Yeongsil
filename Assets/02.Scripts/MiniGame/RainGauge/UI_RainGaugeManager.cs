@@ -116,7 +116,7 @@ public class UI_RainGaugeManager : MonoBehaviourPunCallbacks
                 string playerName = player.NickName;
                 int score = GetPlayerScore(playerNumber); // 플레이어의 점수를 가져옵니다.
                 
-                Debug.Log($"{playerName}");
+               // Debug.Log($"{playerName}");
                 SetPlayerUI(playerNumber - 1, playerName, score);
             }
         }

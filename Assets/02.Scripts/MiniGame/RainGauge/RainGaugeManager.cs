@@ -15,7 +15,7 @@ public class RainGaugeManager : MonoBehaviourPunCallbacks
 {
     public static RainGaugeManager Instance { get; private set; }
 
-    private float _gameDuration = 30f; 
+    private float _gameDuration = 30f;
     public float TimeRemaining;
 
     private int _countDown = 5; // 시작 카운트다운
@@ -199,7 +199,7 @@ public class RainGaugeManager : MonoBehaviourPunCallbacks
 
     public bool AreAllPlayersReady()
     {
-        Photon.Realtime.Player[] players = PhotonNetwork.PlayerList.ToArray(); 
+        Photon.Realtime.Player[] players = PhotonNetwork.PlayerList.ToArray();
         //Debug.Log("Player count: " + players.Length);
         int readyPlayerCount = 0;
 
@@ -238,7 +238,7 @@ public class RainGaugeManager : MonoBehaviourPunCallbacks
         if (TimeRemaining > 0)
         {
             TimeRemaining -= Time.deltaTime;
-            
+
         }
         else
         {

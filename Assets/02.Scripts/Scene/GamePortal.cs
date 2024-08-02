@@ -18,10 +18,6 @@ public class GamePortal : MonoBehaviour
             {
                 PhotonManager.Instance.LeaveAndLoadRoom("MuseumScene");
             }
-            if(gameObject.name == "BackToGwanghwamunPortal")
-            {
-                PhotonManager.Instance.LeaveAndLoadRoom("MainScene");
-            }
         }
     }
 }

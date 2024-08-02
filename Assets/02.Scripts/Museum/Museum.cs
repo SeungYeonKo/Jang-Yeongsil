@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using Photon.Pun; // PhotonNetwork를 사용하기 위해 추가
 
 public enum TriggerType
 {
@@ -18,6 +19,7 @@ public class Museum : MonoBehaviour
 
     public Image[] InventionMentImages;
 
+
     private void Start()
     {
         DeactivateAllImages();
@@ -27,6 +29,8 @@ public class Museum : MonoBehaviour
     {
         if (other.CompareTag("Player"))
         {
+
+            // 트리거 타입에 따른 이미지 활성화
             switch (TriggerType)
             {
                 case TriggerType.SundialTrigger:

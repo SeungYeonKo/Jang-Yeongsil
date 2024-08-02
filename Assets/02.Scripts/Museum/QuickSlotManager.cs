@@ -1,67 +1,80 @@
+using UnityEngine;
+using TMPro;
 using System.Collections;
 using System.Collections.Generic;
-using TMPro;
-using UnityEngine;
 
 public class QuickSlotManager : MonoBehaviour
 {
+    public static QuickSlotManager Instance; // 싱글턴 인스턴스
+
     public GameObject[] BeforeQuickSlots;
     public GameObject[] AfterQuickSlots;
 
     public TextMeshProUGUI InventionReleasedText;
 
-    // InventionType에 따라 메시지와 슬롯 인덱스를 매핑하기 위한 딕셔너리
-    private Dictionary<InventionType, int> inventionSlotMap = new Dictionary<InventionType, int>()
+    private Dictionary<InventionType, bool> quickSlotState = new Dictionary<InventionType, bool>();
+
+    // InventionType을 한글로 변환하기 위한 딕셔너리
+    private Dictionary<InventionType, string> inventionNameTranslations = new Dictionary<InventionType, string>()
     {
-        { InventionType.ArmillarySphere, 0 },
-        { InventionType.Sundial, 1 },
-        { InventionType.Cheugugi, 2 },
-        { InventionType.AstronomicalChart, 3 },
-        { InventionType.Clepsydra, 4 }
+        { InventionType.ArmillarySphere, "혼천의" },
+        { InventionType.Sundial, "해시계" },
+        { InventionType.Cheugugi, "측우기" },
+        { InventionType.AstronomicalChart, "천문도" },
+        { InventionType.Clepsydra, "자격루" }
     };
 
-    private Dictionary<InventionType, string> inventionMessages = new Dictionary<InventionType, string>()
+    private void Awake()
     {
-        { InventionType.ArmillarySphere, "혼천의가 해금되었습니다. 박물관에서 확인하세요!" },
-        { InventionType.Sundial, "해시계가 해금되었습니다. 박물관에서 확인하세요!" },
-        { InventionType.Cheugugi, "측우기가 해금되었습니다. 박물관에서 확인하세요!" },
-        { InventionType.AstronomicalChart, "천문도가 해금되었습니다. 박물관에서 확인하세요!" },
-        { InventionType.Clepsydra, "자격루가 해금되었습니다. 박물관에서 확인하세요!" }
-    };
+        if (Instance == null)
+        {
+            Instance = this;
+            DontDestroyOnLoad(gameObject); 
+        }
+        else
+        {
+            Destroy(gameObject); 
+        }
+    }
 
     private void Start()
     {
-        for (int i = 0; i < BeforeQuickSlots.Length; i++)
+        // 슬롯 상태 초기화
+        foreach (var invention in System.Enum.GetValues(typeof(InventionType)))
         {
-            BeforeQuickSlots[i].SetActive(true);
-            AfterQuickSlots[i].SetActive(false);
+            quickSlotState[(InventionType)invention] = false; // 초기에는 모두 비활성화
         }
+        UpdateQuickSlotUI(); // 초기 UI 업데이트
     }
 
     public void ActivateAfterQuickSlot(InventionType inventionType)
     {
-        if (inventionSlotMap.TryGetValue(inventionType, out int slotIndex))
+        if (quickSlotState.ContainsKey(inventionType))
         {
-            // 슬롯 인덱스가 유효한 경우에만 활성화
-            if (slotIndex < BeforeQuickSlots.Length)
-            {
-                AfterQuickSlots[slotIndex].SetActive(true);
-            }
+            quickSlotState[inventionType] = true;
+        }
+        UpdateQuickSlotUI();
+    }
 
-            // 텍스트 메시지 변경 및 사라지게 하는 코루틴 시작
-            if (inventionMessages.TryGetValue(inventionType, out string message))
+    private void UpdateQuickSlotUI()
+    {
+        foreach (var kvp in quickSlotState)
+        {
+            int index = (int)kvp.Key;
+            if (index < BeforeQuickSlots.Length && index < AfterQuickSlots.Length)
             {
-                InventionReleasedText.text = message;
-                StartCoroutine(HideInventionTextAfterDelay(2f)); // 2초 후 텍스트 숨김
-            }
-            else
-            {
-                Debug.LogError("No message available for the given invention type");
+                BeforeQuickSlots[index].SetActive(!kvp.Value);
+                AfterQuickSlots[index].SetActive(kvp.Value);
             }
         }
-        else
+    }
+
+    public void SetInventionText(InventionType inventionType)
+    {
+        if (quickSlotState[inventionType] && inventionNameTranslations.TryGetValue(inventionType, out string translatedName))
         {
-            Debug.LogError("Invalid invention type");
+            InventionReleasedText.text = $"{translatedName}이(가) 해금되었습니다. 박물관에서 확인하세요!";
+            StartCoroutine(HideInventionTextAfterDelay(2f));
         }
     }
 

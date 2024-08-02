@@ -13,25 +13,39 @@ public class FireballController : MonoBehaviourPunCallbacks
 
     void Start()
     {
-        //StartCoroutine(Particle_Coroutine());
         TimelineMaker.Play();
         TimelineMaker.stopped += OnPlayableDirectorStopped;
     }
-    IEnumerator Particle_Coroutine()
+
+    void Update()
     {
-        yield return new WaitForSeconds(10f);
-        SceneManager.LoadScene("LoadingScene");
+        // Q 키 입력을 감지
+        if (Input.GetKeyDown(KeyCode.Q))
+        {
+            EndTimelineAndJoinRoom();
+        }
     }
+
     private void OnPlayableDirectorStopped(PlayableDirector aDirector)
     {
-        if(isLeavingRoom)
+        if (isLeavingRoom)
         {
             return;
         }
 
         if (TimelineMaker == aDirector)
         {
-            LoadLoadingScene(); // 타임라인이 끝나면 빌리지 씬으로 이동
+            LoadLoadingScene();
+        }
+    }
+
+    private void EndTimelineAndJoinRoom()
+    {
+        if (!isLeavingRoom)
+        {
+            isLeavingRoom = true;
+            TimelineMaker.Stop(); // 타임라인 중지
+            LoadLoadingScene();   // 로딩 씬으로 전환
         }
     }
 
@@ -44,7 +58,7 @@ public class FireballController : MonoBehaviourPunCallbacks
             IsOpen = true,
             EmptyRoomTtl = 1000 * 20,
         };
-        PhotonNetwork.JoinOrCreateRoom("Main", roomOptions, TypedLobby.Default);
+        PhotonNetwork.JoinOrCreateRoom(RoomID, roomOptions, TypedLobby.Default);
         SceneManager.LoadScene("LoadingScene");
     }
 }

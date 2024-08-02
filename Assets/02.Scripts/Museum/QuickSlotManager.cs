@@ -10,7 +10,7 @@ public class QuickSlotManager : MonoBehaviour
 
     public TextMeshProUGUI InventionReleasedText;
 
-    // InventionType에 따라 메시지와 슬롯 인덱스를 매핑하기 위한 Dictionary
+    // InventionType에 따라 메시지와 슬롯 인덱스를 매핑하기 위한 딕셔너리
     private Dictionary<InventionType, int> inventionSlotMap = new Dictionary<InventionType, int>()
     {
         { InventionType.ArmillarySphere, 0 },

@@ -41,22 +41,7 @@ public class RainGaugeManager : MonoBehaviourPunCallbacks
             Destroy(gameObject);
         }
     }
-    public void AssignUI(int playerNumber)
-    {
-        for (int i = 0; i < playerNumber && i < playerUI.Length; i++)
-        { 
-            playerUI[i].SetActive(true);
-        }
-    }
-    public void RegisterPlayer(RainGaugePlayer player)
-    {
-        if (!players.ContainsKey(player.MyNum))
-        {
-            players[player.MyNum] = player;
-            Debug.Log($"Player {player.MyNum} registered.");
-            AssignUI(player.MyNum);
-        }
-    }
+
     public void DisableAllUI()
     {
         foreach (GameObject ui in playerUI)
@@ -66,64 +51,49 @@ public class RainGaugeManager : MonoBehaviourPunCallbacks
     }
     public override void OnPlayerEnteredRoom(Photon.Realtime.Player newPlayer)
     {
-        if (PhotonNetwork.IsMasterClient)
-        {
-            AssignPlayerNumber(newPlayer);
-        }
+        base.OnPlayerEnteredRoom(newPlayer);
+
         Debug.Log($"{newPlayer}님이 입장했습니다.");
         Debug.Log($"{PhotonNetwork.PlayerList}");
-        UpdateAllPlayerUI();
+        RefreshUI();
     }
 
     public override void OnPlayerLeftRoom(Photon.Realtime.Player otherPlayer)
     {
         base.OnPlayerLeftRoom(otherPlayer);
 
-        UpdateAllPlayerUI();
+        RefreshUI();
     }
  
-    private void AssignPlayerNumber(Photon.Realtime.Player player)
+    public void RefreshUI()
     {
-        // 사용 중인 번호를 추적하기 위해 HashSet 사용
-        HashSet<int> usedNumbers = new HashSet<int>();
-        foreach (Photon.Realtime.Player p in PhotonNetwork.PlayerList)
+        // 모든 UI를 비활성화
+        foreach (var ui in playerUI)
         {
-            if (p.CustomProperties.TryGetValue("PlayerNumber", out object playerNumberObj))
-            {
-                usedNumbers.Add((int)playerNumberObj);
-            }
+            ui.SetActive(false);
         }
 
-        // 사용되지 않은 가장 작은 번호 찾기
-        int newPlayerNumber = 0;
-        for (int i = 0; i < 4; i++) // 최대 플레이어 수 4로 가정
+        foreach (var player in PhotonNetwork.PlayerList)
         {
-            if (!usedNumbers.Contains(i))
-            {
-                newPlayerNumber = i;
-                break;
-            }
-        }
-
-        // 새로운 플레이어에게 번호 할당
-        Hashtable props = new Hashtable
-        {
-            { "PlayerNumber", newPlayerNumber }
-        };
-        player.SetCustomProperties(props); // Custom Properties 설정 및 동기화
-    }
-
-    private void UpdateAllPlayerUI()
-    {
-        DisableAllUI(); // 모든 UI를 비활성화
-
-        foreach (Photon.Realtime.Player player in PhotonNetwork.PlayerList)
-        {
-            if (player.CustomProperties.TryGetValue("PlayerNumber", out object playerNumberObj))
+            if (player.CustomProperties.TryGetValue("PlayerNumber", out object playerNumberObj) && playerNumberObj != null)
             {
                 int playerNumber = (int)playerNumberObj;
-                AssignUI(playerNumber); // 각 플레이어의 UI를 활성화
-                Debug.Log($"{playerNumber}");
+
+                // playerNumber는 1부터 시작하지만, 배열 인덱스는 0부터 시작하므로 1을 빼야 함
+                int index = playerNumber - 1;
+
+                if (index >= 0 && index < playerUI.Length)
+                {
+                    playerUI[index].SetActive(true);
+                }
+                else
+                {
+                    Debug.LogWarning($"Invalid player number: {playerNumber}");
+                }
+            }
+            else
+            {
+                Debug.LogWarning($"Player {player.NickName} does not have a valid PlayerNumber property.");
             }
         }
     }
@@ -131,6 +101,14 @@ public class RainGaugeManager : MonoBehaviourPunCallbacks
     {
         players.TryGetValue(playerNumber, out RainGaugePlayer player);
         return player;
+    }
+    public void RegisterPlayer(RainGaugePlayer player)
+    {
+        if (!players.ContainsKey(player.MyNum))
+        {
+            players[player.MyNum] = player;
+            Debug.Log($"Player {player.MyNum} registered.");
+        }
     }
     public override void OnEnable()
     {

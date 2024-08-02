@@ -7,26 +7,26 @@ public class PlayerChatUI : MonoBehaviourPunCallbacks
 {
     public TextMeshProUGUI chatText; // 플레이어 채팅 텍스트 UI
 
-    private void Start()
+    private void Awake()
     {
         // 초기화: 자식에서 TextMeshPro-Text 컴포넌트를 찾아서 설정합니다.
         chatText = GetComponentInChildren<TextMeshProUGUI>();
-        if (chatText != null)
-        {
-            chatText.gameObject.SetActive(false); // 시작 시 비활성화 상태로 설정
-        }
-        else
+        if (chatText == null)
         {
             Debug.LogError("chatText is not assigned or not found in children.");
         }
+        else
+        {
+            chatText.gameObject.SetActive(false); // 시작 시 비활성화 상태로 설정
+        }
     }
 
-    // 채팅 메시지 표시 및 숨기기
+    // 채팅 메시지를 표시하고 3초 후에 숨기기
     public void DisplayChatMessage(string message)
     {
         if (photonView.IsMine)
         {
-            Debug.Log("Displaying message: " + message);
+            Debug.Log("Sending message via RPC: " + message); // 디버그 로그 추가
             photonView.RPC("RPCDisplayChatMessage", RpcTarget.All, message);
         }
     }
@@ -47,12 +47,14 @@ public class PlayerChatUI : MonoBehaviourPunCallbacks
         if (chatText != null)
         {
             string playerName = info.Sender.NickName; // 메시지를 보낸 플레이어의 이름
-            string formattedMessage = $"[{playerName}]: {message}";
+            string formattedMessage = string.IsNullOrWhiteSpace(message) ? "" : $"[{playerName}]: {message}";
 
-            Debug.Log("RPC received message: " + formattedMessage);
             chatText.text = formattedMessage;
-            chatText.gameObject.SetActive(true); // 텍스트 표시
+            chatText.gameObject.SetActive(true); // 메시지 표시
 
+            Debug.Log("Displaying message: " + formattedMessage); // 디버그 로그 추가
+
+            StopAllCoroutines(); // 기존 코루틴 중지
             StartCoroutine(HideChatTextAfterDelay());
         }
         else
@@ -64,7 +66,7 @@ public class PlayerChatUI : MonoBehaviourPunCallbacks
     // 일정 시간 후에 채팅 텍스트를 숨기는 코루틴
     private IEnumerator HideChatTextAfterDelay()
     {
-        yield return new WaitForSeconds(5f); // 5초 대기
+        yield return new WaitForSeconds(3f); // 3초 대기
 
         if (chatText != null)
         {

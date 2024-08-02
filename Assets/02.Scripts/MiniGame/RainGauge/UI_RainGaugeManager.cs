@@ -6,6 +6,7 @@ using Photon.Pun;
 using TMPro;
 using UnityEngine;
 using Hashtable = ExitGames.Client.Photon.Hashtable;
+using System.Linq;
 
 public class UI_RainGaugeManager : MonoBehaviourPunCallbacks
 {
@@ -24,15 +25,21 @@ public class UI_RainGaugeManager : MonoBehaviourPunCallbacks
     public TMP_Text PlayNameThree;
     public TMP_Text PlayNameFour;
     
+    public GameObject WinImage;
+    public GameObject LoseImage;
+    
     private bool _isReadyFinished = false;
     private bool _isGoFinished = false;
     private Dictionary<int, RainGaugePlayer> players = new Dictionary<int, RainGaugePlayer>();
+
+    
     private void Start()
     {
         ReadyImg.gameObject.SetActive(false);
         StartImg.gameObject.SetActive(false);
         ReadyButtonPressed.SetActive(false);
-
+        WinImage.gameObject.SetActive(false);
+        LoseImage.gameObject.SetActive(false);
         UpdatePlayerUI();
     }
 
@@ -46,6 +53,8 @@ public class UI_RainGaugeManager : MonoBehaviourPunCallbacks
                 _isReadyFinished = true;
                 _isGoFinished = false;
             }
+            ReadyButtonPressed.gameObject.SetActive(false);
+            ReadyButton.gameObject.SetActive(false);
         }
         else if (RainGaugeManager.Instance.CurrentGameState == GameState.Go)
         {
@@ -58,6 +67,25 @@ public class UI_RainGaugeManager : MonoBehaviourPunCallbacks
         }
         UpdatePlayerUI();
         CheakReadyButton();
+        if (RainGaugeManager.Instance.CurrentGameState == GameState.Over)
+        {
+            object winnersObj;
+            if (PhotonNetwork.CurrentRoom.CustomProperties.TryGetValue("Winners", out winnersObj))
+            {
+                string[] winners = (string[])winnersObj;
+
+                bool isWinner = winners.Contains(PhotonNetwork.LocalPlayer.NickName);
+
+                if (isWinner)
+                {
+                    StartCoroutine(ShowImage_Coroutine(WinImage));
+                }
+                else
+                {
+                    StartCoroutine(ShowImage_Coroutine(LoseImage));
+                }
+            }
+        }
     }
 
     private IEnumerator Show_Coroutine(GameObject obj)
@@ -115,7 +143,6 @@ public class UI_RainGaugeManager : MonoBehaviourPunCallbacks
                 NumberFour.text = playerScore.ToString();
                 break;
             default:
-                Debug.LogError("Invalid player index.");
                 break;
         }
     }
@@ -130,5 +157,11 @@ public class UI_RainGaugeManager : MonoBehaviourPunCallbacks
             case 4: return JarScore.Instance.Player4score;
             default: return 0;
         }
+    }
+
+    IEnumerator ShowImage_Coroutine(GameObject img)
+    {
+        yield return new WaitForSeconds(1f);
+        img.SetActive(true);
     }
 }

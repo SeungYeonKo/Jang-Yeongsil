@@ -42,10 +42,12 @@ public class RainGaugeManager : MonoBehaviourPunCallbacks
     }
     public void AssignUI(int playerNumber)
     {
+        int index = playerNumber - 2; // 배열 인덱스는 0부터 시작하므로 1을 뺍니다.
+
         // 플레이어 번호에 맞는 UI를 활성화
-        if (playerNumber >= 1 && playerNumber <= playerUI.Length)
+        if (index >= 0 && index < playerUI.Length)
         {
-            playerUI[playerNumber - 2].SetActive(true);
+            playerUI[index].SetActive(true);
         }
         else
         {
@@ -66,6 +68,32 @@ public class RainGaugeManager : MonoBehaviourPunCallbacks
         foreach (GameObject ui in playerUI)
         {
             ui.SetActive(false);
+        }
+    }
+    public override void OnPlayerEnteredRoom(Photon.Realtime.Player newPlayer)
+    {
+        base.OnPlayerEnteredRoom(newPlayer);
+
+        UpdateAllPlayerUI();
+    }
+
+    public override void OnPlayerLeftRoom(Photon.Realtime.Player otherPlayer)
+    {
+        base.OnPlayerLeftRoom(otherPlayer);
+
+        UpdateAllPlayerUI();
+    }
+    private void UpdateAllPlayerUI()
+    {
+        DisableAllUI(); // 모든 UI를 비활성화
+
+        foreach (Photon.Realtime.Player player in PhotonNetwork.PlayerList)
+        {
+            if (player.CustomProperties.TryGetValue("PlayerNumber", out object playerNumberObj))
+            {
+                int playerNumber = (int)playerNumberObj;
+                AssignUI(playerNumber); // 각 플레이어의 UI를 활성화
+            }
         }
     }
     public RainGaugePlayer GetPlayer(int playerNumber)

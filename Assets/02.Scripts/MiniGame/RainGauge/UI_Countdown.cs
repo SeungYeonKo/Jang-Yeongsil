@@ -8,19 +8,27 @@ public class UI_Countdown : MonoBehaviour
 {
     public GameObject CountDownUI;
     public TextMeshProUGUI CountText;
-    public Image RoadingImage;
+    private GameState previousGameState;
 
     private void Start()
     {
+        previousGameState = RainGaugeManager.Instance.CurrentGameState;
         CountDownUI.SetActive(false);
     }
 
     private void Update()
     {
-        if (RainGaugeManager.Instance.CurrentGameState == GameState.Loading)
+        GameState currentGameState = RainGaugeManager.Instance.CurrentGameState;
+
+        if (currentGameState != previousGameState)
         {
-            StartCoroutine(ShowCountDown());
+            if (currentGameState == GameState.Loading)
+            {
+                StartCoroutine(ShowCountDown());
+            }
+            previousGameState = currentGameState;
         }
+           
     }
 
     private IEnumerator ShowCountDown()

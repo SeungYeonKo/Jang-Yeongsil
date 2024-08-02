@@ -42,7 +42,7 @@ public class RainGaugeManager : MonoBehaviourPunCallbacks
     }
     public void AssignUI(int playerNumber)
     {
-        int index = playerNumber - 1; // 배열 인덱스는 0부터 시작하므로 1을 뺍니다.
+        int index = playerNumber - 2; // 배열 인덱스는 0부터 시작하므로 1을 뺍니다.
 
         // 플레이어 번호에 맞는 UI를 활성화
         if (index >= 0 && index < playerUI.Length)

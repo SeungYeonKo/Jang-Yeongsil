@@ -91,7 +91,9 @@ public class SunMiniGame : MonoBehaviour
         }
 
         // 정답 처리 후 미니게임 비활성화
-        isGameActive = false;
+        isGameActive = false; // 이거임 게임 끝났다는 표시 (고승연은 보라)
+
+
 
         // ClockInteraction 스크립트에서 UI와 카메라를 초기 상태로 되돌리도록 호출
         if (clockInteraction != null)

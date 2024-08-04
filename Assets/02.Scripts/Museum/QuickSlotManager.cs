@@ -31,6 +31,13 @@ public class QuickSlotManager : MonoBehaviour
 
     private void Start()
     {
+        // 씬 전환 시 QuickSlot 상태 복원
+        RestoreQuickSlotState();
+    }
+
+    private void RestoreQuickSlotState()
+    {
+        // 초기화
         for (int i = 0; i < BeforeQuickSlots.Length; i++)
         {
             BeforeQuickSlots[i].SetActive(true);
@@ -84,6 +91,4 @@ public class QuickSlotManager : MonoBehaviour
         yield return new WaitForSeconds(delay);
         InventionReleasedText.text = ""; // 텍스트 비우기
     }
-
-
 }

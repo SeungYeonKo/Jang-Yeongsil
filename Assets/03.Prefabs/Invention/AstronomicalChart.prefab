@@ -16,7 +16,7 @@ GameObject:
   - component: {fileID: 384097357842643602}
   - component: {fileID: 3813060101075881192}
   m_Layer: 0
-  m_Name: Invention_AstronomicalChart
+  m_Name: AstronomicalChart
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

@@ -11,18 +11,24 @@ public class MuseumManager : MonoBehaviour
         foreach (var obj in MuseumInventionObjects)
         {
             string inventionName = obj.name;
-
-            // 발명품 상태를 확인하여 활성화
-            if (GlobalInventionManager.IsInventionActive(inventionName))
+            if (System.Enum.TryParse(inventionName, out InventionType inventionType))
             {
-                obj.SetActive(true);
+                // 발명품 상태를 확인하여 활성화
+                if (GlobalInventionManager.IsInventionActive(inventionType))
+                {
+                    obj.SetActive(true);
+                }
+                else
+                {
+                    obj.SetActive(false);
+                }
+
+                Debug.Log($"Invention: {inventionName}, Active: {GlobalInventionManager.IsInventionActive(inventionType)}");
             }
             else
             {
-                obj.SetActive(false);
+                Debug.LogError($"Invalid invention name: {inventionName}");
             }
-
-            Debug.Log($"Invention: {inventionName}, Active: {GlobalInventionManager.IsInventionActive(inventionName)}");
         }
     }
 }

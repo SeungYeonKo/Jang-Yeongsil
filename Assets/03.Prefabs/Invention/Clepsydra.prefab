@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 5942611200009572078}
   - component: {fileID: 227081699507807457}
   m_Layer: 0
-  m_Name: Invention_Clepsydra
+  m_Name: Clepsydra
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

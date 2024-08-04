@@ -180,7 +180,7 @@ GameObject:
   - component: {fileID: 2935557531085744411}
   - component: {fileID: 287083569415383718}
   m_Layer: 6
-  m_Name: Invention_Cheugugi
+  m_Name: Cheugugi
   m_TagString: Invention
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

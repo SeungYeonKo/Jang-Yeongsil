@@ -14,138 +14,110 @@ public class JarScore : MonoBehaviour
     public GameObject Jar3;
     public GameObject Jar4;
 
-    public int Player1score = 0;
-    public int Player2score = 0;
-    public int Player3score = 0;
-    public int Player4score = 0;
+    private int _player1score;
+    private int _player2score;
+    private int _player3score;
+    private int _player4score;
 
-    private float jar1Timer;
-    private float jar2Timer;
-    private float jar3Timer;
-    private float jar4Timer;
+    public int Player1score
+    {
+        get { return _player1score; }
+        set
+        {
+            _player1score = value;
+            UpdateScore(1, value);
+        }
+    }
 
-    private float scoreIncreaseInterval = 1f;
-    private int maxScore = 10000;
+    public int Player2score
+    {
+        get { return _player2score; }
+        set
+        {
+            _player2score = value;
+            UpdateScore(2, value);
+        }
+    }
+
+    public int Player3score
+    {
+        get { return _player3score; }
+        set
+        {
+            _player3score = value;
+            UpdateScore(3, value);
+        }
+    }
+
+    public int Player4score
+    {
+        get { return _player4score; }
+        set
+        {
+            _player4score = value;
+            UpdateScore(4, value);
+        }
+    }
 
     private void Awake()
     {
         Instance = this;
     }
 
-    public void UpdateJarScores()
+    private void UpdateScore(int playerNumber, int score)
     {
-        if (IsJarAssigned(1) && Player1score < maxScore)
+        if (PhotonNetwork.IsMasterClient)
         {
-            jar1Timer += Time.deltaTime;
-            if (jar1Timer >= scoreIncreaseInterval)
-            {
-                Player1score++;
-                jar1Timer = 0f;
-            }
-        }
-
-        if (IsJarAssigned(2) && Player2score < maxScore)
-        {
-            jar2Timer += Time.deltaTime;
-            if (jar2Timer >= scoreIncreaseInterval)
-            {
-                Player2score++;
-                jar2Timer = 0f;
-            }
-        }
-
-        if (IsJarAssigned(3) && Player3score < maxScore)
-        {
-            jar3Timer += Time.deltaTime;
-            if (jar3Timer >= scoreIncreaseInterval)
-            {
-                Player3score++;
-                jar3Timer = 0f;
-            }
-        }
-
-        if (IsJarAssigned(4) && Player4score < maxScore)
-        {
-            jar4Timer += Time.deltaTime;
-            if (jar4Timer >= scoreIncreaseInterval)
-            {
-                Player4score++;
-                jar4Timer = 0f;
-            }
+            Hashtable scores = new Hashtable();
+            scores[$"Player{playerNumber}score"] = score;
+            PhotonNetwork.CurrentRoom.SetCustomProperties(scores);
         }
     }
 
-    private bool IsJarAssigned(int jarNumber)
+    public void IncreaseScore(int playerNumber, int amount)
     {
-        foreach (var player in PhotonNetwork.PlayerList)
+        switch (playerNumber)
         {
-            if (player.CustomProperties.ContainsKey("PlayerNumber") && (int)player.CustomProperties["PlayerNumber"] == jarNumber)
-            {
-                return true;
-            }
-        }
-        return false;
-    }
-
-
-    public void IncreaseScore(int jarNumber, int amount)
-    {
-        switch (jarNumber)
-        {
-            case 1:
-                Player1score += amount;
-                break;
-            case 2:
-                Player2score += amount;
-                break;
-            case 3:
-                Player3score += amount;
-                break;
-            case 4:
-                Player4score += amount;
-                break;
+            case 1: Player1score += amount; break;
+            case 2: Player2score += amount; break;
+            case 3: Player3score += amount; break;
+            case 4: Player4score += amount; break;
         }
     }
 
-    public void DecreaseScore(int jarNumber, int amount)
+    public void ResetScore(int playerNumber)
     {
-        switch (jarNumber)
+        switch (playerNumber)
         {
-            case 1:
-                Player1score = Mathf.Max(0, Player1score - amount);
-                break;
-            case 2:
-                Player2score = Mathf.Max(0, Player2score - amount);
-                break;
-            case 3:
-                Player3score = Mathf.Max(0, Player3score - amount);
-                break;
-            case 4:
-                Player4score = Mathf.Max(0, Player4score - amount);
-                break;
+            case 1: Player1score = 0; break;
+            case 2: Player2score = 0; break;
+            case 3: Player3score = 0; break;
+            case 4: Player4score = 0; break;
         }
     }
 
-    public void ResetScore(int jarNumber)
+    public void OnPhotonCustomRoomPropertiesChanged(Hashtable propertiesThatChanged)
     {
-        switch (jarNumber)
+        if (propertiesThatChanged.ContainsKey("Player1score"))
         {
-            case 1:
-                Player1score = 0;
-                break;
-            case 2:
-                Player2score = 0;
-                break;
-            case 3:
-                Player3score = 0;
-                break;
-            case 4:
-                Player4score = 0;
-                break;
+            _player1score = (int)propertiesThatChanged["Player1score"];
+        }
+        if (propertiesThatChanged.ContainsKey("Player2score"))
+        {
+            _player2score = (int)propertiesThatChanged["Player2score"];
+        }
+        if (propertiesThatChanged.ContainsKey("Player3score"))
+        {
+            _player3score = (int)propertiesThatChanged["Player3score"];
+        }
+        if (propertiesThatChanged.ContainsKey("Player4score"))
+        {
+            _player4score = (int)propertiesThatChanged["Player4score"];
         }
     }
 
-    public void DetermineWinner()
+
+/*public void DetermineWinner()
     {
         StartCoroutine(DetermineWinnerWithDelay());
     }
@@ -206,5 +178,5 @@ public class JarScore : MonoBehaviour
             PhotonNetwork.CurrentRoom.SetCustomProperties(winnersHashtable);
             Debug.Log($"{string.Join(", ", winners)} stored as winners.");
         }
-    }
+    }*/
 }

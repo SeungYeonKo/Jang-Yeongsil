@@ -25,8 +25,6 @@ public class UI_RainGaugeManager : MonoBehaviourPunCallbacks
     
     private bool _isReadyFinished = false;
     private bool _isGoFinished = false;
-    private Dictionary<int, RainGaugePlayer> players = new Dictionary<int, RainGaugePlayer>();
-
     
     private void Start()
     {
@@ -126,7 +124,7 @@ public class UI_RainGaugeManager : MonoBehaviourPunCallbacks
             {
                 int playerNumber = (int)playerNumberObj;
                 string playerName = player.NickName;
-                int score = GetPlayerScore(playerNumber); // 플레이어의 점수를 가져옴
+                int score = GetPlayerScoreFromRoom(playerNumber); // 플레이어의 점수를 가져옴
 
                 if (playerIndex < PlayerNameTexts.Length && playerIndex < NumberTexts.Length)
                 {
@@ -147,18 +145,15 @@ public class UI_RainGaugeManager : MonoBehaviourPunCallbacks
         }
     }
 
-    
 
-    private int GetPlayerScore(int playerNumber)
+
+    private int GetPlayerScoreFromRoom(int playerNumber)
     {
-        switch (playerNumber)
+        if (PhotonNetwork.CurrentRoom.CustomProperties.TryGetValue($"Player{playerNumber}score", out object score))
         {
-            case 1: return JarScore.Instance.Player1score;
-            case 2: return JarScore.Instance.Player2score;
-            case 3: return JarScore.Instance.Player3score;
-            case 4: return JarScore.Instance.Player4score;
-            default: return 0;
+            return (int)score;
         }
+        return 0;
     }
 
     IEnumerator ShowImage_Coroutine(GameObject img)
@@ -178,6 +173,12 @@ public class UI_RainGaugeManager : MonoBehaviourPunCallbacks
     public override void OnPlayerLeftRoom(Photon.Realtime.Player otherPlayer)
     {
         base.OnPlayerLeftRoom(otherPlayer);
+        UpdatePlayerUI();
+    }
+
+    public override void OnRoomPropertiesUpdate(Hashtable propertiesThatChanged)
+    {
+        base.OnRoomPropertiesUpdate(propertiesThatChanged);
         UpdatePlayerUI();
     }
 }

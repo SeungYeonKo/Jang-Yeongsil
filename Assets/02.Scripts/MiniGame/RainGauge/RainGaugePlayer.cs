@@ -74,7 +74,7 @@ public class RainGaugePlayer : MonoBehaviourPunCallbacks
             if (_startpoint != null)
             {
                 transform.position = _startpoint.transform.position;
-                Debug.Log($"Player {MyNum} moved to start position: {transform.position}");
+                //Debug.Log($"Player {MyNum} moved to start position: {transform.position}");
             }
             else
             {

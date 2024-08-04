@@ -19,6 +19,14 @@ public class JarScore : MonoBehaviour
     private int _player3score;
     private int _player4score;
 
+    private float jar1Timer;
+    private float jar2Timer;
+    private float jar3Timer;
+    private float jar4Timer;
+
+    private float scoreIncreaseInterval = 1f;
+    private int maxScore = 10000;
+
     public int Player1score
     {
         get { return _player1score; }
@@ -62,6 +70,58 @@ public class JarScore : MonoBehaviour
     private void Awake()
     {
         Instance = this;
+    }
+
+    public void UpdateJarScores()
+    {
+        if (IsJarAssigned(1) && Player1score < maxScore)
+        {
+            jar1Timer += Time.deltaTime;
+            if (jar1Timer >= scoreIncreaseInterval)
+            {
+                Player1score++;
+                jar1Timer = 0f;
+            }
+        }
+        if (IsJarAssigned(2) && Player2score < maxScore)
+        {
+            jar2Timer += Time.deltaTime;
+            if (jar2Timer >= scoreIncreaseInterval)
+            {
+                Player2score++;
+                jar2Timer = 0f;
+            }
+        }
+        if (IsJarAssigned(3) && Player3score < maxScore)
+        {
+            jar3Timer += Time.deltaTime;
+            if (jar3Timer >= scoreIncreaseInterval)
+            {
+                Player3score++;
+                jar3Timer = 0f;
+            }
+        }
+        if (IsJarAssigned(4) && Player4score < maxScore)
+        {
+            jar4Timer += Time.deltaTime;
+            if (jar4Timer >= scoreIncreaseInterval)
+            {
+                Player4score++;
+                jar4Timer = 0f;
+            }
+        }
+    }
+
+    private bool IsJarAssigned(int jarNumber)
+    {
+        foreach (var player in PhotonNetwork.PlayerList)
+        {
+            if (player.CustomProperties.ContainsKey("PlayerNumber") && (int)player.CustomProperties["PlayerNumber"] == jarNumber)
+            {
+                return true;
+            }
+        }
+        return false;
     }
 
     private void UpdateScore(int playerNumber, int score)
@@ -117,7 +177,7 @@ public class JarScore : MonoBehaviour
     }
 
 
-/*public void DetermineWinner()
+    public void DetermineWinner()
     {
         StartCoroutine(DetermineWinnerWithDelay());
     }
@@ -178,5 +238,5 @@ public class JarScore : MonoBehaviour
             PhotonNetwork.CurrentRoom.SetCustomProperties(winnersHashtable);
             Debug.Log($"{string.Join(", ", winners)} stored as winners.");
         }
-    }*/
+    }
 }

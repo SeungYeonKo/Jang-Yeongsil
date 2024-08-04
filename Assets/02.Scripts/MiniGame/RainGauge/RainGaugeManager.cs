@@ -178,7 +178,7 @@ public class RainGaugeManager : MonoBehaviourPunCallbacks
 
             case GameState.Go:
                 UpdateGameTimer();
-                JarScore.Instance.UpdateJarScores();
+                //JarScore.Instance.UpdateJarScores();
                 break;
 
             case GameState.Over:
@@ -282,7 +282,7 @@ public class RainGaugeManager : MonoBehaviourPunCallbacks
 
     private IEnumerator ShowVictoryAndLoadScene()
     {
-        JarScore.Instance.DetermineWinner();// 승자 결정
+        //JarScore.Instance.DetermineWinner();// 승자 결정
 
         while (_countEnd > 0)
         {

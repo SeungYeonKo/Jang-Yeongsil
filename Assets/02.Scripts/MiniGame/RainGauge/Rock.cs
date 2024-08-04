@@ -1,3 +1,4 @@
+using Photon.Pun;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -25,12 +26,23 @@ public class Rock : MonoBehaviour
             if (jarNumber != -1)
             {
                 Debug.Log($"Reset score for jar number: {jarNumber}");
-                JarScore.Instance.ResetScore(jarNumber);
-                Jar jarController = FindObjectOfType<Jar>();
-                if (jarController != null)
+
+                if (JarScore.Instance != null)
                 {
-                    jarController.BreakJar(jarNumber);
+                    PhotonView photonView = PhotonView.Get(JarScore.Instance);
+                    photonView.RPC("ResetScore", Photon.Pun.RpcTarget.All, jarNumber);
+
+                    Jar jarController = FindObjectOfType<Jar>();
+                    if (jarController != null)
+                    {
+                        jarController.BreakJar(jarNumber);
+                    }
                 }
+                else
+                {
+                    Debug.LogError("JarScore.Instance is null");
+                }
+
                 gameObject.SetActive(false);
             }
         }

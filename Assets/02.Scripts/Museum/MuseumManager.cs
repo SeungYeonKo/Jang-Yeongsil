@@ -1,9 +1,8 @@
-using Photon.Pun;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class MuseumManager : MonoBehaviourPun
+public class MuseumManager : MonoBehaviour
 {
     public GameObject[] MuseumInventionObjects;
 
@@ -13,7 +12,7 @@ public class MuseumManager : MonoBehaviourPun
         {
             string inventionName = obj.name;
 
-            if (GlobalInventionManager.Instance.GetInventionState(inventionName))
+            if (GlobalInventionManager.IsInventionActive(inventionName))
             {
                 obj.SetActive(true);
             }
@@ -23,6 +22,4 @@ public class MuseumManager : MonoBehaviourPun
             }
         }
     }
-
-
 }

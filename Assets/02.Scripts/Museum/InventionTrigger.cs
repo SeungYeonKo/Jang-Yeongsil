@@ -14,8 +14,11 @@ public class InventionTrigger : MonoBehaviour
     {
         if (other.CompareTag("Player"))
         {
-            // 플레이어가 트리거 영역에 들어왔을 때 적절한 슬롯을 활성화
+            // 퀵슬롯에 발명품 활성화
             QuickSlotManager.ActivateAfterQuickSlot(InventionType);
+
+            // 발명품 상태를 GlobalInventionManager에 저장
+            GlobalInventionManager.SetInventionActive(InventionType.ToString(), true);
 
             Destroy(this.gameObject);
         }

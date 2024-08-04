@@ -1,72 +1,52 @@
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
-using Photon.Pun;
-using Photon.Realtime;
-using ExitGames.Client.Photon;
 
-public class GlobalInventionManager : MonoBehaviourPunCallbacks
+public class GlobalInventionManager : MonoBehaviour
 {
-    public static GlobalInventionManager Instance;
+    public static Hashtable InventionState = new Hashtable();
+    public static Hashtable QuickSlotState = new Hashtable(); // 퀵슬롯 상태 저장
 
     private void Awake()
     {
-        if (Instance == null)
+        DontDestroyOnLoad(this.gameObject);
+
+        // 초기 상태 설정 (필요에 따라 기본값 설정)
+        InventionState["Sundial"] = false;
+        InventionState["ArmillarySphere"] = false;
+        InventionState["Cheugugi"] = false;
+        InventionState["AstronomicalChart"] = false;
+        InventionState["Clepsydra"] = false;
+    }
+
+    public static void SetInventionActive(string inventionName, bool isActive)
+    {
+        if (InventionState.ContainsKey(inventionName))
         {
-            Instance = this;
-            DontDestroyOnLoad(gameObject);
-        }
-        else
-        {
-            Destroy(gameObject);
+            InventionState[inventionName] = isActive;
         }
     }
 
-    public void UpdateInventionState(string inventionName, bool state)
+    public static bool IsInventionActive(string inventionName)
     {
-        // 현재 플레이어의 Custom Properties 업데이트
-        ExitGames.Client.Photon.Hashtable inventionState = new ExitGames.Client.Photon.Hashtable();
-        inventionState[inventionName] = state;
-        PhotonNetwork.LocalPlayer.SetCustomProperties(inventionState);
-
-        // 커스텀 프로퍼티 변경 이벤트를 수동으로 발생시킴
-        RaiseEventOptions options = new RaiseEventOptions { Receivers = ReceiverGroup.All };
-        PhotonNetwork.RaiseEvent(1, inventionState, options, SendOptions.SendReliable);
-    }
-
-    public bool GetInventionState(string inventionName)
-    {
-        // 현재 플레이어의 Custom Properties에서 상태 가져오기
-        if (PhotonNetwork.LocalPlayer.CustomProperties.TryGetValue(inventionName, out object value))
+        if (InventionState.ContainsKey(inventionName))
         {
-            return (bool)value;
+            return (bool)InventionState[inventionName];
         }
         return false;
     }
 
-    private void OnEnable()
+    public static void SaveQuickSlotState(InventionType inventionType, bool isActive)
     {
-        PhotonNetwork.NetworkingClient.EventReceived += OnEvent;
+        QuickSlotState[inventionType] = isActive;
     }
 
-    private void OnDisable()
+    public static bool GetQuickSlotState(InventionType inventionType)
     {
-        PhotonNetwork.NetworkingClient.EventReceived -= OnEvent;
-    }
-
-    private void OnEvent(EventData photonEvent)
-    {
-        if (photonEvent.Code == 1) // 이벤트 코드 1로 설정
+        if (QuickSlotState.ContainsKey(inventionType))
         {
-            ExitGames.Client.Photon.Hashtable changedProps = (ExitGames.Client.Photon.Hashtable)photonEvent.CustomData;
-
-            foreach (System.Collections.DictionaryEntry prop in changedProps)
-            {
-                string inventionName = prop.Key as string;
-                bool state = (bool)prop.Value;
-
-                // 박물관 오브젝트 상태 업데이트 로직을 여기에 추가
-                // 필요한 경우 해당 씬에서 오브젝트를 찾아 상태를 업데이트
-                Debug.Log($"Invention '{inventionName}' state updated to: {state}");
-            }
+            return (bool)QuickSlotState[inventionType];
         }
+        return false;
     }
 }

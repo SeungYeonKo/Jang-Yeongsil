@@ -36,6 +36,19 @@ public class QuickSlotManager : MonoBehaviour
             BeforeQuickSlots[i].SetActive(true);
             AfterQuickSlots[i].SetActive(false);
         }
+
+        // 저장된 퀵슬롯 상태를 복원
+        foreach (var entry in inventionSlotMap)
+        {
+            InventionType inventionType = entry.Key;
+            int slotIndex = entry.Value;
+
+            if (GlobalInventionManager.GetQuickSlotState(inventionType))
+            {
+                AfterQuickSlots[slotIndex].SetActive(true);
+                BeforeQuickSlots[slotIndex].SetActive(false);
+            }
+        }
     }
 
     public void ActivateAfterQuickSlot(InventionType inventionType)
@@ -46,6 +59,7 @@ public class QuickSlotManager : MonoBehaviour
             if (slotIndex < BeforeQuickSlots.Length)
             {
                 AfterQuickSlots[slotIndex].SetActive(true);
+                GlobalInventionManager.SaveQuickSlotState(inventionType, true); // 슬롯 상태 저장
             }
 
             // 텍스트 메시지 변경 및 사라지게 하는 코루틴 시작
@@ -70,4 +84,6 @@ public class QuickSlotManager : MonoBehaviour
         yield return new WaitForSeconds(delay);
         InventionReleasedText.text = ""; // 텍스트 비우기
     }
+
+
 }

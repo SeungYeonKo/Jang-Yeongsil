@@ -18,6 +18,8 @@ public class ClockInteraction : MonoBehaviour
     private bool isNearClock = false;
     private bool isClockViewActive = false;
 
+    public SunMiniGame SunMiniGame;
+
     void Awake()
     {
         // 현재 씬이 "SundialScene"이 아닌 경우, 스크립트 비활성화
@@ -27,60 +29,52 @@ public class ClockInteraction : MonoBehaviour
             return;
         }
 
-        // 필요한 오브젝트들을 동적으로 찾습니다.
-        if (mainCamera == null)
-            mainCamera = Camera.main; // 메인 카메라를 자동으로 할당
-        if (miniGameCamera == null)
-            miniGameCamera = GameObject.Find("MiniGame Camera").GetComponent<Camera>();
-        if (sundialSliderCanvas == null)
-            sundialSliderCanvas = FindObjectOfType<Canvas>();
-        if (sundialSlider == null)
-            sundialSlider = FindObjectOfType<Slider>();
-        if (sunImage == null)
-            sunImage = GameObject.Find("SunImage").GetComponent<Image>();
-        if (qzText == null)
-            qzText = GameObject.Find("Qz").GetComponent<TextMeshProUGUI>();
-        if (qKeyText == null)
-            qKeyText = GameObject.Find("Qkey").GetComponent<TextMeshProUGUI>();
-        
-        if (sliderImageAnimator == null)
-            sliderImageAnimator = GameObject.Find("SundialSlider_Canvas").GetComponent<SliderImageAnimator>();
-
-
-
-
+        // SunMiniGame 스크립트와의 연결을 설정합니다.
+        if (SunMiniGame != null)
+        {
+            SunMiniGame.clockInteraction = this;
+        }
     }
 
     private void Start()
     {
         // 초기 설정: 미니게임 카메라 비활성화, 개별 UI 오브젝트 비활성화
+        ResetMiniGame();
+    }
+
+    void Update()
+    {
+        // 해시계 근처에 있을 때 Q 키 입력을 받으면
+        if (isNearClock && Input.GetKeyDown(KeyCode.Q))
+        {
+            SunMiniGame.StartMiniGame();
+            ToggleClockView();
+        }
+    }
+
+    public void ResetMiniGame()
+    {
+        // 미니게임 종료 시 초기 상태로 복원
         if (miniGameCamera != null) miniGameCamera.gameObject.SetActive(false);
         if (sundialSlider != null) sundialSlider.gameObject.SetActive(false);
         if (sunImage != null) sunImage.gameObject.SetActive(false);
         if (qzText != null) qzText.gameObject.SetActive(false);
         if (additionalImage != null) additionalImage.gameObject.SetActive(false);
 
-         // 시작할 때 마우스 커서 숨김
+        // 시작할 때 마우스 커서 숨김
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
-    }
-    void Update()
-    {
-        // 해시계 근처에 있을 때 Q 키 입력을 받으면
-        if (isNearClock && Input.GetKeyDown(KeyCode.Q))
-        {
-            ToggleClockView();
-        }
+
+        if (mainCamera != null) mainCamera.gameObject.SetActive(true);
+        if (qKeyText != null) qKeyText.gameObject.SetActive(false);
+
+        isClockViewActive = false;
     }
 
     void ToggleClockView()
     {
-        Debug.Log("ToggleClockView called");
-
         if (!isClockViewActive)
         {
-            Debug.Log("Activating mini game elements");
-
             if (mainCamera != null) mainCamera.gameObject.SetActive(false);
             if (miniGameCamera != null) miniGameCamera.gameObject.SetActive(true);
 
@@ -92,23 +86,19 @@ public class ClockInteraction : MonoBehaviour
             if (sundialSlider != null)
             {
                 sundialSlider.gameObject.SetActive(true);
-                Debug.Log("Sundial Slider activated");
             }
             if (sunImage != null)
             {
                 sunImage.gameObject.SetActive(true);
                 sliderImageAnimator.displayImage.sprite = sliderImageAnimator.sprites[0];
-                Debug.Log("Sun Image activated");
             }
             if (qzText != null)
             {
                 qzText.gameObject.SetActive(true);
-                Debug.Log("QZ Text activated");
             }
             if (additionalImage != null)
             {
                 additionalImage.gameObject.SetActive(true);
-                Debug.Log("Additional Image activated");
             }
 
             if (qKeyText != null) qKeyText.gameObject.SetActive(false);
@@ -116,42 +106,8 @@ public class ClockInteraction : MonoBehaviour
             Cursor.lockState = CursorLockMode.None;
             Cursor.visible = true;
         }
-        else
-        {
-            Debug.Log("Deactivating mini game elements");
-
-            if (mainCamera != null) mainCamera.gameObject.SetActive(true);
-            if (miniGameCamera != null) miniGameCamera.gameObject.SetActive(false);
-
-            if (sundialSlider != null)
-            {
-                sundialSlider.gameObject.SetActive(false);
-                Debug.Log("Sundial Slider deactivated");
-            }
-            if (sunImage != null)
-            {
-                sunImage.gameObject.SetActive(false);
-                Debug.Log("Sun Image deactivated");
-            }
-            if (qzText != null)
-            {
-                qzText.gameObject.SetActive(false);
-                Debug.Log("QZ Text deactivated");
-            }
-            if (additionalImage != null)
-            {
-                additionalImage.gameObject.SetActive(false);
-                Debug.Log("Additional Image deactivated");
-            }
-
-            if (qKeyText != null) qKeyText.gameObject.SetActive(true);
-
-            Cursor.lockState = CursorLockMode.Locked;
-            Cursor.visible = false;
-        }
 
         isClockViewActive = !isClockViewActive;
-        Debug.Log("isClockViewActive: " + isClockViewActive);
     }
 
     void OnTriggerEnter(Collider other)
@@ -175,6 +131,9 @@ public class ClockInteraction : MonoBehaviour
 
             // Q 키 텍스트 비활성화
             if (qKeyText != null) qKeyText.gameObject.SetActive(false);
+
+            SunMiniGame.isGameActive = false;
+            ResetMiniGame();
         }
     }
 }

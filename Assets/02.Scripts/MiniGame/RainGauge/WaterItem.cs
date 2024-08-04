@@ -1,3 +1,4 @@
+using Photon.Pun;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -25,7 +26,16 @@ public class WaterItem : MonoBehaviour
             if (jarNumber != -1)
             {
                 Debug.Log($"Increasing score for jar number: {jarNumber}");
-                JarScore.Instance.IncreaseScore(jarNumber, 100);
+
+                if (JarScore.Instance != null)
+                {
+                    PhotonView photonView = PhotonView.Get(JarScore.Instance);
+                    photonView.RPC("IncreaseScore", Photon.Pun.RpcTarget.All, jarNumber, 100);
+                }
+                else
+                {
+                    Debug.LogError("JarScore.Instance is null");
+                }
                 gameObject.SetActive(false);
             }
         }

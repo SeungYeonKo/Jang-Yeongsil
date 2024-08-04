@@ -48,6 +48,8 @@ MonoBehaviour:
   - RPCDisplayMessage
   - RPC_Continue
   - RPC_Pause
+  - IncreaseScore
+  - ResetScore
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 0

@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class MuseumManager : MonoBehaviourPun
 {
-    public GameObject[] MuseumInventionObjects; 
+    public GameObject[] MuseumInventionObjects;
 
     private void Start()
     {
@@ -23,4 +23,6 @@ public class MuseumManager : MonoBehaviourPun
             }
         }
     }
+
+
 }

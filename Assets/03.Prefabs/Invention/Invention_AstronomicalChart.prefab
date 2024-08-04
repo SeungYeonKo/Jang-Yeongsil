@@ -12,9 +12,8 @@ GameObject:
   - component: {fileID: 2650545071002894416}
   - component: {fileID: 8258508609040399245}
   - component: {fileID: 8212107232876675754}
-  - component: {fileID: 6586282303829140462}
-  - component: {fileID: 6715379739669055957}
   - component: {fileID: 5203770417394268516}
+  - component: {fileID: 384097357842643602}
   m_Layer: 0
   m_Name: Invention_AstronomicalChart
   m_TagString: Untagged
@@ -30,7 +29,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2357009180630069459}
   serializedVersion: 2
-  m_LocalRotation: {x: -0.06557934, y: 0.60156286, z: -0.060275733, w: -0.793844}
+  m_LocalRotation: {x: 0.065578386, y: -0.6015662, z: 0.06027623, w: 0.79384154}
   m_LocalPosition: {x: 611.85, y: 1.87, z: 226.24}
   m_LocalScale: {x: 1.3689998, y: 1.3760998, z: 0.047426}
   m_ConstrainProportionsScale: 0
@@ -108,32 +107,6 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &6586282303829140462
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2357009180630069459}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 083a18aa6ebf67843b302daaf1a262c8, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  InventionName: AstronomicalChart
---- !u!114 &6715379739669055957
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2357009180630069459}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f9eb15556809932479cf51839fc6492c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  inventionName: AstronomicalChart
 --- !u!65 &5203770417394268516
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -155,3 +128,16 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1.2923013, y: 1, z: 11.677111}
   m_Center: {x: 0.06082193, y: 3.08849e-10, z: -1.3696727}
+--- !u!114 &384097357842643602
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2357009180630069459}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f9eb15556809932479cf51839fc6492c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  InventionType: 3

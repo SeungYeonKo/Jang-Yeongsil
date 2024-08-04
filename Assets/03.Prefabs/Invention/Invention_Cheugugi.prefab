@@ -178,7 +178,6 @@ GameObject:
   - component: {fileID: 358790415774394479}
   - component: {fileID: 4202165351825691556}
   - component: {fileID: 2935557531085744411}
-  - component: {fileID: 553217531509081355}
   m_Layer: 6
   m_Name: Invention_Cheugugi
   m_TagString: Invention
@@ -260,20 +259,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f9eb15556809932479cf51839fc6492c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  inventionName: 
---- !u!114 &553217531509081355
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2742880615490746241}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 083a18aa6ebf67843b302daaf1a262c8, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  InventionName: Cheugugi
+  InventionType: 2
 --- !u!1 &4297386277676013062
 GameObject:
   m_ObjectHideFlags: 0

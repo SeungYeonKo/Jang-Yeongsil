@@ -1,4 +1,5 @@
 using Photon.Pun;
+using Photon.Realtime;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -42,16 +43,9 @@ public class RainGaugeManager : MonoBehaviourPunCallbacks
     }
     public void AssignUI(int playerNumber)
     {
-        int index = playerNumber - 2; // 배열 인덱스는 0부터 시작하므로 1을 뺍니다.
-
-        // 플레이어 번호에 맞는 UI를 활성화
-        if (index >= 0 && index < playerUI.Length)
-        {
-            playerUI[index].SetActive(true);
-        }
-        else
-        {
-            Debug.LogError("Invalid player number or playerUI not set in RainGaugeManager.");
+        for (int i = 0; i < playerNumber && i < playerUI.Length; i++)
+        { 
+            playerUI[i].SetActive(true);
         }
     }
     public void RegisterPlayer(RainGaugePlayer player)
@@ -74,6 +68,12 @@ public class RainGaugeManager : MonoBehaviourPunCallbacks
     {
         base.OnPlayerEnteredRoom(newPlayer);
 
+        if (PhotonNetwork.IsMasterClient)
+        {
+            AssignPlayerNumber(newPlayer);
+        }
+        Debug.Log($"{newPlayer}님이 입장했습니다.");
+        Debug.Log($"{PhotonNetwork.PlayerList}");
         UpdateAllPlayerUI();
     }
 
@@ -83,6 +83,38 @@ public class RainGaugeManager : MonoBehaviourPunCallbacks
 
         UpdateAllPlayerUI();
     }
+ 
+    private void AssignPlayerNumber(Photon.Realtime.Player player)
+    {
+        // 사용 중인 번호를 추적하기 위해 HashSet 사용
+        HashSet<int> usedNumbers = new HashSet<int>();
+        foreach (Photon.Realtime.Player p in PhotonNetwork.PlayerList)
+        {
+            if (p.CustomProperties.TryGetValue("PlayerNumber", out object playerNumberObj))
+            {
+                usedNumbers.Add((int)playerNumberObj);
+            }
+        }
+
+        // 사용되지 않은 가장 작은 번호 찾기
+        int newPlayerNumber = 0;
+        for (int i = 0; i < 4; i++) // 최대 플레이어 수 4로 가정
+        {
+            if (!usedNumbers.Contains(i))
+            {
+                newPlayerNumber = i;
+                break;
+            }
+        }
+
+        // 새로운 플레이어에게 번호 할당
+        Hashtable props = new Hashtable
+        {
+            { "PlayerNumber", newPlayerNumber }
+        };
+        player.SetCustomProperties(props); // Custom Properties 설정 및 동기화
+    }
+
     private void UpdateAllPlayerUI()
     {
         DisableAllUI(); // 모든 UI를 비활성화
@@ -93,6 +125,7 @@ public class RainGaugeManager : MonoBehaviourPunCallbacks
             {
                 int playerNumber = (int)playerNumberObj;
                 AssignUI(playerNumber); // 각 플레이어의 UI를 활성화
+                Debug.Log($"{playerNumber}");
             }
         }
     }
@@ -145,7 +178,7 @@ public class RainGaugeManager : MonoBehaviourPunCallbacks
 
             case GameState.Go:
                 UpdateGameTimer();
-                JarScore.Instance.UpdateJarScores();
+                //JarScore.Instance.UpdateJarScores();
                 break;
 
             case GameState.Over:
@@ -249,7 +282,7 @@ public class RainGaugeManager : MonoBehaviourPunCallbacks
 
     private IEnumerator ShowVictoryAndLoadScene()
     {
-        JarScore.Instance.DetermineWinner();// 승자 결정
+        //JarScore.Instance.DetermineWinner();// 승자 결정
 
         while (_countEnd > 0)
         {
@@ -257,7 +290,7 @@ public class RainGaugeManager : MonoBehaviourPunCallbacks
             yield return new WaitForSeconds(1);
             _countEnd--;
         }
-
+        
         PhotonNetwork.LoadLevel("MainScene");
     }
 }

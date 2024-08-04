@@ -10,7 +10,6 @@ public class QuickSlotManager : MonoBehaviour
 
     public TextMeshProUGUI InventionReleasedText;
 
-    // InventionType에 따라 메시지와 슬롯 인덱스를 매핑하기 위한 딕셔너리
     private Dictionary<InventionType, int> inventionSlotMap = new Dictionary<InventionType, int>()
     {
         { InventionType.ArmillarySphere, 0 },
@@ -20,6 +19,7 @@ public class QuickSlotManager : MonoBehaviour
         { InventionType.Clepsydra, 4 }
     };
 
+    // 발명품 타입에 따른 메시지 매핑 딕셔너리
     private Dictionary<InventionType, string> inventionMessages = new Dictionary<InventionType, string>()
     {
         { InventionType.ArmillarySphere, "혼천의가 해금되었습니다. 박물관에서 확인하세요!" },
@@ -31,10 +31,26 @@ public class QuickSlotManager : MonoBehaviour
 
     private void Start()
     {
-        for (int i = 0; i < BeforeQuickSlots.Length; i++)
+        RestoreQuickSlotState();
+    }
+
+    private void RestoreQuickSlotState()
+    {
+        foreach (var entry in inventionSlotMap)
         {
-            BeforeQuickSlots[i].SetActive(true);
-            AfterQuickSlots[i].SetActive(false);
+            InventionType inventionType = entry.Key;
+            int slotIndex = entry.Value;
+
+            if (GlobalInventionManager.Instance.GetQuickSlotState(inventionType))
+            {
+                AfterQuickSlots[slotIndex].SetActive(true);
+                BeforeQuickSlots[slotIndex].SetActive(false);
+            }
+            else
+            {
+                AfterQuickSlots[slotIndex].SetActive(false);
+                BeforeQuickSlots[slotIndex].SetActive(true);
+            }
         }
     }
 
@@ -42,32 +58,24 @@ public class QuickSlotManager : MonoBehaviour
     {
         if (inventionSlotMap.TryGetValue(inventionType, out int slotIndex))
         {
-            // 슬롯 인덱스가 유효한 경우에만 활성화
             if (slotIndex < BeforeQuickSlots.Length)
             {
                 AfterQuickSlots[slotIndex].SetActive(true);
+                BeforeQuickSlots[slotIndex].SetActive(false);
+                GlobalInventionManager.Instance.SaveQuickSlotState(inventionType, true);
             }
 
-            // 텍스트 메시지 변경 및 사라지게 하는 코루틴 시작
             if (inventionMessages.TryGetValue(inventionType, out string message))
             {
                 InventionReleasedText.text = message;
-                StartCoroutine(HideInventionTextAfterDelay(2f)); // 2초 후 텍스트 숨김
+                StartCoroutine(HideInventionTextAfterDelay(2f));
             }
-            else
-            {
-                Debug.LogError("No message available for the given invention type");
-            }
-        }
-        else
-        {
-            Debug.LogError("Invalid invention type");
         }
     }
 
     private IEnumerator HideInventionTextAfterDelay(float delay)
     {
         yield return new WaitForSeconds(delay);
-        InventionReleasedText.text = ""; // 텍스트 비우기
+        InventionReleasedText.text = "";
     }
 }

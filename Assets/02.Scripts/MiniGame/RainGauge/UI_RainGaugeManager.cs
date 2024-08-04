@@ -15,23 +15,16 @@ public class UI_RainGaugeManager : MonoBehaviourPunCallbacks
     public GameObject ReadyButtonPressed;
     public GameObject ReadyButton;
 
-    public TMP_Text NumberOne;
-    public TMP_Text NumberTwo;
-    public TMP_Text NumberThree;
-    public TMP_Text NumberFour;
+    public TMP_Text[] NumberTexts;
+    public TMP_Text[] PlayerNameTexts;
 
-    public TMP_Text PlayNameOne;
-    public TMP_Text PlayNameTwo;
-    public TMP_Text PlayNameThree;
-    public TMP_Text PlayNameFour;
-    
+    public GameObject[] PlayerPanels;
+
     public GameObject WinImage;
     public GameObject LoseImage;
     
     private bool _isReadyFinished = false;
     private bool _isGoFinished = false;
-    private Dictionary<int, RainGaugePlayer> players = new Dictionary<int, RainGaugePlayer>();
-
     
     private void Start()
     {
@@ -40,7 +33,7 @@ public class UI_RainGaugeManager : MonoBehaviourPunCallbacks
         ReadyButtonPressed.SetActive(false);
         WinImage.gameObject.SetActive(false);
         LoseImage.gameObject.SetActive(false);
-        UpdatePlayerUI();
+        InitializePlayerUI();
     }
 
     void Update()
@@ -105,63 +98,87 @@ public class UI_RainGaugeManager : MonoBehaviourPunCallbacks
             ReadyButton.gameObject.SetActive(!isReadyValue);
         }
     }
+    private void InitializePlayerUI()
+    {
+        foreach (var text in NumberTexts)
+        {
+            text.text = "0";
+        }
+
+        foreach (var text in PlayerNameTexts)
+        {
+            text.text = "Waiting...";
+        }
+        foreach (var panel in PlayerPanels)
+        {
+            panel.SetActive(false); 
+        }
+    }
 
     private void UpdatePlayerUI()
     {
+        int playerIndex = 0;
         foreach (var player in PhotonNetwork.PlayerList)
         {
             if (player.CustomProperties.TryGetValue("PlayerNumber", out object playerNumberObj))
             {
                 int playerNumber = (int)playerNumberObj;
                 string playerName = player.NickName;
-                int score = GetPlayerScore(playerNumber); // 플레이어의 점수를 가져옵니다.
-                
-               // Debug.Log($"{playerName}");
-                SetPlayerUI(playerNumber - 1, playerName, score);
+                int score = GetPlayerScoreFromRoom(playerNumber); // 플레이어의 점수를 가져옴
+
+                if (playerIndex < PlayerNameTexts.Length && playerIndex < NumberTexts.Length)
+                {
+                    PlayerNameTexts[playerIndex].text = playerName;
+                    NumberTexts[playerIndex].text = score.ToString();
+                    PlayerPanels[playerIndex].SetActive(true);
+                    playerIndex++;
+                }
             }
         }
-    }
 
-    private void SetPlayerUI(int index, string playerName, int playerScore)
-    {
-        switch (index)
+        // 나머지 빈 UI를 초기화
+        for (int i = playerIndex; i < PlayerNameTexts.Length; i++)
         {
-            case 1:
-                PlayNameOne.text = playerName;
-                NumberOne.text = playerScore.ToString();
-                break;
-            case 2:
-                PlayNameTwo.text = playerName;
-                NumberTwo.text = playerScore.ToString();
-                break;
-            case 3:
-                PlayNameThree.text = playerName;
-                NumberThree.text = playerScore.ToString();
-                break;
-            case 4:
-                PlayNameFour.text = playerName;
-                NumberFour.text = playerScore.ToString();
-                break;
-            default:
-                break;
+            PlayerNameTexts[i].text = "Waiting...";
+            NumberTexts[i].text = "0";
+            PlayerPanels[i].SetActive(false);
         }
     }
 
-    private int GetPlayerScore(int playerNumber)
+
+
+    private int GetPlayerScoreFromRoom(int playerNumber)
     {
-        switch (playerNumber)
+        if (PhotonNetwork.CurrentRoom.CustomProperties.TryGetValue($"Player{playerNumber}score", out object score))
         {
-            case 1: return JarScore.Instance.Player1score;
-            case 2: return JarScore.Instance.Player2score;
-            case 3: return JarScore.Instance.Player3score;
-            case 4: return JarScore.Instance.Player4score;
-            default: return 0;
+            return (int)score;
         }
+        return 0;
     }
 
     IEnumerator ShowImage_Coroutine(GameObject img)
     {
         yield return new WaitForSeconds(1f);
         img.SetActive(true);
+    }
+
+    // 플레이어가 방에 입장할 때 호출되는 메서드
+    public override void OnPlayerEnteredRoom(Photon.Realtime.Player newPlayer)
+    {
+        base.OnPlayerEnteredRoom(newPlayer);
+        UpdatePlayerUI();
+    }
+
+    // 플레이어가 방에서 나갈 때 호출되는 메서드
+    public override void OnPlayerLeftRoom(Photon.Realtime.Player otherPlayer)
+    {
+        base.OnPlayerLeftRoom(otherPlayer);
+        UpdatePlayerUI();
+    }
+
+    public override void OnRoomPropertiesUpdate(Hashtable propertiesThatChanged)
+    {
+        base.OnRoomPropertiesUpdate(propertiesThatChanged);
+        UpdatePlayerUI();
     }
 }

@@ -46,6 +46,8 @@ MonoBehaviour:
   - ApplyPushForce
   - RPC_SetJarPosition
   - RPCDisplayMessage
+  - RPC_Continue
+  - RPC_Pause
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 0

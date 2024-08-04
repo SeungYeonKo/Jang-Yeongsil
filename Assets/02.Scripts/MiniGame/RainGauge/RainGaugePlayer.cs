@@ -115,10 +115,10 @@ public class RainGaugePlayer : MonoBehaviourPunCallbacks
 
     public override void OnRoomPropertiesUpdate(Hashtable propertiesThatChanged)
     {
-        if (propertiesThatChanged.ContainsKey("FirstPlayerNames"))
+        if (propertiesThatChanged.ContainsKey("Winners"))
         {
-            string[] firstPlayerNames = (string[])PhotonNetwork.CurrentRoom.CustomProperties["FirstPlayerNames"];
-            if (firstPlayerNames != null)
+            string[] winners = (string[])PhotonNetwork.CurrentRoom.CustomProperties["Winners"];
+            if (winners != null)
             {
                 if (RainGaugeManager.Instance.CurrentGameState == GameState.Over)
                 {
@@ -127,7 +127,7 @@ public class RainGaugePlayer : MonoBehaviourPunCallbacks
                         Animator animator = GetComponent<Animator>();
                         if (photonView.IsMine)
                         {
-                            StartCoroutine(PlayWinOrSadAnimation(animator, firstPlayerNames));
+                            StartCoroutine(PlayWinOrSadAnimation(animator, winners));
                         }
                         _isFinished = true;
                     }
@@ -136,11 +136,11 @@ public class RainGaugePlayer : MonoBehaviourPunCallbacks
         }
     }
 
-    private IEnumerator PlayWinOrSadAnimation(Animator animator, string[] firstPlayerNames)
+    private IEnumerator PlayWinOrSadAnimation(Animator animator, string[] winners)
     {
         yield return new WaitForSeconds(1f); 
 
-        if (firstPlayerNames.Contains(photonView.Owner.NickName))
+        if (winners.Contains(photonView.Owner.NickName))
         {
 
             //UI_GameOver.Instance.CheckFirst();

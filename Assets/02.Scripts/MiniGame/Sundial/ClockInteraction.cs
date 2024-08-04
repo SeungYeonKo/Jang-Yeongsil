@@ -13,7 +13,6 @@ public class ClockInteraction : MonoBehaviour
     public TextMeshProUGUI qzText; // 문제 텍스트
     public TextMeshProUGUI qKeyText; // Q 키 텍스트
     public Image additionalImage; // 추가 이미지 오브젝트
-
     public SliderImageAnimator sliderImageAnimator; // SliderImageAnimator 스크립트 참조
 
     private bool isNearClock = false;
@@ -32,19 +31,21 @@ public class ClockInteraction : MonoBehaviour
         if (mainCamera == null)
             mainCamera = Camera.main; // 메인 카메라를 자동으로 할당
         if (miniGameCamera == null)
-            miniGameCamera = GameObject.Find("MiniGameCamera").GetComponent<Camera>();
+            miniGameCamera = GameObject.Find("MiniGame Camera").GetComponent<Camera>();
         if (sundialSliderCanvas == null)
-            sundialSliderCanvas = GameObject.Find("SundialSlider_Canvas").GetComponent<Canvas>();
+            sundialSliderCanvas = FindObjectOfType<Canvas>();
         if (sundialSlider == null)
-            sundialSlider = GameObject.Find("SundialSlider").GetComponent<Slider>();
+            sundialSlider = FindObjectOfType<Slider>();
         if (sunImage == null)
             sunImage = GameObject.Find("SunImage").GetComponent<Image>();
         if (qzText == null)
             qzText = GameObject.Find("QzText").GetComponent<TextMeshProUGUI>();
         if (qKeyText == null)
-            qKeyText = GameObject.Find("QKeyText").GetComponent<TextMeshProUGUI>();
+            qKeyText = GameObject.Find("Qkey").GetComponent<TextMeshProUGUI>();
         if (additionalImage == null)
             additionalImage = GameObject.Find("AdditionalImage").GetComponent<Image>();
+        if (sliderImageAnimator == null)
+            sliderImageAnimator = FindObjectOfType<SliderImageAnimator>();
 
         // 초기 설정: 미니게임 카메라 비활성화, 개별 UI 오브젝트 비활성화
         if (miniGameCamera != null) miniGameCamera.gameObject.SetActive(false);
@@ -91,7 +92,6 @@ public class ClockInteraction : MonoBehaviour
             if (sunImage != null)
             {
                 sunImage.gameObject.SetActive(true);
-                sunImage.sprite = sliderImageAnimator.sprites[1];
                 Debug.Log("Sun Image activated");
             }
             if (qzText != null)

@@ -261,7 +261,7 @@ GameObject:
   - component: {fileID: 8180931176197943743}
   - component: {fileID: 6762242855706858214}
   - component: {fileID: 8201563869983516749}
-  - component: {fileID: 4256257706953931527}
+  - component: {fileID: 8281485855408110299}
   m_Layer: 0
   m_Name: 'Invention_ArmillarySphere '
   m_TagString: Invention
@@ -353,8 +353,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f9eb15556809932479cf51839fc6492c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  inventionName: 
---- !u!114 &4256257706953931527
+  InventionType: 0
+--- !u!114 &8281485855408110299
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -366,7 +366,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 083a18aa6ebf67843b302daaf1a262c8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  InventionName: 'ArmillarySphere '
+  InventionActives: []
 --- !u!1 &2506920480073025149
 GameObject:
   m_ObjectHideFlags: 0

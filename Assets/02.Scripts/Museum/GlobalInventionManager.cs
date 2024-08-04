@@ -4,33 +4,37 @@ using UnityEngine;
 
 public class GlobalInventionManager : MonoBehaviour
 {
-    public static Dictionary<string, bool> InventionState = new Dictionary<string, bool>();
+    public static Dictionary<InventionType, bool> QuickSlotState = new Dictionary<InventionType, bool>();
 
     private void Awake()
     {
         DontDestroyOnLoad(this.gameObject);
 
-        // 모든 발명품의 초기 상태를 false로 설정
-        InventionState["Sundial"] = false;
-        InventionState["ArmillarySphere"] = false;
-        InventionState["Cheugugi"] = false;
-        InventionState["AstronomicalChart"] = false;
-        InventionState["Clepsydra"] = false;
+        // 초기 상태 설정 (필요에 따라 기본값 설정)
+        QuickSlotState[InventionType.Sundial] = false;
+        QuickSlotState[InventionType.ArmillarySphere] = false;
+        QuickSlotState[InventionType.Cheugugi] = false;
+        QuickSlotState[InventionType.AstronomicalChart] = false;
+        QuickSlotState[InventionType.Clepsydra] = false;
     }
 
-    public static void SetInventionActive(string inventionName, bool isActive)
+    public static void SaveQuickSlotState(InventionType inventionType, bool isActive)
     {
-        if (InventionState.ContainsKey(inventionName))
+        if (QuickSlotState.ContainsKey(inventionType))
         {
-            InventionState[inventionName] = isActive;
+            QuickSlotState[inventionType] = isActive;
+        }
+        else
+        {
+            QuickSlotState.Add(inventionType, isActive);
         }
     }
 
-    public static bool IsInventionActive(string inventionName)
+    public static bool GetQuickSlotState(InventionType inventionType)
     {
-        if (InventionState.ContainsKey(inventionName))
+        if (QuickSlotState.ContainsKey(inventionType))
         {
-            return InventionState[inventionName];
+            return QuickSlotState[inventionType];
         }
         return false;
     }

@@ -21,6 +21,9 @@ EditorBuildSettings:
     path: Assets/01.Scenes/RainGauge.unity
     guid: 4a43610adfaf51a4fbe55ec83f8ff0ae
   - enabled: 1
+    path: Assets/01.Scenes/SundialScene.unity
+    guid: 31918784108da9c48b6503d661c56f48
+  - enabled: 1
     path: Assets/01.Scenes/MuseumScene.unity
     guid: 1197a5057b55db34e8e7d08f7cee2aa8
   m_configObjects: {}

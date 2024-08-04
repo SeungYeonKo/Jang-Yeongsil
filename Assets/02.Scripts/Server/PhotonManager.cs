@@ -105,7 +105,7 @@ public class PhotonManager : MonoBehaviourPunCallbacks
                 PhotonNetwork.LoadLevel("RainGauge");
                 break;
             case "MiniGame2":
-                PhotonNetwork.LoadLevel("FallGuysScene");
+                PhotonNetwork.LoadLevel("SundialScene");
                 break;
             case "MiniGame3":
                 PhotonNetwork.LoadLevel("TowerClimbScene");

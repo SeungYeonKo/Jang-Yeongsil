@@ -3,60 +3,62 @@ using UnityEngine;
 
 public class GlobalInventionManager : MonoBehaviour
 {
-    public static Dictionary<InventionType, bool> InventionState = new Dictionary<InventionType, bool>();
-    public static Dictionary<InventionType, bool> QuickSlotState = new Dictionary<InventionType, bool>();
+    public static GlobalInventionManager Instance { get; private set; }
+
+    public Dictionary<InventionType, bool> InventionState = new Dictionary<InventionType, bool>();
+    public Dictionary<InventionType, bool> QuickSlotState = new Dictionary<InventionType, bool>();
+    public Dictionary<InventionType, bool> MuseumInventionState = new Dictionary<InventionType, bool>(); // 박물관 활성화 상태
 
     private void Awake()
     {
-        DontDestroyOnLoad(this.gameObject);
-
-        // 초기 상태 설정 (필요에 따라 기본값 설정)
-        InventionState[InventionType.Sundial] = false;
-        InventionState[InventionType.ArmillarySphere] = false;
-        InventionState[InventionType.Cheugugi] = false;
-        InventionState[InventionType.AstronomicalChart] = false;
-        InventionState[InventionType.Clepsydra] = false;
-    }
-
-    public static void SetInventionActive(InventionType inventionType, bool isActive)
-    {
-        if (InventionState.ContainsKey(inventionType))
+        if (Instance != null && Instance != this)
         {
-            InventionState[inventionType] = isActive;
+            Destroy(this.gameObject);
         }
         else
         {
-            InventionState.Add(inventionType, isActive);
+            Instance = this;
+            DontDestroyOnLoad(this.gameObject);
+        }
+
+        // 초기 상태 설정
+        foreach (InventionType invention in System.Enum.GetValues(typeof(InventionType)))
+        {
+            if (!InventionState.ContainsKey(invention))
+                InventionState[invention] = false;
+
+            if (!QuickSlotState.ContainsKey(invention))
+                QuickSlotState[invention] = false;
+
+            if (!MuseumInventionState.ContainsKey(invention)) // 박물관 초기 상태 설정
+                MuseumInventionState[invention] = false;
         }
     }
 
-    public static bool IsInventionActive(InventionType inventionType)
+    public void SetInventionActive(InventionType inventionType, bool isActive)
     {
-        if (InventionState.ContainsKey(inventionType))
-        {
-            return InventionState[inventionType];
-        }
-        return false;
+        InventionState[inventionType] = isActive;
+        QuickSlotState[inventionType] = isActive;
+        MuseumInventionState[inventionType] = isActive; // 박물관 상태도 활성화
     }
 
-    public static void SaveQuickSlotState(InventionType inventionType, bool isActive)
+    public bool IsInventionActive(InventionType inventionType)
     {
-        if (QuickSlotState.ContainsKey(inventionType))
-        {
-            QuickSlotState[inventionType] = isActive;
-        }
-        else
-        {
-            QuickSlotState.Add(inventionType, isActive);
-        }
+        return InventionState.ContainsKey(inventionType) && InventionState[inventionType];
     }
 
-    public static bool GetQuickSlotState(InventionType inventionType)
+    public void SaveQuickSlotState(InventionType inventionType, bool isActive)
     {
-        if (QuickSlotState.ContainsKey(inventionType))
-        {
-            return QuickSlotState[inventionType];
-        }
-        return false;
+        QuickSlotState[inventionType] = isActive;
+    }
+
+    public bool GetQuickSlotState(InventionType inventionType)
+    {
+        return QuickSlotState.ContainsKey(inventionType) && QuickSlotState[inventionType];
+    }
+
+    public bool GetMuseumInventionState(InventionType inventionType)
+    {
+        return MuseumInventionState.ContainsKey(inventionType) && MuseumInventionState[inventionType];
     }
 }

@@ -919,6 +919,7 @@ GameObject:
   - component: {fileID: 4934483612441920105}
   - component: {fileID: 2929087773457640666}
   - component: {fileID: 6063846195790596150}
+  - component: {fileID: -6858609693641515337}
   m_Layer: 3
   m_Name: Player_male
   m_TagString: Player
@@ -1227,6 +1228,27 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 860cbe95a77fd4d4dbb517d02517ccbc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &-6858609693641515337
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3126038392672188353}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5177ce9cd2915f748bc35d944da325f0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  mainCamera: {fileID: 0}
+  miniGameCamera: {fileID: 0}
+  sundialSliderCanvas: {fileID: 0}
+  sundialSlider: {fileID: 0}
+  sunImage: {fileID: 0}
+  qzText: {fileID: 0}
+  qKeyText: {fileID: 0}
+  additionalImage: {fileID: 0}
+  sliderImageAnimator: {fileID: 0}
 --- !u!1 &3130735984207184154
 GameObject:
   m_ObjectHideFlags: 0

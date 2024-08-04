@@ -18,7 +18,7 @@ public class ClockInteraction : MonoBehaviour
     private bool isNearClock = false;
     private bool isClockViewActive = false;
 
-    void Start()
+    void Awake()
     {
         // 현재 씬이 "SundialScene"이 아닌 경우, 스크립트 비활성화
         if (SceneManager.GetActiveScene().name != "SundialScene")
@@ -39,14 +39,20 @@ public class ClockInteraction : MonoBehaviour
         if (sunImage == null)
             sunImage = GameObject.Find("SunImage").GetComponent<Image>();
         if (qzText == null)
-            qzText = GameObject.Find("QzText").GetComponent<TextMeshProUGUI>();
+            qzText = GameObject.Find("Qz").GetComponent<TextMeshProUGUI>();
         if (qKeyText == null)
             qKeyText = GameObject.Find("Qkey").GetComponent<TextMeshProUGUI>();
-        if (additionalImage == null)
-            additionalImage = GameObject.Find("AdditionalImage").GetComponent<Image>();
+        
         if (sliderImageAnimator == null)
-            sliderImageAnimator = FindObjectOfType<SliderImageAnimator>();
+            sliderImageAnimator = GameObject.Find("SundialSlider_Canvas").GetComponent<SliderImageAnimator>();
 
+
+
+
+    }
+
+    private void Start()
+    {
         // 초기 설정: 미니게임 카메라 비활성화, 개별 UI 오브젝트 비활성화
         if (miniGameCamera != null) miniGameCamera.gameObject.SetActive(false);
         if (sundialSlider != null) sundialSlider.gameObject.SetActive(false);
@@ -54,11 +60,10 @@ public class ClockInteraction : MonoBehaviour
         if (qzText != null) qzText.gameObject.SetActive(false);
         if (additionalImage != null) additionalImage.gameObject.SetActive(false);
 
-        // 시작할 때 마우스 커서 숨김
+         // 시작할 때 마우스 커서 숨김
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
     }
-
     void Update()
     {
         // 해시계 근처에 있을 때 Q 키 입력을 받으면
@@ -151,7 +156,7 @@ public class ClockInteraction : MonoBehaviour
     void OnTriggerEnter(Collider other)
     {
         // Sundial 태그를 가진 오브젝트와 충돌했을 때
-        if (other.CompareTag("Sundial"))
+        if (other.CompareTag("Player"))
         {
             isNearClock = true;
 
@@ -163,7 +168,7 @@ public class ClockInteraction : MonoBehaviour
     void OnTriggerExit(Collider other)
     {
         // Sundial 태그를 가진 오브젝트가 범위를 벗어났을 때
-        if (other.CompareTag("Sundial"))
+        if (other.CompareTag("Player"))
         {
             isNearClock = false;
 

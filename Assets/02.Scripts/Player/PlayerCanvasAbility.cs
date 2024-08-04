@@ -9,15 +9,39 @@ public class PlayerCanvasAbility : PlayerAbility
 {
     public Canvas PlayerCanvas;
     public TextMeshProUGUI NicknameTextUI;
+    private Camera cachedMainCamera;
+
     private void Start()
     {
-        // 커스텀프로퍼티 없이 사용할 수 있는 코드
+        // _owner와 photonView가 null인지 확인
+        if (_owner == null || _owner.photonView == null)
+        {
+            Debug.LogError("_owner or _owner.photonView is null");
+            return;
+        }
+
+        // Camera.main을 캐싱
+        cachedMainCamera = Camera.main;
+
+        // 커스텀 프로퍼티 없이 사용할 수 있는 코드
         SetNickname(_owner.photonView.Owner.NickName);
     }
 
     private void Update()
     {
-        transform.forward = Camera.main.transform.forward;
+        // 로컬 플레이어일 때만 실행
+        if (_owner.photonView.IsMine)
+        {
+            // Camera.main 대신 캐시된 카메라 사용
+            if (cachedMainCamera != null)
+            {
+                transform.forward = cachedMainCamera.transform.forward;
+            }
+            else
+            {
+                Debug.LogWarning("cachedMainCamera is null");
+            }
+        }
     }
 
     public void SetNickname(string nickname)
@@ -66,10 +90,6 @@ public class PlayerCanvasAbility : PlayerAbility
             {
                 Debug.LogWarning("targetPlayer is not _owner.photonView.Owner");
             }
-        }
-        else
-        {
-            //Debug.LogWarning("changedProps does not contain 'Nickname'");
         }
     }
 }

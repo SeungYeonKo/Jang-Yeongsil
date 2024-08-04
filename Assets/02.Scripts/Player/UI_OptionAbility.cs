@@ -5,6 +5,8 @@ using UnityEngine.SceneManagement;
 public class UI_OptionAbility : MonoBehaviourPunCallbacks
 {
    public static UI_OptionAbility Instance { get; private set; }
+
+   public GameObject OptionUI;
    
    private PlayerOptionAbility _playerOptionAbility;
    
@@ -23,7 +25,7 @@ public class UI_OptionAbility : MonoBehaviourPunCallbacks
 
    private void Start()
    {
-      gameObject.SetActive(false);
+      OptionUI.gameObject.SetActive(false);
 
       if (photonView.IsMine)
       {
@@ -39,8 +41,8 @@ public class UI_OptionAbility : MonoBehaviourPunCallbacks
    }
    private void ToggleUI()
    {
-      bool isActive = !gameObject.activeSelf;
-      gameObject.SetActive(isActive);
+      bool isActive = !OptionUI.gameObject.activeSelf;
+      OptionUI.gameObject.SetActive(isActive);
       UnityEngine.Cursor.visible = isActive;
       UnityEngine.Cursor.lockState = isActive ? CursorLockMode.None : CursorLockMode.Locked;
       if (photonView.IsMine)
@@ -57,14 +59,14 @@ public class UI_OptionAbility : MonoBehaviourPunCallbacks
    }
    public void OnClickXbutton()
    {
-      gameObject.SetActive(false);
+      OptionUI.gameObject.SetActive(false);
       UnityEngine.Cursor.visible = false;
       UnityEngine.Cursor.lockState = CursorLockMode.Locked;
       _playerOptionAbility.Continue();
    }
    public void OnClickReplay()
    {
-      gameObject.SetActive(false);
+      OptionUI.gameObject.SetActive(false);
       UnityEngine.Cursor.visible = false;
       UnityEngine.Cursor.lockState = CursorLockMode.Locked;
       _playerOptionAbility.Continue();
@@ -72,7 +74,7 @@ public class UI_OptionAbility : MonoBehaviourPunCallbacks
    
    public void OnClickSquare()
    {
-      gameObject.SetActive(false);
+      OptionUI.gameObject.SetActive(false);
       UnityEngine.Cursor.visible = false;
       UnityEngine.Cursor.lockState = CursorLockMode.Locked;
       if (SceneManager.GetActiveScene().name == "MainScene")
@@ -88,7 +90,7 @@ public class UI_OptionAbility : MonoBehaviourPunCallbacks
    
    public void OnClickGameQuitButton()
    {
-      gameObject.SetActive(false);
+      OptionUI.gameObject.SetActive(false);
       UnityEngine.Cursor.visible = false;
       UnityEngine.Cursor.lockState = CursorLockMode.Locked;
       if (_playerOptionAbility!= null)

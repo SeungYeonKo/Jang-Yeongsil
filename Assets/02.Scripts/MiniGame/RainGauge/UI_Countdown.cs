@@ -47,7 +47,7 @@ public class UI_Countdown : MonoBehaviour
 
             if (i == 5) 
             {
-                rainGaugeManager.ReadyImg.SetActive(false);
+                rainGaugeManager.SetReadyImageState(false);
             }
         }
         CountText.gameObject.SetActive(false);

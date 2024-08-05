@@ -30,6 +30,8 @@ public class RainGaugeManager : MonoBehaviourPunCallbacks
     public GameObject[] playerUI; // 0번 인덱스부터 4개의 플레이어 UI를 배열로 관리
     private int playerNumber;
     private Dictionary<int, RainGaugePlayer> players = new Dictionary<int, RainGaugePlayer>();
+    private UI_RainGaugeManager uiRainGaugeManager;
+
     private void Awake()
     {
         if (Instance == null)
@@ -41,6 +43,7 @@ public class RainGaugeManager : MonoBehaviourPunCallbacks
         {
             Destroy(gameObject);
         }
+        uiRainGaugeManager = FindObjectOfType<UI_RainGaugeManager>();
     }
     public void AssignUI(int playerNumber)
     {
@@ -161,6 +164,13 @@ public class RainGaugeManager : MonoBehaviourPunCallbacks
         {
             player.SetCustomProperties(new Hashtable { { "IsReady_RainGauge", false } });
         }
+        uiRainGaugeManager.SetReadyImageState(false);
+    }
+
+    private void Start()
+    {
+        SoundManager.instance.StopBgm();
+        SoundManager.instance.PlayBgm(SoundManager.Bgm.RainGauge);
     }
 
     private void Update()
@@ -175,9 +185,11 @@ public class RainGaugeManager : MonoBehaviourPunCallbacks
                 break;
 
             case GameState.Loading:
+                uiRainGaugeManager.SetReadyImageState(false);
                 break;
 
             case GameState.Go:
+                uiRainGaugeManager.SetReadyImageState(false);
                 UpdateGameTimer();
                 if (TimeRemaining > 0)
                 {
@@ -191,6 +203,7 @@ public class RainGaugeManager : MonoBehaviourPunCallbacks
                 break;
 
             case GameState.Over:
+                uiRainGaugeManager.SetReadyImageState(false);
                 if (!_isGameOver)
                 {
                     _isGameOver = true;
@@ -198,6 +211,7 @@ public class RainGaugeManager : MonoBehaviourPunCallbacks
                 }
                 break;
         }
+
     }
 
     public void SetGameState(GameState newState)
@@ -231,6 +245,8 @@ public class RainGaugeManager : MonoBehaviourPunCallbacks
 
     private IEnumerator StartCountDown()
     {
+        uiRainGaugeManager.SetReadyImageState(false);
+
         for (int i = _countDown; i >= 0; i--)
         {
             yield return new WaitForSeconds(1);

@@ -27,6 +27,7 @@ public class IntroManager : MonoBehaviour
         StartCoroutine(Walk_Coroutine());
 
         SoundManager.instance.StopBgm();
+        SoundManager.instance.PlayBgm(SoundManager.Bgm.IntroFireball);
     }
 
     IEnumerator Walk_Coroutine()

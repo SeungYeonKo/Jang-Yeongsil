@@ -38,6 +38,9 @@ public class SunMiniGame : MonoBehaviour
         }
 
         rightImage.gameObject.SetActive(false);
+
+        SoundManager.instance.StopBgm();
+        SoundManager.instance.PlayBgm(SoundManager.Bgm.SundialScene);
     }
 
     void Update()

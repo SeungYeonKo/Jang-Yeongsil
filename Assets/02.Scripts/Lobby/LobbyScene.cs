@@ -18,6 +18,9 @@ public class LobbyScene : MonoBehaviourPunCallbacks
         Cursor.visible = true;
         Cursor.lockState = CursorLockMode.None;
         StartCoroutine(Show_Coroutine());
+
+        SoundManager.instance.StopBgm();
+        SoundManager.instance.PlayBgm(SoundManager.Bgm.LobbyScene);
     }
 
     private void Update()

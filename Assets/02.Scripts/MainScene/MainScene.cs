@@ -20,6 +20,9 @@ public class MainScene : MonoBehaviourPunCallbacks
         {
             InitializePlayer(PhotonNetwork.LocalPlayer);
         }
+
+        SoundManager.instance.StopBgm();
+        SoundManager.instance.PlayBgm(SoundManager.Bgm.MainScene);
     }
     private void InitializePlayer(Photon.Realtime.Player player)
     {

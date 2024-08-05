@@ -26,6 +26,7 @@ public class IntroManager : MonoBehaviour
 
         StartCoroutine(Walk_Coroutine());
 
+        SoundManager.instance.StopBgm();
     }
 
     IEnumerator Walk_Coroutine()

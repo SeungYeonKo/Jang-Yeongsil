@@ -5,8 +5,9 @@ using TMPro;
 
 public class MultipleSelectType : MonoBehaviour
 {
-    public ToggleGroup[] ToggleGroups;
+    public ToggleGroup[] ToggleGroups;  // 4개의 토글 중 한 개만 체크할 수 있게 Toggle Group 생성
     public Toggle[] AnswerToggles;
+
     public Image[] CorrectImages;
     public Image[] WrongImages;
 
@@ -25,16 +26,17 @@ public class MultipleSelectType : MonoBehaviour
 
     void Start()
     {
+        // 정답,오답 이미지 비활성화
         foreach (Image img in CorrectImages)
         {
             img.gameObject.SetActive(false);
         }
-
         foreach (Image img in WrongImages)
         {
             img.gameObject.SetActive(false);
         }
 
+        // 버튼 리스너 
         CloseButton.onClick.AddListener(CloseButtonClick);
         SubmitButton.onClick.AddListener(SubmitButtonClick);
         ResetButton.onClick.AddListener(ResetButtonClick);

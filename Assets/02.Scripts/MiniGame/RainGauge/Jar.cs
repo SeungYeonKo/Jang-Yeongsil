@@ -1,9 +1,10 @@
+using Photon.Pun;
 using Photon.Realtime;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Jar : MonoBehaviour
+public class Jar : MonoBehaviourPun
 {
     public GameObject Jar1;
     public GameObject Jar2;
@@ -24,16 +25,34 @@ public class Jar : MonoBehaviour
         for (int i = 0; i < poolSize; i++)
         {
             GameObject brokenJar = Instantiate(brokenJarPrefab);
-            brokenJar.SetActive(false);
-            brokenJarPool.Add(brokenJar);
+            PhotonView photonView = brokenJar.AddComponent<PhotonView>();
+            if (PhotonNetwork.AllocateViewID(photonView))
+            {
+                brokenJar.SetActive(false);
+                brokenJarPool.Add(brokenJar);
+            }
+            else
+            {
+                Debug.LogError("Failed to allocate a ViewID for brokenJar.");
+                Destroy(brokenJar);
+            }
         }
 
         splashEffectPool = new List<ParticleSystem>();
         for (int i = 0; i < poolSize; i++)
         {
             ParticleSystem splashEffect = Instantiate(waterSplashEffect);
-            splashEffect.gameObject.SetActive(false);
-            splashEffectPool.Add(splashEffect);
+            PhotonView photonView = splashEffect.gameObject.AddComponent<PhotonView>();
+            if (PhotonNetwork.AllocateViewID(photonView))
+            {
+                splashEffect.gameObject.SetActive(false);
+                splashEffectPool.Add(splashEffect);
+            }
+            else
+            {
+                Debug.LogError("Failed to allocate a ViewID for splashEffect.");
+                Destroy(splashEffect.gameObject);
+            }
         }
     }
 
@@ -65,6 +84,17 @@ public class Jar : MonoBehaviour
     }
 
     public void BreakJar(int jarNum)
+    {
+        if (photonView == null)
+        {
+            Debug.LogError("PhotonView is null on BreakJar");
+            return;
+        }
+        photonView.RPC("RPC_BreakJar", RpcTarget.All, jarNum);
+    }
+
+    [PunRPC]
+    private void RPC_BreakJar(int jarNum)
     {
         GameObject jar = GetJarObject(jarNum);
         if (jar != null)
@@ -135,9 +165,19 @@ public class Jar : MonoBehaviour
         }
 
         GameObject newObj = Instantiate(prefab);
-        newObj.SetActive(false);
-        pool.Add(newObj);
-        return newObj;
+        PhotonView photonView = newObj.AddComponent<PhotonView>();
+        if (PhotonNetwork.AllocateViewID(photonView))
+        {
+            newObj.SetActive(false);
+            pool.Add(newObj);
+            return newObj;
+        }
+        else
+        {
+            Debug.LogError("Failed to allocate a ViewID for newObj.");
+            Destroy(newObj);
+            return null;
+        }
     }
 
     private GameObject GetPooledObject(List<ParticleSystem> pool, ParticleSystem prefab)
@@ -151,8 +191,18 @@ public class Jar : MonoBehaviour
         }
 
         ParticleSystem newObj = Instantiate(prefab);
-        newObj.gameObject.SetActive(false);
-        pool.Add(newObj);
-        return newObj.gameObject;
+        PhotonView photonView = newObj.gameObject.AddComponent<PhotonView>();
+        if (PhotonNetwork.AllocateViewID(photonView))
+        {
+            newObj.gameObject.SetActive(false);
+            pool.Add(newObj);
+            return newObj.gameObject;
+        }
+        else
+        {
+            Debug.LogError("Failed to allocate a ViewID for newObj.");
+            Destroy(newObj.gameObject);
+            return null;
+        }
     }
 }

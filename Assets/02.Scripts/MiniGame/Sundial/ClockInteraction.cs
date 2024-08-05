@@ -15,6 +15,7 @@ public class ClockInteraction : MonoBehaviour
     public Image additionalImage; // 추가 이미지 오브젝트
     public SliderImageAnimator sliderImageAnimator; // SliderImageAnimator 스크립트 참조
 
+    
     private bool isNearClock = false;
     private bool isClockViewActive = false;
 

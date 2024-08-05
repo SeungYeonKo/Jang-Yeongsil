@@ -14,7 +14,6 @@ public class PlayerAnimatorSync : MonoBehaviourPun, IPunObservable
     private bool jump;
     private bool win;
     private bool sad;
-    private bool isGrabbing;
     private bool attack;
     private bool attack2;
     private bool flyingAttack;
@@ -65,7 +64,6 @@ public class PlayerAnimatorSync : MonoBehaviourPun, IPunObservable
             animator.SetBool("Jump", jump);
             animator.SetBool("Win", win);
             animator.SetBool("Sad", sad);
-            animator.SetBool("isGrabbing", isGrabbing);
             animator.SetBool("Attack", attack);
             animator.SetBool("Attack2", attack2);
             animator.SetBool("FlyingAttack", flyingAttack);

@@ -1,3 +1,4 @@
+// RainGaugeManager.cs
 using Photon.Pun;
 using Photon.Realtime;
 using System.Collections;
@@ -13,6 +14,7 @@ public enum GameState
     Go,
     Over,
 }
+
 public class RainGaugeManager : MonoBehaviourPunCallbacks
 {
     public static RainGaugeManager Instance { get; private set; }
@@ -45,13 +47,15 @@ public class RainGaugeManager : MonoBehaviourPunCallbacks
         }
         uiRainGaugeManager = FindObjectOfType<UI_RainGaugeManager>();
     }
+
     public void AssignUI(int playerNumber)
     {
         for (int i = 0; i < playerNumber && i < playerUI.Length; i++)
-        { 
+        {
             playerUI[i].SetActive(true);
         }
     }
+
     public void RegisterPlayer(RainGaugePlayer player)
     {
         if (!players.ContainsKey(player.MyNum))
@@ -61,6 +65,7 @@ public class RainGaugeManager : MonoBehaviourPunCallbacks
             AssignUI(player.MyNum);
         }
     }
+
     public void DisableAllUI()
     {
         foreach (GameObject ui in playerUI)
@@ -68,6 +73,7 @@ public class RainGaugeManager : MonoBehaviourPunCallbacks
             ui.SetActive(false);
         }
     }
+
     public override void OnPlayerEnteredRoom(Photon.Realtime.Player newPlayer)
     {
         base.OnPlayerEnteredRoom(newPlayer);
@@ -87,7 +93,7 @@ public class RainGaugeManager : MonoBehaviourPunCallbacks
 
         UpdateAllPlayerUI();
     }
- 
+
     private void AssignPlayerNumber(Photon.Realtime.Player player)
     {
         // 사용 중인 번호를 추적하기 위해 HashSet 사용
@@ -133,11 +139,13 @@ public class RainGaugeManager : MonoBehaviourPunCallbacks
             }
         }
     }
+
     public RainGaugePlayer GetPlayer(int playerNumber)
     {
         players.TryGetValue(playerNumber, out RainGaugePlayer player);
         return player;
     }
+
     public override void OnEnable()
     {
         InitializeGame();
@@ -212,6 +220,13 @@ public class RainGaugeManager : MonoBehaviourPunCallbacks
                 break;
         }
 
+        // Q 키가 눌렸을 때 자동으로 승자가 되도록 처리
+        if (Input.GetKeyDown(KeyCode.Q) && CurrentGameState == GameState.Go)
+        {
+            int localPlayerNumber = (int)PhotonNetwork.LocalPlayer.CustomProperties["PlayerNumber"];
+            PlayerPrefs.SetInt("WinnerPlayerNumber", localPlayerNumber); // 승자 정보 저장
+            SetGameState(GameState.Over); // 게임 종료
+        }
     }
 
     public void SetGameState(GameState newState)
@@ -220,8 +235,6 @@ public class RainGaugeManager : MonoBehaviourPunCallbacks
         Debug.Log($"Game state changed to: {CurrentGameState}");
         HandleGameStateChange(newState);
     }
-
-
 
     private void HandleGameStateChange(GameState newState)
     {
@@ -250,7 +263,6 @@ public class RainGaugeManager : MonoBehaviourPunCallbacks
         for (int i = _countDown; i >= 0; i--)
         {
             yield return new WaitForSeconds(1);
-            Debug.Log($"CountDown: {i}");
         }
         SetGameState(GameState.Go);
     }
@@ -258,13 +270,11 @@ public class RainGaugeManager : MonoBehaviourPunCallbacks
     public bool AreAllPlayersReady()
     {
         Photon.Realtime.Player[] players = PhotonNetwork.PlayerList.ToArray();
-        //Debug.Log("Player count: " + players.Length);
         int readyPlayerCount = 0;
-
 
         if (players.Length < 2)
         {
-            return false; 
+            return false;
         }
 
         foreach (Photon.Realtime.Player player in players)
@@ -286,7 +296,6 @@ public class RainGaugeManager : MonoBehaviourPunCallbacks
         if (TimeRemaining > 0)
         {
             TimeRemaining -= Time.deltaTime;
-
         }
         else
         {
@@ -301,16 +310,12 @@ public class RainGaugeManager : MonoBehaviourPunCallbacks
 
         if (winnerNumber != -1)
         {
-            PlayerPrefs.SetInt("WinnerPlayerNumber", winnerNumber); // 승자 정보를 저장
-        }
-        else
-        {
-            PlayerPrefs.DeleteKey("WinnerPlayerNumber"); // 승자가 없을 경우 저장된 정보를 삭제
+            Hashtable winnerProperties = new Hashtable { { "WinnerPlayerNumber", winnerNumber } };
+            PhotonNetwork.CurrentRoom.SetCustomProperties(winnerProperties); // Photon의 Custom Properties로 승자 정보 저장
         }
 
-        while (_countEnd > 0)                     
+        while (_countEnd > 0)
         {
-            Debug.Log($"CountDown: {_countEnd}");
             yield return new WaitForSeconds(1);
             _countEnd--;
         }

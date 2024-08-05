@@ -28,6 +28,8 @@ public class PlayerMoveAbility : PlayerAbility
     public Transform CameraRoot;
     Vector3 dir = Vector3.zero;
 
+    SunMiniGame sunMiniGame;
+
     void Start()
     {
         rb = GetComponent<Rigidbody>();
@@ -49,7 +51,7 @@ public class PlayerMoveAbility : PlayerAbility
 
     void Update()
     {
-        if (_owner == null || !_owner.PhotonView.IsMine)
+        if (_owner == null || !_owner.PhotonView.IsMine || !enabled) // 스크립트가 비활성화되면 Update 중단
         {
             return;
         }
@@ -77,7 +79,7 @@ public class PlayerMoveAbility : PlayerAbility
 
     private void FixedUpdate()
     {
-        if (_owner == null || !_owner.PhotonView.IsMine)
+        if (_owner == null || !_owner.PhotonView.IsMine || !enabled) // 스크립트가 비활성화되면 Update 중단
         {
             return;
         }
@@ -87,6 +89,7 @@ public class PlayerMoveAbility : PlayerAbility
 
     void InputAndDir()
     {
+
         dir.x = Input.GetAxis("Horizontal");
         dir.z = Input.GetAxis("Vertical");
         Vector3 direction = new Vector3(dir.x, 0f, dir.z);
@@ -132,7 +135,7 @@ public class PlayerMoveAbility : PlayerAbility
         rb.velocity = new Vector3(rb.velocity.x, _JumpPower, rb.velocity.z); // y-속도를 직접 설정
         Debug.Log("스페이스바 누름");
     }
-
+   
     void GroundCheck()
     {
         RaycastHit hit;
@@ -147,5 +150,15 @@ public class PlayerMoveAbility : PlayerAbility
         {
             isGrounded = false;
         }
+    }
+
+    public void DisableMovement()
+    {
+        enabled = false;
+        rb.velocity = Vector3.zero; // 비활성화할 때 즉시 속도 멈추기
+    }
+    public void EnableMovement()
+    {
+        enabled = true;
     }
 }

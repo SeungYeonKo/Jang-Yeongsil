@@ -21,6 +21,7 @@ public class ClockInteraction : MonoBehaviour
 
     public SunMiniGame SunMiniGame;
 
+
     void Awake()
     {
         // 현재 씬이 "SundialScene"이 아닌 경우, 스크립트 비활성화
@@ -34,6 +35,7 @@ public class ClockInteraction : MonoBehaviour
         if (SunMiniGame != null)
         {
             SunMiniGame.clockInteraction = this;
+            SunMiniGame.isGameActive = false;
         }
     }
 

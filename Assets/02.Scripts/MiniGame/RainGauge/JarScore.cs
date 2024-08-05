@@ -27,6 +27,8 @@ public class JarScore : MonoBehaviourPunCallbacks
     private float scoreIncreaseInterval = 1f;
     private int maxScore = 10000;
 
+    private int _winnerNumber = -1; //승자 정보 저장할 변수
+
     private void Awake()
     {
         Instance = this;
@@ -157,9 +159,10 @@ public class JarScore : MonoBehaviourPunCallbacks
     }
 
 
-    public void DetermineWinner()
+    public int DetermineWinner()
     {
         StartCoroutine(DetermineWinnerWithDelay());
+        return _winnerNumber; // DetermineWinnerWithDelay에서 설정된 winnerNumber 반환
     }
 
 

@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using Hashtable = ExitGames.Client.Photon.Hashtable;
+
 public enum GameState
 {
     Ready,
@@ -29,6 +30,8 @@ public class RainGaugeManager : MonoBehaviourPunCallbacks
     public GameObject[] playerUI; // 0번 인덱스부터 4개의 플레이어 UI를 배열로 관리
     private int playerNumber;
     private Dictionary<int, RainGaugePlayer> players = new Dictionary<int, RainGaugePlayer>();
+    private UI_RainGaugeManager uiRainGaugeManager;
+
     private void Awake()
     {
         if (Instance == null)
@@ -40,6 +43,7 @@ public class RainGaugeManager : MonoBehaviourPunCallbacks
         {
             Destroy(gameObject);
         }
+        uiRainGaugeManager = FindObjectOfType<UI_RainGaugeManager>();
     }
     public void AssignUI(int playerNumber)
     {
@@ -160,6 +164,13 @@ public class RainGaugeManager : MonoBehaviourPunCallbacks
         {
             player.SetCustomProperties(new Hashtable { { "IsReady_RainGauge", false } });
         }
+        uiRainGaugeManager.SetReadyImageState(false);
+    }
+
+    private void Start()
+    {
+        SoundManager.instance.StopBgm();
+        SoundManager.instance.PlayBgm(SoundManager.Bgm.RainGauge);
     }
 
     private void Update()
@@ -174,14 +185,25 @@ public class RainGaugeManager : MonoBehaviourPunCallbacks
                 break;
 
             case GameState.Loading:
+                uiRainGaugeManager.SetReadyImageState(false);
                 break;
 
             case GameState.Go:
+                uiRainGaugeManager.SetReadyImageState(false);
                 UpdateGameTimer();
-                JarScore.Instance.UpdateJarScores();
+                if (TimeRemaining > 0)
+                {
+                    JarScore.Instance.UpdateJarScores();
+                }
+                else
+                {
+                    TimeRemaining = 0;
+                    SetGameState(GameState.Over);
+                }
                 break;
 
             case GameState.Over:
+                uiRainGaugeManager.SetReadyImageState(false);
                 if (!_isGameOver)
                 {
                     _isGameOver = true;
@@ -189,6 +211,7 @@ public class RainGaugeManager : MonoBehaviourPunCallbacks
                 }
                 break;
         }
+
     }
 
     public void SetGameState(GameState newState)
@@ -222,6 +245,8 @@ public class RainGaugeManager : MonoBehaviourPunCallbacks
 
     private IEnumerator StartCountDown()
     {
+        uiRainGaugeManager.SetReadyImageState(false);
+
         for (int i = _countDown; i >= 0; i--)
         {
             yield return new WaitForSeconds(1);
@@ -236,6 +261,12 @@ public class RainGaugeManager : MonoBehaviourPunCallbacks
         //Debug.Log("Player count: " + players.Length);
         int readyPlayerCount = 0;
 
+
+        if (players.Length < 2)
+        {
+            return false; 
+        }
+
         foreach (Photon.Realtime.Player player in players)
         {
             if (player.CustomProperties.TryGetValue("IsReady_RainGauge", out object isReadyObj))
@@ -244,26 +275,10 @@ public class RainGaugeManager : MonoBehaviourPunCallbacks
                 {
                     readyPlayerCount++;
                 }
-                else
-                {
-                    //Debug.Log("플레이어가 준비되지 않았습니다: " + player.NickName);
-                }
-            }
-            else
-            {
-                //Debug.Log("플레이어 준비 상태가 없습니다: " + player.NickName);
             }
         }
-        if (readyPlayerCount >= 1)
-        {
-            //Debug.Log("플레이어 모두 레디");
-            return true;
-        }
-        else
-        {
-            //Debug.Log("레디한 플레이어 수가 충분하지 않습니다.");
-            return false;
-        }
+
+        return readyPlayerCount == players.Length;
     }
 
     private void UpdateGameTimer()
@@ -282,9 +297,18 @@ public class RainGaugeManager : MonoBehaviourPunCallbacks
 
     private IEnumerator ShowVictoryAndLoadScene()
     {
-        JarScore.Instance.DetermineWinner();// 승자 결정
+        int winnerNumber = JarScore.Instance.DetermineWinner(); // 승자 결정 후 플레이어 번호 반환
 
-        while (_countEnd > 0)
+        if (winnerNumber != -1)
+        {
+            PlayerPrefs.SetInt("WinnerPlayerNumber", winnerNumber); // 승자 정보를 저장
+        }
+        else
+        {
+            PlayerPrefs.DeleteKey("WinnerPlayerNumber"); // 승자가 없을 경우 저장된 정보를 삭제
+        }
+
+        while (_countEnd > 0)                     
         {
             Debug.Log($"CountDown: {_countEnd}");
             yield return new WaitForSeconds(1);

@@ -20,6 +20,8 @@ public class UI_RainGaugeManager : MonoBehaviourPunCallbacks
 
     public GameObject[] PlayerPanels;
 
+    public TMP_Text TimerText;
+
     public GameObject WinImage;
     public GameObject LoseImage;
     
@@ -42,7 +44,6 @@ public class UI_RainGaugeManager : MonoBehaviourPunCallbacks
         {
             if (!_isReadyFinished)
             {
-                StartCoroutine(Show_Coroutine(ReadyImg));
                 _isReadyFinished = true;
                 _isGoFinished = false;
             }
@@ -60,6 +61,8 @@ public class UI_RainGaugeManager : MonoBehaviourPunCallbacks
         }
         UpdatePlayerUI();
         CheakReadyButton();
+        UpdateTimerUI();
+
         if (RainGaugeManager.Instance.CurrentGameState == GameState.Over)
         {
             object winnersObj;
@@ -81,6 +84,12 @@ public class UI_RainGaugeManager : MonoBehaviourPunCallbacks
         }
     }
 
+    private void UpdateTimerUI()
+    {
+        TimerText.text = $"{(int)RainGaugeManager.Instance.TimeRemaining}";
+        
+    }
+
     private IEnumerator Show_Coroutine(GameObject obj)
     {
         obj.gameObject.SetActive(true);
@@ -96,6 +105,7 @@ public class UI_RainGaugeManager : MonoBehaviourPunCallbacks
             //Debug.Log("IsReady: " + isReadyValue);
             ReadyButtonPressed.gameObject.SetActive(isReadyValue);
             ReadyButton.gameObject.SetActive(!isReadyValue);
+            SetReadyImageState(isReadyValue);
         }
     }
     private void InitializePlayerUI()
@@ -180,5 +190,10 @@ public class UI_RainGaugeManager : MonoBehaviourPunCallbacks
     {
         base.OnRoomPropertiesUpdate(propertiesThatChanged);
         UpdatePlayerUI();
+    }
+
+    public void SetReadyImageState(bool state)
+    {
+        ReadyImg.SetActive(state);
     }
 }

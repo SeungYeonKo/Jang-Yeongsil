@@ -17,14 +17,12 @@ public class ChatGPTManager : MonoBehaviourPunCallbacks, IChatClientListener
     private OpenAIApi openAI = new OpenAIApi();
     private List<ChatMessage> messages = new List<ChatMessage>();
 
-    // InputField에 대한 참조
     public TMP_InputField inputField;
     public ChatUI chatUI; // ChatUI 참조
     private ChatClient chatClient; // 채팅 클라이언트
     private string chatChannel = "global"; // 기본 채팅 채널
     private bool isUIActive = false;
 
-    // Unity가 시작될 때 호출되는 메서드
     void Start()
     {
         if (inputField != null)
@@ -65,12 +63,13 @@ public class ChatGPTManager : MonoBehaviourPunCallbacks, IChatClientListener
         if (string.IsNullOrWhiteSpace(inputText))
             return;
 
+        string userMessage = $"[{PhotonNetwork.NickName ?? "Null"}] {inputText}";
+        
+        // 사용자 입력을 채팅창에 표시
+        chatUI.DisplayMessage(userMessage);
+
         if (inputText.StartsWith("/장영실"))
         {
-            // 사용자 입력을 채팅창에 표시
-            string userMessage = $"[{PhotonNetwork.NickName ?? "Null"}] {inputText}";
-            SendMessageToChat(userMessage); // 포톤 네트워크를 통해 메시지를 전송
-            
             // ChatGPT에 메시지 요청
             string chatGptMessage = inputText.Substring("/장영실".Length).Trim();
             if (!string.IsNullOrEmpty(chatGptMessage))
@@ -81,7 +80,7 @@ public class ChatGPTManager : MonoBehaviourPunCallbacks, IChatClientListener
         else
         {
             // 일반 채팅 메시지 전송
-            SendMessageToChat($"[{PhotonNetwork.NickName ?? "Null"}] {inputText}");
+            SendMessageToChat(userMessage);
         }
 
         inputField.text = string.Empty; // 입력 필드 초기화
@@ -122,7 +121,8 @@ public class ChatGPTManager : MonoBehaviourPunCallbacks, IChatClientListener
 
             string responseMessage = $"[장영실] {chatResponse.Content}";
 
-            SendMessageToChat(responseMessage); // GPT의 응답을 포톤 네트워크를 통해 전송
+            chatUI.DisplayMessage(responseMessage);
+            SendMessageToOthers(responseMessage);
         }
     }
 
@@ -136,6 +136,19 @@ public class ChatGPTManager : MonoBehaviourPunCallbacks, IChatClientListener
         {
             // 포톤 연결이 되지 않은 경우에도 로컬에 메시지 표시
             chatUI.DisplayMessage(message);
+            SendMessageToOthers(message);
+        }
+    }
+
+    public void SendMessageToOthers(string message)
+    {
+        if (chatUI.PhotonView != null)
+        {
+            chatUI.PhotonView.RPC("DisplayMessageRPC", RpcTarget.Others, message);
+        }
+        else
+        {
+            Debug.LogError("PhotonView is not assigned.");
         }
     }
 

@@ -44,7 +44,6 @@ public class UI_RainGaugeManager : MonoBehaviourPunCallbacks
         {
             if (!_isReadyFinished)
             {
-                StartCoroutine(Show_Coroutine(ReadyImg));
                 _isReadyFinished = true;
                 _isGoFinished = false;
             }
@@ -106,6 +105,7 @@ public class UI_RainGaugeManager : MonoBehaviourPunCallbacks
             //Debug.Log("IsReady: " + isReadyValue);
             ReadyButtonPressed.gameObject.SetActive(isReadyValue);
             ReadyButton.gameObject.SetActive(!isReadyValue);
+            SetReadyImageState(isReadyValue);
         }
     }
     private void InitializePlayerUI()
@@ -190,5 +190,10 @@ public class UI_RainGaugeManager : MonoBehaviourPunCallbacks
     {
         base.OnRoomPropertiesUpdate(propertiesThatChanged);
         UpdatePlayerUI();
+    }
+
+    public void SetReadyImageState(bool state)
+    {
+        ReadyImg.SetActive(state);
     }
 }

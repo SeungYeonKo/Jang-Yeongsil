@@ -43905,7 +43905,7 @@ GameObject:
   - component: {fileID: 8705986516592252172}
   - component: {fileID: 9114385727598248433}
   m_Layer: 0
-  m_Name: Laser AOE
+  m_Name: SunPortal
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

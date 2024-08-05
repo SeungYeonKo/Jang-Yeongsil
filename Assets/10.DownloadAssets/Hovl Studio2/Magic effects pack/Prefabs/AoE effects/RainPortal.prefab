@@ -4874,7 +4874,7 @@ GameObject:
   - component: {fileID: 2100541099862133063}
   - component: {fileID: 1984875891814309306}
   m_Layer: 0
-  m_Name: Snow AOE
+  m_Name: RainPortal
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

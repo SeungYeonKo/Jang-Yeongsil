@@ -12,7 +12,7 @@ public class SoundManager : MonoBehaviour
     AudioSource[] SfxPlayer;
     int channelIndex;
 
-    public enum Bgm {  }
+    public enum Bgm { LobbyScene, IntroFireball, MainScene }
     public enum Sfx {  }
 
     public static SoundManager instance;

@@ -314,7 +314,6 @@ public class RainGaugeManager : MonoBehaviourPunCallbacks
             yield return new WaitForSeconds(1);
             _countEnd--;
         }
-        
-        PhotonNetwork.LoadLevel("MainScene");
+        PhotonManager.Instance.LeaveAndLoadRoom("Main");
     }
 }

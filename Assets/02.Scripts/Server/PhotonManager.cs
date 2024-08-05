@@ -152,24 +152,20 @@ public class PhotonManager : MonoBehaviourPunCallbacks
         {
             switch (NextRoomName)
             {
-                /*case "MiniGame1":
-                    descriptionSceneName = "RainGaugeDescriptionScene";
-                    break;*/
-                case "LoadingScene":
+                case "MiniGame1":
                     descriptionSceneName = "LoadingScene";
                     break;
-
                 case "MiniGame2":
-                    descriptionSceneName = "SundialScene";
+                    descriptionSceneName = "LoadingScene";
                     break;
-                case "MiniGame3":
-                    descriptionSceneName = "TowerClimbDescriptionScene";
+                case "MuseumScene":
+                    descriptionSceneName = "LoadingScene";
                     break;
                 case "Main":
-                    descriptionSceneName = "MainScene";
+                    descriptionSceneName = "LoadingScene";
                     break;
                 default:
-                    descriptionSceneName = "VillageLoadScene";
+                    descriptionSceneName = "LoadingScene";
                     break;
             }
             AsyncOperation loadingScene = SceneManager.LoadSceneAsync(descriptionSceneName, LoadSceneMode.Additive);

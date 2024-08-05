@@ -160,13 +160,13 @@ public class PhotonManager : MonoBehaviourPunCallbacks
                     break;
 
                 case "MiniGame2":
-                    descriptionSceneName = "FallGuysDescriptionScene";
+                    descriptionSceneName = "SundialScene";
                     break;
                 case "MiniGame3":
                     descriptionSceneName = "TowerClimbDescriptionScene";
                     break;
-                case "Village":
-                    descriptionSceneName = "VillageLoadScene";
+                case "Main":
+                    descriptionSceneName = "MainScene";
                     break;
                 default:
                     descriptionSceneName = "VillageLoadScene";

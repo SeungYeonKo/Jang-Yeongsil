@@ -72,10 +72,10 @@ public class SunMiniGame : MonoBehaviour
 
             if (Timer >= SuccsessTimer)
             {
-
-                PhotonManager.Instance.LeaveAndLoadRoom("LoadingScene");
-                PhotonNetwork.LoadLevel("MainScene");
-
+                Timer = 0;
+                PhotonManager.Instance.LeaveAndLoadRoom("Main");
+                
+                
             }
         }
     }

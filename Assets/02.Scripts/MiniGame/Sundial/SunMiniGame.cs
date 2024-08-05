@@ -15,7 +15,7 @@ public class SunMiniGame : MonoBehaviour
     public Slider sundialSlider; // 슬라이더 오브젝트 참조
     public TextMeshProUGUI questionText; // 문제를 표시할 텍스트 UI
 
-    public float tolerance = 1f; // 정답으로 인정되는 오차 범위
+    private float tolerance = 2f; // 정답으로 인정되는 오차 범위
     public float answerHoldTime = 3.0f; // 정답으로 간주되기 위해 플레이어가 슬라이더를 멈추는 시간
     public Image rightImage;
 
@@ -24,11 +24,14 @@ public class SunMiniGame : MonoBehaviour
     private float answerHoldTimer = 0.0f;
     public bool PlayerWin = false;
 
-    public float SuccsessTimer = 10f;
+    private float SuccsessTimer = 5f;
     public float Timer = 0.0f;
 
     private Dictionary<string, float> questionAnswerPairs; // 문제와 답을 저장할 딕셔너리
     private float correctValue; // 현재 문제에 대한 정답 값
+
+    public TextMeshProUGUI SuccseccText;
+    public TextMeshProUGUI SceneChangeText;
 
     void Start()
     {
@@ -56,6 +59,9 @@ public class SunMiniGame : MonoBehaviour
 
         rightImage.gameObject.SetActive(false);
 
+        SuccseccText.gameObject.SetActive(false);
+        SceneChangeText.gameObject.SetActive(false);
+
         SoundManager.instance.StopBgm();
         SoundManager.instance.PlayBgm(SoundManager.Bgm.SundialScene);
     }
@@ -69,7 +75,7 @@ public class SunMiniGame : MonoBehaviour
         else if (PlayerWin && Timer >= 0) // 게임이 끝난 후 타이머가 동작하도록 수정
         {
             Timer += Time.deltaTime;
-
+            SceneChangeText.gameObject.SetActive(true);
             if (Timer >= SuccsessTimer)
             {
                 Timer = 0;
@@ -149,6 +155,7 @@ public class SunMiniGame : MonoBehaviour
             rightImage.gameObject.SetActive(true);
             PlayerWin = true;
             Debug.Log("정답 맞춤");
+            SuccseccText.gameObject.SetActive(true);
         }
 
         // 정답 처리 후 미니게임 비활성화

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using UnityEngine.SceneManagement;
 
 public class SunMiniGame : MonoBehaviour
 {
@@ -18,6 +19,9 @@ public class SunMiniGame : MonoBehaviour
     public bool isGameActive = false;
     private bool isPlayerAnswering = false; // 플레이어가 정답을 맞추기 위해 슬라이더를 조작하고 있는지
     private float answerHoldTimer = 0.0f;
+
+    public float SuccsessTimer = 10f;
+    public float Timer = 0.0f;
 
     void Start()
     {
@@ -100,5 +104,13 @@ public class SunMiniGame : MonoBehaviour
         {
             clockInteraction.ResetMiniGame();
         }
+
+        Timer += Time.deltaTime;
+
+        if( Timer >= SuccsessTimer)
+        {
+            SceneManager.LoadScene("MainScene");
+        }
+
     }
 }

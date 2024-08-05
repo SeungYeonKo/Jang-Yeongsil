@@ -19,7 +19,7 @@ public class PlayerAnimatorSync : MonoBehaviourPun, IPunObservable
     private bool attack2;
     private bool flyingAttack;
 
-    private bool isGround;
+    
     private bool dance1;
     private bool dance2;
     private bool dance3;
@@ -37,7 +37,7 @@ public class PlayerAnimatorSync : MonoBehaviourPun, IPunObservable
         photonAnimatorView.SetParameterSynchronized("Jump", PhotonAnimatorView.ParameterType.Bool, PhotonAnimatorView.SynchronizeType.Discrete);
         photonAnimatorView.SetParameterSynchronized("Win", PhotonAnimatorView.ParameterType.Bool, PhotonAnimatorView.SynchronizeType.Discrete);
         photonAnimatorView.SetParameterSynchronized("Sad", PhotonAnimatorView.ParameterType.Bool, PhotonAnimatorView.SynchronizeType.Discrete);
-        photonAnimatorView.SetParameterSynchronized("isGrabbing", PhotonAnimatorView.ParameterType.Bool, PhotonAnimatorView.SynchronizeType.Discrete);
+        
         photonAnimatorView.SetParameterSynchronized("Attack", PhotonAnimatorView.ParameterType.Bool, PhotonAnimatorView.SynchronizeType.Discrete);
         photonAnimatorView.SetParameterSynchronized("FlyingAttack", PhotonAnimatorView.ParameterType.Bool, PhotonAnimatorView.SynchronizeType.Discrete);
         photonAnimatorView.SetParameterSynchronized("Dance1", PhotonAnimatorView.ParameterType.Bool, PhotonAnimatorView.SynchronizeType.Discrete);
@@ -46,7 +46,7 @@ public class PlayerAnimatorSync : MonoBehaviourPun, IPunObservable
     }
     void Start()
     {
-        isGround = GetComponent<PlayerMoveAbility>();
+        
     }
 
 
@@ -132,8 +132,7 @@ public class PlayerAnimatorSync : MonoBehaviourPun, IPunObservable
             stream.SendNext(animator.GetBool("Jump"));
             stream.SendNext(animator.GetBool("Win"));
             stream.SendNext(animator.GetBool("Sad"));
-            stream.SendNext(animator.GetBool("isGrabbing"));
-            stream.SendNext(animator.GetBool("Grab"));
+
             stream.SendNext(animator.GetBool("Attack"));
             stream.SendNext(animator.GetBool("FlyingAttack"));
         }
@@ -146,7 +145,6 @@ public class PlayerAnimatorSync : MonoBehaviourPun, IPunObservable
             jump = (bool)stream.ReceiveNext();
             win = (bool)stream.ReceiveNext();
             sad = (bool)stream.ReceiveNext();
-            isGrabbing = (bool)stream.ReceiveNext();
             attack = (bool)stream.ReceiveNext();
             flyingAttack = (bool)stream.ReceiveNext();
         }

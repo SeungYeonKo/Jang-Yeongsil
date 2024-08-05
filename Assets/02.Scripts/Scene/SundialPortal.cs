@@ -12,7 +12,7 @@ public class SundialPortal : MonoBehaviour
         {
             if (gameObject.name == "SunGaugePortal")
             {
-                PhotonManager.Instance.LeaveAndLoadRoom("SundialScene");
+                PhotonManager.Instance.LeaveAndLoadRoom("MiniGame2");
             }
         }
     }

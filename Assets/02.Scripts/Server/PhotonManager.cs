@@ -140,7 +140,7 @@ public class PhotonManager : MonoBehaviourPunCallbacks
     public void LeaveAndLoadRoom(string nextRoom)
     {
         NextRoomName = nextRoom;
-        //StartCoroutine(LeaveRoomAndLoadDescriptionScene());
+        StartCoroutine(LeaveRoomAndLoadDescriptionScene());
         PhotonNetwork.LeaveRoom();
     }
 
@@ -152,20 +152,20 @@ public class PhotonManager : MonoBehaviourPunCallbacks
         {
             switch (NextRoomName)
             {
-                /*case "MiniGame1":
-                    descriptionSceneName = "RainGaugeDescriptionScene";
-                    break;*/
+                case "MiniGame1":
+                    descriptionSceneName = "LoadingScene";
+                    break;
                 case "MiniGame2":
-                    descriptionSceneName = "FallGuysDescriptionScene";
+                    descriptionSceneName = "LoadingScene";
                     break;
-                case "MiniGame3":
-                    descriptionSceneName = "TowerClimbDescriptionScene";
+                case "MuseumScene":
+                    descriptionSceneName = "LoadingScene";
                     break;
-                case "Village":
-                    descriptionSceneName = "VillageLoadScene";
+                case "Main":
+                    descriptionSceneName = "LoadingScene";
                     break;
                 default:
-                    descriptionSceneName = "VillageLoadScene";
+                    descriptionSceneName = "LoadingScene";
                     break;
             }
             AsyncOperation loadingScene = SceneManager.LoadSceneAsync(descriptionSceneName, LoadSceneMode.Additive);

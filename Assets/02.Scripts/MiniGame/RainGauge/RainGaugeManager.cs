@@ -179,7 +179,15 @@ public class RainGaugeManager : MonoBehaviourPunCallbacks
 
             case GameState.Go:
                 UpdateGameTimer();
-                JarScore.Instance.UpdateJarScores();
+                if (TimeRemaining > 0)
+                {
+                    JarScore.Instance.UpdateJarScores();
+                }
+                else
+                {
+                    TimeRemaining = 0;
+                    SetGameState(GameState.Over);
+                }
                 break;
 
             case GameState.Over:

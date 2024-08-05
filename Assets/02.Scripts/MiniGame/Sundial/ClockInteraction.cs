@@ -10,7 +10,7 @@ public class ClockInteraction : MonoBehaviour
     public Canvas sundialSliderCanvas; // 전체 UI 캔버스 (SundialSlider_Canvas)
     public Slider sundialSlider; // 슬라이더 오브젝트
     public Image sunImage; // 슬라이더 이미지 오브젝트
-    public TextMeshProUGUI qzText; // 문제 텍스트
+    
     public TextMeshProUGUI qKeyText; // Q 키 텍스트
     public Image additionalImage; // 추가 이미지 오브젝트
     public SliderImageAnimator sliderImageAnimator; // SliderImageAnimator 스크립트 참조
@@ -51,6 +51,7 @@ public class ClockInteraction : MonoBehaviour
         if (isNearClock && Input.GetKeyDown(KeyCode.Q))
         {
             SunMiniGame.StartMiniGame();
+            SunMiniGame.qzText.gameObject.SetActive(true);
             ToggleClockView();
         }
     }
@@ -61,7 +62,7 @@ public class ClockInteraction : MonoBehaviour
         if (miniGameCamera != null) miniGameCamera.gameObject.SetActive(false);
         if (sundialSlider != null) sundialSlider.gameObject.SetActive(false);
         if (sunImage != null) sunImage.gameObject.SetActive(false);
-        if (qzText != null) qzText.gameObject.SetActive(false);
+        
         if (additionalImage != null) additionalImage.gameObject.SetActive(false);
 
         // 시작할 때 마우스 커서 숨김
@@ -95,10 +96,7 @@ public class ClockInteraction : MonoBehaviour
                 sunImage.gameObject.SetActive(true);
                 sliderImageAnimator.displayImage.sprite = sliderImageAnimator.sprites[0];
             }
-            if (qzText != null)
-            {
-                qzText.gameObject.SetActive(true);
-            }
+            
             if (additionalImage != null)
             {
                 additionalImage.gameObject.SetActive(true);

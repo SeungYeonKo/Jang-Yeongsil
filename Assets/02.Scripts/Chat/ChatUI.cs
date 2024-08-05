@@ -10,6 +10,15 @@ public class ChatUI : MonoBehaviourPunCallbacks
     public Button sendButton; // 전송 버튼
     public ChatGPTManager chatGPTManager; // ChatGPTManager 참조
 
+    private new PhotonView photonView;
+
+    public PhotonView PhotonView => photonView;
+
+    private void Awake()
+    {
+        photonView = GetComponent<PhotonView>();
+    }
+
     private void Start()
     {
         if (chatGPTManager == null)
@@ -45,9 +54,11 @@ public class ChatUI : MonoBehaviourPunCallbacks
         string message = chatInputField.text;
         if (!string.IsNullOrEmpty(message))
         {
-            // 메시지를 모든 플레이어에게 전송
             if (message.StartsWith("/장영실"))
             {
+                // 메시지를 로컬 채팅창에 표시
+                DisplayMessage($"[{PhotonNetwork.NickName ?? "Null"}] {message}");
+
                 string chatGptMessage = message.Substring(5).Trim();
                 if (!string.IsNullOrEmpty(chatGptMessage))
                 {
@@ -56,7 +67,7 @@ public class ChatUI : MonoBehaviourPunCallbacks
             }
             else
             {
-                // 메시지를 포톤 네트워크를 통해 전송
+                // 일반 채팅 메시지 전송
                 chatGPTManager.SendMessageToChat($"[{PhotonNetwork.NickName ?? "Null"}] {message}");
             }
 
@@ -65,8 +76,15 @@ public class ChatUI : MonoBehaviourPunCallbacks
         }
     }
 
+    [PunRPC]
+    public void DisplayMessageRPC(string message)
+    {
+        DisplayMessage(message);
+    }
+
     public void DisplayMessage(string message)
     {
-        chatDisplayText.text += "\n" + message; // 채팅 내용 추가
+        chatDisplayText.text += message + "\n"; // 메시지를 텍스트 필드에 추가
+        LayoutRebuilder.ForceRebuildLayoutImmediate(chatDisplayText.rectTransform); // 텍스트 레이아웃 업데이트
     }
 }

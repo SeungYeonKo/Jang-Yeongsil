@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using Hashtable = ExitGames.Client.Photon.Hashtable;
+
 public enum GameState
 {
     Ready,
@@ -23,7 +24,6 @@ public class RainGaugeManager : MonoBehaviourPunCallbacks
     private int _countEnd = 5; // 종료 후 대기
     private bool _isGameOver = false;
     private bool _isStartCoroutine = false;
-    private RainGaugePlayer _winner; // 승자 정보 저장할 변수
 
     public GameState CurrentGameState = GameState.Ready;
 
@@ -283,24 +283,24 @@ public class RainGaugeManager : MonoBehaviourPunCallbacks
 
     private IEnumerator ShowVictoryAndLoadScene()
     {
-        //_winner = JarScore.Instance.DetermineWinner(); // 승자를 결정하고 저장
+        int winnerNumber = JarScore.Instance.DetermineWinner(); // 승자 결정 후 플레이어 번호 반환
 
-        if (_winner != null)
+        if (winnerNumber != -1)
         {
-            PlayerPrefs.SetInt("WinnerPlayerNumber", _winner.MyNum); // 승자 정보를 PlayerPrefs에 저장
+            PlayerPrefs.SetInt("WinnerPlayerNumber", winnerNumber); // 승자 정보를 저장
         }
         else
         {
             PlayerPrefs.DeleteKey("WinnerPlayerNumber"); // 승자가 없을 경우 저장된 정보를 삭제
         }
 
-        while (_countEnd > 0)
+        while (_countEnd > 0)                     
         {
             Debug.Log($"CountDown: {_countEnd}");
             yield return new WaitForSeconds(1);
             _countEnd--;
         }
-
+        
         PhotonNetwork.LoadLevel("MainScene");
     }
 }

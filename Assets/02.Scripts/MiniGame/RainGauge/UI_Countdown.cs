@@ -18,6 +18,7 @@ public class UI_Countdown : MonoBehaviour
         CountDownUI.SetActive(true); 
         CountText.gameObject.SetActive(false);
         rainGaugeManager = FindObjectOfType<UI_RainGaugeManager>();
+        rainGaugeManager.ReadyImg.SetActive(true);
     }
 
     private void Update()
@@ -38,12 +39,16 @@ public class UI_Countdown : MonoBehaviour
     private IEnumerator ShowCountDown()
     {
         CountText.gameObject.SetActive(true);
-        rainGaugeManager.ReadyImg.SetActive(false);
 
         for (int i = 5; i > 0; i--)
         {
             CountText.text = i.ToString();
             yield return new WaitForSeconds(1);
+
+            if (i == 5) 
+            {
+                rainGaugeManager.ReadyImg.SetActive(false);
+            }
         }
         CountText.gameObject.SetActive(false);
     }

@@ -179,7 +179,15 @@ public class RainGaugeManager : MonoBehaviourPunCallbacks
 
             case GameState.Go:
                 UpdateGameTimer();
-                JarScore.Instance.UpdateJarScores();
+                if (TimeRemaining > 0)
+                {
+                    JarScore.Instance.UpdateJarScores();
+                }
+                else
+                {
+                    TimeRemaining = 0;
+                    SetGameState(GameState.Over);
+                }
                 break;
 
             case GameState.Over:
@@ -237,6 +245,12 @@ public class RainGaugeManager : MonoBehaviourPunCallbacks
         //Debug.Log("Player count: " + players.Length);
         int readyPlayerCount = 0;
 
+
+        if (players.Length < 2)
+        {
+            return false; 
+        }
+
         foreach (Photon.Realtime.Player player in players)
         {
             if (player.CustomProperties.TryGetValue("IsReady_RainGauge", out object isReadyObj))
@@ -245,26 +259,10 @@ public class RainGaugeManager : MonoBehaviourPunCallbacks
                 {
                     readyPlayerCount++;
                 }
-                else
-                {
-                    //Debug.Log("플레이어가 준비되지 않았습니다: " + player.NickName);
-                }
-            }
-            else
-            {
-                //Debug.Log("플레이어 준비 상태가 없습니다: " + player.NickName);
             }
         }
-        if (readyPlayerCount >= 1)
-        {
-            //Debug.Log("플레이어 모두 레디");
-            return true;
-        }
-        else
-        {
-            //Debug.Log("레디한 플레이어 수가 충분하지 않습니다.");
-            return false;
-        }
+
+        return readyPlayerCount == players.Length;
     }
 
     private void UpdateGameTimer()

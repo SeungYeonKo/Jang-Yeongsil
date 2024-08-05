@@ -1,3 +1,4 @@
+// RainGaugeManager.cs
 using Photon.Pun;
 using Photon.Realtime;
 using System.Collections;
@@ -262,7 +263,6 @@ public class RainGaugeManager : MonoBehaviourPunCallbacks
         for (int i = _countDown; i >= 0; i--)
         {
             yield return new WaitForSeconds(1);
-            Debug.Log($"CountDown: {i}");
         }
         SetGameState(GameState.Go);
     }
@@ -270,7 +270,6 @@ public class RainGaugeManager : MonoBehaviourPunCallbacks
     public bool AreAllPlayersReady()
     {
         Photon.Realtime.Player[] players = PhotonNetwork.PlayerList.ToArray();
-        //Debug.Log("Player count: " + players.Length);
         int readyPlayerCount = 0;
 
         if (players.Length < 2)
@@ -311,16 +310,12 @@ public class RainGaugeManager : MonoBehaviourPunCallbacks
 
         if (winnerNumber != -1)
         {
-            PlayerPrefs.SetInt("WinnerPlayerNumber", winnerNumber); // 승자 정보를 저장
-        }
-        else
-        {
-            PlayerPrefs.DeleteKey("WinnerPlayerNumber"); // 승자가 없을 경우 저장된 정보를 삭제
+            Hashtable winnerProperties = new Hashtable { { "WinnerPlayerNumber", winnerNumber } };
+            PhotonNetwork.CurrentRoom.SetCustomProperties(winnerProperties); // Photon의 Custom Properties로 승자 정보 저장
         }
 
         while (_countEnd > 0)
         {
-            Debug.Log($"CountDown: {_countEnd}");
             yield return new WaitForSeconds(1);
             _countEnd--;
         }

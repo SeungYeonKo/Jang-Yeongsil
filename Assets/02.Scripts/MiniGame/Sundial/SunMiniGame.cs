@@ -72,7 +72,10 @@ public class SunMiniGame : MonoBehaviour
 
             if (Timer >= SuccsessTimer)
             {
-                LoadLoadingScene("Main");
+
+                PhotonManager.Instance.LeaveAndLoadRoom("LoadingScene");
+                PhotonNetwork.LoadLevel("MainScene");
+
             }
         }
     }
@@ -164,26 +167,7 @@ public class SunMiniGame : MonoBehaviour
 
        
     }
-    private void LoadLoadingScene(string roomID)
-    {
-        if (PhotonNetwork.IsConnectedAndReady && PhotonNetwork.Server == ServerConnection.MasterServer)
-        {
-            RoomOptions roomOptions = new RoomOptions
-            {
-                MaxPlayers = 20,
-                IsVisible = true,
-                IsOpen = true,
-                EmptyRoomTtl = 1000 * 20,
-            };
-            PhotonNetwork.JoinOrCreateRoom(roomID, roomOptions, TypedLobby.Default);
-            SceneManager.LoadScene("LoadingScene");
-        }
-        else
-        {
-            Debug.LogError("Failed to join or create a room: Client is not connected to the Master Server.");
-            PhotonNetwork.ConnectUsingSettings(); // 마스터 서버에 다시 연결 시도
-        }
-    }
-
     
+
+
 }

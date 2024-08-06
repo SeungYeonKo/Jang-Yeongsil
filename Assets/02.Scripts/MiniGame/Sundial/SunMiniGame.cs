@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 using Photon.Pun;
-using Photon.Realtime;
+using Hashtable = ExitGames.Client.Photon.Hashtable;
 
 public class SunMiniGame : MonoBehaviour
 {
@@ -13,7 +13,7 @@ public class SunMiniGame : MonoBehaviour
     public Slider sundialSlider; // 슬라이더 오브젝트 참조
     public TextMeshProUGUI questionText; // 문제를 표시할 텍스트 UI
 
-    public float tolerance = 1f; // 정답으로 인정되는 오차 범위
+    private float tolerance = 5f; // 정답으로 인정되는 오차 범위
     public float answerHoldTime = 3.0f; // 정답으로 간주되기 위해 플레이어가 슬라이더를 멈추는 시간
     public Image rightImage;
     public TextMeshProUGUI qzText; // 문제 텍스트
@@ -33,7 +33,7 @@ public class SunMiniGame : MonoBehaviour
     public int SuccsessCount;
 
     public bool isGameActive = false; // 게임이 진행 중인지 여부를 나타내는 변수
-
+    private bool _isGameOver = false;
     void Start()
     {
         // 문제와 정답의 경우의 수를 설정합니다.
@@ -89,6 +89,17 @@ public class SunMiniGame : MonoBehaviour
         if (SuccsessCount == 3 && isGameActive)
         {
             StartCoroutine(EndGameSequence());
+        }
+
+        if (Input.GetKeyDown(KeyCode.Alpha9))
+        {
+            if (PhotonNetwork.IsMasterClient)
+            {
+                // 해시테이블을 초기화하거나 특정 키 값을 제거
+                Hashtable emptyProperties = new Hashtable { { "SunMiniGameOver", null } };
+                PhotonNetwork.CurrentRoom.SetCustomProperties(emptyProperties);
+                Debug.Log("SunMiniGameOver 리셋");
+            }
         }
     }
 
@@ -200,10 +211,18 @@ public class SunMiniGame : MonoBehaviour
     {
         // 정답 처리 후 미니게임 비활성화
         isGameActive = false;
+        _isGameOver = true;
         qzText.gameObject.SetActive(false);
         if (playerMoveAbility != null)
         {
             playerMoveAbility.EnableMovement();
+        }
+
+        if (PhotonNetwork.IsMasterClient && _isGameOver)
+        {
+            Hashtable SunMiniGameOver = new Hashtable { { "SunMiniGameOver", _isGameOver } };
+            PhotonNetwork.CurrentRoom.SetCustomProperties(SunMiniGameOver);
+            Debug.Log("저장");
         }
 
         // ClockInteraction 스크립트에서 UI와 카메라를 초기 상태로 되돌리도록 호출

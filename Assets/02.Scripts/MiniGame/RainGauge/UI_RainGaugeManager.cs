@@ -40,54 +40,65 @@ public class UI_RainGaugeManager : MonoBehaviourPunCallbacks
 
     void Update()
     {
-        if (RainGaugeManager.Instance.CurrentGameState == GameState.Loading)
+        if (RainGaugeManager.Instance != null)
         {
-            if (!_isReadyFinished)
+            if (RainGaugeManager.Instance.CurrentGameState == GameState.Loading)
             {
-                _isReadyFinished = true;
-                _isGoFinished = false;
-            }
-            ReadyButtonPressed.gameObject.SetActive(false);
-            ReadyButton.gameObject.SetActive(false);
-        }
-        else if (RainGaugeManager.Instance.CurrentGameState == GameState.Go)
-        {
-            if (!_isGoFinished)
-            {
-                StartCoroutine(Show_Coroutine(StartImg));
-                _isGoFinished = true;
-                _isReadyFinished = false;
-            }
-        }
-        UpdatePlayerUI();
-        CheakReadyButton();
-        UpdateTimerUI();
-
-        if (RainGaugeManager.Instance.CurrentGameState == GameState.Over)
-        {
-            object winnersObj;
-            if (PhotonNetwork.CurrentRoom.CustomProperties.TryGetValue("Winners", out winnersObj))
-            {
-                string[] winners = (string[])winnersObj;
-
-                bool isWinner = winners.Contains(PhotonNetwork.LocalPlayer.NickName);
-
-                if (isWinner)
+                if (!_isReadyFinished)
                 {
-                    StartCoroutine(ShowImage_Coroutine(WinImage));
+                    _isReadyFinished = true;
+                    _isGoFinished = false;
                 }
-                else
+                ReadyButtonPressed.gameObject.SetActive(false);
+                ReadyButton.gameObject.SetActive(false);
+            }
+            else if (RainGaugeManager.Instance.CurrentGameState == GameState.Go)
+            {
+                if (!_isGoFinished)
                 {
-                    StartCoroutine(ShowImage_Coroutine(LoseImage));
+                    StartCoroutine(Show_Coroutine(StartImg));
+                    _isGoFinished = true;
+                    _isReadyFinished = false;
                 }
             }
+            UpdatePlayerUI();
+            CheakReadyButton();
+            UpdateTimerUI();
+
+            if (RainGaugeManager.Instance.CurrentGameState == GameState.Over)
+            {
+                if (PhotonNetwork.CurrentRoom != null && PhotonNetwork.CurrentRoom.CustomProperties != null)
+                {
+                    object winnersObj;
+                    if (PhotonNetwork.CurrentRoom.CustomProperties.TryGetValue("Winners", out winnersObj))
+                    {
+                        string[] winners = (string[])winnersObj;
+
+                        bool isWinner = winners.Contains(PhotonNetwork.LocalPlayer.NickName);
+
+                        if (isWinner)
+                        {
+                            StartCoroutine(ShowImage_Coroutine(WinImage));
+                        }
+                        else
+                        {
+                            StartCoroutine(ShowImage_Coroutine(LoseImage));
+                        }
+                    }
+                }
+                    
+            }
         }
+         
     }
 
     private void UpdateTimerUI()
     {
-        TimerText.text = $"{(int)RainGaugeManager.Instance.TimeRemaining}";
-        
+        if (RainGaugeManager.Instance != null)
+        {
+            TimerText.text = $"{(int)RainGaugeManager.Instance.TimeRemaining}";
+        }
+
     }
 
     private IEnumerator Show_Coroutine(GameObject obj)

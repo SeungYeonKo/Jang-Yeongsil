@@ -101,8 +101,8 @@ public class PhotonManager : MonoBehaviourPunCallbacks
             case "Main":
                 PhotonNetwork.LoadLevel("MainScene");
                 break;
-            case "MiniGame1":
-                PhotonNetwork.LoadLevel("RainGauge");
+            case "RainGaugeDescriptionScene":
+                StartCoroutine(LoadRainGaugeAfterDelay(3));
                 break;
             case "MiniGame2":
                 PhotonNetwork.LoadLevel("SundialScene");
@@ -164,6 +164,9 @@ public class PhotonManager : MonoBehaviourPunCallbacks
                 case "Main":
                     descriptionSceneName = "LoadingScene";
                     break;
+                case "RainGaugeDescriptionScene":
+                    descriptionSceneName = "RainGaugeDescriptionScene";
+                    break;
                 default:
                     descriptionSceneName = "LoadingScene";
                     break;
@@ -171,6 +174,12 @@ public class PhotonManager : MonoBehaviourPunCallbacks
             AsyncOperation loadingScene = SceneManager.LoadSceneAsync(descriptionSceneName, LoadSceneMode.Additive);
             yield return loadingScene;
         }
+    }
+
+    private IEnumerator LoadRainGaugeAfterDelay(int seconds)
+    {
+        yield return new WaitForSeconds(seconds);
+        PhotonNetwork.LoadLevel("RainGauge");
     }
 
     public override void OnLeftRoom()

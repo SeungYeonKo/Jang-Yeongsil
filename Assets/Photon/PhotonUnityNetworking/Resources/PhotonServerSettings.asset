@@ -51,6 +51,7 @@ MonoBehaviour:
   - IncreaseScore
   - ResetScore
   - RPC_BreakJar
+  - DisplayMessageRPC
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 0

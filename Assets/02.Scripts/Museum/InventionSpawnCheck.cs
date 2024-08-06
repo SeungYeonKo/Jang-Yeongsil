@@ -13,6 +13,7 @@ public class InventionSpawnCheck : MonoBehaviour
             if (PhotonNetwork.LocalPlayer.CustomProperties.ContainsKey("SunMiniGameOver"))
             {
                 sunMiniGameOver = (bool)PhotonNetwork.LocalPlayer.CustomProperties["SunMiniGameOver"];
+                Sundial.SetActive(sunMiniGameOver);
                 Debug.Log($"SunMiniGameOver 상태: {sunMiniGameOver}");
             }
 

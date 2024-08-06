@@ -97,7 +97,7 @@ public class SunMiniGame : MonoBehaviour
             {
                 // 해시테이블을 초기화하거나 특정 키 값을 제거
                 Hashtable emptyProperties = new Hashtable { { "SunMiniGameOver", null } };
-                PhotonNetwork.CurrentRoom.SetCustomProperties(emptyProperties);
+                PhotonNetwork.LocalPlayer.SetCustomProperties(emptyProperties);
                 Debug.Log("SunMiniGameOver 리셋");
             }
         }

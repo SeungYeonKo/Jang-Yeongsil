@@ -29,12 +29,14 @@ public class PlayerMoveAbility : PlayerAbility
     Vector3 dir = Vector3.zero;
 
     SunMiniGame sunMiniGame;
-
+    
+    private bool isChatUI = false;
+    
     void Start()
     {
         rb = GetComponent<Rigidbody>();
         _animator = GetComponent<Animator>();
-
+        isChatUI = false;
         if (_owner != null && _owner.PhotonView.IsMine)
         {
             GameObject mainCamera = GameObject.FindWithTag("MainCamera");
@@ -83,7 +85,32 @@ public class PlayerMoveAbility : PlayerAbility
         {
             return;
         }
+        if (SceneManager.GetActiveScene().name == "MainScene" && Input.GetKeyDown(KeyCode.Tab))
+        {
+            isChatUI = !isChatUI;
+            PlayerAnimatorSync playerAnim = GetComponent<PlayerAnimatorSync>();
 
+            if (playerAnim != null)
+            {
+                Animator animator = playerAnim.GetComponent<Animator>();
+                if (animator != null)
+                {
+                    animator.SetFloat("Move", 0f);
+                    animator.SetBool("Jump", false);
+                }
+
+            }
+        }
+        if (isChatUI)
+        {
+            if (_animator != null)
+            {
+                _animator.SetFloat("Move", 0f);
+            }
+
+            _JumpPower = 0;
+            return;
+        }
         InputAndDir();
     }
 

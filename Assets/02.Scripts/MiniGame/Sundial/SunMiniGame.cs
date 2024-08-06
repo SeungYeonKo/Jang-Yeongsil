@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 using Photon.Pun;
-using Photon.Realtime;
+using Hashtable = ExitGames.Client.Photon.Hashtable;
 
 public class SunMiniGame : MonoBehaviour
 {
@@ -33,7 +33,7 @@ public class SunMiniGame : MonoBehaviour
     public int SuccsessCount;
 
     public bool isGameActive = false; // 게임이 진행 중인지 여부를 나타내는 변수
-
+    private bool _isGameOver = false;
     void Start()
     {
         // 문제와 정답의 경우의 수를 설정합니다.
@@ -200,10 +200,18 @@ public class SunMiniGame : MonoBehaviour
     {
         // 정답 처리 후 미니게임 비활성화
         isGameActive = false;
+        _isGameOver = true;
         qzText.gameObject.SetActive(false);
         if (playerMoveAbility != null)
         {
             playerMoveAbility.EnableMovement();
+        }
+
+        if (PhotonNetwork.IsMasterClient)
+        {
+            Hashtable SunMiniGameOver = new Hashtable { { "SunMiniGameOver", _isGameOver } };
+            PhotonNetwork.CurrentRoom.SetCustomProperties(SunMiniGameOver);
+            Debug.Log("저장");
         }
 
         // ClockInteraction 스크립트에서 UI와 카메라를 초기 상태로 되돌리도록 호출

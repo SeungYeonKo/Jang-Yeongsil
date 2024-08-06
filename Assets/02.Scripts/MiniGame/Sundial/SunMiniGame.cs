@@ -13,7 +13,7 @@ public class SunMiniGame : MonoBehaviour
     public Slider sundialSlider; // 슬라이더 오브젝트 참조
     public TextMeshProUGUI questionText; // 문제를 표시할 텍스트 UI
 
-    public float tolerance = 1f; // 정답으로 인정되는 오차 범위
+    private float tolerance = 5f; // 정답으로 인정되는 오차 범위
     public float answerHoldTime = 3.0f; // 정답으로 간주되기 위해 플레이어가 슬라이더를 멈추는 시간
     public Image rightImage;
     public TextMeshProUGUI qzText; // 문제 텍스트

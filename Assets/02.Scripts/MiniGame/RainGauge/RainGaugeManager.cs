@@ -1,4 +1,3 @@
-// RainGaugeManager.cs
 using Photon.Pun;
 using Photon.Realtime;
 using System.Collections;
@@ -271,11 +270,6 @@ public class RainGaugeManager : MonoBehaviourPunCallbacks
     {
         Photon.Realtime.Player[] players = PhotonNetwork.PlayerList.ToArray();
         int readyPlayerCount = 0;
-
-        if (players.Length < 2)
-        {
-            return false;
-        }
 
         foreach (Photon.Realtime.Player player in players)
         {

@@ -89,7 +89,6 @@ public class JarScore : MonoBehaviourPunCallbacks
         return false;
     }
 
-
     [PunRPC]
     public void IncreaseScore(int playerNumber, int amount)
     {
@@ -158,13 +157,11 @@ public class JarScore : MonoBehaviourPunCallbacks
         }
     }
 
-
     public int DetermineWinner()
     {
         StartCoroutine(DetermineWinnerWithDelay());
         return _winnerNumber; // DetermineWinnerWithDelay에서 설정된 winnerNumber 반환
     }
-
 
     private IEnumerator DetermineWinnerWithDelay()
     {
@@ -202,6 +199,26 @@ public class JarScore : MonoBehaviourPunCallbacks
             Hashtable winnersHashtable = new Hashtable { { "Winners", winners.ToArray() } };
             PhotonNetwork.CurrentRoom.SetCustomProperties(winnersHashtable);
             Debug.Log($"{string.Join(", ", winners)} stored as winners.");
+
+            if (winners.Count == 1)
+            {
+                // 승자가 한 명일 때만 PlayerNumber를 저장
+                string winnerName = winners.First();
+
+                // 이름을 통해 플레이어 객체를 찾고, 그 플레이어의 번호를 가져옴
+                Photon.Realtime.Player winnerPlayer = PhotonNetwork.PlayerList.FirstOrDefault(p => p.NickName == winnerName);
+                if (winnerPlayer != null && winnerPlayer.CustomProperties.TryGetValue("PlayerNumber", out object winnerNumberObj))
+                {
+                    _winnerNumber = (int)winnerNumberObj;
+                    Hashtable winnerNumberHashtable = new Hashtable { { "WinnerPlayerNumber", _winnerNumber } };
+                    PhotonNetwork.CurrentRoom.SetCustomProperties(winnerNumberHashtable);
+                }
+                else
+                {
+                    Debug.LogError("WinnerPlayerNumber를 찾을 수 없습니다.");
+                }
+            }
         }
     }
 }
+

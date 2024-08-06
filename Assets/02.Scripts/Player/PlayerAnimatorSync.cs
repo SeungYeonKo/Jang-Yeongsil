@@ -52,7 +52,7 @@ public class PlayerAnimatorSync : MonoBehaviourPun, IPunObservable
 
     private void Update()
     {
-        if(chatGPTManager.isUIActive == true && photonView.IsMine)
+        if(chatGPTManager.isUIActive == true)
         {
             animator.SetFloat("Move", 0f);
             animator.SetBool("Run", false);

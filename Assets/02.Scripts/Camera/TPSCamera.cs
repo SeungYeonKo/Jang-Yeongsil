@@ -20,6 +20,10 @@ public class TPSCamera : MonoBehaviourPunCallbacks
     {
         offset = new Vector3(0, height, -distance); // 초기 위치 설정
 
+        // 마우스 커서 설정
+        Cursor.lockState = CursorLockMode.Locked; // 마우스 커서를 화면 중앙에 고정
+        Cursor.visible = false; // 마우스 커서 숨김
+
         // 자신의 캐릭터 찾기
         FindLocalPlayer();
     }
@@ -36,6 +40,20 @@ public class TPSCamera : MonoBehaviourPunCallbacks
 
         rotationX += Input.GetAxis("Mouse X") * sensitivity;
         rotationY -= Input.GetAxis("Mouse Y") * sensitivity;
+
+        // ESC 키를 눌러 마우스 커서를 다시 보이게 할 수 있도록 함
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            Cursor.lockState = CursorLockMode.None; // 마우스 커서 고정 해제
+            Cursor.visible = true; // 마우스 커서 보이기
+        }
+
+        // 마우스 클릭으로 다시 커서를 잠그고 숨김
+        if (Input.GetMouseButtonDown(0))
+        {
+            Cursor.lockState = CursorLockMode.Locked; // 마우스 커서를 화면 중앙에 고정
+            Cursor.visible = false; // 마우스 커서 숨김
+        }
     }
 
     private void FixedUpdate()

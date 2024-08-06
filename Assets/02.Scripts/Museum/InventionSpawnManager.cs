@@ -1,14 +1,12 @@
-// InventionSpawnManager.cs
 using Photon.Pun;
 using Photon.Realtime;
 using System.Collections;
 using UnityEngine;
-using Hashtable = ExitGames.Client.Photon.Hashtable;
 
 public class InventionSpawnManager : MonoBehaviourPunCallbacks
 {
-    public string CheugugiPrefabName = "Cheugugi"; // Resources 폴더에 저장된 프리팹 이름
-    private GameObject CheugugiPrefab;
+    public GameObject CheugugiPrefab; // 에디터에서 할당할 프리팹
+
     private bool hasDropped = false;  // 한 번 드랍했는지 여부
 
     private void Awake()
@@ -20,14 +18,6 @@ public class InventionSpawnManager : MonoBehaviourPunCallbacks
     private void Start()
     {
         Debug.Log("InventionSpawnManager Start 호출됨");
-
-        // 프리팹을 Resources에서 동적으로 로드
-        CheugugiPrefab = Resources.Load<GameObject>(CheugugiPrefabName);
-        if (CheugugiPrefab == null)
-        {
-            Debug.LogError("CheugugiPrefab을 찾을 수 없습니다. Resources 폴더에 프리팹이 있는지 확인하세요.");
-            return;
-        }
 
         // Custom Properties에 변경사항이 있을 때 처리
         if (PhotonNetwork.CurrentRoom.CustomProperties.ContainsKey("WinnerPlayerNumber"))
@@ -41,14 +31,14 @@ public class InventionSpawnManager : MonoBehaviourPunCallbacks
         }
     }
 
-    public override void OnRoomPropertiesUpdate(Hashtable propertiesThatChanged)
+    /*public override void OnRoomPropertiesUpdate(Hashtable propertiesThatChanged)
     {
         if (propertiesThatChanged.ContainsKey("WinnerPlayerNumber"))
         {
             Debug.Log("WinnerPlayerNumber가 업데이트됨.");
             HandleWinnerNumber((int)propertiesThatChanged["WinnerPlayerNumber"]);
         }
-    }
+    }*/
 
     private void HandleWinnerNumber(int winnerPlayerNumber)
     {
@@ -59,8 +49,28 @@ public class InventionSpawnManager : MonoBehaviourPunCallbacks
             if (winner != null)
             {
                 Debug.Log("승자 찾기 성공: " + winner.name);
-                StartCoroutine(DropCheugugiAfterDelay(winner.transform.position)); // 2초 후에 드랍
-                hasDropped = true;
+                Vector3 dropPosition = winner.transform.position + new Vector3(0, 1, 0); // 승자 앞에 Cheugugi 드랍
+
+                // Cheugugi 오브젝트를 로컬에서 생성
+                GameObject cheugugiObject = Instantiate(CheugugiPrefab, dropPosition, Quaternion.identity);
+
+                if (cheugugiObject != null)
+                {
+                    // PhotonView를 추가하고 네트워크 ID 할당
+                    PhotonView photonView = cheugugiObject.AddComponent<PhotonView>();
+                    photonView.ViewID = PhotonNetwork.AllocateViewID(true); // ViewID 할당
+
+                    Debug.Log("Cheugugi 오브젝트가 성공적으로 생성되었습니다.");
+
+                    // 다른 클라이언트에 이 오브젝트의 생성 정보를 동기화하기 위해 RPC 호출
+                    photonView.RPC("SyncCheugugiObject", RpcTarget.OthersBuffered, photonView.ViewID, dropPosition);
+
+                    hasDropped = true;
+                }
+                else
+                {
+                    Debug.LogError("Cheugugi 오브젝트 생성에 실패했습니다.");
+                }
             }
             else
             {
@@ -88,40 +98,24 @@ public class InventionSpawnManager : MonoBehaviourPunCallbacks
         return null;
     }
 
-    private IEnumerator DropCheugugiAfterDelay(Vector3 position)
+    // 이 RPC 메서드는 다른 클라이언트에서 오브젝트를 동기화하는 데 사용됩니다.
+    [PunRPC]
+    public void SyncCheugugiObject(int viewID, Vector3 position, PhotonMessageInfo info)
     {
-        Debug.Log("DropCheugugiAfterDelay 실행");
-        yield return new WaitForSeconds(2f); // 2초 대기
+        // Cheugugi 오브젝트를 다른 클라이언트에서 동일하게 생성
+        GameObject cheugugiObject = Instantiate(CheugugiPrefab, position, Quaternion.identity);
 
-        if (!hasDropped) // 이미 드랍한 적이 없는 경우에만 드랍
+        if (cheugugiObject != null)
         {
-            Debug.Log("Cheugugi 드랍 시작");
-            DropCheugugi(position);
-            hasDropped = true;
+            // PhotonView를 추가하고 동일한 ViewID를 설정
+            PhotonView photonView = cheugugiObject.AddComponent<PhotonView>();
+            photonView.ViewID = viewID;
+
+            Debug.Log("다른 클라이언트에서 Cheugugi 오브젝트가 성공적으로 동기화되었습니다.");
         }
         else
         {
-            Debug.LogWarning("이미 Cheugugi가 드랍되었습니다.");
-        }
-    }
-
-    private void DropCheugugi(Vector3 position)
-    {
-        if (CheugugiPrefab != null)
-        {
-            Debug.Log("CheugugiPrefab을 생성 중...");
-            Vector3 dropPosition = position + new Vector3(0, 1, 0); // 승자 앞에 발명품을 드랍
-
-            // 프리팹 인스턴스화
-            GameObject instantiatedObject = Instantiate(CheugugiPrefab, dropPosition, Quaternion.identity);
-            Debug.Log("CheugugiPrefab 생성 완료");
-
-            // 오브젝트 활성화
-            instantiatedObject.SetActive(true);
-        }
-        else
-        {
-            Debug.LogWarning("Cheugugi prefab is not assigned.");
+            Debug.LogError("다른 클라이언트에서 Cheugugi 오브젝트 생성에 실패했습니다.");
         }
     }
 }

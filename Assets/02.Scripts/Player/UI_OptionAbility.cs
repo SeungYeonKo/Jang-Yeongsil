@@ -26,11 +26,7 @@ public class UI_OptionAbility : MonoBehaviourPunCallbacks
    private void Start()
    {
       OptionUI.gameObject.SetActive(false);
-
-      if (photonView.IsMine)
-      {
-         _playerOptionAbility = FindObjectOfType<PlayerOptionAbility>();
-      }
+      _playerOptionAbility = FindObjectOfType<PlayerOptionAbility>();
    }
    private void Update()
    {      
@@ -45,7 +41,7 @@ public class UI_OptionAbility : MonoBehaviourPunCallbacks
       OptionUI.gameObject.SetActive(isActive);
       UnityEngine.Cursor.visible = isActive;
       UnityEngine.Cursor.lockState = isActive ? CursorLockMode.None : CursorLockMode.Locked;
-      if (photonView.IsMine)
+      if (_playerOptionAbility.photonView.IsMine)
       {
          if (isActive)
          {

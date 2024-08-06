@@ -58,7 +58,7 @@ public class PlayerMoveAbility : PlayerAbility
             return;
         }
 
-        if ( chatGPTManager.isUIActive == true && photonView.IsMine)
+        if ( chatGPTManager.isUIActive == true)
         {
             return;
         }
@@ -93,7 +93,7 @@ public class PlayerMoveAbility : PlayerAbility
         {
             return;
         }
-        if (chatGPTManager.isUIActive == true && photonView.IsMine)
+        if (chatGPTManager.isUIActive == true)
         {
             return;
         }

@@ -308,11 +308,19 @@ public class RainGaugeManager : MonoBehaviourPunCallbacks
             PhotonNetwork.CurrentRoom.SetCustomProperties(winnerProperties); // Photon의 Custom Properties로 승자 정보 저장
         }
 
+        // RainMiniGameOver 설정
+        Hashtable rainGameOverProps = new Hashtable { { "RainMiniGameOver", true } };
+        PhotonNetwork.LocalPlayer.SetCustomProperties(rainGameOverProps);
+
         while (_countEnd > 0)
         {
             yield return new WaitForSeconds(1);
             _countEnd--;
         }
+
+        // 씬 이동 전에 Cheugugi 오브젝트를 활성화 시킬 수 있도록 해당 상태를 저장합니다.
+        PhotonNetwork.LocalPlayer.SetCustomProperties(new Hashtable { { "CheugugiActivated", true } });
+
         PhotonManager.Instance.LeaveAndLoadRoom("Main");
     }
 }

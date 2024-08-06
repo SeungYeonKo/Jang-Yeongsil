@@ -2,6 +2,7 @@ using Photon.Pun;
 using Photon.Realtime;
 using System.Collections;
 using UnityEngine;
+using Hashtable = ExitGames.Client.Photon.Hashtable;
 
 public class InventionSpawnManager : MonoBehaviourPunCallbacks
 {
@@ -31,14 +32,15 @@ public class InventionSpawnManager : MonoBehaviourPunCallbacks
         }
     }
 
-    /*public override void OnRoomPropertiesUpdate(Hashtable propertiesThatChanged)
+    // 여기서 'new' 키워드를 사용하여 기본 클래스의 메서드를 숨깁니다.
+    public new void OnRoomPropertiesUpdate(Hashtable propertiesThatChanged)
     {
         if (propertiesThatChanged.ContainsKey("WinnerPlayerNumber"))
         {
             Debug.Log("WinnerPlayerNumber가 업데이트됨.");
             HandleWinnerNumber((int)propertiesThatChanged["WinnerPlayerNumber"]);
         }
-    }*/
+    }
 
     private void HandleWinnerNumber(int winnerPlayerNumber)
     {

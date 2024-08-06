@@ -52,6 +52,7 @@ MonoBehaviour:
   - ResetScore
   - RPC_BreakJar
   - DisplayMessageRPC
+  - SyncCheugugiObject
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 0

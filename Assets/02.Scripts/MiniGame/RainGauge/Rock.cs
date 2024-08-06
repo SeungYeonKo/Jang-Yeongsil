@@ -42,6 +42,7 @@ public class Rock : MonoBehaviour
                 {
                     Debug.LogError("JarScore.Instance is null");
                 }
+                SoundManager.instance.PlaySfx(SoundManager.Sfx.Rock);
 
                 gameObject.SetActive(false);
             }

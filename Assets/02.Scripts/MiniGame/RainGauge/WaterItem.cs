@@ -36,6 +36,8 @@ public class WaterItem : MonoBehaviour
                 {
                     Debug.LogError("JarScore.Instance is null");
                 }
+                SoundManager.instance.PlaySfx(SoundManager.Sfx.WaterItem);
+
                 gameObject.SetActive(false);
             }
         }

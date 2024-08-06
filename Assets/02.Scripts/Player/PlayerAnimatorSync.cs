@@ -7,6 +7,7 @@ public class PlayerAnimatorSync : MonoBehaviourPun, IPunObservable
     private Animator animator;
     private PhotonAnimatorView photonAnimatorView;
 
+    private ChatGPTManager chatGPTManager;
     private float move;
     private bool run;
     private bool runJump;
@@ -51,6 +52,23 @@ public class PlayerAnimatorSync : MonoBehaviourPun, IPunObservable
 
     private void Update()
     {
+        if(chatGPTManager.isUIActive == true && photonView.IsMine)
+        {
+            animator.SetFloat("Move", 0f);
+            animator.SetBool("Run", false);
+            animator.SetBool("RunJump", false);
+            animator.SetBool("Walk", false);
+            animator.SetBool("Jump", false);
+            animator.SetBool("Win", false);
+            animator.SetBool("Sad", false);
+            animator.SetBool("Attack", false);
+            animator.SetBool("Attack2", false);
+            animator.SetBool("FlyingAttack", false);
+            animator.SetBool("Dance1", false);
+            animator.SetBool("Dance2", false);
+            animator.SetBool("Dance3", false);
+        }
+
         if (photonView.IsMine)
         {
             HandleInput();

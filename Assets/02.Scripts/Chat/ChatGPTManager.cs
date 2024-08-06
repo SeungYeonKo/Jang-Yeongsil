@@ -21,7 +21,7 @@ public class ChatGPTManager : MonoBehaviourPunCallbacks, IChatClientListener
     public ChatUI chatUI; // ChatUI 참조
     private ChatClient chatClient; // 채팅 클라이언트
     private string chatChannel = "global"; // 기본 채팅 채널
-    private bool isUIActive = false;
+    public bool isUIActive = false;
 
     void Start()
     {

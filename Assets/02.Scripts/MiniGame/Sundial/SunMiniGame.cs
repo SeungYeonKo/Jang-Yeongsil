@@ -218,13 +218,12 @@ public class SunMiniGame : MonoBehaviour
             playerMoveAbility.EnableMovement();
         }
 
-        if (PhotonNetwork.IsMasterClient && _isGameOver)
+        if (PhotonNetwork.IsMasterClient)
         {
-            Hashtable SunMiniGameOver = new Hashtable { { "SunMiniGameOver", _isGameOver } };
-            PhotonNetwork.CurrentRoom.SetCustomProperties(SunMiniGameOver);
-            Debug.Log("저장");
+            Hashtable playerProperties = new Hashtable { { "SunMiniGameOver", true } };
+            PhotonNetwork.LocalPlayer.SetCustomProperties(playerProperties);
+            Debug.Log($"{playerProperties} 저장");
         }
-
         // ClockInteraction 스크립트에서 UI와 카메라를 초기 상태로 되돌리도록 호출
         if (clockInteraction != null)
         {

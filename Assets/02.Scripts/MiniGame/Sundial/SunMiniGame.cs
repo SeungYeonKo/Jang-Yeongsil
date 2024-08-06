@@ -90,6 +90,17 @@ public class SunMiniGame : MonoBehaviour
         {
             StartCoroutine(EndGameSequence());
         }
+
+        if (Input.GetKeyDown(KeyCode.Alpha9))
+        {
+            if (PhotonNetwork.IsMasterClient)
+            {
+                // 해시테이블을 초기화하거나 특정 키 값을 제거
+                Hashtable emptyProperties = new Hashtable { { "SunMiniGameOver", null } };
+                PhotonNetwork.CurrentRoom.SetCustomProperties(emptyProperties);
+                Debug.Log("SunMiniGameOver 리셋");
+            }
+        }
     }
 
     public void StartMiniGame()
@@ -207,7 +218,7 @@ public class SunMiniGame : MonoBehaviour
             playerMoveAbility.EnableMovement();
         }
 
-        if (PhotonNetwork.IsMasterClient)
+        if (PhotonNetwork.IsMasterClient && _isGameOver)
         {
             Hashtable SunMiniGameOver = new Hashtable { { "SunMiniGameOver", _isGameOver } };
             PhotonNetwork.CurrentRoom.SetCustomProperties(SunMiniGameOver);

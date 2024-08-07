@@ -8,7 +8,7 @@ public class SoundManager : MonoBehaviour
 
     public AudioClip[] SfxClips;
     public float SfxVolume = 1;
-    public int Channels = 10;
+    public int Channels;
     AudioSource[] SfxPlayer;
     int channelIndex;
 
@@ -34,13 +34,13 @@ public class SoundManager : MonoBehaviour
         BgmPlayer.loop = true;
         BgmPlayer.volume = BgmVolume;
 
-        /*GameObject SfxObject = new GameObject("SfxPlayer");
-        SfxObject.transform.parent = transform;*/
+        GameObject SfxObject = new GameObject("SfxPlayer");
+        SfxObject.transform.parent = transform;
         SfxPlayer = new AudioSource[Channels];
 
         for (int i = 0; i < SfxPlayer.Length; i++)
         {
-            SfxPlayer[i] = gameObject.AddComponent<AudioSource>();
+            SfxPlayer[i] = SfxObject.AddComponent<AudioSource>();
             SfxPlayer[i].playOnAwake = false;
             SfxPlayer[i].volume = SfxVolume;
         }
@@ -57,7 +57,7 @@ public class SoundManager : MonoBehaviour
         for (int i = 0; i < SfxPlayer.Length; i++)
         {
             int loopIndex = (i + channelIndex) % SfxPlayer.Length;
-            //SfxPlayer[i].volume = SfxVolume;
+            SfxPlayer[i].volume = SfxVolume;
             if (SfxPlayer[loopIndex].isPlaying)
             {
                 continue;

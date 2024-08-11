@@ -205,6 +205,9 @@ public class UI_RainGaugeManager : MonoBehaviourPunCallbacks
 
     public void SetReadyImageState(bool state)
     {
-        ReadyImg.SetActive(state);
+        if (ReadyImg != null)
+        {
+            ReadyImg.SetActive(state);
+        }
     }
 }

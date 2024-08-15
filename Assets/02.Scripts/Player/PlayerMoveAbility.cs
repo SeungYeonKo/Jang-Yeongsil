@@ -29,14 +29,16 @@ public class PlayerMoveAbility : PlayerAbility
     Vector3 dir = Vector3.zero;
 
     SunMiniGame sunMiniGame;
-    
-    private bool isChatUI = false;
-    
+    private ChatGPTManager chatGPTManager;
+
     void Start()
     {
         rb = GetComponent<Rigidbody>();
         _animator = GetComponent<Animator>();
-        isChatUI = false;
+
+        // ChatGPTManager 참조를 추가
+        chatGPTManager = FindObjectOfType<ChatGPTManager>();
+
         if (_owner != null && _owner.PhotonView.IsMine)
         {
             GameObject mainCamera = GameObject.FindWithTag("MainCamera");
@@ -53,10 +55,17 @@ public class PlayerMoveAbility : PlayerAbility
 
     void Update()
     {
-        if (_owner == null || !_owner.PhotonView.IsMine || !enabled) // 스크립트가 비활성화되면 Update 중단
+        // UI가 활성화되어 있으면 캐릭터 조작을 중지
+        if (chatGPTManager != null && chatGPTManager.isUIActive)
         {
             return;
         }
+
+        if (_owner == null || !_owner.PhotonView.IsMine || !enabled)
+        {
+            return;
+        }
+
         GroundCheck();
         if (_animator != null && Input.GetKeyDown(KeyCode.T))
         {
@@ -81,42 +90,22 @@ public class PlayerMoveAbility : PlayerAbility
 
     private void FixedUpdate()
     {
-        if (_owner == null || !_owner.PhotonView.IsMine || !enabled) // 스크립트가 비활성화되면 Update 중단
+        // UI가 활성화되어 있으면 캐릭터 조작을 중지
+        if (chatGPTManager != null && chatGPTManager.isUIActive)
         {
             return;
         }
-        if (SceneManager.GetActiveScene().name == "MainScene" && Input.GetKeyDown(KeyCode.Tab))
+
+        if (_owner == null || !_owner.PhotonView.IsMine || !enabled)
         {
-            isChatUI = !isChatUI;
-            PlayerAnimatorSync playerAnim = GetComponent<PlayerAnimatorSync>();
-
-            if (playerAnim != null)
-            {
-                Animator animator = playerAnim.GetComponent<Animator>();
-                if (animator != null)
-                {
-                    animator.SetFloat("Move", 0f);
-                    animator.SetBool("Jump", false);
-                }
-
-            }
-        }
-        if (isChatUI)
-        {
-            if (_animator != null)
-            {
-                _animator.SetFloat("Move", 0f);
-            }
-
-            _JumpPower = 0;
             return;
         }
+
         InputAndDir();
     }
 
     void InputAndDir()
     {
-
         dir.x = Input.GetAxis("Horizontal");
         dir.z = Input.GetAxis("Vertical");
         Vector3 direction = new Vector3(dir.x, 0f, dir.z);
@@ -162,7 +151,7 @@ public class PlayerMoveAbility : PlayerAbility
         rb.velocity = new Vector3(rb.velocity.x, _JumpPower, rb.velocity.z); // y-속도를 직접 설정
         Debug.Log("스페이스바 누름");
     }
-   
+
     void GroundCheck()
     {
         RaycastHit hit;
@@ -184,6 +173,7 @@ public class PlayerMoveAbility : PlayerAbility
         enabled = false;
         rb.velocity = Vector3.zero; // 비활성화할 때 즉시 속도 멈추기
     }
+
     public void EnableMovement()
     {
         enabled = true;

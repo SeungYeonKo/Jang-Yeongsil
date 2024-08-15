@@ -178,8 +178,12 @@ public class PhotonManager : MonoBehaviourPunCallbacks
 
     private IEnumerator LoadRainGaugeAfterDelay(int seconds)
     {
+        PhotonNetwork.IsMessageQueueRunning = false;
         yield return new WaitForSeconds(seconds);
         PhotonNetwork.LoadLevel("RainGauge");
+
+        yield return new WaitForSeconds(1);
+        PhotonNetwork.IsMessageQueueRunning = true;
     }
 
     public override void OnLeftRoom()

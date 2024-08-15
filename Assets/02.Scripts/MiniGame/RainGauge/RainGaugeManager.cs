@@ -152,7 +152,10 @@ public class RainGaugeManager : MonoBehaviourPunCallbacks
 
     public override void OnDisable()
     {
-        InitializeGame();
+        if (uiRainGaugeManager != null)
+        {
+            InitializeGame();
+        }
 
         if (PhotonNetwork.LocalPlayer != null)
         {

@@ -1,8 +1,9 @@
+using Photon.Pun;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class RockSpawner : MonoBehaviour
+public class RockSpawner : MonoBehaviourPun
 {
     public GameObject rockPrefab;
     public int poolSize = 10;
@@ -16,32 +17,65 @@ public class RockSpawner : MonoBehaviour
 
     private void Start()
     {
-        rockPool = new List<GameObject>();
-        for (int i = 0; i < poolSize; i++)
+        InitializeRockPool();
+
+        if (PhotonNetwork.IsMasterClient)
         {
-            GameObject rock = Instantiate(rockPrefab);
-            rock.SetActive(false);
-            rockPool.Add(rock);
+            FillRockPool();
+            photonView.RPC("SyncRockPool", RpcTarget.OthersBuffered, poolSize);
         }
     }
 
     private void Update()
     {
-        if (RainGaugeManager.Instance.CurrentGameState == GameState.Go && Time.time >= nextSpawnTime)
+        if (PhotonNetwork.IsMasterClient && RainGaugeManager.Instance.CurrentGameState == GameState.Go && Time.time >= nextSpawnTime)
         {
-            SpawnRock();
+            Vector3 spawnPosition = GenerateSpawnPosition();
+            photonView.RPC("SpawnRock", RpcTarget.All, spawnPosition);
             nextSpawnTime = Time.time + 1f / spawnRate;
         }
     }
 
-    private void SpawnRock()
+    private void InitializeRockPool()
+    {
+        rockPool = new List<GameObject>(poolSize);
+    }
+
+    private void FillRockPool()
+    {
+        for (int i = 0; i < poolSize; i++)
+        {
+            GameObject rock = PhotonNetwork.Instantiate(rockPrefab.name, Vector3.zero, Quaternion.identity);
+            rock.SetActive(false);
+            rockPool.Add(rock);
+        }
+    }
+
+    private Vector3 GenerateSpawnPosition()
+    {
+        float spawnX = Random.Range(-spawnAreaWidth / 2f, spawnAreaWidth / 2f);
+        float spawnZ = Random.Range(-spawnAreaDepth / 2f, spawnAreaDepth / 2f);
+        return new Vector3(spawnX, spawnHeight, spawnZ) + transform.position;
+    }
+
+    [PunRPC]
+    private void SyncRockPool(int poolSize)
+    {
+        for (int i = 0; i < poolSize; i++)
+        {
+            GameObject rock = PhotonNetwork.Instantiate(rockPrefab.name, Vector3.zero, Quaternion.identity);
+            rock.SetActive(false);
+            rockPool.Add(rock);
+        }
+    }
+
+
+    [PunRPC]
+    private void SpawnRock(Vector3 spawnPosition)
     {
         GameObject rock = GetPooledRock();
         if (rock != null)
         {
-            float spawnX = Random.Range(-spawnAreaWidth / 2f, spawnAreaWidth / 2f);
-            float spawnZ = Random.Range(-spawnAreaDepth / 2f, spawnAreaDepth / 2f);
-            Vector3 spawnPosition = new Vector3(spawnX, spawnHeight, spawnZ) + transform.position;
             rock.transform.position = spawnPosition;
             rock.SetActive(true);
         }

@@ -13,7 +13,7 @@ public class SoundManager : MonoBehaviour
     int channelIndex;
 
     public enum Bgm { LobbyScene, IntroFireball, MainScene, RainGauge, SundialScene }
-    public enum Sfx {  }
+    public enum Sfx { Rock, WaterItem }
 
     public static SoundManager instance;
 

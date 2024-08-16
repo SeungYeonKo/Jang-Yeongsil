@@ -5,7 +5,7 @@ using TMPro;
 
 public class MultipleSelectType : MonoBehaviour
 {
-    public ToggleGroup[] ToggleGroups;  // 4개의 토글 중 한 개만 체크할 수 있게 Toggle Group 생성
+    public ToggleGroup[] ToggleGroups;
     public Toggle[] AnswerToggles;
 
     public Image[] CorrectImages;
@@ -16,7 +16,6 @@ public class MultipleSelectType : MonoBehaviour
     public Button CloseButton;
     public Button SubmitButton;
     public Button ResetButton;
-
 
     private void OnEnable()
     {
@@ -118,7 +117,7 @@ public class MultipleSelectType : MonoBehaviour
 
     private IEnumerator ResetTogglesCoroutine()
     {
-        yield return null; 
+        yield return null;
         ResetToggles();
     }
 

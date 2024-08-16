@@ -2,12 +2,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-
 public enum QuizType
 {
     MultipleS,
     BlankS
 }
+
 public class QuizTrigger : MonoBehaviour
 {
     public QuizType QuizType;
@@ -24,7 +24,7 @@ public class QuizTrigger : MonoBehaviour
     {
         if (other.CompareTag("Player"))
         {
-            // 커서 잠금 해제
+            // 커서 잠금 해제 및 커서 보이기
             Cursor.lockState = CursorLockMode.None;
             Cursor.visible = true;
 
@@ -50,7 +50,7 @@ public class QuizTrigger : MonoBehaviour
             MultipleS.gameObject.SetActive(false);
             BlankS.gameObject.SetActive(false);
 
-            // 커서 다시 잠금
+            // 커서 다시 잠금 및 숨김
             Cursor.lockState = CursorLockMode.Locked;
             Cursor.visible = false;
         }

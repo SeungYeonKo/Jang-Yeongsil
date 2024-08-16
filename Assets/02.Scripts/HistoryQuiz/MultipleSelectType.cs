@@ -79,7 +79,14 @@ public class MultipleSelectType : MonoBehaviour
 
     public void CloseButtonClick()
     {
-        this.gameObject.SetActive(false);
+        this.gameObject.SetActive(false);    // 퀴즈가 종료되면 다시 커서를 잠금 상태로 설정
+        LockCursor();
+    }
+
+    private void LockCursor()
+    {
+        Cursor.lockState = CursorLockMode.Locked;
+        Cursor.visible = false;
     }
 
     public void ResetButtonClick()

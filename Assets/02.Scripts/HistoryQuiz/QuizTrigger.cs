@@ -24,9 +24,7 @@ public class QuizTrigger : MonoBehaviour
     {
         if (other.CompareTag("Player"))
         {
-            // 커서 잠금 해제 및 커서 보이기
-            Cursor.lockState = CursorLockMode.None;
-            Cursor.visible = true;
+            UnlockCursor();
 
             if (QuizType == QuizType.MultipleS)
             {
@@ -50,9 +48,19 @@ public class QuizTrigger : MonoBehaviour
             MultipleS.gameObject.SetActive(false);
             BlankS.gameObject.SetActive(false);
 
-            // 커서 다시 잠금 및 숨김
-            Cursor.lockState = CursorLockMode.Locked;
-            Cursor.visible = false;
+            LockCursor();
         }
+    }
+
+    private void LockCursor()
+    {
+        Cursor.lockState = CursorLockMode.Locked;
+        Cursor.visible = false;
+    }
+
+    private void UnlockCursor()
+    {
+        Cursor.lockState = CursorLockMode.None;
+        Cursor.visible = true;
     }
 }

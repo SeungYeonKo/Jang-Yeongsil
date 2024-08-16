@@ -6,8 +6,8 @@ using UnityEngine.SceneManagement;
 public class PlayerMoveAbility : PlayerAbility
 {
     public float Speed;
-    private float Movespeed = 4f;
-    private float RunSpeed = 6f;
+    private float Movespeed = 10f;
+    private float RunSpeed = 13f;
 
     private float NormalJumpPower = 5f; // 점프 힘을 증가
     private float RunningJumpPower = 8f; // 점프 힘을 증가

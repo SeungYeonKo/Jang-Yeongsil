@@ -1,6 +1,7 @@
 using Photon.Pun;
 using Photon.Realtime;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class TPSCamera : MonoBehaviourPunCallbacks
 {
@@ -16,8 +17,15 @@ public class TPSCamera : MonoBehaviourPunCallbacks
 
     public Transform target; // 카메라가 따라다닐 대상 캐릭터의 Transform
 
+    public bool _isSunMiniGame = false;
+    private string _sceneName; // 현재 씬 이름
+
     private void Start()
     {
+        _sceneName = SceneManager.GetActiveScene().name;
+
+        _isSunMiniGame = _sceneName == "SundialScene";
+
         offset = new Vector3(0, height, -distance); // 초기 위치 설정
 
         // 마우스 커서 설정
@@ -47,11 +55,11 @@ public class TPSCamera : MonoBehaviourPunCallbacks
             UnlockCursor();
         }
 
-     /*   // 마우스 클릭으로 다시 커서를 잠그고 숨김
-        if (Input.GetMouseButtonDown(0) && Cursor.visible)
+        // 마우스 클릭으로 다시 커서를 잠그고 숨김
+        if (Input.GetMouseButtonDown(0) && Cursor.visible && _sceneName == "SundialScene")
         {
             LockCursor();
-        }*/
+        }
     }
 
     private void LockCursor()

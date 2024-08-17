@@ -1,3 +1,4 @@
+using Photon.Pun;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -26,10 +27,17 @@ public class QuizTrigger : MonoBehaviour
         {
             UnlockCursor();
 
-            TPSCamera cameraScript = other.GetComponentInChildren<TPSCamera>();
+            // 씬에서 TPSCamera 스크립트 찾기
+            TPSCamera cameraScript = FindObjectOfType<TPSCamera>();
             if (cameraScript != null)
             {
-                cameraScript.SetQuizActive(true);
+                Debug.Log("카메라 스크립트 불러와짐");
+
+                cameraScript.SetQuizActive(true); // 퀴즈 활성화 시 카메라 회전 멈춤
+            }
+            else
+            {
+                Debug.LogWarning("TPSCamera 스크립트를 찾을 수 없습니다.");
             }
 
             if (QuizType == QuizType.MultipleS)
@@ -54,13 +62,19 @@ public class QuizTrigger : MonoBehaviour
             MultipleS.gameObject.SetActive(false);
             BlankS.gameObject.SetActive(false);
 
-            TPSCamera cameraScript = other.GetComponentInChildren<TPSCamera>();
+            // 씬에서 TPSCamera 스크립트 찾기
+            TPSCamera cameraScript = FindObjectOfType<TPSCamera>();
             if (cameraScript != null)
             {
-                cameraScript.SetQuizActive(false);
+                cameraScript.SetQuizActive(false); // 퀴즈 비활성화 시 카메라 회전 재개
+                Debug.Log("퀴즈 종료 - 카메라 회전 재개");
+            }
+            else
+            {
+                Debug.LogWarning("TPSCamera 스크립트를 찾을 수 없습니다.");
             }
 
-            LockCursor();
+            LockCursor(); // 커서를 다시 잠금
         }
     }
 

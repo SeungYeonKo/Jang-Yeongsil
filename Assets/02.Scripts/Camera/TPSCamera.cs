@@ -36,7 +36,13 @@ public class TPSCamera : MonoBehaviourPunCallbacks
 
     void Update()
     {
-        if (target == null || isQuizActive) return; // 퀴즈가 활성화되면 카메라 회전 중지
+        // 퀴즈가 활성화되면 모든 입력을 무시하고 카메라 회전 중지
+        if (isQuizActive)
+        {
+            return;
+        }
+
+        if (target == null) return;
 
         rotationX += Input.GetAxis("Mouse X") * sensitivity;
         rotationY -= Input.GetAxis("Mouse Y") * sensitivity;
@@ -54,7 +60,13 @@ public class TPSCamera : MonoBehaviourPunCallbacks
 
     private void FixedUpdate()
     {
-        if (target == null || isQuizActive) return; // 퀴즈가 활성화되면 카메라 이동 중지
+        // 퀴즈가 활성화되면 카메라 이동 및 회전 중지
+        if (isQuizActive)
+        {
+            return;
+        }
+
+        if (target == null) return;
 
         rotationY = Mathf.Clamp(rotationY, -90f, 90f);
 
@@ -104,6 +116,7 @@ public class TPSCamera : MonoBehaviourPunCallbacks
     public void SetQuizActive(bool isActive)
     {
         isQuizActive = isActive;
+        Debug.Log("Quiz Active State: " + isQuizActive);
 
         if (isActive)
         {

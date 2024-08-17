@@ -54,6 +54,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   fallSpeed: 5
   deactivateHeight: -10
+  hitIceEffect: {fileID: 5112403345868107899, guid: 6f34ef0d986e9db4199cf75805f79753, type: 3}
 --- !u!65 &2920529883672037568
 BoxCollider:
   m_ObjectHideFlags: 0

@@ -29,7 +29,7 @@ public class QuizTrigger : MonoBehaviour
             TPSCamera cameraScript = other.GetComponentInChildren<TPSCamera>();
             if (cameraScript != null)
             {
-                cameraScript.SetQuizActive(true); // 퀴즈 활성화 시 카메라 회전 멈춤
+                cameraScript.SetQuizActive(true);
             }
 
             if (QuizType == QuizType.MultipleS)
@@ -57,7 +57,7 @@ public class QuizTrigger : MonoBehaviour
             TPSCamera cameraScript = other.GetComponentInChildren<TPSCamera>();
             if (cameraScript != null)
             {
-                cameraScript.SetQuizActive(false); // 퀴즈 비활성화 시 카메라 회전 재개
+                cameraScript.SetQuizActive(false);
             }
 
             LockCursor();

@@ -1,5 +1,6 @@
 using Photon.Pun;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class PlayerAnimatorSync : MonoBehaviourPun, IPunObservable
 {
@@ -24,8 +25,14 @@ public class PlayerAnimatorSync : MonoBehaviourPun, IPunObservable
 
     private bool isDancing;
 
+    private string _sceneName; // 현재 씬 이름
+    public bool RainGauge = false;
     private void Awake()
     {
+        _sceneName = SceneManager.GetActiveScene().name;
+
+        RainGauge = _sceneName == "RainGauge";
+
         animator = GetComponent<Animator>();
         photonAnimatorView = GetComponent<PhotonAnimatorView>();
 
@@ -108,7 +115,7 @@ public class PlayerAnimatorSync : MonoBehaviourPun, IPunObservable
 
         animator.SetBool("Run", run);
 
-        if (Input.GetKeyDown(KeyCode.F))
+        if (Input.GetKeyDown(KeyCode.F) && _sceneName != "RainGauge")
         {
             int randomValue = UnityEngine.Random.Range(1, 4);
             ResetDanceAnimations();

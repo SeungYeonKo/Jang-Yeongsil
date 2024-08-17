@@ -179,6 +179,9 @@ public class RainGaugeManager : MonoBehaviourPunCallbacks
 
     private void Start()
     {
+        Cursor.visible = false;
+        Cursor.lockState = CursorLockMode.Locked;
+
         SoundManager.instance.StopBgm();
         SoundManager.instance.PlayBgm(SoundManager.Bgm.RainGauge);
     }

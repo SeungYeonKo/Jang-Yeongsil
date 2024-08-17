@@ -7,6 +7,7 @@ public class WaterItem : MonoBehaviour
 {
     public float fallSpeed = 5f;
     public float deactivateHeight = -10f;
+    public ParticleSystem hitIceEffect;
 
     private void Update()
     {
@@ -36,6 +37,7 @@ public class WaterItem : MonoBehaviour
                 {
                     Debug.LogError("JarScore.Instance is null");
                 }
+                PlayHitIceEffect(other.transform.position);
                 SoundManager.instance.PlaySfx(SoundManager.Sfx.WaterItem);
 
                 gameObject.SetActive(false);
@@ -55,5 +57,22 @@ public class WaterItem : MonoBehaviour
             return 4;
         else
             return -1;
+    }
+
+    private void PlayHitIceEffect(Vector3 position)
+    {
+        Vector3 modifiedPosition = position;
+        modifiedPosition.y += 1;
+        ParticleSystem hitIce = Instantiate(hitIceEffect, modifiedPosition, Quaternion.identity);
+        hitIce.gameObject.SetActive(true);
+        hitIce.Play();
+
+        StartCoroutine(DeactivateParticleAfterDelay(hitIce, hitIce.main.duration));
+    }
+
+    private IEnumerator DeactivateParticleAfterDelay(ParticleSystem particle, float delay)
+    {
+        yield return new WaitForSeconds(delay);
+        particle.gameObject.SetActive(false);
     }
 }

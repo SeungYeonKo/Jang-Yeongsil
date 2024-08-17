@@ -26,6 +26,12 @@ public class QuizTrigger : MonoBehaviour
         {
             UnlockCursor();
 
+            TPSCamera cameraScript = other.GetComponentInChildren<TPSCamera>();
+            if (cameraScript != null)
+            {
+                cameraScript.SetQuizActive(true); // 퀴즈 활성화 시 카메라 회전 멈춤
+            }
+
             if (QuizType == QuizType.MultipleS)
             {
                 Debug.Log("4지선다형 트리거");
@@ -47,6 +53,12 @@ public class QuizTrigger : MonoBehaviour
         {
             MultipleS.gameObject.SetActive(false);
             BlankS.gameObject.SetActive(false);
+
+            TPSCamera cameraScript = other.GetComponentInChildren<TPSCamera>();
+            if (cameraScript != null)
+            {
+                cameraScript.SetQuizActive(false); // 퀴즈 비활성화 시 카메라 회전 재개
+            }
 
             LockCursor();
         }

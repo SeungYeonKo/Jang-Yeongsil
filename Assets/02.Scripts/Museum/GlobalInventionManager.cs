@@ -1,7 +1,8 @@
 using System.Collections.Generic;
 using UnityEngine;
+using Photon.Pun;
 
-public class GlobalInventionManager : MonoBehaviour
+public class GlobalInventionManager : MonoBehaviourPunCallbacks
 {
     public static GlobalInventionManager Instance { get; private set; }
 
@@ -37,6 +38,7 @@ public class GlobalInventionManager : MonoBehaviour
         }
     }
 
+    [PunRPC]
     public void SetInventionActive(InventionType inventionType, bool isActive)
     {
         InventionState[inventionType] = isActive;
@@ -46,14 +48,10 @@ public class GlobalInventionManager : MonoBehaviour
         SaveQuickSlotData(); // 상태가 변경될 때마다 저장
     }
 
-    public bool IsInventionActive(InventionType inventionType)
-    {
-        return InventionState.ContainsKey(inventionType) && InventionState[inventionType];
-    }
-
     public void SaveQuickSlotState(InventionType inventionType, bool isActive)
     {
         QuickSlotState[inventionType] = isActive;
+        photonView.RPC("SetInventionActive", RpcTarget.AllBuffered, inventionType, isActive); // 모든 클라이언트에 상태 동기화 (Buffered 사용)
         SaveQuickSlotData(); // 상태가 변경될 때마다 저장
     }
 

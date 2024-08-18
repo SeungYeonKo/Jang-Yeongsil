@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-using Photon.Pun; // PhotonNetwork를 사용하기 위해 추가
+using Photon.Pun;
 
 public enum TriggerType
 {

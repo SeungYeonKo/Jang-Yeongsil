@@ -1,7 +1,8 @@
 using System.Collections.Generic;
 using UnityEngine;
+using Photon.Pun;
 
-public class GlobalInventionManager : MonoBehaviour
+public class GlobalInventionManager : MonoBehaviourPunCallbacks
 {
     public static GlobalInventionManager Instance { get; private set; }
 
@@ -21,6 +22,8 @@ public class GlobalInventionManager : MonoBehaviour
             DontDestroyOnLoad(this.gameObject);
         }
 
+        LoadQuickSlotData(); // 퀵슬롯 데이터 불러오기
+
         // 초기 상태 설정
         foreach (InventionType invention in System.Enum.GetValues(typeof(InventionType)))
         {
@@ -35,21 +38,21 @@ public class GlobalInventionManager : MonoBehaviour
         }
     }
 
+    [PunRPC]
     public void SetInventionActive(InventionType inventionType, bool isActive)
     {
         InventionState[inventionType] = isActive;
         QuickSlotState[inventionType] = isActive;
         MuseumInventionState[inventionType] = isActive; // 박물관 상태도 활성화
-    }
 
-    public bool IsInventionActive(InventionType inventionType)
-    {
-        return InventionState.ContainsKey(inventionType) && InventionState[inventionType];
+        SaveQuickSlotData(); // 상태가 변경될 때마다 저장
     }
 
     public void SaveQuickSlotState(InventionType inventionType, bool isActive)
     {
         QuickSlotState[inventionType] = isActive;
+        photonView.RPC("SetInventionActive", RpcTarget.AllBuffered, inventionType, isActive); // 모든 클라이언트에 상태 동기화 (Buffered 사용)
+        SaveQuickSlotData(); // 상태가 변경될 때마다 저장
     }
 
     public bool GetQuickSlotState(InventionType inventionType)
@@ -60,5 +63,29 @@ public class GlobalInventionManager : MonoBehaviour
     public bool GetMuseumInventionState(InventionType inventionType)
     {
         return MuseumInventionState.ContainsKey(inventionType) && MuseumInventionState[inventionType];
+    }
+
+    public void SaveQuickSlotData()
+    {
+        foreach (var entry in QuickSlotState)
+        {
+            PlayerPrefs.SetInt(entry.Key.ToString(), entry.Value ? 1 : 0);
+        }
+        PlayerPrefs.Save();
+    }
+
+    public void LoadQuickSlotData()
+    {
+        foreach (InventionType invention in System.Enum.GetValues(typeof(InventionType)))
+        {
+            if (PlayerPrefs.HasKey(invention.ToString()))
+            {
+                QuickSlotState[invention] = PlayerPrefs.GetInt(invention.ToString()) == 1;
+            }
+            else
+            {
+                QuickSlotState[invention] = false;
+            }
+        }
     }
 }

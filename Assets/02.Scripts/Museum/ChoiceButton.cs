@@ -39,6 +39,7 @@ public class ChoiceButton : MonoBehaviour
         IntroText.gameObject.SetActive(false);
         Description.SetActive(false);
         Video.SetActive(true);
+        playableDirector.playableGraph.GetRootPlayable(0).SetSpeed(0.5f);
         playableDirector.Play();
     }
 }

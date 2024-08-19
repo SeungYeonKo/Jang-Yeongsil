@@ -113,6 +113,9 @@ public class PhotonManager : MonoBehaviourPunCallbacks
             case "MuseumScene":
                 PhotonNetwork.LoadLevel("MuseumScene");
                 break;
+            case "ClepsydraScene":
+                PhotonNetwork.LoadLevel("ClepsydraScene");
+                break;
 
         }
     }

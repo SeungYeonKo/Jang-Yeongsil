@@ -29,4 +29,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/01.Scenes/RainGaugeDescriptionScene.unity
     guid: 2b23ba4a5695ee844a84dc21c4c40940
+  - enabled: 1
+    path: Assets/01.Scenes/ClepsydraScene.unity
+    guid: bc19db99869f5cc4c8472fe2e9c04ff5
   m_configObjects: {}

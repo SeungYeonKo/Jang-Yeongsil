@@ -1,5 +1,6 @@
 using Photon.Pun;
 using UnityEngine;
+using UnityEngine.Rendering;
 using UnityEngine.SceneManagement;
 
 public class UI_OptionAbility : MonoBehaviourPunCallbacks
@@ -35,12 +36,33 @@ public class UI_OptionAbility : MonoBehaviourPunCallbacks
           ToggleUI();
       }
    }
-   private void ToggleUI()
+
+    private void InitializePlayerOptionAbility()
+    {
+        _playerOptionAbility = FindObjectOfType<PlayerOptionAbility>();
+
+        if (_playerOptionAbility == null)
+        {
+            Debug.LogWarning("PlayerOptionAbility component not found.");
+        }
+        
+    }
+    private void TPSCameraEnable(bool isActive)
+    {
+        TPSCamera tPSCamera = FindAnyObjectByType<TPSCamera>();
+        if (tPSCamera != null)
+        {
+            tPSCamera.enabled = isActive;
+        }
+    }
+    private void ToggleUI()
    {
       bool isActive = !OptionUI.gameObject.activeSelf;
       OptionUI.gameObject.SetActive(isActive);
       UnityEngine.Cursor.visible = isActive;
       UnityEngine.Cursor.lockState = isActive ? CursorLockMode.None : CursorLockMode.Locked;
+        TPSCameraEnable(!isActive);        
+      InitializePlayerOptionAbility();
       if (_playerOptionAbility.photonView.IsMine)
       {
          if (isActive)
@@ -59,6 +81,7 @@ public class UI_OptionAbility : MonoBehaviourPunCallbacks
       UnityEngine.Cursor.visible = false;
       UnityEngine.Cursor.lockState = CursorLockMode.Locked;
       _playerOptionAbility.Continue();
+        TPSCameraEnable(true);
    }
    public void OnClickReplay()
    {
@@ -66,7 +89,8 @@ public class UI_OptionAbility : MonoBehaviourPunCallbacks
       UnityEngine.Cursor.visible = false;
       UnityEngine.Cursor.lockState = CursorLockMode.Locked;
       _playerOptionAbility.Continue();
-   }
+        TPSCameraEnable(true);
+    }
    
    public void OnClickSquare()
    {
@@ -79,10 +103,10 @@ public class UI_OptionAbility : MonoBehaviourPunCallbacks
       }
       else
       {
-         PhotonNetwork.LeaveRoom();
-         PhotonNetwork.LoadLevel("MainScene");
+         PhotonManager.Instance.LeaveAndLoadRoom("Main");
       }
-   }
+        TPSCameraEnable(true);
+    }
    
    public void OnClickGameQuitButton()
    {

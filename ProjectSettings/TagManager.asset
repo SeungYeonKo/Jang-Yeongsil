@@ -9,6 +9,7 @@ TagManager:
   - Jar
   - Invention
   - Sundial
+  - Stone
   layers:
   - Default
   - TransparentFX

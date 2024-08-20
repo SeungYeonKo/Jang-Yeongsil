@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using Photon.Pun;
 
 public class QuickSlotManager : MonoBehaviour
 {
@@ -19,7 +20,6 @@ public class QuickSlotManager : MonoBehaviour
         { InventionType.Clepsydra, 4 }
     };
 
-    // 발명품 타입에 따른 메시지 매핑 딕셔너리
     private Dictionary<InventionType, string> inventionMessages = new Dictionary<InventionType, string>()
     {
         { InventionType.ArmillarySphere, "혼천의가 해금되었습니다. 박물관에서 확인하세요!" },

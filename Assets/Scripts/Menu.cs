@@ -99,6 +99,6 @@ public class Menu : MonoBehaviour
 
   public void OnClickPlayAgain()
   {
-    SceneManager.LoadScene("Scene_JigsawGame");
+    SceneManager.LoadScene("AstronomicalChartScene");
   }
 }

@@ -35,4 +35,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/01.Scenes/ClepsydraScene.unity
     guid: bc19db99869f5cc4c8472fe2e9c04ff5
+  - enabled: 1
+    path: Assets/01.Scenes/AstronomicalChartScene.unity
+    guid: fd4d77c0c5ecf2747bee68ec2c605567
   m_configObjects: {}

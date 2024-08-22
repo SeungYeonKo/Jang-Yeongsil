@@ -119,7 +119,9 @@ public class PhotonManager : MonoBehaviourPunCallbacks
             case "ClepsydraScene":
                 PhotonNetwork.LoadLevel("ClepsydraScene");
                 break;
-
+            case "AstronomicalChartScene":
+                PhotonNetwork.LoadLevel("AstronomicalChartScene");
+                break;
         }
     }
 

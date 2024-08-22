@@ -22,6 +22,10 @@ public class GamePortal : MonoBehaviour
             {
                 PhotonManager.Instance.LeaveAndLoadRoom("ClepsydraScene");
             }
+            if (gameObject.name == "AstronomicalChartPortal")
+            {
+                PhotonManager.Instance.LeaveAndLoadRoom("AstronomicalChartScene");
+            }
         }
     }
 }

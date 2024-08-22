@@ -14,7 +14,7 @@ public class BoardGen : MonoBehaviour
 
   public float ghostTransparency = 0.1f;
 
-  // Jigsaw tiles creation.
+  // 직소 타일 생성 관련 변수
   public int numTileX { get; private set; }
   public int numTileY { get; private set; }
 
@@ -23,7 +23,6 @@ public class BoardGen : MonoBehaviour
 
   public Transform parentForTiles = null;
 
-  // Access to the menu.
   public Menu menu = null;
   private List<Rect> regions = new List<Rect>();
   private List<Coroutine> activeCoroutines = new List<Coroutine>();
@@ -43,14 +42,14 @@ public class BoardGen : MonoBehaviour
       return null;
     }
 
-    // Add padding to the image.
+    // 이미지에 패딩을 추가
     Texture2D newTex = new Texture2D(
         tex.width + Tile.padding * 2,
         tex.height + Tile.padding * 2,
         TextureFormat.ARGB32,
         false);
 
-    // Set the default colour as white
+    // 기본 색상을 흰색으로 설정
     for (int x = 0; x < newTex.width; ++x)
     {
       for (int y = 0; y < newTex.height; ++y)
@@ -59,7 +58,7 @@ public class BoardGen : MonoBehaviour
       }
     }
 
-    // Copy the colours.
+    // 색상을 복사
     for (int x = 0; x < tex.width; ++x)
     {
       for (int y = 0; y < tex.height; ++y)
@@ -80,7 +79,6 @@ public class BoardGen : MonoBehaviour
     return sprite;
   }
 
-  // Start is called before the first frame update
   void Start()
   {
     imageFilename = GameApp.Instance.GetJigsawImageName();
@@ -101,7 +99,6 @@ public class BoardGen : MonoBehaviour
 
     SetCameraPosition();
 
-    // Create the Jigsaw tiles.
     //CreateJigsawTiles();
     StartCoroutine(Coroutine_CreateJigsawTiles());
   }
@@ -195,7 +192,6 @@ public class BoardGen : MonoBehaviour
       }
     }
 
-    // Enable the bottom panel and set the onlcick delegate to the play button.
     menu.SetEnableBottomPanel(true);
     menu.btnPlayOnClick = ShuffleTiles;
   }
@@ -224,7 +220,7 @@ public class BoardGen : MonoBehaviour
       }
     }
 
-    // Enable the bottom panel and set the delegate to button play on click.
+    // 아래 패널을 활성화. 플레이 버튼 클릭 시 델리게이트 설정
     menu.SetEnableBottomPanel(true);
     menu.btnPlayOnClick = ShuffleTiles;
 
@@ -237,21 +233,21 @@ public class BoardGen : MonoBehaviour
     tile.xIndex = i;
     tile.yIndex = j;
 
-    // Left side tiles.
+    // 왼쪽 가장자리 타일의 경우
     if (i == 0)
     {
       tile.SetCurveType(Tile.Direction.LEFT, Tile.PosNegType.NONE);
     }
     else
     {
-      // We have to create a tile that has LEFT direction opposite curve type.
+      // 왼쪽 타일의 반대 곡선 타입을 설정
       Tile leftTile = mTiles[i - 1, j];
       Tile.PosNegType rightOp = leftTile.GetCurveType(Tile.Direction.RIGHT);
       tile.SetCurveType(Tile.Direction.LEFT, rightOp == Tile.PosNegType.NEG ?
         Tile.PosNegType.POS : Tile.PosNegType.NEG);
     }
 
-    // Bottom side tiles
+    // 아래쪽 가장자리 타일의 경우
     if (j == 0)
     {
       tile.SetCurveType(Tile.Direction.DOWN, Tile.PosNegType.NONE);
@@ -264,7 +260,7 @@ public class BoardGen : MonoBehaviour
         Tile.PosNegType.POS : Tile.PosNegType.NEG);
     }
 
-    // Right side tiles.
+    // 오른쪽 가장자리 타일의 경우
     if (i == numTileX - 1)
     {
       tile.SetCurveType(Tile.Direction.RIGHT, Tile.PosNegType.NONE);
@@ -282,8 +278,8 @@ public class BoardGen : MonoBehaviour
       }
     }
 
-    // Up side tile.
-    if(j == numTileY - 1)
+    // 위쪽 가장자리 타일
+    if (j == numTileY - 1)
     {
       tile.SetCurveType(Tile.Direction.UP, Tile.PosNegType.NONE);
     }
@@ -305,11 +301,6 @@ public class BoardGen : MonoBehaviour
   }
 
 
-  // Update is called once per frame
-  void Update()
-  {
-
-  }
 
   #region Shuffling related codes
 
@@ -332,8 +323,8 @@ public class BoardGen : MonoBehaviour
   {
     if(regions.Count == 0)
     {
-      regions.Add(new Rect(-300.0f, -100.0f, 50.0f, numTileY * Tile.tileSize));
-      regions.Add(new Rect((numTileX+1) * Tile.tileSize, -100.0f, 50.0f, numTileY * Tile.tileSize));
+      regions.Add(new Rect(-300.0f, -100.0f + 100.0f, 50.0f, numTileY * Tile.tileSize - 200.0f));
+      regions.Add(new Rect((numTileX+1) * Tile.tileSize, -100.0f + 100.0f, 50.0f, numTileY * Tile.tileSize - 200.0f));
     }
 
     int regionIndex = UnityEngine.Random.Range(0, regions.Count);
@@ -452,7 +443,7 @@ public class BoardGen : MonoBehaviour
       menu.SetEnableTopPanel(false);
       menu.SetEnableGameCompletionPanel(true);
 
-      // Reset the values.
+      // 값 초기화
       GameApp.Instance.SecondsSinceStart = 0;
       GameApp.Instance.TotalTilesInCorrectPosition = 0;
     }

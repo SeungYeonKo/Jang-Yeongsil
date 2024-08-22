@@ -15,6 +15,9 @@ EditorBuildSettings:
     path: Assets/01.Scenes/IntroFireball.unity
     guid: 0a66a67e927960847b0ff5b0271c5cd4
   - enabled: 1
+    path: Assets/01.Scenes/PersonalScene/GJS.unity
+    guid: e64cbfaf342246f4cbb58c1d75f9ebaa
+  - enabled: 1
     path: Assets/01.Scenes/MainScene.unity
     guid: d9d49869ffb8176498b6aa8fd4c4a704
   - enabled: 1

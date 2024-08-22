@@ -6,6 +6,7 @@ public class StoneHitScore : MonoBehaviour
 {
     private StoneScoreManager _stoneScoreManager;
     private string _playerName;
+    private StoneFalldownCheck _stoneFalldownCheck;
 
     // 비석이 플레이어에게 종속될 때 호출
     public void OnPickedUpByPlayer(Transform playerTransform)
@@ -27,7 +28,6 @@ public class StoneHitScore : MonoBehaviour
         // 비석이 충돌했을 때 점수 처리
         if (collision.gameObject.CompareTag("Pillar"))
         {
-            Debug.Log("부딪힘");
             if (_stoneScoreManager != null && !string.IsNullOrEmpty(_playerName))
             {
                 _stoneScoreManager.AddScoreForPlayer(_playerName, 30);

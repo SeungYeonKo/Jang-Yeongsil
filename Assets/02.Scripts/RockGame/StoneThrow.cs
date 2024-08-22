@@ -19,12 +19,14 @@ public class StoneThrow : MonoBehaviour
 
     void Start()
     {
+        Transform _playerSpwan = GameObject.Find("PlayerPosition").transform;
         // 플레이어 오브젝트와 Rigidbody를 찾습니다.
         _player = GameObject.FindWithTag("Player");
         if (_player != null)
         {
             playerRb = _player.GetComponent<Rigidbody>();
             trajectoryLine.positionCount = 0; // 라인 렌더러 초기화
+            _player.transform.position = _playerSpwan.position;
         }
     }
 
@@ -88,7 +90,7 @@ public class StoneThrow : MonoBehaviour
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition); // 마우스 포인트에서 레이를 쏘는 경우
         RaycastHit hit;
 
-        if (Physics.Raycast(ray, out hit, 10f)) // 10 유닛 범위 내에서 충돌 확인
+        if (Physics.Raycast(ray, out hit, 30f)) // 30 유닛 범위 내에서 충돌 확인
         {
             // 충돌한 오브젝트가 "Stone" 태그를 가지고 있고 리지드바디가 있는지 확인
             if (hit.collider.CompareTag("Stone") && hit.collider.GetComponent<Rigidbody>() != null)
@@ -116,7 +118,8 @@ public class StoneThrow : MonoBehaviour
                     playerRb.useGravity = false;
                     playerRb.isKinematic = true;
                 }
-
+                // 비석에 플레이어 정보를 전달
+                currentStone.GetComponent<StoneHitScore>().OnPickedUpByPlayer(_player.transform);
                 Debug.Log("스톤이 손으로 들어왔습니다.");
             }
             else

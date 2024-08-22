@@ -101,6 +101,9 @@ public class PhotonManager : MonoBehaviourPunCallbacks
             case "Main":
                 PhotonNetwork.LoadLevel("MainScene");
                 break;
+            case "Test":
+                PhotonNetwork.LoadLevel("GJS");
+                break;
             case "RainGaugeDescriptionScene":
                 StartCoroutine(LoadRainGaugeAfterDelay(3));
                 break;
@@ -116,7 +119,9 @@ public class PhotonManager : MonoBehaviourPunCallbacks
             case "ClepsydraScene":
                 PhotonNetwork.LoadLevel("ClepsydraScene");
                 break;
-
+            case "AstronomicalChartScene":
+                PhotonNetwork.LoadLevel("AstronomicalChartScene");
+                break;
         }
     }
 

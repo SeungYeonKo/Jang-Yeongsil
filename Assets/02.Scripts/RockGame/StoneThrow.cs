@@ -19,12 +19,14 @@ public class StoneThrow : MonoBehaviour
 
     void Start()
     {
+        Transform _playerSpwan = GameObject.Find("PlayerPosition").transform;
         // 플레이어 오브젝트와 Rigidbody를 찾습니다.
         _player = GameObject.FindWithTag("Player");
         if (_player != null)
         {
             playerRb = _player.GetComponent<Rigidbody>();
             trajectoryLine.positionCount = 0; // 라인 렌더러 초기화
+            _player.transform.position = _playerSpwan.position;
         }
     }
 
@@ -85,37 +87,49 @@ public class StoneThrow : MonoBehaviour
 
     void FindAndPlaceStoneInHand()
     {
-        // "Stone" 태그를 가진 오브젝트를 찾아서 현재 스톤으로 설정
-        currentStone = GameObject.FindWithTag("Stone");
-        playerHand = GameObject.Find("StonePosition").transform;
-        
-        if (currentStone != null)
+        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition); // 마우스 포인트에서 레이를 쏘는 경우
+        RaycastHit hit;
+
+        if (Physics.Raycast(ray, out hit, 30f)) // 30 유닛 범위 내에서 충돌 확인
         {
-            // Rigidbody를 가져오고 돌의 위치를 손으로 옮김
-            stoneRb = currentStone.GetComponent<Rigidbody>();
-            currentStone.transform.position = playerHand.position;
-            currentStone.transform.rotation = playerHand.rotation;
-
-            // 손의 자식 오브젝트로 설정하여 손에 고정
-            currentStone.transform.SetParent(playerHand);
-
-            // 물리적 힘 제거
-            stoneRb.velocity = Vector3.zero;
-            stoneRb.angularVelocity = Vector3.zero;
-            stoneRb.isKinematic = true; // 던지기 전까지 물리 효과를 비활성화
-
-            // 돌을 손에 들고 있을 때 플레이어의 중력을 비활성화
-            if (playerRb != null)
+            // 충돌한 오브젝트가 "Stone" 태그를 가지고 있고 리지드바디가 있는지 확인
+            if (hit.collider.CompareTag("Stone") && hit.collider.GetComponent<Rigidbody>() != null)
             {
-                playerRb.useGravity = false;
-                playerRb.isKinematic = true;
-            }
+                // 현재 스톤으로 설정
+                currentStone = hit.collider.gameObject;
+                playerHand = GameObject.Find("StonePosition").transform;
 
-            Debug.Log("스톤이 손으로 들어왔습니다.");
+                // 리지드바디를 가져오고 돌의 위치를 손으로 옮김
+                stoneRb = currentStone.GetComponent<Rigidbody>();
+                currentStone.transform.position = playerHand.position;
+                currentStone.transform.rotation = playerHand.rotation;
+
+                // 손의 자식 오브젝트로 설정하여 손에 고정
+                currentStone.transform.SetParent(playerHand);
+
+                // 물리적 힘 제거
+                stoneRb.velocity = Vector3.zero;
+                stoneRb.angularVelocity = Vector3.zero;
+                stoneRb.isKinematic = true; // 던지기 전까지 물리 효과를 비활성화
+
+                // 돌을 손에 들고 있을 때 플레이어의 중력을 비활성화
+                if (playerRb != null)
+                {
+                    playerRb.useGravity = false;
+                    playerRb.isKinematic = true;
+                }
+                // 비석에 플레이어 정보를 전달
+                currentStone.GetComponent<StoneHitScore>().OnPickedUpByPlayer(_player.transform);
+                Debug.Log("스톤이 손으로 들어왔습니다.");
+            }
+            else
+            {
+                Debug.LogWarning("레이가 충돌한 오브젝트가 'Stone' 태그를 가지고 있지 않거나 리지드바디가 없습니다.");
+            }
         }
         else
         {
-            Debug.LogWarning("Stone 태그를 가진 오브젝트를 찾을 수 없습니다.");
+            Debug.LogWarning("레이가 충돌한 오브젝트가 없습니다.");
         }
     }
     void UpdateTrajectory(Vector3 launchVelocity)

@@ -323,8 +323,8 @@ public class BoardGen : MonoBehaviour
   {
     if(regions.Count == 0)
     {
-      regions.Add(new Rect(-300.0f, -100.0f + 100.0f, 50.0f, numTileY * Tile.tileSize - 200.0f));
-      regions.Add(new Rect((numTileX+1) * Tile.tileSize, -100.0f + 100.0f, 50.0f, numTileY * Tile.tileSize - 200.0f));
+      regions.Add(new Rect(-300.0f, -100.0f + 100.0f, 100.0f, numTileY * Tile.tileSize - 200.0f));
+      regions.Add(new Rect((numTileX+1) * Tile.tileSize, -100.0f + 100.0f, 100.0f, numTileY * Tile.tileSize - 200.0f));
     }
 
     int regionIndex = UnityEngine.Random.Range(0, regions.Count);

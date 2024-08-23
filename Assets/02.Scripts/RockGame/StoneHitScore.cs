@@ -1,3 +1,4 @@
+using System;
 using ExitGames.Client.Photon;
 using Photon.Pun;
 using UnityEngine;
@@ -7,6 +8,28 @@ public class StoneHitScore : MonoBehaviour
     private StoneScoreManager _stoneScoreManager;
     private string _playerName;
     private StoneFalldownCheck _stoneFalldownCheck;
+    private float _timer;
+    private float _spawnTimer = 15;
+    private Vector3 _originalPosition;
+    private Quaternion _originalRotation;
+    private GameObject _StonePrefeb;
+    private void Start()
+    {
+        _StonePrefeb = this.gameObject;
+        _originalPosition = transform.position;
+        _originalRotation = transform.rotation;
+    }
+
+    private void Update()
+    {
+        _timer += Time.deltaTime;
+        if (_timer >= _spawnTimer)
+        {
+            Instantiate(_StonePrefeb, _originalPosition, _originalRotation);
+            //PhotonNetwork.Instantiate("Stone", _originalPosition, _originalRotation);
+            _timer = 0;
+        }
+    }
 
     // 비석이 플레이어에게 종속될 때 호출
     public void OnPickedUpByPlayer(Transform playerTransform)

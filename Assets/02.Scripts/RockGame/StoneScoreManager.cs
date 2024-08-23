@@ -25,6 +25,15 @@ public class StoneScoreManager : MonoBehaviourPun
 
         Debug.Log(playerName + "의 현재 점수: " + playerScores[playerName]);
     }
+    public int GetCurrentScore(string playerName)
+    {
+        // 현재 점수를 반환합니다. 없을 경우 0을 반환합니다.
+        if (playerScores.TryGetValue(playerName, out int currentScore))
+        {
+            return currentScore;
+        }
+        return 0;
+    }
 
     public void SubmitScore(string playerName)
     {

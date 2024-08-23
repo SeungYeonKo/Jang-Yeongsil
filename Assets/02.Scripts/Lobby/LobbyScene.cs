@@ -41,6 +41,10 @@ public class LobbyScene : MonoBehaviourPunCallbacks
         {
             LoadLoadingScene("MuseumScene");
         }
+        else if (Input.GetKeyDown(KeyCode.Alpha4))
+        {
+            LoadLoadingScene("Test");
+        }
     }
 
     IEnumerator Show_Coroutine()

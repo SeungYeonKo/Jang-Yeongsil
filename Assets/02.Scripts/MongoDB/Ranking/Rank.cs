@@ -13,5 +13,5 @@ public class Rank
     [BsonElement("Name")]
     public string Name;
     public int Score;
-    public string DateTime;
+    public DateTime DateTime;
 }

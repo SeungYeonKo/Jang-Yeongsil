@@ -1,5 +1,9 @@
+using System;
 using System.Collections;
+using _02.Scripts.RockGame;
 using UnityEngine;
+using UnityEngine.PlayerLoop;
+using Random = UnityEngine.Random;
 
 public class StoneFalldownCheck : MonoBehaviour
 {
@@ -17,8 +21,9 @@ public class StoneFalldownCheck : MonoBehaviour
         _rigidbody = GetComponent<Rigidbody>();
         _meshRenderer = GetComponent<MeshRenderer>();
         _collider = GetComponent<Collider>();
+   
     }
-
+    
 
     private void OnCollisionEnter(Collision collision)
     {
@@ -34,22 +39,25 @@ public class StoneFalldownCheck : MonoBehaviour
     {
         // 1초 대기 후 비석이 쓰러졌는지 확인
         yield return new WaitForSeconds(1.0f);
-        Debug.Log("시간이 지남");
         // 비석이 일정 각도 이상 기울어졌다면 쓰러진 것으로 판단
         if (Mathf.Abs(transform.eulerAngles.x) > 30f || Mathf.Abs(transform.eulerAngles.z) > 30f)
         {
             // 비석 비활성화
             _meshRenderer.enabled = false;
             _collider.enabled = false;
-
-            Debug.Log("비석이 숨겨짐");
+            
             // 1초 후 비석을 다시 초기화하여 활성화
             yield return new WaitForSeconds(1.0f);
-            Debug.Log("시간이 지남");
-            // 위치와 회전 값 초기화
-            transform.position = _originalPosition;
-            transform.rotation = _originalRotation;
-            Debug.Log("상태 초기화");
+            // 위치에 랜덤 오프셋을 추가합니다.
+            float randomOffsetX = Random.Range(-3f, 3f); // X축 랜덤 값
+            float randomOffsetZ = Random.Range(-3f, 3f); // Z축 랜덤 값
+
+            Vector3 newPosition = _originalPosition + new Vector3(randomOffsetX, 0, randomOffsetZ);
+
+            transform.position = newPosition; // 새로운 랜덤 위치 설정
+            transform.rotation = _originalRotation; // 원래 회전 값으로 초기화
+
+            Debug.Log("비석이 원래 위치로 돌아감 (랜덤 오프셋 적용)");
             // 물리 상태 초기화
             _rigidbody.velocity = Vector3.zero;
             _rigidbody.angularVelocity = Vector3.zero;

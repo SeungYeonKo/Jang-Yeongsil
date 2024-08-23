@@ -16,24 +16,21 @@ public class Tile
     NONE,
   }
 
-  // The offset at which the curve will start.
-  // For an image of size 140 by 140 it will start at 20, 20.
-  //public Vector2Int mOffset = new Vector2Int(20, 20);
+  // 타일 패딩 값 (타일 경계와 실제 이미지 사이의 거리)
   public static int padding = 20;
 
-  // The size of our jigsaw tile.
+  // 타일의 크기(픽셀)
   public static int tileSize = 100;
 
-  // The line renderers for all directions and types.
+  // 각 방향과 곡선 유형에 대한 LineRenderer를 저장하는 딕셔너리
   private Dictionary<(Direction, PosNegType), LineRenderer> mLineRenderers
     = new Dictionary<(Direction, PosNegType), LineRenderer>();
 
-  // Lets store the list of bezier curve points created
-  // from the template bezier curve control points.
+  // 템플릿 베지어 곡선 제어점으로부터 생성된 곡선 점들을 저장
   public static List<Vector2> BezCurve =
     BezierCurve.PointList2(TemplateBezierCurve.templateControlPoints, 0.001f);
 
-  // The original texture used to create the jigsaw tile.
+  // 직소 타일을 생성하기 위한 원본 텍스처
   private Texture2D mOriginalTexture;
 
   public Texture2D finalCut { get; private set; }

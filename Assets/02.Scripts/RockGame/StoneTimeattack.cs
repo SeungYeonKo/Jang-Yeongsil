@@ -7,12 +7,14 @@ namespace _02.Scripts.RockGame
     public class StoneTimeAttack : MonoBehaviour
     {
         private StoneScoreManager _stoneScoreManager;
+        private StoneHitScore _stoneHitScore;
         private string _playerName;
         public float TimesUP = 60;
         public bool Isrunning = false;
 
         private void Start()
         {
+            _stoneHitScore = FindObjectOfType<StoneHitScore>();
             _stoneScoreManager = FindObjectOfType<StoneScoreManager>();
             _playerName = Photon.Pun.PhotonNetwork.NickName;
             Isrunning = true;
@@ -39,9 +41,9 @@ namespace _02.Scripts.RockGame
                         else
                         {
                             // 점수가 높을 때 점수 증가율을 변경합니다.
-                            Debug.Log("점수가 높아졌습니다! 30점에서 100점으로 변경.");
+                            Debug.Log("보너스 타임 시작!");
                             // 이후부터 점수가 100점씩 올라가도록 설정
-                            _stoneScoreManager.AddScoreForPlayer(_playerName, 100); // 예시: 100점으로 변경
+                            _stoneHitScore.IsBouseTime = true;
                         }
                     }
                 }
@@ -51,6 +53,7 @@ namespace _02.Scripts.RockGame
                     Isrunning = false;
                     Debug.Log("Time's up!");
                     _stoneScoreManager.SubmitScore(_playerName);
+                    _stoneHitScore.IsBouseTime = false;
                 }
             }
         }

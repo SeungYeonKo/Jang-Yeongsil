@@ -1,4 +1,5 @@
 using System;
+using _02.Scripts.RockGame;
 using ExitGames.Client.Photon;
 using Photon.Pun;
 using UnityEngine;
@@ -9,19 +10,26 @@ public class StoneHitScore : MonoBehaviour
     private string _playerName;
     private StoneFalldownCheck _stoneFalldownCheck;
     private float _timer;
-    private float _spawnTimer = 15;
+    private float _spawnTimer = 20;
     private Vector3 _originalPosition;
     private Quaternion _originalRotation;
     private GameObject _StonePrefeb;
+    private StoneTimeAttack _stoneTimeAttack;
+    public bool IsBouseTime = false;
     private void Start()
     {
         _StonePrefeb = this.gameObject;
         _originalPosition = transform.position;
         _originalRotation = transform.rotation;
+        _stoneTimeAttack = FindObjectOfType<StoneTimeAttack>();
     }
 
     private void Update()
     {
+        if (_stoneTimeAttack.TimesUP == 0)
+        {
+            return;
+        }
         _timer += Time.deltaTime;
         if (_timer >= _spawnTimer)
         {
@@ -53,9 +61,18 @@ public class StoneHitScore : MonoBehaviour
         {
             if (_stoneScoreManager != null && !string.IsNullOrEmpty(_playerName))
             {
-                _stoneScoreManager.AddScoreForPlayer(_playerName, 30);
-                Debug.Log(_playerName + "의 점수가 추가되었습니다.");
+                if (IsBouseTime)
+                {
+                    _stoneScoreManager.AddScoreForPlayer(_playerName, 100);
+                    Debug.Log(_playerName + "의 보너스점수가 추가되었습니다.");
+                }
+                else
+                {
+                    _stoneScoreManager.AddScoreForPlayer(_playerName, 30);
+                    Debug.Log(_playerName + "의 점수가 추가되었습니다.");
+                }
             }
+
         }
     }
 }

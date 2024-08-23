@@ -37,17 +37,14 @@ public class StoneScoreManager : MonoBehaviourPun
 
     public void SubmitScore(string playerName)
     {
-        if (photonView.IsMine)
+        if (_rankManager != null && playerScores.TryGetValue(playerName, out int finalScore))
         {
-            if (_rankManager != null && playerScores.TryGetValue(playerName, out int finalScore))
-            {
-                _rankManager.AddOrUpdateRanking(playerName, finalScore);
-                Debug.Log(playerName + "의 점수가 제출되었습니다: " + finalScore);
-            }
-            else
-            {
-                Debug.LogWarning("RankManager를 찾을 수 없거나, 플레이어 점수를 찾을 수 없습니다.");
-            }
+            _rankManager.AddOrUpdateRanking(playerName, finalScore);
+            Debug.Log(playerName + "의 점수가 제출되었습니다: " + finalScore);
+        }
+        else
+        {
+            Debug.LogWarning("RankManager를 찾을 수 없거나, 플레이어 점수를 찾을 수 없습니다.");
         }
     }
 }

@@ -1,5 +1,9 @@
+using System;
 using System.Collections;
+using _02.Scripts.RockGame;
 using UnityEngine;
+using UnityEngine.PlayerLoop;
+using Random = UnityEngine.Random;
 
 public class StoneFalldownCheck : MonoBehaviour
 {
@@ -17,8 +21,9 @@ public class StoneFalldownCheck : MonoBehaviour
         _rigidbody = GetComponent<Rigidbody>();
         _meshRenderer = GetComponent<MeshRenderer>();
         _collider = GetComponent<Collider>();
+   
     }
-
+    
 
     private void OnCollisionEnter(Collision collision)
     {

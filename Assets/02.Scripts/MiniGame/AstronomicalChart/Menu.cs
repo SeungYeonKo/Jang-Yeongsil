@@ -101,4 +101,22 @@ public class Menu : MonoBehaviour
   {
     SceneManager.LoadScene("AstronomicalChartScene");
   }
+
+    public void OnClickEasyMode()
+    {
+        GameApp.Instance.SetMode("Easy");
+        SceneManager.LoadScene("AstronomicalChartScene");
+    }
+
+    public void OnClickNormalMode()
+    {
+        GameApp.Instance.SetMode("Normal");
+        SceneManager.LoadScene("AstronomicalChartScene");
+    }
+
+    public void OnClickHardMode()
+    {
+        GameApp.Instance.SetMode("Hard");
+        SceneManager.LoadScene("AstronomicalChartScene");
+    }
 }

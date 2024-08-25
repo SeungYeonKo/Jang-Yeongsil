@@ -12,6 +12,7 @@ public class Menu : MonoBehaviour
   public GameObject panelTopPanel;
   public GameObject panelBottomPanel;
   public GameObject panelGameCompletion;
+  public GameObject panelGameMode;
 
   public Text textTime;
   public Text textTotalTiles;
@@ -91,6 +92,15 @@ public class Menu : MonoBehaviour
       FadeInUI(panelGameCompletion);
     }
   }
+
+    public void SetEnablePanelGameMode(bool flag)
+    {
+        panelGameMode.SetActive(flag);
+        if (flag)
+        {
+            FadeInUI(panelGameMode);
+        }
+    }
 
   public void OnClickExit()
   {

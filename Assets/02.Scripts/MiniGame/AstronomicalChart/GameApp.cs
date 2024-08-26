@@ -60,5 +60,22 @@ public class GameApp : Patterns.Singleton<GameApp>
             imageIndex = 0;
         }
         return imageName;
-  }
+    }
+
+    public string GetCurrentMode()
+    {
+        if (currentModeImages == easyModeImages)
+        {
+            return "Easy";
+        }
+        else if (currentModeImages == normalModeImages)
+        {
+            return "Normal";
+        }
+        else if (currentModeImages == hardModeImages)
+        {
+            return "Hard";
+        }
+        return "Unknown";
+    }
 }

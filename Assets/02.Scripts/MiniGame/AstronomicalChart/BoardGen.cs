@@ -193,6 +193,7 @@ public class BoardGen : MonoBehaviour
     }
 
     menu.SetEnableBottomPanel(true);
+    menu.SetEnablePanelGameMode(true);
     menu.btnPlayOnClick = ShuffleTiles;
   }
 
@@ -222,6 +223,7 @@ public class BoardGen : MonoBehaviour
 
     // 아래 패널을 활성화. 플레이 버튼 클릭 시 델리게이트 설정
     menu.SetEnableBottomPanel(true);
+    //menu.SetEnablePanelGameMode(true);
     menu.btnPlayOnClick = ShuffleTiles;
 
   }
@@ -368,6 +370,7 @@ public class BoardGen : MonoBehaviour
     activeCoroutines.Clear();
 
     menu.SetEnableBottomPanel(false);
+    menu.SetEnablePanelGameMode(false);
     StartCoroutine(Coroutine_CallAfterDelay(() => menu.SetEnableTopPanel(true), 1.0f));
     GameApp.Instance.TileMovementEnabled = true;
 

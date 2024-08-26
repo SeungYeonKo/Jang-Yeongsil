@@ -17,6 +17,7 @@ public class Menu : MonoBehaviour
   public Text textTime;
   public Text textTotalTiles;
   public Text textTilesInPlace;
+  public Text textGameCompletionMessage;
 
   IEnumerator FadeInUI(GameObject panel, float fadeInDuration = 2.0f)
   {
@@ -86,6 +87,11 @@ public class Menu : MonoBehaviour
 
   public void SetEnableGameCompletionPanel(bool flag)
   {
+    if (flag)
+    {
+      UpdateGameCompletionMessage(); 
+    }
+
     panelGameCompletion.SetActive(flag);
     if(flag)
     {
@@ -128,5 +134,26 @@ public class Menu : MonoBehaviour
     {
         GameApp.Instance.SetMode("Hard");
         SceneManager.LoadScene("AstronomicalChartScene");
+    }
+
+    private void UpdateGameCompletionMessage()
+    {
+        string mode = GameApp.Instance.GetCurrentMode();
+
+        switch (mode)
+        {
+            case "Easy":
+                textGameCompletionMessage.text = "축하합니다! 견우성과 직녀성 퍼즐을 완성하셨습니다.";
+                break;
+            case "Normal":
+                textGameCompletionMessage.text = "축하합니다! 천문도 퍼즐을 완성하셨습니다.";
+                break;
+            case "Hard":
+                textGameCompletionMessage.text = "축하합니다! 북두칠성과 북극성 퍼즐을 완성하셨습니다.";
+                break;
+            default:
+                textGameCompletionMessage.text = "축하합니다! 퍼즐을 완성하셨습니다.";
+                break;
+        }
     }
 }

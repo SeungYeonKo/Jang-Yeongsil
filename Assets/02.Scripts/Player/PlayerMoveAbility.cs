@@ -25,7 +25,8 @@ public class PlayerMoveAbility : PlayerAbility
     private Animator _animator;
 
     Rigidbody rb;
-    public Transform CameraRoot;
+    public Transform CameraRoot;     // 3인칭 기준점
+    public Transform CameraRoot2;    // 1인칭 기준점
     Vector3 dir = Vector3.zero;
 
     SunMiniGame sunMiniGame;
@@ -47,7 +48,8 @@ public class PlayerMoveAbility : PlayerAbility
                 TPSCamera tpsCamera = mainCamera.GetComponent<TPSCamera>();
                 if (tpsCamera != null)
                 {
-                    tpsCamera.target = CameraRoot;
+                    tpsCamera.thirdPersonTarget = CameraRoot;
+                    tpsCamera.firstPersonTarget = CameraRoot2; // 1인칭 기준점도 설정
                 }
             }
         }
@@ -72,7 +74,7 @@ public class PlayerMoveAbility : PlayerAbility
             _animator.SetTrigger("Punching");
         }
 
-        if (Input.GetKeyDown(KeyCode.Space) && isGrounded && Time.time >= _lastJumpTime + _jumpCooldown )
+        if (Input.GetKeyDown(KeyCode.Space) && isGrounded && Time.time >= _lastJumpTime + _jumpCooldown)
         {
             if (_isRunning)
             {

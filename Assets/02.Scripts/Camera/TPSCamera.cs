@@ -27,6 +27,7 @@ public class TPSCamera : MonoBehaviourPunCallbacks
         Cursor.visible = false;
 
         FindLocalPlayer();
+        Debug.Log("카메라 스타트코드 실행");
     }
 
     public override void OnJoinedRoom()

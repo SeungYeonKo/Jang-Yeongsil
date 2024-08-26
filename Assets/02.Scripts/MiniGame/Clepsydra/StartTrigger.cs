@@ -8,12 +8,14 @@ public class StartTrigger : MonoBehaviour
     public Image StartImage;
     public Button StartButton;
     public Transform Maze1StartPosition;
+    public bool isMazeStart;
 
     private GameObject player;
 
     private void Start()
     {
         StartButton.onClick.AddListener(OnStartButtonClick);
+        isMazeStart = false;
     }
 
     public void OnStartButtonClick()
@@ -21,6 +23,7 @@ public class StartTrigger : MonoBehaviour
         if (player != null && Maze1StartPosition != null)
         {
             player.transform.position = Maze1StartPosition.position;
+            isMazeStart=true;
         }
 
         if (StartImage != null)

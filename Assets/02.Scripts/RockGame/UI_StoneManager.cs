@@ -18,34 +18,65 @@ public class UI_StoneManager : MonoBehaviourPun
     public Slider TimeSlider;
     public GameObject Female;
     public GameObject Male;
+    public Image FillImage; 
     private StoneTimeAttack _stoneTimeAttack;
     private StoneScoreManager _stoneScoreManager;
     void Start()
     {
         _stoneTimeAttack = FindObjectOfType<StoneTimeAttack>();
         _stoneScoreManager = FindObjectOfType<StoneScoreManager>();
-        PlayerName.text = PhotonNetwork.LocalPlayer.NickName;
+        string nickname = PhotonNetwork.LocalPlayer.NickName;
+        PlayerName.text = nickname;
         PlayerScore.text = "0";
         Warnning.SetActive(false);
         Bouns.SetActive(false);
+        TimeSlider.maxValue = _stoneTimeAttack.TimesUP; 
+        CharacterGender? gender = PersonalManager.Instance.ReloadGender(nickname);
+        if (gender == CharacterGender.Male)
+        {
+            Male.SetActive(true);
+            Female.SetActive(false);
+        }
+        else
+        {
+            Female.SetActive(true);
+            Male.SetActive(false);
+        }
     }
 
-    // Update is called once per frame
     void Update()
     {
         Timer.text = ((int)_stoneTimeAttack.TimesUP).ToString();
         string nickname = PhotonNetwork.LocalPlayer.NickName;
-        Debug.Log("Nickname passed to GetCurrentScore: " + nickname);
-
         PlayerScore.text = _stoneScoreManager.GetCurrentScore(nickname).ToString();
-
+        TimeSlider.value = _stoneTimeAttack.TimesUP;
         if (_stoneTimeAttack.IsWarnningStart)
         {
-            Warnning.SetActive(true);
+            StartCoroutine(Blink(Warnning, 2f));
+            FillImage.color = Color.red;
         }
         else if (_stoneTimeAttack.IsBounsTimeStart)
         {
-            Bouns.SetActive(true);
+            StartCoroutine(Blink(Bouns, 2f));
+            FillImage.color = Color.yellow;
         }
+    }
+    IEnumerator Blink(GameObject obj, float duration)
+    {
+        float elapsedTime = 0f;
+
+        while (elapsedTime < duration)
+        {
+            obj.SetActive(true); // 오브젝트 활성화
+            yield return new WaitForSeconds(0.5f); // 0.5초 대기
+
+            obj.SetActive(false); // 오브젝트 비활성화
+            yield return new WaitForSeconds(0.5f); // 0.5초 대기
+
+            elapsedTime += 1f; // 0.5초 활성화 + 0.5초 비활성화로 1초 증가
+        }
+
+        // 코루틴 종료 후 오브젝트를 완전히 비활성화
+        obj.SetActive(false);
     }
 }

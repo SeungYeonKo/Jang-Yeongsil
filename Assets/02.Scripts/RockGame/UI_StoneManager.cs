@@ -21,8 +21,12 @@ public class UI_StoneManager : MonoBehaviourPun
     public Image FillImage; 
     private StoneTimeAttack _stoneTimeAttack;
     private StoneScoreManager _stoneScoreManager;
+    private StoneGameManager _stoneGameManager;
+    private bool _isBlinkEnd = true;
+    private bool _isShow = true;
     void Start()
     {
+        _stoneGameManager = FindObjectOfType<StoneGameManager>();
         _stoneTimeAttack = FindObjectOfType<StoneTimeAttack>();
         _stoneScoreManager = FindObjectOfType<StoneScoreManager>();
         string nickname = PhotonNetwork.LocalPlayer.NickName;
@@ -50,21 +54,59 @@ public class UI_StoneManager : MonoBehaviourPun
         string nickname = PhotonNetwork.LocalPlayer.NickName;
         PlayerScore.text = _stoneScoreManager.GetCurrentScore(nickname).ToString();
         TimeSlider.value = _stoneTimeAttack.TimesUP;
+        
+        HandleGameStateUI();
+        HandleTimeRelatedUI();
+
+    }
+
+    void HandleGameStateUI()
+    {
+        if (_stoneGameManager.CurrentState == StoneGameState.Start && _isShow)
+        {
+            StartCoroutine(ShowState(StartImg));
+            _isShow = false;
+            GameOverImg.SetActive(false);
+        }
+        else if (_stoneGameManager.CurrentState == StoneGameState.Go)
+        {
+            StartImg.SetActive(false);
+            GameOverImg.SetActive(false);
+            _isShow = true;
+        }
+        else if (_stoneGameManager.CurrentState == StoneGameState.GameOver && _isShow)
+        {
+            StartCoroutine(ShowState(GameOverImg));
+            _isShow = false;
+        }
+    }
+
+    void HandleTimeRelatedUI()
+    {
         if (_stoneTimeAttack.IsWarnningStart)
         {
-            StartCoroutine(Blink(Warnning, 2f));
+            if (_isBlinkEnd)
+            {
+                StartCoroutine(Blink(Warnning, 2f));
+                _isBlinkEnd = false;
+            }
             FillImage.color = Color.red;
         }
         else if (_stoneTimeAttack.IsBounsTimeStart)
         {
-            StartCoroutine(Blink(Bouns, 2f));
+            if (_isBlinkEnd)
+            {
+                StartCoroutine(Blink(Bouns, 2f));
+                _isBlinkEnd = false;
+            }
             FillImage.color = Color.yellow;
         }
     }
+
     IEnumerator Blink(GameObject obj, float duration)
     {
         float elapsedTime = 0f;
-
+        
         while (elapsedTime < duration)
         {
             obj.SetActive(true); // 오브젝트 활성화
@@ -77,6 +119,14 @@ public class UI_StoneManager : MonoBehaviourPun
         }
 
         // 코루틴 종료 후 오브젝트를 완전히 비활성화
+        obj.SetActive(false);
+        _isBlinkEnd = false;
+    }
+
+    IEnumerator ShowState(GameObject obj)
+    {
+        obj.SetActive(true);
+        yield return new WaitForSeconds(1f);
         obj.SetActive(false);
     }
 }

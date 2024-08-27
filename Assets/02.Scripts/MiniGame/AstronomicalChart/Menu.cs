@@ -1,3 +1,4 @@
+using Photon.Pun;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -106,7 +107,7 @@ public class Menu : MonoBehaviour
 
   public void OnClickExit()
   {
-    Application.Quit();
+    PhotonNetwork.LoadLevel("MainScene");
   }
 
   public void OnClickPlayAgain()

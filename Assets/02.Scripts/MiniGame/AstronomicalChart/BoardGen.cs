@@ -2,6 +2,8 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Photon.Pun;
+using Hashtable = ExitGames.Client.Photon.Hashtable;
 
 public class BoardGen : MonoBehaviour
 {
@@ -448,7 +450,12 @@ public class BoardGen : MonoBehaviour
 
     if (GameApp.Instance.TotalTilesInCorrectPosition == mTileGameObjects.Length)
     {
-      //Debug.Log("Game completed. We will implement an end screen later");
+        Hashtable customProperties = new Hashtable
+        {
+            { "StarMiniGameOver", true }
+        };
+        PhotonNetwork.LocalPlayer.SetCustomProperties(customProperties);
+
       menu.SetEnableTopPanel(false);
       menu.SetEnableGameCompletionPanel(true);
 
@@ -483,6 +490,12 @@ public class BoardGen : MonoBehaviour
 
         // 퍼즐이 완료된 것처럼 처리
         OnFinishedPuzzle();
+
+        Hashtable customProperties = new Hashtable
+        {
+            { "StarMiniGameOver", true }
+        };
+        PhotonNetwork.LocalPlayer.SetCustomProperties(customProperties);
     }
 
     void OnFinishedPuzzle()

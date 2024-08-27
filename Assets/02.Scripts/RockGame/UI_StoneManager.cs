@@ -31,7 +31,6 @@ public class UI_StoneManager : MonoBehaviourPun
         _stoneScoreManager = FindObjectOfType<StoneScoreManager>();
         string nickname = PhotonNetwork.LocalPlayer.NickName;
         PlayerName.text = nickname;
-        PlayerScore.text = "0";
         Warnning.SetActive(false);
         Bouns.SetActive(false);
         TimeSlider.maxValue = _stoneTimeAttack.TimesUP; 
@@ -57,7 +56,10 @@ public class UI_StoneManager : MonoBehaviourPun
         
         HandleGameStateUI();
         HandleTimeRelatedUI();
-
+        if (_stoneGameManager.CurrentState == StoneGameState.GameOver)
+        {
+            PlayerScore.text = _stoneScoreManager.GetFinalScore(nickname).ToString();
+        }
     }
 
     void HandleGameStateUI()

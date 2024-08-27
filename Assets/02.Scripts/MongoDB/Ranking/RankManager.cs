@@ -78,10 +78,20 @@ public class RankManager : MonoBehaviour
     public List<Rank> GetTopRanks(int topCount)
     {
         var sort = Builders<Rank>.Sort.Descending("Score");
-        return _ranksCollection.Find(Builders<Rank>.Filter.Empty)
+        var ranks = _ranksCollection.Find(Builders<Rank>.Filter.Empty)
             .Sort(sort)
             .Limit(topCount)
             .ToList();
+
+        // 가져온 데이터가 있는지 확인
+        Debug.Log($"MongoDB에서 가져온 랭킹 데이터 개수: {ranks.Count}");
+        foreach (var rank in ranks)
+        {
+            Debug.Log($"플레이어 이름: {rank.Name}, 점수: {rank.Score}");
+        }
+
+        return ranks;
     }
+
 
 }

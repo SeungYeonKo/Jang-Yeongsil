@@ -87,15 +87,11 @@ public class Menu : MonoBehaviour
 
   public void SetEnableGameCompletionPanel(bool flag)
   {
-    if (flag)
-    {
-      UpdateGameCompletionMessage(); 
-    }
-
     panelGameCompletion.SetActive(flag);
     if(flag)
     {
       FadeInUI(panelGameCompletion);
+      UpdateGameCompletionMessage();
     }
   }
 

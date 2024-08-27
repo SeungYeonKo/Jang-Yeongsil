@@ -9,9 +9,9 @@ public enum ItemType
     Pasuho3,
     Susuho,
     Stick,
-    Bell,
     Drum,
     Jing,
+    Bell,
     Bead,
     Pulley
 }
@@ -20,14 +20,17 @@ public class ItemObject : MonoBehaviour
 {
     public ItemType ItemType;
 
-    void Start()
+    private void OnTriggerEnter(Collider other)
     {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
+        if (other.CompareTag("Player"))
+        {
+            ItemSlotManager slotManager = FindObjectOfType<ItemSlotManager>();
+            if (slotManager != null)
+            {
+                slotManager.ActivateSlot(ItemType);
+                
+            }
+            Destroy(gameObject);
+        }
     }
 }

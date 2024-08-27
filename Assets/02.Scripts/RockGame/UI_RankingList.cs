@@ -7,33 +7,27 @@ namespace _02.Scripts.RockGame
     public class UI_RankingList : MonoBehaviour
     {
         public RankManager rankManager; // RankManager를 참조합니다.
-        public Transform rankingContent; // 랭킹 리스트를 표시할 부모 객체
-        public GameObject rankingEntryPrefab; // 하나의 랭킹 항목을 표시할 프리팹
-
+        public List<UI_RankFrame> UIRankFrames;
         void Start()
         {
-            DisplayRanking();
+            Refresh();
         }
 
-        public void DisplayRanking()
+        public void Refresh()
         {
-            // 상위 10개 랭킹 가져오기
-            List<Rank> topRanks = rankManager.GetTopRanks(10);
+            List<Rank> topRanks = rankManager.GetTopRanks(4);
 
-            // 기존 UI 항목 제거
-            foreach (Transform child in rankingContent)
+            // 기존 UI 항목 비활성화
+            foreach (var uiRank in UIRankFrames)
             {
-                Destroy(child.gameObject);
+                uiRank.gameObject.SetActive(false);
             }
 
-            // 새로운 랭킹 항목 생성
-            foreach (var rank in topRanks)
+            for (int i = 0; i < topRanks.Count && i < UIRankFrames.Count; i++)
             {
-                GameObject entry = Instantiate(rankingEntryPrefab, rankingContent);
-                UI_RankFrame rankFrame = entry.GetComponent<UI_RankFrame>();
-                
-                // Rank 데이터를 UI_RankFrame에 전달하여 초기화
-                rankFrame.Init(rank);
+                UIRankFrames[i].gameObject.SetActive(true);
+                topRanks[i].RankPosition = i + 1;
+                UIRankFrames[i].Init(topRanks[i]);
             }
         }
     }

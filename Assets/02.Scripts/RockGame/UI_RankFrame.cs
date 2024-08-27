@@ -1,4 +1,4 @@
-﻿using TMPro;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -18,7 +18,7 @@ namespace _02.Scripts.RockGame
         public void Init(Rank rank)
         {
             _rank = rank;
-            RankText.text = _rank.Rank.ToString();
+            RankText.text = _rank.RankPosition.ToString();
 
             // 플레이어 이름과 점수를 표시
             PlayerNameText.text = _rank.Name;

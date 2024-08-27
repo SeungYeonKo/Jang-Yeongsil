@@ -15,9 +15,12 @@ public class StoneGameManager : MonoBehaviour
 {
     public StoneGameState CurrentState;
     private StoneTimeAttack _stoneTimeAttack;
+    private UI_RankingList _rankingList;
+    private bool _isListUP = true;
     void Start()
     {
         _stoneTimeAttack = FindObjectOfType<StoneTimeAttack>();
+        _rankingList = FindObjectOfType<UI_RankingList>();
     }
 
     void Update()
@@ -39,7 +42,11 @@ public class StoneGameManager : MonoBehaviour
                 }
                 break;
             case StoneGameState.GameOver:
-                // 게임 오버 상태에 대한 추가 로직
+                if (_isListUP)
+                {
+                    _rankingList.Refresh();
+                    _isListUP = false;
+                }
                 break;
         }
     }

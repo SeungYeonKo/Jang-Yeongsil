@@ -5,7 +5,10 @@ using UnityEngine.UI;
 
 public class ItemSlotManager : MonoBehaviour
 {
-    
+    private void Start()
+    {
+        
+    }
 
-    
+
 }

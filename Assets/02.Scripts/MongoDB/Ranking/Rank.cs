@@ -15,4 +15,5 @@ public class Rank
     public int Score;
     public DateTime DateTime;
     public CharacterGender SelectCharacter;
+    public int RankPosition;
 }

@@ -75,4 +75,13 @@ public class RankManager : MonoBehaviour
         
         _ranksCollection.UpdateOne(filter, update);
     }
+    public List<Rank> GetTopRanks(int topCount)
+    {
+        var sort = Builders<Rank>.Sort.Descending("Score");
+        return _ranksCollection.Find(Builders<Rank>.Filter.Empty)
+            .Sort(sort)
+            .Limit(topCount)
+            .ToList();
+    }
+
 }

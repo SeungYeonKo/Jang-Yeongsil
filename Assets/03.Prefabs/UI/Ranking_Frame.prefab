@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 7253823174037605765}
   - component: {fileID: 3439072270699006758}
   - component: {fileID: 7601116112290500699}
+  - component: {fileID: 3786940829298888372}
   m_Layer: 5
   m_Name: Ranking_Frame
   m_TagString: Untagged
@@ -79,6 +80,24 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!114 &3786940829298888372
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 456897749359309664}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fecfe52060f446deac0373a7f3e76c96, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  RankText: {fileID: 7662993025736154761}
+  MaleIcon: {fileID: 6852065096742768165}
+  FemaleIcon: {fileID: 7060517981027460547}
+  PlayerNameText: {fileID: 7542364507908747600}
+  PlayerScoreText: {fileID: 1912493307516509950}
+  DateNumberText: {fileID: 4460270332830203444}
 --- !u!1 &600054943824405526
 GameObject:
   m_ObjectHideFlags: 0
@@ -170,7 +189,7 @@ GameObject:
   - component: {fileID: 6399340744371230961}
   - component: {fileID: 7662993025736154761}
   m_Layer: 5
-  m_Name: Text
+  m_Name: RankText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

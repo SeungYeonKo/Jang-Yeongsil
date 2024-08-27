@@ -8,14 +8,28 @@ public class StartTrigger : MonoBehaviour
     public Image StartImage;
     public Button StartButton;
     public Transform Maze1StartPosition;
+
+    public GameObject ItemSlot;
+
     public bool isMazeStart;
 
     private GameObject player;
+
+
 
     private void Start()
     {
         StartButton.onClick.AddListener(OnStartButtonClick);
         isMazeStart = false;
+        ItemSlot.SetActive(false);
+    }
+
+    private void Update()
+    {
+        if(isMazeStart && !ItemSlot.activeSelf)
+        {
+            ItemSlot.SetActive(true);
+        }
     }
 
     public void OnStartButtonClick()
@@ -24,6 +38,8 @@ public class StartTrigger : MonoBehaviour
         {
             player.transform.position = Maze1StartPosition.position;
             isMazeStart=true;
+
+           
         }
 
         if (StartImage != null)

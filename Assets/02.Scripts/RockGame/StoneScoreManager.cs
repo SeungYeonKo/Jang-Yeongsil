@@ -47,4 +47,13 @@ public class StoneScoreManager : MonoBehaviourPun
             Debug.LogWarning("RankManager를 찾을 수 없거나, 플레이어 점수를 찾을 수 없습니다.");
         }
     }
+    public int GetFinalScore(string playerName)
+    {
+        if (playerScores.TryGetValue(playerName, out int finalScore))
+        {
+            return finalScore;
+        }
+        return 0; // 플레이어가 없을 경우 기본값
+    }
+
 }

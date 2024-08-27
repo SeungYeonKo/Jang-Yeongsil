@@ -2,6 +2,8 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Photon.Pun;
+using Hashtable = ExitGames.Client.Photon.Hashtable;
 
 public class BoardGen : MonoBehaviour
 {
@@ -102,7 +104,13 @@ public class BoardGen : MonoBehaviour
     //CreateJigsawTiles();
     StartCoroutine(Coroutine_CreateJigsawTiles());
   }
-
+    void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Q))
+        {
+            CompletePuzzle();
+        }
+    }
   Sprite CreateTransparentView(Texture2D tex)
   {
     Texture2D newTex = new Texture2D(
@@ -442,7 +450,12 @@ public class BoardGen : MonoBehaviour
 
     if (GameApp.Instance.TotalTilesInCorrectPosition == mTileGameObjects.Length)
     {
-      //Debug.Log("Game completed. We will implement an end screen later");
+        Hashtable customProperties = new Hashtable
+        {
+            { "StarMiniGameOver", true }
+        };
+        PhotonNetwork.LocalPlayer.SetCustomProperties(customProperties);
+
       menu.SetEnableTopPanel(false);
       menu.SetEnableGameCompletionPanel(true);
 
@@ -452,4 +465,56 @@ public class BoardGen : MonoBehaviour
     }
     menu.SetTilesInPlace(GameApp.Instance.TotalTilesInCorrectPosition);
   }
+
+    void CompletePuzzle()
+    {
+        // 모든 타일을 올바른 위치로 이동
+        for (int i = 0; i < numTileX; i++)
+        {
+            for (int j = 0; j < numTileY; j++)
+            {
+                mTileGameObjects[i, j].transform.position = new Vector3(i * Tile.tileSize, j * Tile.tileSize, 0.0f);
+
+                // 타일을 올바른 위치로 인식하도록 처리
+                TileMovement tm = mTileGameObjects[i, j].GetComponent<TileMovement>();
+                tm.enabled = false;
+                Destroy(tm);
+
+                SpriteRenderer spriteRenderer = tm.gameObject.GetComponent<SpriteRenderer>();
+                Tile.tilesSorting.Remove(spriteRenderer);
+            }
+        }
+
+        // 타일의 총 개수를 올바른 위치에 놓인 타일로 설정
+        GameApp.Instance.TotalTilesInCorrectPosition = numTileX * numTileY;
+
+        // 퍼즐이 완료된 것처럼 처리
+        OnFinishedPuzzle();
+
+        Hashtable customProperties = new Hashtable
+        {
+            { "StarMiniGameOver", true }
+        };
+        PhotonNetwork.LocalPlayer.SetCustomProperties(customProperties);
+    }
+
+    void OnFinishedPuzzle()
+    {
+        activeCoroutines.Clear();
+
+        menu.SetEnableBottomPanel(false);
+        menu.SetEnablePanelGameMode(false);
+        StartCoroutine(Coroutine_CallAfterDelay(() => menu.SetEnableTopPanel(false), 1.0f));
+        GameApp.Instance.TileMovementEnabled = false;
+
+        menu.SetTotalTiles(numTileX * numTileY);
+        menu.SetTilesInPlace(GameApp.Instance.TotalTilesInCorrectPosition);
+
+        menu.SetEnableGameCompletionPanel(true);
+
+        // 타이머를 초기화
+        StopTimer();
+        GameApp.Instance.SecondsSinceStart = 0;
+        GameApp.Instance.TotalTilesInCorrectPosition = 0;
+    }
 }

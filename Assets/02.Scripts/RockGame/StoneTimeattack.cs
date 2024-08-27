@@ -11,7 +11,8 @@ namespace _02.Scripts.RockGame
         private string _playerName;
         public float TimesUP = 60;
         public bool Isrunning = false;
-
+        public bool IsBounsTimeStart = false;
+        public bool IsWarnningStart = false;
         private void Start()
         {
             _stoneHitScore = FindObjectOfType<StoneHitScore>();
@@ -20,6 +21,7 @@ namespace _02.Scripts.RockGame
             Isrunning = true;
         }
 
+
         private void Update()
         {
             if (Isrunning)
@@ -27,35 +29,47 @@ namespace _02.Scripts.RockGame
                 if (TimesUP > 0)
                 {
                     TimesUP -= Time.deltaTime;
-                    // 10초 남았을 때 현재 점수를 확인합니다.
+
+                    // 10초 남았을 때 보너스 타임 및 경고 시작 여부를 확인
                     if (TimesUP <= 10f)
                     {
                         int currentScore = _stoneScoreManager.GetCurrentScore(_playerName);
 
                         if (currentScore < 50)
                         {
-                            // 점수가 낮을 때 장애물 등장 로직
-                            Debug.Log("장애물이 등장합니다!");
-                            // 장애물을 활성화하는 로직을 추가합니다.
+                            if (!IsWarnningStart) // 이미 경고가 시작되지 않았다면
+                            {
+                                IsWarnningStart = true;
+                                Debug.Log("장애물이 등장합니다!");
+                                // 장애물을 활성화하는 로직 추가
+                            }
                         }
                         else
                         {
-                            // 점수가 높을 때 점수 증가율을 변경합니다.
-                            Debug.Log("보너스 타임 시작!");
-                            // 이후부터 점수가 100점씩 올라가도록 설정
-                            _stoneHitScore.IsBouseTime = true;
+                            if (!IsBounsTimeStart) // 보너스 타임이 아직 시작되지 않았다면
+                            {
+                                IsBounsTimeStart = true;
+                                _stoneHitScore.IsBouseTime = true; // 보너스 점수 활성화
+                                Debug.Log("보너스 타임 시작! 점수가 100점씩 증가합니다.");
+                            }
                         }
                     }
                 }
                 else
                 {
+                    // 시간이 다 되었을 때 처리
                     TimesUP = 0;
                     Isrunning = false;
+                    IsWarnningStart = false;
+                    IsBounsTimeStart = false;
+                    _stoneHitScore.IsBouseTime = false; // 보너스 점수 비활성화
                     Debug.Log("Time's up!");
+
+                    // 최종 점수 제출
                     _stoneScoreManager.SubmitScore(_playerName);
-                    _stoneHitScore.IsBouseTime = false;
                 }
             }
         }
+
     }
 }

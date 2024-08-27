@@ -1,6 +1,8 @@
-using JetBrains.Annotations;
-using Photon.Pun;
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
+using Photon.Pun;
 using UnityEngine.SceneManagement;
 
 public class PlayerMoveAbility : PlayerAbility
@@ -31,6 +33,8 @@ public class PlayerMoveAbility : PlayerAbility
     SunMiniGame sunMiniGame;
     private ChatGPTManager chatGPTManager;
 
+    private string currentSceneName; // 현재 씬 이름 저장
+
     void Start()
     {
         rb = GetComponent<Rigidbody>();
@@ -50,6 +54,48 @@ public class PlayerMoveAbility : PlayerAbility
                     tpsCamera.target = CameraRoot;
                 }
             }
+        }
+
+        // 현재 씬 이름을 가져와 저장
+        currentSceneName = SceneManager.GetActiveScene().name;
+
+        // ClepsydraScene에서만 이동 속도 조정
+        SetSpeedForCurrentScene();
+
+        // 씬 로드 이벤트 구독
+        SceneManager.sceneLoaded += OnSceneLoaded;
+    }
+
+    private void OnDisable()
+    {
+        // 씬 로드 이벤트 구독 해제
+        SceneManager.sceneLoaded -= OnSceneLoaded;
+    }
+
+    void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    {
+        // 새로운 씬이 로드될 때마다 씬 이름을 업데이트
+        currentSceneName = scene.name;
+
+        // ClepsydraScene에서만 이동 속도 조정
+        SetSpeedForCurrentScene();
+    }
+
+    private void SetSpeedForCurrentScene()
+    {
+        if (currentSceneName == "ClepsydraScene")
+        {
+            Debug.Log("플레이어 속도 ClepsydraScene용으로 수정");
+            Movespeed = 6f;
+            RunSpeed = 8f;
+        }
+        else
+        {
+            Debug.Log("플레이어 속도 복구");
+
+            // ClepsydraScene이 아닐 경우 원래 속도로 설정
+            Movespeed = 10f;
+            RunSpeed = 13f;
         }
     }
 
@@ -72,7 +118,7 @@ public class PlayerMoveAbility : PlayerAbility
             _animator.SetTrigger("Punching");
         }
 
-        if (Input.GetKeyDown(KeyCode.Space) && isGrounded && Time.time >= _lastJumpTime + _jumpCooldown )
+        if (Input.GetKeyDown(KeyCode.Space) && isGrounded && Time.time >= _lastJumpTime + _jumpCooldown)
         {
             if (_isRunning)
             {

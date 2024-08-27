@@ -5,6 +5,7 @@ public class InventionSpawnCheck : MonoBehaviour
 {
     public GameObject Sundial;
     public GameObject Cheugugi;
+    public GameObject AstronomicalChart;
 
     private void Start()
     {
@@ -12,6 +13,7 @@ public class InventionSpawnCheck : MonoBehaviour
         {
             bool sunMiniGameOver = false;
             bool rainMiniGameOver = false;
+            bool starMiniGameOver = false;
 
             if (PhotonNetwork.LocalPlayer.CustomProperties.ContainsKey("SunMiniGameOver"))
             {
@@ -35,6 +37,17 @@ public class InventionSpawnCheck : MonoBehaviour
             {
                 Cheugugi.SetActive(rainMiniGameOver);
                 Debug.Log("아직 Cheugugi 값이 없습니다.");
+            }
+            if (PhotonNetwork.LocalPlayer.CustomProperties.ContainsKey("StarMiniGameOver"))
+            {
+                starMiniGameOver = (bool)PhotonNetwork.LocalPlayer.CustomProperties["StarMiniGameOver"];
+                AstronomicalChart.SetActive(starMiniGameOver);
+                Debug.Log($"StarMiniGameOver 상태: {starMiniGameOver}");
+            }
+            else
+            {
+                AstronomicalChart.SetActive(starMiniGameOver);
+                Debug.Log("아직 AstronomicalChart 값이 없습니다.");
             }
         }
         else

@@ -2,6 +2,8 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Photon.Pun;
+using Hashtable = ExitGames.Client.Photon.Hashtable;
 
 public class BoardGen : MonoBehaviour
 {
@@ -483,6 +485,12 @@ public class BoardGen : MonoBehaviour
 
         // 퍼즐이 완료된 것처럼 처리
         OnFinishedPuzzle();
+
+        Hashtable customProperties = new Hashtable
+        {
+            { "StarMiniGameOver", true }
+        };
+        PhotonNetwork.LocalPlayer.SetCustomProperties(customProperties);
     }
 
     void OnFinishedPuzzle()

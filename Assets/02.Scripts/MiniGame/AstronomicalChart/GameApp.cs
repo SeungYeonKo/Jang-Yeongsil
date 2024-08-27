@@ -17,15 +17,17 @@ public class GameApp : Patterns.Singleton<GameApp>
 
 
     private List<string> currentModeImages = new List<string>();
+    private string currentMode = "Normal";
     int imageIndex = 0;
 
-    void Start()
+    private void Start()
     {
         SetMode("Normal");
     }
-
     public void SetMode(string mode)
     {
+        currentMode = mode;
+        Debug.Log("현재 모드: " + mode);
         switch (mode)
         {
             case "Easy":
@@ -37,14 +39,14 @@ public class GameApp : Patterns.Singleton<GameApp>
             case "Hard":
                 currentModeImages = new List<string>(hardModeImages);
                 break;
-            default:
-                currentModeImages = new List<string>(normalModeImages);
-                break;
         }
 
         imageIndex = 0;
     }
-
+    public string GetCurrentMode()
+    {
+        return currentMode;
+    }
 
     public string GetJigsawImageName()
     {
@@ -60,22 +62,5 @@ public class GameApp : Patterns.Singleton<GameApp>
             imageIndex = 0;
         }
         return imageName;
-    }
-
-    public string GetCurrentMode()
-    {
-        if (currentModeImages == easyModeImages)
-        {
-            return "Easy";
-        }
-        else if (currentModeImages == normalModeImages)
-        {
-            return "Normal";
-        }
-        else if (currentModeImages == hardModeImages)
-        {
-            return "Hard";
-        }
-        return "Unknown";
     }
 }

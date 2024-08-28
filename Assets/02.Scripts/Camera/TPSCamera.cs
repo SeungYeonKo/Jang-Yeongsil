@@ -98,13 +98,13 @@ public class TPSCamera : MonoBehaviourPunCallbacks
         }
 
         // FPS와 TPS 전환을 위한 토글 기능 추가
-        if (Input.GetKeyDown(KeyCode.C))
+        if (Input.GetKeyDown(KeyCode.C)|| isMaze ==true)
         {
-            if (FPSview)
+            if (FPSview && startTrigger.isMazeStart==false)
             {
                 FindLocalPlayer(); // TPS 모드로 전환
             }
-            else
+            else if (startTrigger.isMazeStart == true)
             {
                 FindLocalMazePlayer(); // FPS 모드로 전환
             }

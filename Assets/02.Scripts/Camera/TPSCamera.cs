@@ -51,11 +51,6 @@ public class TPSCamera : MonoBehaviourPunCallbacks
 
     private void Start()
     {
-        if (SceneManager.GetActiveScene().name == "ClepsydraScene")
-        {
-            isMaze = true;
-        }
-        startTrigger = GetComponent<StartTrigger>();
 
         offset = new Vector3(0, height, -distance);
         FindLocalPlayer();
@@ -100,11 +95,13 @@ public class TPSCamera : MonoBehaviourPunCallbacks
         // FPS와 TPS 전환을 위한 토글 기능 추가
         if (Input.GetKeyDown(KeyCode.C) || SceneManager.GetActiveScene().name == "ClepsydraScene")
         {
+            startTrigger = GetComponent<StartTrigger>();
+
             if (FPSview && startTrigger.isMazeStart==false)
             {
                 FindLocalPlayer(); // TPS 모드로 전환
             }
-            else if (startTrigger.isMazeStart == true)
+            else if (!FPSview && startTrigger.isMazeStart == true)
             {
                 FindLocalMazePlayer(); // FPS 모드로 전환
             }

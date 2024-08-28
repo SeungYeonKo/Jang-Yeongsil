@@ -45,17 +45,17 @@ public class Tile
     PosNegType.NONE,
   };
 
-  // A 2d boolean array that stores whether a particular
-  // pixel is visited. We will need this array for the flood fill.
-  private bool[,] mVisited;
+  // 플러드 필을 위한 방문 여부를 저장하는 2차원 배열
+  // 다차원 배열의 어떤 칸과 연결된 영역을 찾는 알고리즘
+    private bool[,] mVisited;
 
-  // A stack needed for the flood fill of the texture.
+  // 플러드 필을 위한 스택
   private Stack<Vector2Int> mStack = new Stack<Vector2Int>();
 
   public int xIndex = 0;
   public int yIndex = 0;
 
-  // For tiles sorting.
+  // 타일 정렬을 위한 클래스
   public static TilesSorting tilesSorting = new TilesSorting();
   public void SetCurveType(Direction dir, PosNegType type)
   {
@@ -70,12 +70,10 @@ public class Tile
   public Tile(Texture2D texture)
   {
     mOriginalTexture = texture;
-    //int padding = mOffset.x;
     int tileSizeWithPadding = 2 * padding + tileSize;
 
+    // 투명한 색상으로 초기화된 타일 텍스처를 생성
     finalCut = new Texture2D(tileSizeWithPadding, tileSizeWithPadding, TextureFormat.ARGB32, false);
-
-    // We initialise this newly created texture with transparent color.
     for (int i = 0; i < tileSizeWithPadding; ++i)
     {
       for (int j = 0; j < tileSizeWithPadding; ++j)
@@ -94,7 +92,6 @@ public class Tile
 
   void FloodFillInit()
   {
-    //int padding = mOffset.x;
     int tileSizeWithPadding = 2 * padding + tileSize;
 
     mVisited = new bool[tileSizeWithPadding, tileSizeWithPadding];
@@ -112,14 +109,13 @@ public class Tile
       pts.AddRange(CreateCurve((Direction)i, mCurveTypes[i]));
     }
 
-    // Now we should have a closed curve.
+    // 닫힌 곡선이 생성되면 해당 점들을 방문으로 표시
     for (int i = 0; i < pts.Count; ++i)
     {
       mVisited[(int)pts[i].x, (int)pts[i].y] = true;
     }
-    // start from the center.
+    // 중앙에서 시작하여 플러드 필을 수행
     Vector2Int start = new Vector2Int(tileSizeWithPadding / 2, tileSizeWithPadding / 2);
-
     mVisited[start.x, start.y] = true;
     mStack.Push(start);
   }
@@ -133,7 +129,6 @@ public class Tile
 
   void FloodFill()
   {
-    //int padding = mOffset.x;
     int width_height = padding * 2 + tileSize;
 
     while (mStack.Count > 0)
@@ -145,7 +140,7 @@ public class Tile
 
       Fill(v.x, v.y);
 
-      // Check right.
+      // 오른쪽 확인
       int x = xx + 1;
       int y = yy;
 
@@ -159,7 +154,7 @@ public class Tile
         }
       }
 
-      // check left.
+      // 왼쪽 확인
       x = xx - 1;
       y = yy;
       if (x > 0)
@@ -172,7 +167,7 @@ public class Tile
         }
       }
 
-      // Check up.
+      // 위
       x = xx;
       y = yy + 1;
 
@@ -186,7 +181,7 @@ public class Tile
         }
       }
 
-      // Check down.
+      // 아래
       x = xx;
       y = yy - 1;
 
@@ -241,8 +236,8 @@ public class Tile
 
   public List<Vector2> CreateCurve(Direction dir, PosNegType type)
   {
-    int padding_x = padding;// mOffset.x;
-    int padding_y = padding;// mOffset.y;
+    int padding_x = padding;
+    int padding_y = padding;
     int sw = tileSize;
     int sh = tileSize;
 

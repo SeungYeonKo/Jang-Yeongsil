@@ -7,7 +7,6 @@ namespace _02.Scripts.RockGame
     public class StoneTimeAttack : MonoBehaviour
     {
         private StoneScoreManager _stoneScoreManager;
-        private StoneHitScore _stoneHitScore;
         private string _playerName;
         public float TimesUP = 60;
         public bool Isrunning = false;
@@ -15,7 +14,6 @@ namespace _02.Scripts.RockGame
         public bool IsWarnningStart = false;
         private void Start()
         {
-            _stoneHitScore = FindObjectOfType<StoneHitScore>();
             _stoneScoreManager = FindObjectOfType<StoneScoreManager>();
             _playerName = Photon.Pun.PhotonNetwork.NickName;
             Isrunning = true;
@@ -61,7 +59,6 @@ namespace _02.Scripts.RockGame
                     Isrunning = false;
                     IsWarnningStart = false;
                     IsBounsTimeStart = false;
-                    _stoneHitScore.IsBouseTime = false; // 보너스 점수 비활성화
                     Debug.Log("Time's up!");
 
                     // 최종 점수 제출

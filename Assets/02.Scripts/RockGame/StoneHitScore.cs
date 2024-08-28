@@ -15,6 +15,7 @@ public class StoneHitScore : MonoBehaviour
     private Quaternion _originalRotation;
     private GameObject _StonePrefeb;
     private StoneTimeAttack _stoneTimeAttack;
+    private int _poolSize = 20;
     private void Start()
     {
         _StonePrefeb = this.gameObject;

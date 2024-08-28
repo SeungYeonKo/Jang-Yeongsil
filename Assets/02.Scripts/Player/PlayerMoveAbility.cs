@@ -162,33 +162,37 @@ public class PlayerMoveAbility : PlayerAbility
             _animator.SetFloat("Move", Mathf.Clamp01(movementMagnitude));
         }
 
-        rb.velocity = new Vector3(direction.x, rb.velocity.y, direction.z);
+        // 카메라의 방향을 기준으로 이동 방향 설정
+        Vector3 forward = Camera.main.transform.forward;
+        forward.y = 0; // 수직 방향 제거하여 평면 이동만 계산
+        forward.Normalize();
 
-        if (dir != Vector3.zero)
+        Vector3 right = Camera.main.transform.right;
+        right.y = 0; // 수직 방향 제거하여 평면 이동만 계산
+        right.Normalize();
+
+        // 카메라 방향을 기준으로 이동 방향을 설정
+        direction = (forward * dir.z + right * dir.x).normalized;
+
+        // 캐릭터가 이동할 때만 회전하도록 설정
+        if (direction.magnitude >= 0.1f)
         {
-            Vector3 forward = Camera.main.transform.forward;
-            forward.y = 0;
-            direction = (forward.normalized * dir.z + Camera.main.transform.right * dir.x).normalized;
-
-            var a = direction;
-            a.y = 0f;
-            Quaternion targetRotation = Quaternion.LookRotation(a);
+            // 캐릭터의 목표 회전 설정
+            Quaternion targetRotation = Quaternion.LookRotation(direction);
             rb.MoveRotation(Quaternion.Slerp(transform.rotation, targetRotation, Time.fixedDeltaTime * 10f));
-        }
 
-        direction.y = 0f;
+            // 이동 로직
+            if (Input.GetKey(KeyCode.LeftShift))
+            {
+                Speed = RunSpeed;
+            }
+            else
+            {
+                Speed = Movespeed;
+            }
 
-        if (Input.GetKey(KeyCode.LeftShift))
-        {
-            Speed = RunSpeed;
             rb.MovePosition(rb.position + direction * Speed * Time.fixedDeltaTime);
-            _isRunning = true;
-        }
-        else
-        {
-            Speed = Movespeed;
-            rb.MovePosition(rb.position + direction * Speed * Time.fixedDeltaTime);
-            _isRunning = false;
+            _isRunning = Input.GetKey(KeyCode.LeftShift);
         }
     }
 

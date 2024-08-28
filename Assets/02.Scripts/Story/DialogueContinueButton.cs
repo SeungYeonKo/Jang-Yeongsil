@@ -7,14 +7,6 @@ public class DialogueContinueButton : MonoBehaviour
 
     public void ContinueDialogue()
     {
-        /*
-        if (dialogueRunner.IsDialogueRunning)
-        {
-            dialogueRunner.Dialogue.SetNode("Start");
-            dialogueRunner.Dialogue.Continue();
-        }
-        */
-
         if (dialogueRunner != null && dialogueRunner.IsDialogueRunning)
         {
             // 선택지가 있을 경우 자동으로 다음 선택창으로 넘어가는 것을 방지

@@ -21,11 +21,13 @@ public class TPSCamera : MonoBehaviourPunCallbacks
     // 추가된 변수
     private bool isQuizActive = false;
 
-    public bool isMaze = false;
+   
     public bool FPSview = false;
 
     StartTrigger startTrigger;
 
+    private string _sceneName;
+    public bool isMaze = false;
     // Public properties to access rotationX and rotationY
     public float RotationX
     {
@@ -48,14 +50,18 @@ public class TPSCamera : MonoBehaviourPunCallbacks
             }
         }
     }
+    private void Awake()
+    {
+        _sceneName = SceneManager.GetActiveScene().name;
+
+        isMaze = _sceneName == "ClepsydraScene";
+
+        startTrigger = GetComponent<StartTrigger>();
+    }
 
     private void Start()
     {
-        if (SceneManager.GetActiveScene().name == "ClepsydraScene")
-        {
-            isMaze = true;
-        }
-        startTrigger = GetComponent<StartTrigger>();
+        
 
         offset = new Vector3(0, height, -distance);
         FindLocalPlayer();
@@ -98,14 +104,19 @@ public class TPSCamera : MonoBehaviourPunCallbacks
         }
 
         // FPS와 TPS 전환을 위한 토글 기능 추가
-        if (Input.GetKeyDown(KeyCode.C))
+        if (_sceneName == "ClepsydraScene")
         {
-            if (FPSview)
+            startTrigger = GetComponent<StartTrigger>();
+
+            if (FPSview && startTrigger.isMazeStart==false)
             {
+                Debug.Log(startTrigger.isMazeStart);
                 FindLocalPlayer(); // TPS 모드로 전환
+                
             }
-            else
+            else if (!FPSview && startTrigger.isMazeStart == true)
             {
+                Debug.Log(startTrigger.isMazeStart);
                 FindLocalMazePlayer(); // FPS 모드로 전환
             }
         }

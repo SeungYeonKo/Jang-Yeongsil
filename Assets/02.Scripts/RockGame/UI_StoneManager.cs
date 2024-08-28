@@ -21,6 +21,8 @@ public class UI_StoneManager : MonoBehaviourPun
     public Image FillImage;
     public GameObject StoneGet;
     public GameObject StoneOut;
+    public TextMeshProUGUI MissText;
+    public TextMeshProUGUI GreatText;
     
     private StoneTimeAttack _stoneTimeAttack;
     private StoneScoreManager _stoneScoreManager;
@@ -37,6 +39,8 @@ public class UI_StoneManager : MonoBehaviourPun
         Warnning.SetActive(false);
         Bouns.SetActive(false);
         StoneGet.SetActive(false);
+        MissText.gameObject.SetActive(false);
+        GreatText.gameObject.SetActive(false);
         TimeSlider.maxValue = _stoneTimeAttack.TimesUP; 
         CharacterGender? gender = PersonalManager.Instance.ReloadGender(nickname);
         if (gender == CharacterGender.Male)

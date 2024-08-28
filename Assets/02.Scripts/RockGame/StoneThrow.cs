@@ -13,12 +13,14 @@ public class StoneThrow : MonoBehaviour
     private Vector3 dragEndPos;
     private bool isDragging = false;
     private GameObject _player;
+    private UI_StoneManager _uiStoneManager;
     public LineRenderer trajectoryLine; // 궤적을 그릴 Line Renderer
     public int lineSegmentCount = 20; // 궤적의 세그먼트 수
     public float throwForceMultiplier = 0.1f; // 던질 때 힘의 크기
 
     void Start()
     {
+        _uiStoneManager = FindObjectOfType<UI_StoneManager>();
         Transform _playerSpwan = GameObject.Find("PlayerPosition").transform;
         // 플레이어 오브젝트와 Rigidbody를 찾습니다.
         _player = GameObject.FindWithTag("Player");
@@ -82,6 +84,8 @@ public class StoneThrow : MonoBehaviour
 
             currentStone = null;
             trajectoryLine.positionCount = 0;
+            _uiStoneManager.StoneOut.SetActive(true);
+            _uiStoneManager.StoneGet.SetActive(false);
         }
     }
 
@@ -120,6 +124,8 @@ public class StoneThrow : MonoBehaviour
                 }
                 // 비석에 플레이어 정보를 전달
                 currentStone.GetComponent<StoneHitScore>().OnPickedUpByPlayer(_player.transform);
+                _uiStoneManager.StoneGet.SetActive(true);
+                _uiStoneManager.StoneOut.SetActive(false);
                 Debug.Log("스톤이 손으로 들어왔습니다.");
             }
             else

@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using _02.Scripts.RockGame;
 using ExitGames.Client.Photon;
 using Photon.Pun;
@@ -9,8 +10,9 @@ public class StoneHitScore : MonoBehaviour
     private StoneScoreManager _stoneScoreManager;
     private string _playerName;
     private StoneFalldownCheck _stoneFalldownCheck;
+    private UI_StoneManager _uiStoneManager;
     private float _timer;
-    private float _spawnTimer = 10;
+    private float _spawnTimer = 15;
     private Vector3 _originalPosition;
     private Quaternion _originalRotation;
     private GameObject _StonePrefeb;
@@ -22,6 +24,7 @@ public class StoneHitScore : MonoBehaviour
         _originalPosition = transform.position;
         _originalRotation = transform.rotation;
         _stoneTimeAttack = FindObjectOfType<StoneTimeAttack>();
+        _uiStoneManager = FindObjectOfType<UI_StoneManager>();
     }
 
     private void Update()
@@ -73,6 +76,19 @@ public class StoneHitScore : MonoBehaviour
                 }
             }
 
+            StartCoroutine(ShowAfter2S(_uiStoneManager.GreatText.gameObject));
         }
+        else
+        {
+            StartCoroutine(ShowAfter2S(_uiStoneManager.MissText.gameObject));
+        }
+    }
+
+    IEnumerator ShowAfter2S(GameObject obj)
+    {
+        obj.SetActive(true);
+        obj.transform.position = Camera.main.WorldToScreenPoint(transform.position);
+        yield return new WaitForSeconds(1f);
+        obj.SetActive(false);
     }
 }

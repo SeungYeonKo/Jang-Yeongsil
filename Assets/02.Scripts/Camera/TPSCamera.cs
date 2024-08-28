@@ -98,7 +98,7 @@ public class TPSCamera : MonoBehaviourPunCallbacks
         }
 
         // FPS와 TPS 전환을 위한 토글 기능 추가
-        if (Input.GetKeyDown(KeyCode.C) || isMaze ==true)
+        if (Input.GetKeyDown(KeyCode.C) || SceneManager.GetActiveScene().name == "ClepsydraScene")
         {
             if (FPSview && startTrigger.isMazeStart==false)
             {

@@ -15,20 +15,19 @@ public class TPSCamera : MonoBehaviourPunCallbacks
     private float _rotationY = 0.0f;
 
     private Vector3 offset;
-
     public Transform target;
 
-    // 추가된 변수
     private bool isQuizActive = false;
-
-   
     public bool FPSview = false;
 
     StartTrigger startTrigger;
-
     private string _sceneName;
     public bool isMaze = false;
-    // Public properties to access rotationX and rotationY
+
+    // 이전 상태를 저장하는 변수
+    private bool previousMazeStartState = false;
+    private bool previousFPSviewState = false;
+
     public float RotationX
     {
         get { return _rotationX; }
@@ -40,7 +39,7 @@ public class TPSCamera : MonoBehaviourPunCallbacks
         get { return _rotationY; }
         set
         {
-            if (!FPSview) // FPS 모드가 아닐 때만 제한을 둔다
+            if (!FPSview)
             {
                 _rotationY = Mathf.Clamp(value, -90f, 90f);
             }
@@ -50,19 +49,32 @@ public class TPSCamera : MonoBehaviourPunCallbacks
             }
         }
     }
+
     private void Awake()
     {
         _sceneName = SceneManager.GetActiveScene().name;
-
         isMaze = _sceneName == "ClepsydraScene";
 
-        startTrigger = GetComponent<StartTrigger>();
+        if (isMaze)
+        {
+            GameObject startTriggerObject = GameObject.Find("StartTrigger");
+            if (startTriggerObject != null)
+            {
+                startTrigger = startTriggerObject.GetComponent<StartTrigger>();
+                if (startTrigger == null)
+                {
+                    Debug.LogError("StartTrigger 컴포넌트를 StartTrigger 오브젝트에서 찾을 수 없습니다.");
+                }
+            }
+            else
+            {
+                Debug.LogError("StartTrigger 오브젝트를 찾을 수 없습니다.");
+            }
+        }
     }
 
     private void Start()
     {
-        
-
         offset = new Vector3(0, height, -distance);
         FindLocalPlayer();
 
@@ -83,15 +95,12 @@ public class TPSCamera : MonoBehaviourPunCallbacks
 
         if (isQuizActive)
         {
-            Debug.Log("이거 트루임");
             return;
         }
 
         // 마우스 입력에 따른 카메라 회전
         _rotationX += Input.GetAxis("Mouse X") * sensitivity;
         _rotationY -= Input.GetAxis("Mouse Y") * sensitivity;
-
-        // FPS 모드일 때는 제한을 두지 않기 때문에 Clamp를 사용하지 않습니다.
 
         if (Input.GetKeyDown(KeyCode.Escape))
         {
@@ -104,27 +113,37 @@ public class TPSCamera : MonoBehaviourPunCallbacks
         }
 
         // FPS와 TPS 전환을 위한 토글 기능 추가
-        if (_sceneName == "ClepsydraScene")
+        if (isMaze)
         {
-            startTrigger = GetComponent<StartTrigger>();
-
-            if (FPSview && startTrigger.isMazeStart==false)
+            if (startTrigger == null)
             {
-                Debug.Log(startTrigger.isMazeStart);
-                FindLocalPlayer(); // TPS 모드로 전환
-                
+                Debug.LogError("StartTrigger가 null입니다. Update 메서드에서 초기화하지 못했습니다.");
+                return;
             }
-            else if (!FPSview && startTrigger.isMazeStart == true)
+
+            // 상태가 변경되었을 때만 로직 실행 및 디버그 출력
+            if (FPSview != previousFPSviewState || startTrigger.isMazeStart != previousMazeStartState)
             {
-                Debug.Log(startTrigger.isMazeStart);
-                FindLocalMazePlayer(); // FPS 모드로 전환
+                if (FPSview && !startTrigger.isMazeStart)
+                {
+                    Debug.Log("TPS 모드로 전환됨");
+                    FindLocalPlayer(); // TPS 모드로 전환
+                }
+                else if (startTrigger.isMazeStart)
+                {
+                    Debug.Log("FPS 모드로 전환됨");
+                    FindLocalMazePlayer(); // FPS 모드로 전환
+                }
+
+                // 이전 상태 업데이트
+                previousFPSviewState = FPSview;
+                previousMazeStartState = startTrigger.isMazeStart;
             }
         }
     }
 
     private void FixedUpdate()
     {
-        // 퀴즈가 활성화되면 카메라 이동 및 회전 중지
         if (isQuizActive)
         {
             return;
@@ -142,11 +161,9 @@ public class TPSCamera : MonoBehaviourPunCallbacks
         }
         else if (FPSview)
         {
-            // 1인칭 모드: 카메라를 타겟의 위치에 고정
             transform.position = target.position; // 타겟의 위치에 카메라 고정
             transform.rotation = Quaternion.Euler(_rotationY, _rotationX, 0); // 카메라 회전
         }
-
     }
 
     private void FindLocalPlayer()
@@ -164,7 +181,6 @@ public class TPSCamera : MonoBehaviourPunCallbacks
                     target = cameraRoot;
                     offset = new Vector3(0, height, -distance);
                     FPSview = false;
-                    Debug.Log("TPS 모드로 전환됨: " + player.name);
                 }
                 else
                 {
@@ -190,7 +206,6 @@ public class TPSCamera : MonoBehaviourPunCallbacks
                     target = cameraRoot2; // 타겟을 CameraRoot2로 설정
                     offset = new Vector3(0, 1.65f, 0.1f); // FPS 모드에서의 카메라 위치
                     FPSview = true;
-                    Debug.Log("FPS 모드로 전환됨: " + player.name);
                 }
                 else
                 {

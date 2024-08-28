@@ -107,7 +107,7 @@ public class Menu : MonoBehaviour
 
   public void OnClickExit()
   {
-    PhotonNetwork.LoadLevel("MainScene");
+        PhotonManager.Instance.LeaveAndLoadRoom("Main");
   }
 
   public void OnClickPlayAgain()

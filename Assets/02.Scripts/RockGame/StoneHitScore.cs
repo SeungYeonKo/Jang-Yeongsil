@@ -18,6 +18,7 @@ public class StoneHitScore : MonoBehaviour
     private GameObject _StonePrefeb;
     private StoneTimeAttack _stoneTimeAttack;
     private int _poolSize = 20;
+    public bool IsThrown = false;
     private void Start()
     {
         _StonePrefeb = this.gameObject;
@@ -59,29 +60,31 @@ public class StoneHitScore : MonoBehaviour
 
     void OnCollisionEnter(Collision collision)
     {
-        // 비석이 충돌했을 때 점수 처리
-        if (collision.gameObject.CompareTag("Pillar"))
-        {
-            if (_stoneScoreManager != null && !string.IsNullOrEmpty(_playerName))
+            // 비석이 충돌했을 때 점수 처리
+            if (collision.gameObject.CompareTag("Pillar"))
             {
-                if (_stoneTimeAttack.IsBounsTimeStart)
+                if (_stoneScoreManager != null && !string.IsNullOrEmpty(_playerName))
                 {
-                    _stoneScoreManager.AddScoreForPlayer(_playerName, 100);
-                    Debug.Log("100점 추가");
+                    if (_stoneTimeAttack.IsBounsTimeStart)
+                    {
+                        _stoneScoreManager.AddScoreForPlayer(_playerName, 100);
+                        Debug.Log("100점 추가");
+                    }
+                    else
+                    {
+                        _stoneScoreManager.AddScoreForPlayer(_playerName, 30);
+                        Debug.Log("30점 추가");
+                    }
                 }
-                else
-                {
-                    _stoneScoreManager.AddScoreForPlayer(_playerName, 30);
-                    Debug.Log("30점 추가");
-                }
-            }
 
-            StartCoroutine(ShowAfter2S(_uiStoneManager.GreatText.gameObject));
-        }
-        else
-        {
-            StartCoroutine(ShowAfter2S(_uiStoneManager.MissText.gameObject));
-        }
+                StartCoroutine(ShowAfter2S(_uiStoneManager.GreatText.gameObject));
+            }
+            else
+            {
+                StartCoroutine(ShowAfter2S(_uiStoneManager.MissText.gameObject));
+            }
+        
+        IsThrown = false;
     }
 
     IEnumerator ShowAfter2S(GameObject obj)

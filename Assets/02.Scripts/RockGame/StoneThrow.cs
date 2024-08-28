@@ -13,6 +13,7 @@ public class StoneThrow : MonoBehaviour
     private Vector3 dragEndPos;
     private bool isDragging = false;
     private GameObject _player;
+    private StoneHitScore _stoneHitScore;
     private UI_StoneManager _uiStoneManager;
     public LineRenderer trajectoryLine; // 궤적을 그릴 Line Renderer
     public int lineSegmentCount = 20; // 궤적의 세그먼트 수
@@ -21,6 +22,7 @@ public class StoneThrow : MonoBehaviour
     void Start()
     {
         _uiStoneManager = FindObjectOfType<UI_StoneManager>();
+        _stoneHitScore = FindObjectOfType<StoneHitScore>();
         Transform _playerSpwan = GameObject.Find("PlayerPosition").transform;
         // 플레이어 오브젝트와 Rigidbody를 찾습니다.
         _player = GameObject.FindWithTag("Player");
@@ -65,7 +67,7 @@ public class StoneThrow : MonoBehaviour
         if (Input.GetMouseButtonUp(0) && isDragging)
         {
             isDragging = false;
-
+            _stoneHitScore.IsThrown = true;
             // 돌을 손에서 분리하고 물리 엔진 활성화
             currentStone.transform.SetParent(null);
             stoneRb.isKinematic = false;

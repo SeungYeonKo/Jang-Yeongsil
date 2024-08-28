@@ -28,7 +28,6 @@ public class ItemObject : MonoBehaviour
             if (slotManager != null)
             {
                 slotManager.ActivateSlot(ItemType);
-                
             }
             Destroy(gameObject);
         }

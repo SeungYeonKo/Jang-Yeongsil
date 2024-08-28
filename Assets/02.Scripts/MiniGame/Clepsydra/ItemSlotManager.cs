@@ -18,7 +18,7 @@ public class ItemSlotManager : MonoBehaviour
         for (int i = 0; i < slotImages.Length; i++)
         {
             itemSlotImages.Add(itemTypes[i], slotImages[i]);
-            slotImages[i].gameObject.SetActive(false); // 초기에는 비활성화
+            slotImages[i].color = new Color32(13, 13, 13, 255); // 초기에는 어두운 회색으로 설정
         }
     }
 
@@ -27,7 +27,7 @@ public class ItemSlotManager : MonoBehaviour
     {
         if (itemSlotImages.ContainsKey(itemType))
         {
-            itemSlotImages[itemType].gameObject.SetActive(true);
+            itemSlotImages[itemType].color = new Color32(255, 255, 255, 255);
         }
     }
 }

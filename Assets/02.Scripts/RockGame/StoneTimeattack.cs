@@ -49,7 +49,6 @@ namespace _02.Scripts.RockGame
                             if (!IsBounsTimeStart) // 보너스 타임이 아직 시작되지 않았다면
                             {
                                 IsBounsTimeStart = true;
-                                _stoneHitScore.IsBouseTime = true; // 보너스 점수 활성화
                                 Debug.Log("보너스 타임 시작! 점수가 100점씩 증가합니다.");
                             }
                         }

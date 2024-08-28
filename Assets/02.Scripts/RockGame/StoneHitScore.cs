@@ -10,12 +10,11 @@ public class StoneHitScore : MonoBehaviour
     private string _playerName;
     private StoneFalldownCheck _stoneFalldownCheck;
     private float _timer;
-    private float _spawnTimer = 20;
+    private float _spawnTimer = 10;
     private Vector3 _originalPosition;
     private Quaternion _originalRotation;
     private GameObject _StonePrefeb;
     private StoneTimeAttack _stoneTimeAttack;
-    public bool IsBouseTime = false;
     private void Start()
     {
         _StonePrefeb = this.gameObject;
@@ -61,15 +60,15 @@ public class StoneHitScore : MonoBehaviour
         {
             if (_stoneScoreManager != null && !string.IsNullOrEmpty(_playerName))
             {
-                if (IsBouseTime)
+                if (_stoneTimeAttack.IsBounsTimeStart)
                 {
                     _stoneScoreManager.AddScoreForPlayer(_playerName, 100);
-                    Debug.Log(_playerName + "의 보너스점수가 추가되었습니다.");
+                    Debug.Log("100점 추가");
                 }
                 else
                 {
                     _stoneScoreManager.AddScoreForPlayer(_playerName, 30);
-                    Debug.Log(_playerName + "의 점수가 추가되었습니다.");
+                    Debug.Log("30점 추가");
                 }
             }
 

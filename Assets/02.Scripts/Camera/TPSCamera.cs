@@ -121,11 +121,21 @@ public class TPSCamera : MonoBehaviourPunCallbacks
 
         if (target == null) return;
 
-        Quaternion targetRotation = Quaternion.Euler(_rotationY, _rotationX, 0);
-        Vector3 desiredPosition = target.position + targetRotation * offset;
+        if (!FPSview)
+        {
+            Quaternion targetRotation = Quaternion.Euler(_rotationY, _rotationX, 0);
+            Vector3 desiredPosition = target.position + targetRotation * offset;
 
-        transform.position = Vector3.Lerp(transform.position, desiredPosition, smoothSpeed);
-        transform.LookAt(target.position); // 카메라가 타겟을 바라보도록 설정
+            transform.position = Vector3.Lerp(transform.position, desiredPosition, smoothSpeed);
+            transform.LookAt(target.position); // 카메라가 타겟을 바라보도록 설정
+        }
+        else if (FPSview)
+        {
+            // 1인칭 모드: 카메라를 타겟의 위치에 고정
+            transform.position = target.position; // 타겟의 위치에 카메라 고정
+            transform.rotation = Quaternion.Euler(_rotationY, _rotationX, 0); // 카메라 회전
+        }
+
     }
 
     private void FindLocalPlayer()
@@ -167,7 +177,7 @@ public class TPSCamera : MonoBehaviourPunCallbacks
                 if (cameraRoot2 != null)
                 {
                     target = cameraRoot2; // 타겟을 CameraRoot2로 설정
-                    offset = new Vector3(0, 1.65f, 0.25f); // FPS 모드에서의 카메라 위치
+                    offset = new Vector3(0, 1.65f, 0.1f); // FPS 모드에서의 카메라 위치
                     FPSview = true;
                     Debug.Log("FPS 모드로 전환됨: " + player.name);
                 }

@@ -7,6 +7,7 @@ namespace _02.Scripts.RockGame
     public class StoneTimeAttack : MonoBehaviour
     {
         private StoneScoreManager _stoneScoreManager;
+        private StoneObstacleController _obstacleController;
         private string _playerName;
         public float TimesUP = 60;
         public bool Isrunning = false;
@@ -15,6 +16,7 @@ namespace _02.Scripts.RockGame
         private void Start()
         {
             _stoneScoreManager = FindObjectOfType<StoneScoreManager>();
+            _obstacleController = FindObjectOfType<StoneObstacleController>();
             _playerName = Photon.Pun.PhotonNetwork.NickName;
             Isrunning = true;
         }
@@ -38,8 +40,10 @@ namespace _02.Scripts.RockGame
                             if (!IsWarnningStart) // 이미 경고가 시작되지 않았다면
                             {
                                 IsWarnningStart = true;
-                                Debug.Log("장애물이 등장합니다!");
-                                // 장애물을 활성화하는 로직 추가
+                                _obstacleController.IsShowing = true;
+                                _obstacleController._obstacle.SetActive(true);
+                                _obstacleController.StartObstacle();
+                                Debug.Log($"{_obstacleController.IsShowing}");
                             }
                         }
                         else

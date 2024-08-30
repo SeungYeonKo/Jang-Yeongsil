@@ -10,6 +10,9 @@ public class AstronomicalChartManager : MonoBehaviour
     {
         Cursor.visible = true;
         Cursor.lockState = CursorLockMode.None;
+
+        SoundManager.instance.StopBgm();
+        SoundManager.instance.PlayBgm(SoundManager.Bgm.AstronomicalChart);
     }
 
     void Update()

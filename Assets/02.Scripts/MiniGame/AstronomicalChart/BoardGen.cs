@@ -444,6 +444,7 @@ public class BoardGen : MonoBehaviour
 
   void OnTileInPlace(TileMovement tm)
   {
+    SoundManager.instance.PlaySfx(SoundManager.Sfx.PuzzleInPlace);
     GameApp.Instance.TotalTilesInCorrectPosition += 1;
 
     tm.enabled = false;

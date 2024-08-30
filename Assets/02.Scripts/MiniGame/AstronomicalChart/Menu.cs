@@ -1,6 +1,7 @@
 using Photon.Pun;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -19,6 +20,8 @@ public class Menu : MonoBehaviour
   public Text textTotalTiles;
   public Text textTilesInPlace;
   public Text textGameCompletionMessage;
+
+  public BoardGen boardGen;
 
   IEnumerator FadeInUI(GameObject panel, float fadeInDuration = 2.0f)
   {
@@ -114,7 +117,15 @@ public class Menu : MonoBehaviour
   {
     SceneManager.LoadScene("AstronomicalChartScene");
   }
-
+    public void OnClickHomeScreen()
+    {
+        if (boardGen != null)
+        {
+            boardGen.CompletePuzzle(false);
+        }
+        PartialOnPuzzleCompleted(); 
+        SceneManager.LoadScene("AstronomicalChartScene");
+    }
     public void OnClickEasyMode()
     {
         GameApp.Instance.SetMode("Easy");
@@ -152,5 +163,12 @@ public class Menu : MonoBehaviour
                 textGameCompletionMessage.text = "축하합니다! 퍼즐을 완성하셨습니다.";
                 break;
         }
+    }
+
+    private void PartialOnPuzzleCompleted()
+    {
+        SetEnableTopPanel(false);
+        GameApp.Instance.SecondsSinceStart = 0;
+        GameApp.Instance.TotalTilesInCorrectPosition = 0;
     }
 }

@@ -459,7 +459,7 @@ public class BoardGen : MonoBehaviour
     menu.SetTilesInPlace(GameApp.Instance.TotalTilesInCorrectPosition);
   }
 
-    void CompletePuzzle()
+    public void CompletePuzzle(bool callOnPuzzleCompleted = true)
     {
         // 모든 타일을 올바른 위치로 이동
         for (int i = 0; i < numTileX; i++)
@@ -485,7 +485,10 @@ public class BoardGen : MonoBehaviour
         GameApp.Instance.TotalTilesInCorrectPosition = numTileX * numTileY;
 
         // 퍼즐이 완료된 것처럼 처리
-        OnPuzzleCompleted();
+        if (callOnPuzzleCompleted)
+        {
+            OnPuzzleCompleted();
+        }
     }
 
     void OnPuzzleCompleted()

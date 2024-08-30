@@ -45,6 +45,10 @@ public class LobbyScene : MonoBehaviourPunCallbacks
         {
             LoadLoadingScene("Test");
         }
+        else if (Input.GetKeyDown(KeyCode.Alpha5))
+        {
+            LoadLoadingScene("AstronomicalChartScene");
+        }
     }
 
     IEnumerator Show_Coroutine()

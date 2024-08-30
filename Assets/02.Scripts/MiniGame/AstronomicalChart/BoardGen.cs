@@ -106,7 +106,7 @@ public class BoardGen : MonoBehaviour
   }
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Q))
+        if (Input.GetKeyDown(KeyCode.P))
         {
             CompletePuzzle();
         }

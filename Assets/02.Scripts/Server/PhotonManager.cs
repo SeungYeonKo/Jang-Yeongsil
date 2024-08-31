@@ -122,6 +122,9 @@ public class PhotonManager : MonoBehaviourPunCallbacks
             case "AstronomicalChartScene":
                 PhotonNetwork.LoadLevel("AstronomicalChartScene");
                 break;
+            case "NewRainGauge":
+                PhotonNetwork.LoadLevel("NewRainGauge");
+                break;
         }
     }
 

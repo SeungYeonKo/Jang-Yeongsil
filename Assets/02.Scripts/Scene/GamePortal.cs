@@ -12,7 +12,7 @@ public class GamePortal : MonoBehaviour
         {
             if (gameObject.name == "RainGaugePortal")
             {
-                PhotonManager.Instance.LeaveAndLoadRoom("RainGaugeDescriptionScene");
+                PhotonManager.Instance.LeaveAndLoadRoom("NewRainGauge");
             }
             if (gameObject.name == "MuseumPortal")
             {

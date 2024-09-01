@@ -31,7 +31,7 @@ public class LobbyScene : MonoBehaviourPunCallbacks
         }
         else if (Input.GetKeyDown(KeyCode.Alpha1))
         {
-            LoadLoadingScene("RainGaugeDescriptionScene");
+            LoadLoadingScene("NewRainGauge");
         }
         else if (Input.GetKeyDown(KeyCode.Alpha2))
         {

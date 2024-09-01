@@ -34,6 +34,8 @@ public class StartTrigger : MonoBehaviour
 
     public void OnStartButtonClick()
     {
+        Debug.Log("미로 입장하기 버튼 클릭");
+
         if (player != null && Maze1StartPosition != null)
         {
             player.transform.position = Maze1StartPosition.position;

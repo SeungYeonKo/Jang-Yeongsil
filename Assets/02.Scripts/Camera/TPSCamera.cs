@@ -99,8 +99,18 @@ public class TPSCamera : MonoBehaviourPunCallbacks
         }
 
         // 마우스 입력에 따른 카메라 회전
-        _rotationX += Input.GetAxis("Mouse X") * sensitivity;
-        _rotationY -= Input.GetAxis("Mouse Y") * sensitivity;
+        _rotationX += Input.GetAxis("Mouse X") * sensitivity; // 좌우 회전 (Yaw)
+        _rotationY -= Input.GetAxis("Mouse Y") * sensitivity; // 상하 회전 (Pitch)
+
+        // FPS 모드일 때 플레이어 회전 동기화
+        if (FPSview)
+        {
+            // 플레이어 회전 값 변경
+            target.parent.Rotate(Vector3.up * Input.GetAxis("Mouse X") * sensitivity);
+
+            // 카메라의 회전 값도 플레이어와 일치시킴
+            _rotationX = target.parent.eulerAngles.y; // 플레이어의 Y 회전값에 동기화
+        }
 
         if (Input.GetKeyDown(KeyCode.Escape))
         {
@@ -121,7 +131,6 @@ public class TPSCamera : MonoBehaviourPunCallbacks
                 return;
             }
 
-            // 상태가 변경되었을 때만 로직 실행 및 디버그 출력
             if (FPSview != previousFPSviewState || startTrigger.isMazeStart != previousMazeStartState)
             {
                 if (FPSview && !startTrigger.isMazeStart)
@@ -135,7 +144,6 @@ public class TPSCamera : MonoBehaviourPunCallbacks
                     FindLocalMazePlayer(); // FPS 모드로 전환
                 }
 
-                // 이전 상태 업데이트
                 previousFPSviewState = FPSview;
                 previousMazeStartState = startTrigger.isMazeStart;
             }
@@ -153,14 +161,16 @@ public class TPSCamera : MonoBehaviourPunCallbacks
 
         if (!FPSview)
         {
+            // 3인칭 모드: 카메라가 타겟을 바라보며 플레이어의 뒤를 따라감
             Quaternion targetRotation = Quaternion.Euler(_rotationY, _rotationX, 0);
             Vector3 desiredPosition = target.position + targetRotation * offset;
 
             transform.position = Vector3.Lerp(transform.position, desiredPosition, smoothSpeed);
             transform.LookAt(target.position); // 카메라가 타겟을 바라보도록 설정
         }
-        else if (FPSview)
+        else
         {
+            // 1인칭 모드: 카메라를 타겟의 위치에 고정하고 플레이어 회전을 따라감
             transform.position = target.position; // 타겟의 위치에 카메라 고정
             transform.rotation = Quaternion.Euler(_rotationY, _rotationX, 0); // 카메라 회전
         }
@@ -228,7 +238,6 @@ public class TPSCamera : MonoBehaviourPunCallbacks
         Cursor.visible = true;
     }
 
-    // 퀴즈 활성화/비활성화 상태 설정 메서드
     public void SetQuizActive(bool isActive)
     {
         isQuizActive = isActive;

@@ -1,14 +1,12 @@
 using Photon.Pun;
 using UnityEngine;
 
-
 public class InventionSpawnCheck : MonoBehaviour
 {
     public GameObject Sundial;
     public GameObject Cheugugi;
     public GameObject AstronomicalChart;
     public GameObject ArmillarySphere;
-    public GameObject Clepsydra;
 
     private void Start()
     {
@@ -17,7 +15,6 @@ public class InventionSpawnCheck : MonoBehaviour
             bool sunMiniGameOver = false;
             bool rainMiniGameOver = false;
             bool starMiniGameOver = false;
-            bool waterclockMiniGameOver = false;
 
             if (PhotonNetwork.LocalPlayer.CustomProperties.ContainsKey("SunMiniGameOver"))
             {
@@ -55,12 +52,6 @@ public class InventionSpawnCheck : MonoBehaviour
                 ArmillarySphere.SetActive(starMiniGameOver);
                 Debug.Log("아직 AstronomicalChart 값이 없습니다.");
                 Debug.Log("아직 ArmillarySphere 값이 없습니다.");
-            }
-            if (PhotonNetwork.LocalPlayer.CustomProperties.ContainsKey("WaterClockMiniGameOver"))
-            {
-                waterclockMiniGameOver = (bool)PhotonNetwork.LocalPlayer.CustomProperties["WaterClockMiniGameOver"];
-                Clepsydra.SetActive(waterclockMiniGameOver);
-                Debug.Log($"WaterClockMiniGameOver 상태: {waterclockMiniGameOver}");
             }
         }
         else

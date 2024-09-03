@@ -19,7 +19,7 @@ public class RainGaugePlayer : MonoBehaviourPunCallbacks
 
     private void Awake()
     {
-        if (SceneManager.GetActiveScene().name != "RainGauge")
+        if (SceneManager.GetActiveScene().name != "NewRainGauge")
         {
             this.enabled = false;
             return;

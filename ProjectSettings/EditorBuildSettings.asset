@@ -12,6 +12,9 @@ EditorBuildSettings:
     path: Assets/01.Scenes/LoadingScene.unity
     guid: c0db822652773b14daee49b948ee73f3
   - enabled: 1
+    path: Assets/01.Scenes/CartoonScene.unity
+    guid: 512964c447bbfce4d916fe489199dc26
+  - enabled: 1
     path: Assets/01.Scenes/IntroFireball.unity
     guid: 0a66a67e927960847b0ff5b0271c5cd4
   - enabled: 1

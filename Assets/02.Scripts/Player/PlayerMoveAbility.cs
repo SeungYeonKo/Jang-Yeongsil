@@ -33,6 +33,8 @@ public class PlayerMoveAbility : PlayerAbility
     SunMiniGame sunMiniGame;
     private ChatGPTManager chatGPTManager;
 
+    private TPSCamera tpsCamera;  // TPSCamera 인스턴스 참조 추가
+
     private string currentSceneName; // 현재 씬 이름 저장
 
     void Start()
@@ -48,7 +50,7 @@ public class PlayerMoveAbility : PlayerAbility
             GameObject mainCamera = GameObject.FindWithTag("MainCamera");
             if (mainCamera != null)
             {
-                TPSCamera tpsCamera = mainCamera.GetComponent<TPSCamera>();
+                tpsCamera = mainCamera.GetComponent<TPSCamera>();  // 인스턴스 가져오기
                 if (tpsCamera != null)
                 {
                     tpsCamera.target = CameraRoot;
@@ -154,30 +156,39 @@ public class PlayerMoveAbility : PlayerAbility
     {
         dir.x = Input.GetAxis("Horizontal");
         dir.z = Input.GetAxis("Vertical");
-        Vector3 direction = new Vector3(dir.x, 0f, dir.z);
-        float movementMagnitude = direction.magnitude;
+
+        Vector3 direction = Vector3.zero;
 
         if (_animator != null)
         {
-            _animator.SetFloat("Move", Mathf.Clamp01(movementMagnitude));
+            _animator.SetFloat("Move", Mathf.Clamp01(new Vector3(dir.x, 0f, dir.z).magnitude));
         }
 
-        // 카메라의 방향을 기준으로 이동 방향 설정
-        Vector3 forward = Camera.main.transform.forward;
-        forward.y = 0; // 수직 방향 제거하여 평면 이동만 계산
-        forward.Normalize();
+        if (_owner != null && _owner.PhotonView.IsMine)
+        {
+            if (tpsCamera != null && tpsCamera.FPSview)
+            {
+                // 1인칭 모드: 플레이어의 로컬 방향을 기준으로 이동
+                direction = transform.forward * dir.z + transform.right * dir.x;
+            }
+            else
+            {
+                // 3인칭 모드: 카메라 방향을 기준으로 이동
+                Vector3 forward = Camera.main.transform.forward;
+                forward.y = 0;
+                forward.Normalize();
 
-        Vector3 right = Camera.main.transform.right;
-        right.y = 0; // 수직 방향 제거하여 평면 이동만 계산
-        right.Normalize();
+                Vector3 right = Camera.main.transform.right;
+                right.y = 0;
+                right.Normalize();
 
-        // 카메라 방향을 기준으로 이동 방향을 설정
-        direction = (forward * dir.z + right * dir.x).normalized;
+                direction = (forward * dir.z + right * dir.x).normalized;
+            }
+        }
 
         // 캐릭터가 이동할 때만 회전하도록 설정
         if (direction.magnitude >= 0.1f)
         {
-            // 캐릭터의 목표 회전 설정
             Quaternion targetRotation = Quaternion.LookRotation(direction);
             rb.MoveRotation(Quaternion.Slerp(transform.rotation, targetRotation, Time.fixedDeltaTime * 10f));
 

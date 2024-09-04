@@ -14,7 +14,6 @@ public class RainGaugePlayer : MonoBehaviourPunCallbacks
     private Jar _jarController;
     private GameObject _startpoint;
 
-    public Transform leftHandTransform; 
     public Transform rightHandTransform;
 
     private void Awake()

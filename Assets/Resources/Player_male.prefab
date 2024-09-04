@@ -1157,7 +1157,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isReady: 0
   MyNum: 0
-  rightHandTransform: {fileID: 4427554916351919807}
+  rightHandTransform: {fileID: 2607681195365636899}
   CameraRoot: {fileID: 8744754342764202041}
 --- !u!114 &-4456594737478369042
 MonoBehaviour:

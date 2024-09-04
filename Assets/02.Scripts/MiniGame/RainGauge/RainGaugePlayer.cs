@@ -1,3 +1,4 @@
+using Cinemachine;
 using Photon.Pun;
 using System.Collections;
 using System.Linq;
@@ -14,8 +15,8 @@ public class RainGaugePlayer : MonoBehaviourPunCallbacks
     private Jar _jarController;
     private GameObject _startpoint;
 
-    public Transform leftHandTransform; 
     public Transform rightHandTransform;
+    public Transform CameraRoot;
 
     private void Awake()
     {
@@ -51,7 +52,8 @@ public class RainGaugePlayer : MonoBehaviourPunCallbacks
         {
            // Debug.LogError("JarController is not found. Make sure there is a Jar object in the scene.");
         }
-        
+
+        GameObject.FindWithTag("FollowCamera").GetComponent<CinemachineVirtualCamera>().Follow = CameraRoot;
     }
 
     private void AssignPlayerNumber()

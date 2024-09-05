@@ -397,3 +397,47 @@ Assets/06.Sounds/LobbyScene.wav.meta
 Assets/06.Sounds/MainScene.wav
 Assets/06.Sounds/MainScene.wav.meta
 .openai/auth.json
+Assets/10.DownloadAssets/Animated Sun Skybox.meta
+Assets/10.DownloadAssets/Animated Sun Skybox/Demo.meta
+Assets/10.DownloadAssets/Animated Sun Skybox/Materials.meta
+Assets/10.DownloadAssets/Animated Sun Skybox/Mesh.meta
+Assets/10.DownloadAssets/Animated Sun Skybox/Skybox_Prefab.prefab
+Assets/10.DownloadAssets/Animated Sun Skybox/Skybox_Prefab.prefab.meta
+Assets/10.DownloadAssets/Animated Sun Skybox/Textures.meta
+Assets/10.DownloadAssets/Animated Sun Skybox/Demo/DemoScene.unity
+Assets/10.DownloadAssets/Animated Sun Skybox/Demo/DemoScene.unity.meta
+Assets/10.DownloadAssets/Animated Sun Skybox/Demo/DemoSceneSettings.lighting
+Assets/10.DownloadAssets/Animated Sun Skybox/Demo/DemoSceneSettings.lighting.meta
+Assets/10.DownloadAssets/Animated Sun Skybox/Demo/Script.meta
+Assets/10.DownloadAssets/Animated Sun Skybox/Demo/Script/LookCamera.cs
+Assets/10.DownloadAssets/Animated Sun Skybox/Demo/Script/LookCamera.cs.meta
+Assets/10.DownloadAssets/Animated Sun Skybox/Materials/Back.mat
+Assets/10.DownloadAssets/Animated Sun Skybox/Materials/Back.mat.meta
+Assets/10.DownloadAssets/Animated Sun Skybox/Materials/Down.mat
+Assets/10.DownloadAssets/Animated Sun Skybox/Materials/Down.mat.meta
+Assets/10.DownloadAssets/Animated Sun Skybox/Materials/Front.mat
+Assets/10.DownloadAssets/Animated Sun Skybox/Materials/Front.mat.meta
+Assets/10.DownloadAssets/Animated Sun Skybox/Materials/Left.mat
+Assets/10.DownloadAssets/Animated Sun Skybox/Materials/Left.mat.meta
+Assets/10.DownloadAssets/Animated Sun Skybox/Materials/Right.mat
+Assets/10.DownloadAssets/Animated Sun Skybox/Materials/Right.mat.meta
+Assets/10.DownloadAssets/Animated Sun Skybox/Materials/Up.mat
+Assets/10.DownloadAssets/Animated Sun Skybox/Materials/Up.mat.meta
+Assets/10.DownloadAssets/Animated Sun Skybox/Mesh/Skybox_Mesh.fbx
+Assets/10.DownloadAssets/Animated Sun Skybox/Mesh/Skybox_Mesh.fbx.meta
+Assets/10.DownloadAssets/Animated Sun Skybox/Textures/Animated Sun.mp4
+Assets/10.DownloadAssets/Animated Sun Skybox/Textures/Animated Sun.mp4.meta
+Assets/10.DownloadAssets/Animated Sun Skybox/Textures/Back_Tex.png
+Assets/10.DownloadAssets/Animated Sun Skybox/Textures/Back_Tex.png.meta
+Assets/10.DownloadAssets/Animated Sun Skybox/Textures/Down_Tex.png
+Assets/10.DownloadAssets/Animated Sun Skybox/Textures/Down_Tex.png.meta
+Assets/10.DownloadAssets/Animated Sun Skybox/Textures/Front_Tex.png
+Assets/10.DownloadAssets/Animated Sun Skybox/Textures/Front_Tex.png.meta
+Assets/10.DownloadAssets/Animated Sun Skybox/Textures/Left_Tex.png
+Assets/10.DownloadAssets/Animated Sun Skybox/Textures/Left_Tex.png.meta
+Assets/10.DownloadAssets/Animated Sun Skybox/Textures/Right_Tex.png
+Assets/10.DownloadAssets/Animated Sun Skybox/Textures/Right_Tex.png.meta
+Assets/10.DownloadAssets/Animated Sun Skybox/Textures/Up_Tex.png
+Assets/10.DownloadAssets/Animated Sun Skybox/Textures/Up_Tex.png.meta
+Assets/Resources/Rice.prefab
+Assets/Resources/Rice.prefab.meta

@@ -10,7 +10,7 @@ namespace _02.Scripts.Scene
     {
         public Slider loadingSlider;
         public TextMeshProUGUI progressText;
-
+        private float _timer;
         private void Start()
         {
             // 다음 씬을 비동기로 로드하는 코루틴 실행
@@ -28,19 +28,17 @@ namespace _02.Scripts.Scene
             // 로딩이 진행되는 동안 슬라이더와 텍스트 업데이트
             while (!operation.isDone)
             {
-                // operation.progress는 0에서 0.9까지 진행됨 (1은 씬 활성화 시점)
-                float progress = Mathf.Clamp01(operation.progress / 0.9f);
-                loadingSlider.value = progress;
-                progressText.text = Mathf.RoundToInt(progress * 100f) + "%";
+                _timer += Time.deltaTime;
 
-                // 씬 로드가 완료되었을 때
-                if (operation.progress >= 0.9f)
+                loadingSlider.value = _timer / 10f;
+                // 퍼센트 값 계산 (0에서 100까지)
+                int progressPercentage = Mathf.RoundToInt(loadingSlider.value * 100);
+
+                // progressText에 퍼센트 값 설정
+                progressText.text = progressPercentage + "%";
+
+                if (_timer > 10)
                 {
-                    // 로딩이 끝나면 씬을 활성화 (슬라이더가 끝에 도달하면)
-                    loadingSlider.value = 1f;
-                    progressText.text = "100%";
-                
-                    // 씬을 활성화
                     operation.allowSceneActivation = true;
                 }
 

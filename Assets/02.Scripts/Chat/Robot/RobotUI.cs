@@ -19,13 +19,11 @@ public class RobotUI : MonoBehaviour
 
         // RobotManager의 inputField를 RobotUI의 chatInputField로 설정
         robotManager.inputField = chatInputField;
+        robotManager.OnResponse.AddListener(DisplayMessage);
 
         sendButton.onClick.AddListener(OnSendButtonClicked); // 전송 버튼 클릭 시 이벤트 등록
         chatInputField.onSubmit.AddListener(delegate { OnSendButtonClicked(); }); // Enter 키로 전송 가능하게 설정
         chatDisplayText.text = string.Empty; // 처음 실행 시 로그 창 초기화
-
-        // 입력 필드를 항상 활성화 상태로 설정
-        chatInputField.interactable = true;
     }
 
     private void OnSendButtonClicked()
@@ -33,16 +31,13 @@ public class RobotUI : MonoBehaviour
         string message = chatInputField.text;
         if (!string.IsNullOrEmpty(message))
         {
-            robotManager.AskChatGPT(message);
-
+            robotManager.AskRobot(message);
             chatInputField.text = string.Empty; // 메시지를 보낸 후 입력 필드를 초기화
-            chatInputField.interactable = false; // 메시지 전송 후 다시 비활성화
         }
     }
 
     public void DisplayMessage(string message)
     {
         chatDisplayText.text += message + "\n"; // 메시지를 텍스트 필드에 추가
-        LayoutRebuilder.ForceRebuildLayoutImmediate(chatDisplayText.rectTransform); // 텍스트 레이아웃 업데이트
     }
 }

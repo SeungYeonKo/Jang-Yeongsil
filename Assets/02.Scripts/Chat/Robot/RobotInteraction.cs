@@ -2,13 +2,13 @@ using UnityEngine;
 
 public class RobotInteraction : MonoBehaviour
 {
-    public RobotManager robotManager;
+    public RobotUI robotUI;
 
     private void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("Player"))
         {
-            robotManager.ToggleChatUI(); // UI 활성화
+            robotUI.gameObject.SetActive(true);
         }
     }
 
@@ -16,7 +16,7 @@ public class RobotInteraction : MonoBehaviour
     {
         if (other.CompareTag("Player"))
         {
-            robotManager.ToggleChatUI(); // UI 비활성화
+            robotUI.gameObject.SetActive(false);
         }
     }
 }

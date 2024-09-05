@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using CLDRPlurals;
+using Photon.Pun;
+using Photon.Realtime;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -16,6 +18,7 @@ public class CartoonIntro : MonoBehaviour
         {
             img.SetActive(false);
         }
+        CartoonImg[0].SetActive(true);
         SoundManager.instance.StopBgm();
         SoundManager.instance.PlayBgm(SoundManager.Bgm.IntroFireball);
     }
@@ -38,14 +41,25 @@ public class CartoonIntro : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.Q))
         {
-            SceneManager.LoadScene("LoadingScene");
+            LoadLoadingScene();
         }
 
         if (CartoonImg[CartoonImg.Count - 1].gameObject.activeSelf)
         {
-            SceneManager.LoadScene("LoadingScene");
+            LoadLoadingScene();
             SpaceInfo.SetActive(false);
         }
     }
-    
+    private void LoadLoadingScene()
+    {
+        RoomOptions roomOptions = new RoomOptions
+        {
+            MaxPlayers = 20,
+            IsVisible = true,
+            IsOpen = true,
+            EmptyRoomTtl = 1000 * 20,
+        };
+        PhotonNetwork.JoinOrCreateRoom("Main", roomOptions, TypedLobby.Default);
+        SceneManager.LoadScene("LoadingScene");
+    }
 }

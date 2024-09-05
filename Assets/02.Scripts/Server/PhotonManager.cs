@@ -196,6 +196,24 @@ public class PhotonManager : MonoBehaviourPunCallbacks
         yield return new WaitForSeconds(1);
         PhotonNetwork.IsMessageQueueRunning = true;
     }
+    private IEnumerator LoadingSceneAfterDelay(int seconds)
+    {
+        // Photon의 메시지 큐가 일시적으로 멈추게 함 (로딩 동안 네트워크 메시지 처리를 막기 위해)
+        PhotonNetwork.IsMessageQueueRunning = false;
+
+        // 주어진 시간만큼 대기 (여기서는 seconds로 넘어온 값을 사용)
+        yield return new WaitForSeconds(seconds);
+
+        // 로딩 씬을 비동기로 로드하고 슬라이더를 업데이트
+        AsyncOperation loadingScene = SceneManager.LoadSceneAsync("LoadingScene");
+
+        // 로딩이 완료될 때까지 대기 (이 시점에서 슬라이더로 진행률을 보여줄 수 있음)
+        yield return loadingScene;
+
+        // 추가로 1초 대기 후에 메시지 큐 다시 활성화
+        yield return new WaitForSeconds(1);
+        PhotonNetwork.IsMessageQueueRunning = true;
+    }
 
     public override void OnLeftRoom()
     {

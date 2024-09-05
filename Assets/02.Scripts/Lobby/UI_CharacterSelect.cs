@@ -112,6 +112,6 @@ public class UI_CharacterSelect : MonoBehaviour
 
     public void OnClickStartButton()
     {
-        SceneManager.LoadScene("IntroFireball");
+        SceneManager.LoadScene("CartoonScene");
     }
 }

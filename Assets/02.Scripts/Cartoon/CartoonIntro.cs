@@ -1,7 +1,7 @@
-using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class CartoonIntro : MonoBehaviour
 {
@@ -20,7 +20,12 @@ public class CartoonIntro : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Q))
         {
-            
+            SceneManager.LoadScene("LoadingScene");
+        }
+
+        if (CartoonImg[CartoonImg.Count - 1].gameObject.activeSelf)
+        {
+            SceneManager.LoadScene("LoadingScene");
         }
     }
 

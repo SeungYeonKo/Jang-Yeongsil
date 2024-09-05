@@ -4,12 +4,16 @@ using UnityEngine;
 using UnityEngine.UI;
 using Photon.Pun;
 using UnityEngine.SceneManagement;
+using Cinemachine;
 
 public class PlayerMoveAbility : PlayerAbility
 {
     public float Speed;
     private float Movespeed = 10f;
     private float RunSpeed = 13f;
+    private float sensitivity = 2.0f; // 회전 감도 조정
+    private float _rotationX = 0f;
+    private float _rotationY = 0f;
 
     private float NormalJumpPower = 5f; // 점프 힘을 증가
     private float RunningJumpPower = 8f; // 점프 힘을 증가
@@ -36,6 +40,7 @@ public class PlayerMoveAbility : PlayerAbility
     private TPSCamera tpsCamera;  // TPSCamera 인스턴스 참조 추가
 
     private string currentSceneName; // 현재 씬 이름 저장
+    private bool useCinemachine = false; // 시네머신 사용 여부
 
     void Start()
     {
@@ -60,6 +65,12 @@ public class PlayerMoveAbility : PlayerAbility
 
         // 현재 씬 이름을 가져와 저장
         currentSceneName = SceneManager.GetActiveScene().name;
+
+        if (currentSceneName == "NewRainGauge")
+        {
+            useCinemachine = true;  // 측우기 씬에서 시네머신 사용
+          
+        }
 
         // ClepsydraScene에서만 이동 속도 조정
         SetSpeedForCurrentScene();
@@ -120,6 +131,13 @@ public class PlayerMoveAbility : PlayerAbility
             _animator.SetTrigger("Punching");
         }
 
+        // 시네머신인 경우에만 기존 방식으로 마우스 입력 받음
+        if (useCinemachine)
+        {
+            MouseInput();
+        }
+
+
         if (Input.GetKeyDown(KeyCode.Space) && isGrounded && Time.time >= _lastJumpTime + _jumpCooldown)
         {
             if (_isRunning)
@@ -134,6 +152,15 @@ public class PlayerMoveAbility : PlayerAbility
             JumpCode();
             _lastJumpTime = Time.time; // 마지막 점프 시간을 현재 시간으로 갱신
         }
+    }
+    private void MouseInput()
+    {
+        _rotationX += Input.GetAxis("Mouse X") * sensitivity;
+        _rotationY -= Input.GetAxis("Mouse Y") * sensitivity;
+        _rotationY = Mathf.Clamp(_rotationY, -90f, 90f); // 상하 회전 제한
+
+        // 마우스 입력에 따른 회전 처리
+        CameraRoot.rotation = Quaternion.Euler(_rotationY, _rotationX, 0);
     }
 
     private void FixedUpdate()

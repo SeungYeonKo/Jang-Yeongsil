@@ -11,6 +11,7 @@ TagManager:
   - Sundial
   - Stone
   - Pillar
+  - FollowCamera
   layers:
   - Default
   - TransparentFX

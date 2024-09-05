@@ -76,7 +76,7 @@ public class RobotManager : MonoBehaviour
         ChatMessage systemMessage = new ChatMessage
         {
             Role = "system",
-            Content = "한국어로 쉽게 설명하세요. 당신은 장영실 관련 백과사전입니다. 초등학교 저학년 학생들이 이해하기 쉽게, 간단하고 친절하게 대답하세요."
+            Content = "한국어로 쉽게 설명하세요. 당신은 장영실 관련 백과사전입니다. 초등학교 저학년 학생들이 이해하기 쉽게, 간단하고 친절하게 한 문장으로 대답하세요."
         };
 
         ChatMessage userChatMessage = new ChatMessage
@@ -102,7 +102,7 @@ public class RobotManager : MonoBehaviour
             var chatResponse = response.Choices[0].Message;
             messages.Add(chatResponse);
 
-            string responseMessage = $"[백과사전] {chatResponse.Content}";
+            string responseMessage = $"[검색결과] {chatResponse.Content}";
             robotUI.DisplayMessage(responseMessage);
         }
     }

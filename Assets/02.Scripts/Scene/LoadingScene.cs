@@ -15,6 +15,8 @@ namespace _02.Scripts.Scene
         {
             // 다음 씬을 비동기로 로드하는 코루틴 실행
             StartCoroutine(LoadSceneAsync());
+            SoundManager.instance.StopBgm();
+            SoundManager.instance.PlayBgm(SoundManager.Bgm.Loading);
         }
 
         IEnumerator LoadSceneAsync()
@@ -28,9 +30,9 @@ namespace _02.Scripts.Scene
             // 로딩이 진행되는 동안 슬라이더와 텍스트 업데이트
             while (!operation.isDone)
             {
-                _timer += Time.deltaTime;
+                _timer += Time.deltaTime * 2;
 
-                loadingSlider.value = _timer / 10f;
+                loadingSlider.value = _timer / 5f;
                 // 퍼센트 값 계산 (0에서 100까지)
                 int progressPercentage = Mathf.RoundToInt(loadingSlider.value * 100);
 

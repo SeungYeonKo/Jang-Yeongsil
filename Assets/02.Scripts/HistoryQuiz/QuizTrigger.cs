@@ -2,23 +2,33 @@ using Photon.Pun;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI; // 버튼 사용을 위해 추가
 
 public enum QuizType
 {
-    MultipleS,
+    OXS,
     BlankS
 }
 
 public class QuizTrigger : MonoBehaviour
 {
     public QuizType QuizType;
-    public GameObject MultipleS;
+    public GameObject OXS;
     public GameObject BlankS;
+
+    private Button[] oxButtons; // OX 퀴즈 버튼들
 
     void Start()
     {
-        MultipleS.gameObject.SetActive(false);
+        OXS.gameObject.SetActive(false);
         BlankS.gameObject.SetActive(false);
+
+        // OX 버튼들을 초기화 (OX 퀴즈가 활성화될 때 사용하기 위해)
+        oxButtons = OXS.GetComponentsInChildren<Button>();
+        foreach (Button button in oxButtons)
+        {
+            button.onClick.AddListener(() => OnOXButtonClicked(button));
+        }
     }
 
     private void OnTriggerEnter(Collider other)
@@ -40,16 +50,16 @@ public class QuizTrigger : MonoBehaviour
                 Debug.LogWarning("TPSCamera 스크립트를 찾을 수 없습니다.");
             }
 
-            if (QuizType == QuizType.MultipleS)
+            if (QuizType == QuizType.OXS)
             {
-                Debug.Log("4지선다형 트리거");
-                MultipleS.gameObject.SetActive(true);
+                Debug.Log("OX퀴즈형 트리거");
+                OXS.gameObject.SetActive(true);
                 BlankS.gameObject.SetActive(false);
             }
             else if (QuizType == QuizType.BlankS)
             {
                 Debug.Log("빈칸선택형 트리거");
-                MultipleS.gameObject.SetActive(false);
+                OXS.gameObject.SetActive(false);
                 BlankS.gameObject.SetActive(true);
             }
         }
@@ -59,7 +69,7 @@ public class QuizTrigger : MonoBehaviour
     {
         if (other.CompareTag("Player"))
         {
-            MultipleS.gameObject.SetActive(false);
+            OXS.gameObject.SetActive(false);
             BlankS.gameObject.SetActive(false);
 
             // 씬에서 TPSCamera 스크립트 찾기
@@ -75,6 +85,24 @@ public class QuizTrigger : MonoBehaviour
             }
 
             LockCursor(); // 커서를 다시 잠금
+        }
+    }
+
+    // OX 버튼 클릭 시 호출되는 함수
+    private void OnOXButtonClicked(Button clickedButton)
+    {
+        foreach (Button button in oxButtons)
+        {
+            var color = button.image.color;
+            if (button == clickedButton)
+            {
+                color.a = 1f; // 클릭된 버튼의 알파 값을 255로 설정
+            }
+            else
+            {
+                color.a = 0.5f; // 클릭되지 않은 버튼의 알파 값을 128로 설정 (시각적 피드백을 주기 위해)
+            }
+            button.image.color = color;
         }
     }
 

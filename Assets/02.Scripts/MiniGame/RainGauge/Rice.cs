@@ -14,6 +14,7 @@ public class Rice : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
+        Debug.Log($"Triggered with {other.gameObject.name}");
         if (other.CompareTag("Jar"))
         {
             int jarNumber = GetJarNumber(other.gameObject);

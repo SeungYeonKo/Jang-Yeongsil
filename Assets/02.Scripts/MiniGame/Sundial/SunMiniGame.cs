@@ -37,7 +37,8 @@ public class SunMiniGame : MonoBehaviour
 
     // Moon 오브젝트들을 관리하기 위한 리스트
     public List<GameObject> moons;
-
+    // SkyboxManager 참조
+    public SkyboxManager skyboxManager; 
     void Start()
     {
         // 문제와 정답의 경우의 수를 설정합니다.
@@ -184,7 +185,14 @@ public class SunMiniGame : MonoBehaviour
         {
             moons[SuccsessCount - 1].SetActive(false); // 정답 횟수에 맞춰 Moon 오브젝트 비활성화
         }
-
+        if (SuccsessCount == 3)
+        {
+            // 문제 3개를 맞췄을 때 Skybox 전환 시작
+            if (skyboxManager != null)
+            {
+                skyboxManager.StartSkyboxTransition();
+            }
+        }
         if (SuccsessCount < 3)
         {
             StartMiniGame(); // 정답을 맞췄고, 3번이 되지 않았다면 다음 문제 제시

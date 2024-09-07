@@ -2,13 +2,18 @@ using UnityEngine;
 
 public class RobotInteraction : MonoBehaviour
 {
-    public RobotUI robotUI;
+    public GameObject robotUI;
+
+    private void Start()
+    {
+        robotUI.SetActive(false);
+    }
 
     private void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("Player"))
         {
-            robotUI.gameObject.SetActive(true);
+            robotUI.SetActive(true);
         }
     }
 
@@ -16,7 +21,7 @@ public class RobotInteraction : MonoBehaviour
     {
         if (other.CompareTag("Player"))
         {
-            robotUI.gameObject.SetActive(false);
+            robotUI.SetActive(false);
         }
     }
 }

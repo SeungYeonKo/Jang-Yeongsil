@@ -34,6 +34,11 @@ public class SunMiniGame : MonoBehaviour
 
     public bool isGameActive = false; // 게임이 진행 중인지 여부를 나타내는 변수
     private bool _isGameOver = false;
+
+    // Moon 오브젝트들을 관리하기 위한 리스트
+    public List<GameObject> moons;
+    // SkyboxManager 참조
+    public SkyboxManager skyboxManager; 
     void Start()
     {
         // 문제와 정답의 경우의 수를 설정합니다.
@@ -55,7 +60,6 @@ public class SunMiniGame : MonoBehaviour
             {"오후 3시를 표시하세요", 389f},
             {"오후 3시30분을 표시하세요", 405f},
             {"오후 4시를 표시하세요", 428f},
-
         };
 
         remainingQuestions = new List<string>(questionAnswerPairs.Keys); // 모든 문제를 남은 문제 리스트에 추가
@@ -176,6 +180,19 @@ public class SunMiniGame : MonoBehaviour
         Debug.Log("정답 맞춤");
         SuccsessCount += 1;
 
+        // 정답을 맞췄을 때 Moon 오브젝트 비활성화
+        if (SuccsessCount <= moons.Count)
+        {
+            moons[SuccsessCount - 1].SetActive(false); // 정답 횟수에 맞춰 Moon 오브젝트 비활성화
+        }
+        if (SuccsessCount == 3)
+        {
+            // 문제 3개를 맞췄을 때 Skybox 전환 시작
+            if (skyboxManager != null)
+            {
+                skyboxManager.StartSkyboxTransition();
+            }
+        }
         if (SuccsessCount < 3)
         {
             StartMiniGame(); // 정답을 맞췄고, 3번이 되지 않았다면 다음 문제 제시

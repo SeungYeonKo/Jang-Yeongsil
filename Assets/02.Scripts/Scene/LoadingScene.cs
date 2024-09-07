@@ -19,17 +19,17 @@ namespace _02.Scripts.Scene
         private void Start()
         {
             // 다음 씬을 비동기로 로드하는 코루틴 실행
-            StartCoroutine(LoadSceneAsync());
+          //  StartCoroutine(LoadSceneAsync());
             SoundManager.instance.StopBgm();
             SoundManager.instance.PlayBgm(SoundManager.Bgm.Loading);
         }
 
-        IEnumerator LoadSceneAsync()
+        /*IEnumerator LoadSceneAsync()
         {
             while (!isLoadingComplete) // 로딩이 완료될 때까지 진행
             {
                 // 타이머가 더 빠르게 증가하도록 설정 (2배 빠르게)
-                _timer += Time.deltaTime * 3;
+                _timer += Time.deltaTime * 2;
 
                 // 슬라이더 값 업데이트 (3초 안에 100% 도달하도록 조정)
                 loadingSlider.value = _timer / 3f;
@@ -49,7 +49,7 @@ namespace _02.Scripts.Scene
                 }
                 yield return null;  // 매 프레임마다 업데이트
             }
-        }
+        }*/
 
         // Photon 방에 성공적으로 입장했을 때 콜백 함수
         public override void OnJoinedRoom()

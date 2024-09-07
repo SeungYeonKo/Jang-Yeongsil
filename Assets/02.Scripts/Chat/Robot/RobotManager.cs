@@ -16,7 +16,6 @@ public class RobotManager : MonoBehaviour
 
     public TMP_InputField inputField;
     public RobotUI robotUI;
-    public bool isUIActive = false;
 
     void Start()
     {
@@ -35,22 +34,11 @@ public class RobotManager : MonoBehaviour
             return;
         }
 
-        isUIActive = false;
-        robotUI.gameObject.SetActive(isUIActive);
-    }
-
-    void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.Tab))
-        {
-            isUIActive = !isUIActive;
-            robotUI.gameObject.SetActive(isUIActive);
-
-            if (isUIActive)
-            {
-                robotUI.DisplayMessage("[장영실 백과사전] 무엇이든 물어보세요! 장영실의 발명품이나 생애에 대해 알고 싶으면 질문해 주세요.");
-            }
-        }
+        // UI를 항상 활성화
+        robotUI.gameObject.SetActive(true);
+        
+        // 친절한 인사말 출력
+        robotUI.DisplayMessage("[장영실 백과사전] 무엇이든 물어보세요! 장영실의 발명품이나 생애에 대해 알고 싶으면 질문해 주세요.");
     }
 
     private void HandleInput(string inputText)
@@ -74,7 +62,7 @@ public class RobotManager : MonoBehaviour
         string keywordResponse = GetKeywordResponse(userMessage);
         if (keywordResponse != null)
         {
-            robotUI.DisplayMessage($"[장영실 백과사전] {keywordResponse}");
+            robotUI.DisplayMessage($"\n[장영실 백과사전] {keywordResponse}");
             return;
         }
 
@@ -121,7 +109,7 @@ public class RobotManager : MonoBehaviour
         // 키워드와 대응되는 상세하고 친절한 응답
         if (lowerMessage.Contains("발명품"))
         {
-            return "장영실은 해시계, 자격루, 천문도, 그리고 측우기와 같은 다양한 발명품을 만들었습니다. 특히 자격루는 시간을 알려주는 물시계로, 사람들의 생활에 큰 도움을 주었습니다.";
+            return "장영실은 해시계, 자격루, 천문도, 그리고 측우기와 같은 다양한 발명품을 만들었습니다.";
         }
         else if (lowerMessage.Contains("생애"))
         {

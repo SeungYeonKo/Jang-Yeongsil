@@ -57,7 +57,7 @@ public class EndTrigger : MonoBehaviour
     private void ActivateFailText()
     {
         FailText.gameObject.SetActive(true); // FailText를 활성화
-        FailText.DOFade(0f, 1f).SetDelay(1.5f).OnComplete(() =>
+        FailText.DOFade(0f, 1f).SetDelay(2.5f).OnComplete(() =>
         {
             FailText.gameObject.SetActive(false); // 페이드 아웃이 완료되면 비활성화
             FailText.color = new Color(FailText.color.r, FailText.color.g, FailText.color.b, 1); // 알파 값을 다시 1로 설정

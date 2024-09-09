@@ -3,11 +3,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class RockSpawner : MonoBehaviourPun
+public class RiceSpawner : MonoBehaviourPun
 {
     public GameObject rockPrefab;
     public int poolSize = 10;
-    public float spawnRate = 5f;
+    //public float spawnRate = 5f;
     public float spawnHeight = 10f;
     public float spawnAreaWidth = 5f;
     public float spawnAreaDepth = 5f;
@@ -26,15 +26,15 @@ public class RockSpawner : MonoBehaviourPun
         }
     }
 
-    private void Update()
+  /*  private void Update()
     {
         if (PhotonNetwork.IsMasterClient && RainGaugeManager.Instance.CurrentGameState == GameState.Go && Time.time >= nextSpawnTime)
         {
             Vector3 spawnPosition = GenerateSpawnPosition();
             photonView.RPC("SpawnRock", RpcTarget.All, spawnPosition);
-            nextSpawnTime = Time.time + 1f / spawnRate;
+            //nextSpawnTime = Time.time + 1f / spawnRate;
         }
-    }
+    }*/
 
     private void InitializeRockPool()
     {
@@ -71,7 +71,7 @@ public class RockSpawner : MonoBehaviourPun
 
 
     [PunRPC]
-    private void SpawnRock(Vector3 spawnPosition)
+    public void SpawnRock(Vector3 spawnPosition)
     {
         GameObject rock = GetPooledRock();
         if (rock != null)

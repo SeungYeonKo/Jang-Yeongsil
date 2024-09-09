@@ -68,7 +68,21 @@ public class StartTrigger : MonoBehaviour
     private void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("Player"))
-        {
+        {  
+            // 카메라 회전 멈추기
+            TPSCamera cameraScript = FindObjectOfType<TPSCamera>();
+            if (cameraScript != null)
+            {
+                Debug.Log("카메라 스크립트 불러와짐");
+
+                cameraScript.SetQuizActive(true); // 퀴즈 활성화 시 카메라 회전 멈춤
+            }
+            else
+            {
+                Debug.LogWarning("TPSCamera 스크립트를 찾을 수 없습니다.");
+            }
+
+
             if (StartImage != null)
             {
                 StartImage.gameObject.SetActive(true);
@@ -88,6 +102,18 @@ public class StartTrigger : MonoBehaviour
 
     private void OnTriggerExit(Collider other)
     {
+        // 카메라 회전 재개
+        TPSCamera cameraScript = FindObjectOfType<TPSCamera>();
+        if (cameraScript != null)
+        {
+            cameraScript.SetQuizActive(false); // 퀴즈 비활성화 시 카메라 회전 재개
+            Debug.Log("퀴즈 종료 - 카메라 회전 재개");
+        }
+        else
+        {
+            Debug.LogWarning("TPSCamera 스크립트를 찾을 수 없습니다.");
+        }
+
         if (other.CompareTag("Player"))
         {
             if (StartImage != null)

@@ -101,7 +101,7 @@ public class RainParticleMover : MonoBehaviour
 
         if (currentRiceSpawner != null)
         {
-            currentRiceSpawner.SpawnRock(currentRiceSpawner.transform.position);
+            currentRiceSpawner.SpawnMultipleRocks(currentRiceSpawner.transform.position, 5, 1.0f);
         }
 
         // 다음 위치를 랜덤하게 설정

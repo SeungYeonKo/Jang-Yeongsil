@@ -18,7 +18,7 @@ public class RainGaugeManager : MonoBehaviourPunCallbacks
 {
     public static RainGaugeManager Instance { get; private set; }
 
-    private float _gameDuration = 90f;
+    private float _gameDuration = 60f;
     public float TimeRemaining;
 
     private int _countDown = 5; // 시작 카운트다운

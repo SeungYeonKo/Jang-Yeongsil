@@ -195,12 +195,13 @@ public class PlayerMoveAbility : PlayerAbility
         {
             if (tpsCamera != null && tpsCamera.FPSview)
             {
-                // 1인칭 모드: 플레이어의 로컬 방향을 기준으로 이동
+                // FPS 모드: 카메라의 회전을 무시하고 플레이어의 현재 회전을 유지한 채 이동
+                // 플레이어의 회전은 마우스 입력에 의해서만 변경됨
                 direction = transform.forward * dir.z + transform.right * dir.x;
             }
             else
             {
-                // 3인칭 모드: 카메라 방향을 기준으로 이동
+                // TPS 모드: 카메라 방향을 기준으로 이동
                 Vector3 forward = Camera.main.transform.forward;
                 forward.y = 0;
                 forward.Normalize();
@@ -216,8 +217,12 @@ public class PlayerMoveAbility : PlayerAbility
         // 캐릭터가 이동할 때만 회전하도록 설정
         if (direction.magnitude >= 0.1f)
         {
-            Quaternion targetRotation = Quaternion.LookRotation(direction);
-            rb.MoveRotation(Quaternion.Slerp(transform.rotation, targetRotation, Time.fixedDeltaTime * 10f));
+            if (!(tpsCamera != null && tpsCamera.FPSview))
+            {
+                // FPS 모드에서는 회전하지 않음
+                Quaternion targetRotation = Quaternion.LookRotation(direction);
+                rb.MoveRotation(Quaternion.Slerp(transform.rotation, targetRotation, Time.fixedDeltaTime * 10f));
+            }
 
             // 이동 로직
             if (Input.GetKey(KeyCode.LeftShift))

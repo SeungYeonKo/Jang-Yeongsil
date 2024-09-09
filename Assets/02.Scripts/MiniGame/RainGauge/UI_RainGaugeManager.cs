@@ -7,6 +7,7 @@ using TMPro;
 using UnityEngine;
 using Hashtable = ExitGames.Client.Photon.Hashtable;
 using System.Linq;
+using UnityEngine.UI;
 
 public class UI_RainGaugeManager : MonoBehaviourPunCallbacks
 {
@@ -27,7 +28,10 @@ public class UI_RainGaugeManager : MonoBehaviourPunCallbacks
     
     private bool _isReadyFinished = false;
     private bool _isGoFinished = false;
-    
+
+    public Button readyButton;
+    private RainGaugePlayer player;
+
     private void Start()
     {
         ReadyImg.gameObject.SetActive(false);
@@ -36,6 +40,18 @@ public class UI_RainGaugeManager : MonoBehaviourPunCallbacks
         WinImage.gameObject.SetActive(false);
         LoseImage.gameObject.SetActive(false);
         InitializePlayerUI();
+
+        readyButton.onClick.AddListener(OnReadyButtonClick);
+        player = FindObjectOfType<RainGaugePlayer>();
+    }
+
+    private void OnReadyButtonClick()
+    {
+        if (player != null)
+        {
+            bool newReadyState = !player.isReady; 
+            player.SetReadyState(newReadyState);
+        }
     }
 
     void Update()

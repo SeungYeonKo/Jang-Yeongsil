@@ -81,6 +81,9 @@ public class OXType : MonoBehaviour
         // 두 버튼 모두 비활성화하여 다시 선택하지 못하도록 설정
         OButtons[questionIndex].interactable = false;
         XButtons[questionIndex].interactable = false;
+
+        // 사운드 이펙트 재생
+        SoundManager.instance.PlaySfx(SoundManager.Sfx.Quiz_OX);
     }
 
     // 버튼의 알파값을 설정하는 메서드

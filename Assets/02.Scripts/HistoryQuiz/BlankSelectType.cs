@@ -65,9 +65,15 @@ public class BlankSelectType : MonoBehaviour
                 button.transform.SetParent(AnswerPositions[i]);
                 button.transform.DOLocalMove(Vector3.zero, 0.3f).SetEase(Ease.Linear);
                 buttonPositionMap[button] = AnswerPositions[i];
+
+                // 사운드 이펙트 재생
+                SoundManager.instance.PlaySfx(SoundManager.Sfx.Quiz_Blank);
+
                 return; // 첫 번째 빈 포지션에 배치하면 루프를 종료
             }
         }
+
+        
     }
 
     // 다시하기 버튼

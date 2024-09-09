@@ -1,3 +1,4 @@
+
 using UnityEngine;
 
 public class SoundManager : MonoBehaviour
@@ -12,8 +13,8 @@ public class SoundManager : MonoBehaviour
     AudioSource[] SfxPlayer;
     int channelIndex;
 
-    public enum Bgm { LobbyScene, IntroFireball, Loading, MainScene, RainGauge, SundialScene, AstronomicalChart }
-    public enum Sfx { Rock, WaterItem, PuzzleInPlace }
+    public enum Bgm { LobbyScene, IntroFireball, Loading, MainScene, RainGauge, SundialScene, AstronomicalChart, ClepsydraScene }
+    public enum Sfx { Rock, WaterItem, PuzzleInPlace, FloatingItem, Clear, Nope, Quiz_OX, Quiz_Blank }
 
     public static SoundManager instance;
 

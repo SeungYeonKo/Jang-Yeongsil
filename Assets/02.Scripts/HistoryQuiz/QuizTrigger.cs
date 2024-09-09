@@ -88,7 +88,6 @@ public class QuizTrigger : MonoBehaviour
         }
     }
 
-    // OX 버튼 클릭 시 호출되는 함수
     private void OnOXButtonClicked(Button clickedButton)
     {
         foreach (Button button in oxButtons)

@@ -92,7 +92,7 @@ public class JarScore : MonoBehaviourPunCallbacks
     [PunRPC]
     public void IncreaseScore(int playerNumber, int amount)
     {
-        Debug.Log($"Increasing score for player {playerNumber} by {amount}");
+        Debug.Log($"Increasing score for Player{playerNumber} by {amount}");
 
         switch (playerNumber)
         {

@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class RockSpawner : MonoBehaviourPun
+public class RiceSpawner : MonoBehaviourPun
 {
     public GameObject rockPrefab;
     public int poolSize = 10;
@@ -71,7 +71,7 @@ public class RockSpawner : MonoBehaviourPun
 
 
     [PunRPC]
-    private void SpawnRock(Vector3 spawnPosition)
+    public void SpawnRock(Vector3 spawnPosition)
     {
         GameObject rock = GetPooledRock();
         if (rock != null)

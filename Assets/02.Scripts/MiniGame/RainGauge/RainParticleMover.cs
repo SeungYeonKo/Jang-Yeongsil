@@ -1,17 +1,21 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class RainParticleMover : MonoBehaviour
 {
     public float speed = 3.0f; 
-    public float waitTimeAtPosition = 2.0f; 
-    private ParticleSystem rainParticleSystem;
+    public float waitTimeAtPosition = 2.0f;
+    public List<Slider> progressBars;
 
+    private ParticleSystem rainParticleSystem;
     private List<Vector3> targetPositions = new List<Vector3>(); 
     private List<string> positionNames = new List<string>(); 
     private int currentTargetIndex = 0; 
-    private bool isMoving = true; 
+    private bool isMoving = true;
+
+    private RiceSpawner currentRiceSpawner;
 
     void Start()
     {
@@ -53,6 +57,7 @@ public class RainParticleMover : MonoBehaviour
             main.simulationSpace = ParticleSystemSimulationSpace.World;
         }
 
+        FindRiceSpawner();
         Debug.Log($"Starting at position: {positionNames[currentTargetIndex]} ({targetPositions[currentTargetIndex]})");
         StartCoroutine(MoveToNextPosition());
     }
@@ -77,10 +82,28 @@ public class RainParticleMover : MonoBehaviour
 
     private IEnumerator WaitAtPosition()
     {
-        yield return new WaitForSeconds(waitTimeAtPosition);
+        float elapsedTime = 0f;
+        Slider currentProgressBar = progressBars[currentTargetIndex];
+        currentProgressBar.value = 0;
+
+        while (elapsedTime < waitTimeAtPosition)
+        {
+            currentProgressBar.value = Mathf.Lerp(0, 1, elapsedTime / waitTimeAtPosition); 
+            elapsedTime += Time.deltaTime;
+            yield return null;
+        }
+
+
+        currentProgressBar.value = 1;
+
+        if (currentRiceSpawner != null)
+        {
+            currentRiceSpawner.SpawnRock(targetPositions[currentTargetIndex]);
+        }
 
         // 다음 위치를 랜덤하게 설정
         currentTargetIndex = Random.Range(0, targetPositions.Count);
+        FindRiceSpawner();
 
         Debug.Log($"New target position set: {positionNames[currentTargetIndex]} ({targetPositions[currentTargetIndex]})");
         isMoving = true;  // 다음 위치로 이동 시작
@@ -107,6 +130,12 @@ public class RainParticleMover : MonoBehaviour
 
             yield return null;
         }
+    }
+
+    private void FindRiceSpawner()
+    {
+        // 현재 타겟 위치의 RiceSpawner를 찾음
+        currentRiceSpawner = GameObject.Find(positionNames[currentTargetIndex]).GetComponentInChildren<RiceSpawner>();
     }
 }
 

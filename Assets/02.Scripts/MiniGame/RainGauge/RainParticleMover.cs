@@ -79,8 +79,8 @@ public class RainParticleMover : MonoBehaviour
     {
         yield return new WaitForSeconds(waitTimeAtPosition);
 
-        // 다음 위치로 이동 준비
-        currentTargetIndex = (currentTargetIndex + 1) % targetPositions.Count;
+        // 다음 위치를 랜덤하게 설정
+        currentTargetIndex = Random.Range(0, targetPositions.Count);
 
         Debug.Log($"New target position set: {positionNames[currentTargetIndex]} ({targetPositions[currentTargetIndex]})");
         isMoving = true;  // 다음 위치로 이동 시작

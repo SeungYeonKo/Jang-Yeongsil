@@ -1,4 +1,5 @@
 
+using System.Collections;
 using UnityEngine;
 
 public class SoundManager : MonoBehaviour
@@ -14,7 +15,7 @@ public class SoundManager : MonoBehaviour
     int channelIndex;
 
     public enum Bgm { LobbyScene, IntroFireball, Loading, MainScene, RainGauge, SundialScene, AstronomicalChart, ClepsydraScene }
-    public enum Sfx { Rock, WaterItem, PuzzleInPlace, FloatingItem, Clear, Nope, Quiz_OX, Quiz_Blank }
+    public enum Sfx { Rock, WaterItem, PuzzleInPlace, FloatingItem, Quiz_OX, Quiz_Blank }
 
     public static SoundManager instance;
 
@@ -85,5 +86,25 @@ public class SoundManager : MonoBehaviour
                 SfxPlayer[i].Stop();
             }
         }
+    }
+
+    // 사운드 페이드 아웃 기능(자격루 씬에서 자연스럽게 음악 꺼지게 할 때 사용)
+    public void FadeOutBgm(float duration)
+    {
+        StartCoroutine(FadeOutCoroutine(duration));
+    }
+
+    private IEnumerator FadeOutCoroutine(float duration)
+    {
+        float startVolume = BgmPlayer.volume;
+
+        while (BgmPlayer.volume > 0)
+        {
+            BgmPlayer.volume -= startVolume * Time.deltaTime / duration;
+            yield return null;
+        }
+
+        BgmPlayer.Stop();
+        BgmPlayer.volume = startVolume; // 볼륨을 원래 값으로 복구
     }
 }

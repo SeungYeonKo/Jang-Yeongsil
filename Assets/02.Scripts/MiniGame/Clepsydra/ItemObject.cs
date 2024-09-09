@@ -29,6 +29,7 @@ public class ItemObject : MonoBehaviour
             {
                 slotManager.ActivateSlot(ItemType);
             }
+            SoundManager.instance.PlaySfx(SoundManager.Sfx.FloatingItem);
             Destroy(gameObject);
         }
     }

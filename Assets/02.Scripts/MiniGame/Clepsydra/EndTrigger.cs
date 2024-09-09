@@ -31,7 +31,8 @@ public class EndTrigger : MonoBehaviour
         {
             if (_itemSlotManager.AreAllSlotsActivated())
             {
-                // 모든 슬롯이 활성화된 경우, Fade-in 효과를 실행
+                // 모든 슬롯이 활성화된 경우, WaterClockMiniGameOver 설정 후 Fade-in 효과를 실행
+                SetWaterClockMiniGameOver();
                 FadeInEffect();
             }
             else
@@ -40,6 +41,15 @@ public class EndTrigger : MonoBehaviour
                 ActivateFailText();
             }
         }
+    }
+
+    private void SetWaterClockMiniGameOver()
+    {
+        // WaterClockMiniGameOver 값을 true로 설정
+        ExitGames.Client.Photon.Hashtable customProperties = new ExitGames.Client.Photon.Hashtable();
+        customProperties["WaterClockMiniGameOver"] = true;
+        PhotonNetwork.LocalPlayer.SetCustomProperties(customProperties);
+        Debug.Log("WaterClockMiniGameOver 설정 완료");
     }
 
     private void FadeInEffect()

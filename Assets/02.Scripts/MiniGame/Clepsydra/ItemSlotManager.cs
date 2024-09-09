@@ -34,7 +34,7 @@ public class ItemSlotManager : MonoBehaviour
         itemDescriptions.Add(ItemType.Pasuho2, "물을 담는 큰 항아리인 중 파수호를 얻었어!");
         itemDescriptions.Add(ItemType.Pasuho3, "물을 담는 큰 항아리인 소 파수호를 얻었어!");
         itemDescriptions.Add(ItemType.Susuho, "파수호에서 흘러오는 물을 담는 수수호를 얻었어!");
-        itemDescriptions.Add(ItemType.Stick, "지렛대 장치를 건들이는 긴 막대인 잣대를 얻었어!");
+        itemDescriptions.Add(ItemType.Stick, "지렛대 장치를 건드리는 긴 막대인 잣대를 얻었어!");
         itemDescriptions.Add(ItemType.Drum, "시각을 알려주는 북 인형을 얻었어!");
         itemDescriptions.Add(ItemType.Jing, "시각을 알려주는 징 인형을 얻었어!");
         itemDescriptions.Add(ItemType.Bell, "시각을 알려주는 종 인형을 얻었어!");

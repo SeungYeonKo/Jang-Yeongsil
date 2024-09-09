@@ -7,6 +7,7 @@ public class InventionSpawnCheck : MonoBehaviour
     public GameObject Cheugugi;
     public GameObject AstronomicalChart;
     public GameObject ArmillarySphere;
+    public GameObject Clepsydra;
 
     private void Start()
     {
@@ -15,7 +16,9 @@ public class InventionSpawnCheck : MonoBehaviour
             bool sunMiniGameOver = false;
             bool rainMiniGameOver = false;
             bool starMiniGameOver = false;
+            bool waterClockMiniGameOver = false;
 
+            // 해시계 미니게임
             if (PhotonNetwork.LocalPlayer.CustomProperties.ContainsKey("SunMiniGameOver"))
             {
                 sunMiniGameOver = (bool)PhotonNetwork.LocalPlayer.CustomProperties["SunMiniGameOver"];
@@ -28,6 +31,7 @@ public class InventionSpawnCheck : MonoBehaviour
                 Debug.Log("아직 Sundial 값이 없습니다.");
             }
 
+            // 측우기 미니게임
             if (PhotonNetwork.LocalPlayer.CustomProperties.ContainsKey("RainMiniGameOver"))
             {
                 rainMiniGameOver = (bool)PhotonNetwork.LocalPlayer.CustomProperties["RainMiniGameOver"];
@@ -39,6 +43,8 @@ public class InventionSpawnCheck : MonoBehaviour
                 Cheugugi.SetActive(rainMiniGameOver);
                 Debug.Log("아직 Cheugugi 값이 없습니다.");
             }
+
+            // 천문도, 혼천의 미니게임
             if (PhotonNetwork.LocalPlayer.CustomProperties.ContainsKey("StarMiniGameOver"))
             {
                 starMiniGameOver = (bool)PhotonNetwork.LocalPlayer.CustomProperties["StarMiniGameOver"];
@@ -52,6 +58,19 @@ public class InventionSpawnCheck : MonoBehaviour
                 ArmillarySphere.SetActive(starMiniGameOver);
                 Debug.Log("아직 AstronomicalChart 값이 없습니다.");
                 Debug.Log("아직 ArmillarySphere 값이 없습니다.");
+            }
+
+            // 자격루 미니게임
+            if (PhotonNetwork.LocalPlayer.CustomProperties.ContainsKey("WaterClockMiniGameOver"))
+            {
+                waterClockMiniGameOver = (bool)PhotonNetwork.LocalPlayer.CustomProperties["WaterClockMiniGameOver"];
+                Clepsydra.SetActive(waterClockMiniGameOver);
+                Debug.Log($"WaterClockMiniGameOver 상태: {waterClockMiniGameOver}");
+            }
+            else
+            {
+                Clepsydra.SetActive(waterClockMiniGameOver);
+                Debug.Log("아직 Clepsydra 값이 없습니다.");
             }
         }
         else

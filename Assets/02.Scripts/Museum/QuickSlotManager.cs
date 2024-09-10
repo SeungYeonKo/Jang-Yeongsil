@@ -78,4 +78,18 @@ public class QuickSlotManager : MonoBehaviour
         yield return new WaitForSeconds(delay);
         InventionReleasedText.text = "";
     }
+
+    public void ResetQuickSlots()
+    {
+        foreach (var entry in inventionSlotMap)
+        {
+            int slotIndex = entry.Value;
+            BeforeQuickSlots[slotIndex].SetActive(true);
+            AfterQuickSlots[slotIndex].SetActive(false);
+        }
+
+        // 텍스트도 초기화
+        InventionReleasedText.text = "";
+    }
+
 }

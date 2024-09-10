@@ -22,7 +22,6 @@ public class GlobalInventionManager : MonoBehaviourPunCallbacks
             DontDestroyOnLoad(this.gameObject);
         }
 
-        // photonView 초기화 확인
         if (photonView == null)
         {
             Debug.LogError("PhotonView가 할당되지 않았습니다.");
@@ -43,6 +42,8 @@ public class GlobalInventionManager : MonoBehaviourPunCallbacks
                 MuseumInventionState[invention] = false;
         }
     }
+
+
 
     [PunRPC]
     public void SetInventionActive(InventionType inventionType, bool isActive)
@@ -104,4 +105,35 @@ public class GlobalInventionManager : MonoBehaviourPunCallbacks
             }
         }
     }
+
+    // 저장되는 정보 초기화
+    [PunRPC]
+    public void ResetInventionState()
+    {
+        foreach (InventionType invention in System.Enum.GetValues(typeof(InventionType)))
+        {
+            InventionState[invention] = false;
+            QuickSlotState[invention] = false;
+            MuseumInventionState[invention] = false;
+        }
+
+        // PlayerPrefs 초기화
+        PlayerPrefs.DeleteAll();
+        PlayerPrefs.Save();
+
+        // 모든 클라이언트에 동기화
+        photonView.RPC("ResetInventionStateRPC", RpcTarget.AllBuffered);
+    }
+
+    [PunRPC]
+    public void ResetInventionStateRPC()
+    {
+        foreach (InventionType invention in System.Enum.GetValues(typeof(InventionType)))
+        {
+            InventionState[invention] = false;
+            QuickSlotState[invention] = false;
+            MuseumInventionState[invention] = false;
+        }
+    }
+
 }

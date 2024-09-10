@@ -12,7 +12,7 @@ public class RobotManager : MonoBehaviour
     public class OnResponseEvent : UnityEvent<string> { }
 
     private OpenAIApi openAI = new OpenAIApi();
-    private List<ChatMessage> messages = new List<ChatMessage>();
+    private List<OpenAI.ChatMessage> messages = new List<OpenAI.ChatMessage>();
 
     public TMP_InputField inputField;
     public RobotUI robotUI;
@@ -36,7 +36,7 @@ public class RobotManager : MonoBehaviour
 
         // UI를 항상 활성화
         robotUI.gameObject.SetActive(true);
-        
+
         // 친절한 인사말 출력
         robotUI.DisplayMessage("[장영실 백과사전] 무엇이든 물어보세요! 장영실의 발명품이나 생애에 대해 알고 싶으면 질문해 주세요.");
     }
@@ -67,13 +67,13 @@ public class RobotManager : MonoBehaviour
         }
 
         // ChatGPT 요청을 위한 시스템 메시지
-        ChatMessage systemMessage = new ChatMessage
+        OpenAI.ChatMessage systemMessage = new OpenAI.ChatMessage
         {
             Role = "system",
             Content = "한국어로 쉽게 설명하세요. 당신은 장영실 관련 백과사전입니다. 초등학교 저학년 학생들이 이해할 수 있게, 간단하고 친절하게 한 문장으로 대답하세요."
         };
 
-        ChatMessage userChatMessage = new ChatMessage
+        OpenAI.ChatMessage userChatMessage = new OpenAI.ChatMessage
         {
             Content = userMessage,
             Role = "user"

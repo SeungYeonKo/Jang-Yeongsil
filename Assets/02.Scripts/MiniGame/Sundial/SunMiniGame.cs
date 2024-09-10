@@ -17,6 +17,7 @@ public class SunMiniGame : MonoBehaviour
     public Image SunImage;
     public Image ImagePP;
 
+    public Camera mainCamera;  // 추가
     public Camera miniGameCamera;
     public Camera moonCamera;
 
@@ -300,11 +301,14 @@ public class SunMiniGame : MonoBehaviour
         isGameActive = false;
         _isGameOver = true;
         qzText.gameObject.SetActive(false);
+
+        // 플레이어 이동 활성화
         if (playerMoveAbility != null)
         {
             playerMoveAbility.EnableMovement();
         }
 
+        // Photon 네트워크 처리
         if (PhotonNetwork.IsMasterClient)
         {
             Hashtable playerProperties = new Hashtable { { "SunMiniGameOver", true } };
@@ -312,10 +316,20 @@ public class SunMiniGame : MonoBehaviour
             Debug.Log($"{playerProperties} 저장");
         }
 
-        // ClockInteraction 스크립트에서 UI와 카메라를 초기 상태로 되돌리도록 호출
+        // **MainCamera로 전환** 추가
+        if (mainCamera != null)
+        {
+            mainCamera.enabled = true;
+        }
+        if (miniGameCamera != null)
+        {
+            miniGameCamera.enabled = false;
+        }
+
+        // **UI 리셋** 추가
         if (clockInteraction != null)
         {
-            clockInteraction.ResetMiniGame();
+            clockInteraction.ResetMiniGame();  // 기존 리셋 함수에서 UI 처리를 수행
         }
     }
 

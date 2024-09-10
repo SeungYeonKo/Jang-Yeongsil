@@ -12,13 +12,16 @@ public class SunMiniGame : MonoBehaviour
     public PlayerMoveAbility playerMoveAbility;
     public Slider sundialSlider; // 슬라이더 오브젝트 참조
     public TextMeshProUGUI questionText; // 문제를 표시할 텍스트 UI
+    public Image rightImage; // 정답 시 표시할 이미지
+    public TextMeshProUGUI qzText; // 문제 텍스트
+    public Image SunImage; // Sun 이미지
+    public Image ImagePP; // Post processing 이미지
+
     public Camera miniGameCamera; // 미니게임 카메라
     public Camera moonCamera; // Moon을 비출 카메라
 
     private float tolerance = 5f; // 정답으로 인정되는 오차 범위
     public float answerHoldTime = 3.0f; // 정답으로 간주되기 위해 플레이어가 슬라이더를 멈추는 시간
-    public Image rightImage;
-    public TextMeshProUGUI qzText; // 문제 텍스트
     private bool isPlayerAnswering = false; // 플레이어가 정답을 맞추기 위해 슬라이더를 조작하고 있는지
     private float answerHoldTimer = 0.0f;
 
@@ -40,7 +43,7 @@ public class SunMiniGame : MonoBehaviour
     // Moon 오브젝트들을 관리하기 위한 리스트
     public List<GameObject> moons;
     // SkyboxManager 참조
-    public SkyboxManager skyboxManager;
+    public SkyboxManager skyboxManager; 
 
     void Start()
     {
@@ -190,9 +193,16 @@ public class SunMiniGame : MonoBehaviour
         // 정답을 맞췄을 때 Moon 오브젝트를 서서히 비활성화하고 카메라 전환
         if (SuccsessCount <= moons.Count)
         {
-            // 카메라를 MoonCamera로 전환
+            // MoonCamera로 전환하고 UI를 비활성화
             moonCamera.enabled = true;
             miniGameCamera.enabled = false;
+
+            // 미니게임 UI 비활성화
+            rightImage.gameObject.SetActive(false);
+            qzText.gameObject.SetActive(false);
+            sundialSlider.gameObject.SetActive(false);
+            SunImage.gameObject.SetActive(false);
+            ImagePP.gameObject.SetActive(false);
 
             StartCoroutine(FadeOutAndDisable(moons[SuccsessCount - 1])); // 코루틴 호출
         }
@@ -270,7 +280,7 @@ public class SunMiniGame : MonoBehaviour
         }
     }
 
-    // 오브젝트가 서서히 사라지고 나면 미니게임 카메라로 복귀
+    // 오브젝트가 서서히 사라지고 나면 미니게임 카메라로 복귀하고 UI 활성화
     private IEnumerator FadeOutAndDisable(GameObject obj)
     {
         Renderer objRenderer = obj.GetComponent<Renderer>();
@@ -298,6 +308,11 @@ public class SunMiniGame : MonoBehaviour
 
             moonCamera.enabled = false;
             miniGameCamera.enabled = true;
+
+            // 미니게임 UI 다시 활성화 (RightImage는 제외)
+            SunImage.gameObject.SetActive(true);
+            sundialSlider.gameObject.SetActive(true);
+            ImagePP.gameObject.SetActive(true);
         }
         else
         {

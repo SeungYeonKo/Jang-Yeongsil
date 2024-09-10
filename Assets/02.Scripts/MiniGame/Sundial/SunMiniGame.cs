@@ -180,11 +180,12 @@ public class SunMiniGame : MonoBehaviour
         Debug.Log("정답 맞춤");
         SuccsessCount += 1;
 
-        // 정답을 맞췄을 때 Moon 오브젝트 비활성화
+        // 정답을 맞췄을 때 Moon 오브젝트를 서서히 비활성화
         if (SuccsessCount <= moons.Count)
         {
-            moons[SuccsessCount - 1].SetActive(false); // 정답 횟수에 맞춰 Moon 오브젝트 비활성화
+            StartCoroutine(FadeOutAndDisable(moons[SuccsessCount - 1])); // 코루틴 호출
         }
+
         if (SuccsessCount == 3)
         {
             // 문제 3개를 맞췄을 때 Skybox 전환 시작
@@ -193,6 +194,7 @@ public class SunMiniGame : MonoBehaviour
                 skyboxManager.StartSkyboxTransition();
             }
         }
+
         if (SuccsessCount < 3)
         {
             StartMiniGame(); // 정답을 맞췄고, 3번이 되지 않았다면 다음 문제 제시
@@ -256,4 +258,32 @@ public class SunMiniGame : MonoBehaviour
             clockInteraction.ResetMiniGame();
         }
     }
+    private IEnumerator FadeOutAndDisable(GameObject obj)
+    {
+        Renderer objRenderer = obj.GetComponent<Renderer>();
+        if (objRenderer != null)
+        {
+            Material objMaterial = objRenderer.material;
+
+            Color startColor = objMaterial.color; // 초기 색상
+            float fadeDuration = 2.0f; // 페이드 아웃 지속 시간
+            float fadeTimer = 0.0f;
+
+            while (fadeTimer < fadeDuration)
+            {
+                fadeTimer += Time.deltaTime;
+                float alpha = Mathf.Lerp(1f, 0f, fadeTimer / fadeDuration); // 알파 값이 1에서 0으로 변화
+                objMaterial.color = new Color(startColor.r, startColor.g, startColor.b, alpha);
+
+                yield return null; // 한 프레임 대기
+            }
+
+            obj.SetActive(false); // 페이드 아웃이 끝나면 오브젝트 비활성화
+        }
+        else
+        {
+            Debug.LogError("Renderer가 없습니다. 페이드 아웃을 적용할 수 없습니다.");
+        }
+    }
+
 }

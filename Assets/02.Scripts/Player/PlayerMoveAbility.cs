@@ -137,7 +137,6 @@ public class PlayerMoveAbility : PlayerAbility
             MouseInput();
         }
 
-
         if (Input.GetKeyDown(KeyCode.Space) && isGrounded && Time.time >= _lastJumpTime + _jumpCooldown)
         {
             if (_isRunning)

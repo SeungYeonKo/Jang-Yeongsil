@@ -14,6 +14,11 @@ public class Rice : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
+        if (RainGaugeManager.Instance.CurrentGameState != GameState.Go)
+        {
+            return;
+        }
+
         Debug.Log($"Triggered with {other.gameObject.name}");
         if (other.CompareTag("Jar"))
         {

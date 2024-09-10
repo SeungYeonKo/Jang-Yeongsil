@@ -46,7 +46,7 @@ public class RobotManager : MonoBehaviour
         if (string.IsNullOrWhiteSpace(inputText))
             return;
 
-        string userMessage = $"[나] {inputText}";
+        string userMessage = $"\n[질문] {inputText}";
 
         // 사용자 입력을 채팅창에 표시
         robotUI.DisplayMessage(userMessage);
@@ -96,7 +96,7 @@ public class RobotManager : MonoBehaviour
             var chatResponse = response.Choices[0].Message;
             messages.Add(chatResponse);
 
-            string responseMessage = $"[장영실 백과사전] {chatResponse.Content}";
+            string responseMessage = $"\n[장영실 백과사전] {chatResponse.Content}";
             robotUI.DisplayMessage(responseMessage);
         }
     }
@@ -128,7 +128,6 @@ public class RobotManager : MonoBehaviour
             return "측우기는 비가 얼마나 오는지를 측정하는 기구입니다. 장영실이 만든 이 기구 덕분에 농사 짓는 사람들이 비의 양을 기록해 농사를 더 잘 지을 수 있었습니다.";
         }
 
-        // 키워드에 해당하지 않으면 null 반환
         return null;
     }
 }

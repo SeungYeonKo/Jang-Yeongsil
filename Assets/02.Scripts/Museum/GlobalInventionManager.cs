@@ -86,27 +86,27 @@ public class GlobalInventionManager : MonoBehaviourPunCallbacks
         return MuseumInventionState.ContainsKey(inventionType) && MuseumInventionState[inventionType];
     }
 
-   /* public void SaveQuickSlotData()
-    {
-        foreach (var entry in QuickSlotState)
-        {
-            PlayerPrefs.SetInt(entry.Key.ToString(), entry.Value ? 1 : 0);
-        }
-        PlayerPrefs.Save();
-    }
+    /* public void SaveQuickSlotData()
+     {
+         foreach (var entry in QuickSlotState)
+         {
+             PlayerPrefs.SetInt(entry.Key.ToString(), entry.Value ? 1 : 0);
+         }
+         PlayerPrefs.Save();
+     }
 
-    public void LoadQuickSlotData()
-    {
-        foreach (InventionType invention in System.Enum.GetValues(typeof(InventionType)))
-        {
-            if (PlayerPrefs.HasKey(invention.ToString()))
-            {
-                QuickSlotState[invention] = PlayerPrefs.GetInt(invention.ToString()) == 1;
-            }
-            else
-            {
-                QuickSlotState[invention] = false; // 기본값을 비활성화 상태로 설정
-            }
-        }
-    }*/
+     public void LoadQuickSlotData()
+     {
+         foreach (InventionType invention in System.Enum.GetValues(typeof(InventionType)))
+         {
+             if (PlayerPrefs.HasKey(invention.ToString()))
+             {
+                 QuickSlotState[invention] = PlayerPrefs.GetInt(invention.ToString()) == 1;
+             }
+             else
+             {
+                 QuickSlotState[invention] = false; // 기본값을 비활성화 상태로 설정
+             }
+         }
+     }*/
 }

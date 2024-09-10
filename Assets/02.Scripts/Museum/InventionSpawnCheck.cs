@@ -3,11 +3,11 @@ using UnityEngine;
 
 public class InventionSpawnCheck : MonoBehaviour
 {
-    public GameObject Sundial;
-    public GameObject Cheugugi;
-    public GameObject AstronomicalChart;
-    public GameObject ArmillarySphere;
-    public GameObject Clepsydra;
+    public Transform sundialSpawnPoint;
+    public Transform cheugugiSpawnPoint;
+    public Transform astronomicalChartSpawnPoint;
+    public Transform armillarySphereSpawnPoint;
+    public Transform clepsydraSpawnPoint;
 
     private void Start()
     {
@@ -22,55 +22,46 @@ public class InventionSpawnCheck : MonoBehaviour
             if (PhotonNetwork.LocalPlayer.CustomProperties.ContainsKey("SunMiniGameOver"))
             {
                 sunMiniGameOver = (bool)PhotonNetwork.LocalPlayer.CustomProperties["SunMiniGameOver"];
-                Sundial.SetActive(sunMiniGameOver);
-                Debug.Log($"SunMiniGameOver 상태: {sunMiniGameOver}");
-            }
-            else
-            {
-                Sundial.SetActive(sunMiniGameOver);
-                Debug.Log("아직 Sundial 값이 없습니다.");
+                if (sunMiniGameOver)
+                {
+                    // 프리팹의 기본 스케일 유지
+                    PhotonNetwork.Instantiate("Sundial", sundialSpawnPoint.position, Quaternion.identity);
+                    Debug.Log($"해시계가 생성됨, 위치: {sundialSpawnPoint.position}");
+                }
             }
 
             // 측우기 미니게임
             if (PhotonNetwork.LocalPlayer.CustomProperties.ContainsKey("RainMiniGameOver"))
             {
                 rainMiniGameOver = (bool)PhotonNetwork.LocalPlayer.CustomProperties["RainMiniGameOver"];
-                Cheugugi.SetActive(rainMiniGameOver);
-                Debug.Log($"RainMiniGameOver 상태: {rainMiniGameOver}");
-            }
-            else
-            {
-                Cheugugi.SetActive(rainMiniGameOver);
-                Debug.Log("아직 Cheugugi 값이 없습니다.");
+                if (rainMiniGameOver)
+                {
+                    PhotonNetwork.Instantiate("Cheugugi", cheugugiSpawnPoint.position, Quaternion.identity);
+                    Debug.Log($"측우기가 생성됨, 위치: {cheugugiSpawnPoint.position}");
+                }
             }
 
-            // 천문도, 혼천의 미니게임
+            // 천문도와 혼천의 미니게임
             if (PhotonNetwork.LocalPlayer.CustomProperties.ContainsKey("StarMiniGameOver"))
             {
                 starMiniGameOver = (bool)PhotonNetwork.LocalPlayer.CustomProperties["StarMiniGameOver"];
-                AstronomicalChart.SetActive(starMiniGameOver);
-                ArmillarySphere.SetActive(starMiniGameOver);
-                Debug.Log($"StarMiniGameOver 상태: {starMiniGameOver}");
-            }
-            else
-            {
-                AstronomicalChart.SetActive(starMiniGameOver);
-                ArmillarySphere.SetActive(starMiniGameOver);
-                Debug.Log("아직 AstronomicalChart 값이 없습니다.");
-                Debug.Log("아직 ArmillarySphere 값이 없습니다.");
+                if (starMiniGameOver)
+                {
+                    PhotonNetwork.Instantiate("AstronomicalChart", astronomicalChartSpawnPoint.position, Quaternion.identity);
+                    PhotonNetwork.Instantiate("ArmillarySphere", armillarySphereSpawnPoint.position, Quaternion.identity);
+                    Debug.Log($"천문도와 혼천의가 생성됨, 위치: {astronomicalChartSpawnPoint.position}, {armillarySphereSpawnPoint.position}");
+                }
             }
 
             // 자격루 미니게임
             if (PhotonNetwork.LocalPlayer.CustomProperties.ContainsKey("WaterClockMiniGameOver"))
             {
                 waterClockMiniGameOver = (bool)PhotonNetwork.LocalPlayer.CustomProperties["WaterClockMiniGameOver"];
-                Clepsydra.SetActive(waterClockMiniGameOver);
-                Debug.Log($"WaterClockMiniGameOver 상태: {waterClockMiniGameOver}");
-            }
-            else
-            {
-                Clepsydra.SetActive(waterClockMiniGameOver);
-                Debug.Log("아직 Clepsydra 값이 없습니다.");
+                if (waterClockMiniGameOver)
+                {
+                    PhotonNetwork.Instantiate("Clepsydra", clepsydraSpawnPoint.position, Quaternion.identity);
+                    Debug.Log($"자격루가 생성됨, 위치: {clepsydraSpawnPoint.position}");
+                }
             }
         }
         else

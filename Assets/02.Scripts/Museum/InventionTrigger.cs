@@ -15,19 +15,32 @@ public class InventionTrigger : MonoBehaviour
     {
         if (other.CompareTag("Player"))
         {
-            PhotonView playerPhotonView = other.GetComponent<PhotonView>();
+            Debug.Log("Player entered the trigger zone.");
 
-            // 로컬 플레이어인지 확인
+            PhotonView playerPhotonView = other.GetComponent<PhotonView>();
             if (playerPhotonView.IsMine)
             {
+                Debug.Log("Trigger event for local player.");
+
                 QuickSlotManager.ActivateAfterQuickSlot(InventionType);
-                GlobalInventionManager.Instance.SetInventionActive(InventionType, true);
+
+                // GlobalInventionManager가 존재하는지 확인 후 발명품 활성화 처리
+                if (GlobalInventionManager.Instance != null)
+                {
+                    GlobalInventionManager.Instance.SetInventionActive(InventionType, true);
+                    Debug.Log($"Invention {InventionType} activated in the museum.");
+                }
+                else
+                {
+                    Debug.LogError("GlobalInventionManager instance is missing.");
+                }
 
                 // PhotonView를 가져와서 RPC 호출
                 PhotonView photonView = PhotonView.Get(this);
                 if (photonView != null)
                 {
-                    photonView.RPC("DestroyObject", RpcTarget.AllBuffered); // Buffered로 설정
+                    Debug.Log("PhotonView found, calling DestroyObject RPC.");
+                    photonView.RPC("DestroyObject", RpcTarget.AllBuffered); // Buffered로 설정하여 나중에 방에 들어온 플레이어도 반영
                 }
                 else
                 {
@@ -37,12 +50,20 @@ public class InventionTrigger : MonoBehaviour
         }
     }
 
+
+
+
     [PunRPC]
     private void DestroyObject()
     {
         if (PhotonNetwork.IsMasterClient)
         {
+            Debug.Log("Destroying object as the MasterClient.");
             PhotonNetwork.Destroy(this.gameObject); // PhotonNetwork.Destroy 사용
+        }
+        else
+        {
+            Debug.Log("Not the MasterClient, skipping destroy.");
         }
     }
 }

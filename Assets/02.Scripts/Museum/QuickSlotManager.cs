@@ -1,8 +1,9 @@
-using System.Collections;
-using System.Collections.Generic;
-using TMPro;
 using UnityEngine;
+using TMPro;
 using Photon.Pun;
+using UnityEngine.SceneManagement;
+using System.Collections.Generic;
+using System.Collections;
 
 public class QuickSlotManager : MonoBehaviour
 {
@@ -29,27 +30,67 @@ public class QuickSlotManager : MonoBehaviour
         { InventionType.Clepsydra, "자격루가 해금되었습니다. 박물관에서 확인하세요!" }
     };
 
-    private void Start()
+    private void Awake()
     {
-        RestoreQuickSlotState();
+        // PlayerPrefs 초기화 코드는 제거. 씬마다 상태를 유지하기 위해 PlayerPrefs를 사용하는 방식으로 변경.
     }
 
-    private void RestoreQuickSlotState()
+    private void Start()
+    {
+        if (GlobalInventionManager.Instance == null)
+        {
+            Debug.LogError("GlobalInventionManager.Instance가 null입니다. 메인 씬에서 GlobalInventionManager가 생성되었는지 확인하세요.");
+            return;
+        }
+
+        // PlayerPrefs에서 퀵슬롯 상태 복원
+        RestoreQuickSlotStateFromPlayerPrefs();
+
+        // 씬 전환 후 퀵슬롯 상태 복원
+        SceneManager.sceneLoaded += OnSceneLoad;
+    }
+
+    private void OnDestroy()
+    {
+        // 씬이 전환될 때 이벤트 해제
+        SceneManager.sceneLoaded -= OnSceneLoad;
+    }
+
+    // 씬이 로드될 때 호출
+    private void OnSceneLoad(Scene scene, LoadSceneMode mode)
+    {
+        RestoreQuickSlotStateFromPlayerPrefs();
+    }
+
+    private void RestoreQuickSlotStateFromPlayerPrefs()
     {
         foreach (var entry in inventionSlotMap)
         {
             InventionType inventionType = entry.Key;
             int slotIndex = entry.Value;
 
-            if (GlobalInventionManager.Instance.GetQuickSlotState(inventionType))
+            // PlayerPrefs에서 상태 불러오기
+            if (PlayerPrefs.HasKey(inventionType.ToString()))
             {
-                AfterQuickSlots[slotIndex].SetActive(true);
-                BeforeQuickSlots[slotIndex].SetActive(false);
+                bool isActive = PlayerPrefs.GetInt(inventionType.ToString()) == 1;
+
+                // 퀵슬롯 활성화/비활성화
+                if (isActive)
+                {
+                    AfterQuickSlots[slotIndex]?.SetActive(true);
+                    BeforeQuickSlots[slotIndex]?.SetActive(false);
+                }
+                else
+                {
+                    AfterQuickSlots[slotIndex]?.SetActive(false);
+                    BeforeQuickSlots[slotIndex]?.SetActive(true);
+                }
             }
             else
             {
-                AfterQuickSlots[slotIndex].SetActive(false);
-                BeforeQuickSlots[slotIndex].SetActive(true);
+                // PlayerPrefs에 데이터가 없을 때는 기본적으로 before 상태로 설정
+                AfterQuickSlots[slotIndex]?.SetActive(false);
+                BeforeQuickSlots[slotIndex]?.SetActive(true);
             }
         }
     }
@@ -62,7 +103,9 @@ public class QuickSlotManager : MonoBehaviour
             {
                 AfterQuickSlots[slotIndex].SetActive(true);
                 BeforeQuickSlots[slotIndex].SetActive(false);
-                GlobalInventionManager.Instance.SaveQuickSlotState(inventionType, true);
+
+                // 발명품을 획득하면 PlayerPrefs에 상태 저장
+                SaveQuickSlotStateWithPlayerPrefs(inventionType, true);
             }
 
             if (inventionMessages.TryGetValue(inventionType, out string message))
@@ -71,6 +114,15 @@ public class QuickSlotManager : MonoBehaviour
                 StartCoroutine(HideInventionTextAfterDelay(2f));
             }
         }
+    }
+
+    public void SaveQuickSlotStateWithPlayerPrefs(InventionType inventionType, bool isActive)
+    {
+        // PlayerPrefs에 상태 저장
+        PlayerPrefs.SetInt(inventionType.ToString(), isActive ? 1 : 0);
+        PlayerPrefs.Save();
+
+        Debug.Log($"PlayerPrefs에 {inventionType} 상태 저장됨: {isActive}");
     }
 
     private IEnumerator HideInventionTextAfterDelay(float delay)
@@ -91,5 +143,4 @@ public class QuickSlotManager : MonoBehaviour
         // 텍스트도 초기화
         InventionReleasedText.text = "";
     }
-
 }

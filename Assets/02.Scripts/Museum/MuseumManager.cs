@@ -21,8 +21,11 @@ public class MuseumManager : MonoBehaviour
             string inventionName = obj.name;
             if (inventionNameMap.TryGetValue(inventionName, out InventionType inventionType))
             {
-                obj.SetActive(GlobalInventionManager.Instance.GetMuseumInventionState(inventionType));
+                bool isActive = GlobalInventionManager.Instance.GetMuseumInventionState(inventionType);
+                Debug.Log($"Activating museum object {inventionName}: {isActive}");
+                obj.SetActive(isActive);
             }
         }
     }
+
 }

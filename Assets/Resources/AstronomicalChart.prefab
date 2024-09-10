@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 8212107232876675754}
   - component: {fileID: 5203770417394268516}
   - component: {fileID: 384097357842643602}
-  - component: {fileID: 7061760506323582579}
+  - component: {fileID: -7830634031830792882}
   m_Layer: 0
   m_Name: AstronomicalChart
   m_TagString: Untagged
@@ -32,7 +32,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0.065578386, y: -0.6015662, z: 0.06027623, w: 0.79384154}
   m_LocalPosition: {x: 611.85, y: 1.87, z: 226.24}
-  m_LocalScale: {x: 0.03, y: 0.05, z: 0.0012924961}
+  m_LocalScale: {x: 1.6079456, y: 2.6799092, z: 0.06927544}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -141,8 +141,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f9eb15556809932479cf51839fc6492c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  InventionType: 0
---- !u!114 &7061760506323582579
+  InventionType: 3
+--- !u!114 &-7830634031830792882
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}

@@ -61,6 +61,8 @@ MonoBehaviour:
   - SetInventionActive
   - ResetInventionStateRPC
   - ResetInventionState
+  - SyncObjectActiveState
+  - SyncInventionState
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 0

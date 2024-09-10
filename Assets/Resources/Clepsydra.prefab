@@ -12,10 +12,10 @@ GameObject:
   - component: {fileID: 2275368724290310502}
   - component: {fileID: 9171576850038126951}
   - component: {fileID: 5942611200009572078}
-  - component: {fileID: 377119335541160320}
+  - component: {fileID: 7387693792714225421}
   m_Layer: 0
   m_Name: Clepsydra
-  m_TagString: Untagged
+  m_TagString: Invention
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -30,7 +30,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 611.3967, y: 0.012616873, z: 542.50244}
-  m_LocalScale: {x: 1.7232463, y: 1.7232462, z: 1.7232463}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1217812800190764486}
@@ -91,7 +91,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   InventionType: 4
---- !u!114 &377119335541160320
+--- !u!114 &7387693792714225421
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}

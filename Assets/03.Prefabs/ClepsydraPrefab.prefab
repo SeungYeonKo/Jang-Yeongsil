@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 1690026705653976676}
   - component: {fileID: 418711616779292958}
   - component: {fileID: 812079925734336385}
+  - component: {fileID: 7971604031265303929}
   m_Layer: 0
   m_Name: ClepsydraPrefab
   m_TagString: Untagged
@@ -29,7 +30,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 1.8163167, y: 1.934411, z: 98.27818}
-  m_LocalScale: {x: 1.7232463, y: 1.7232462, z: 1.7232463}
+  m_LocalScale: {x: 0.018, y: 0.018, z: 0.018}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 427366860627182134}
@@ -89,7 +90,29 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f9eb15556809932479cf51839fc6492c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  InventionType: 4
+  InventionType: 0
+--- !u!114 &7971604031265303929
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1676389330414573320}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aa584fbee541324448dd18d8409c7a41, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ObservedComponentsFoldoutOpen: 1
+  Group: 0
+  prefixField: -1
+  Synchronization: 3
+  OwnershipTransfer: 0
+  observableSearch: 2
+  ObservedComponents: []
+  sceneViewId: 0
+  InstantiationId: 0
+  isRuntimeInstantiated: 0
 --- !u!1 &3987719604166964047
 GameObject:
   m_ObjectHideFlags: 0

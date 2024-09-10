@@ -43,7 +43,7 @@ public class JarScore : MonoBehaviourPunCallbacks
                 jar1Timer += Time.deltaTime;
                 if (jar1Timer >= scoreIncreaseInterval)
                 {
-                    IncreaseScore(1, 1);
+                    IncreaseScore(1, 0);
                     jar1Timer = 0f;
                 }
             }
@@ -52,7 +52,7 @@ public class JarScore : MonoBehaviourPunCallbacks
                 jar2Timer += Time.deltaTime;
                 if (jar2Timer >= scoreIncreaseInterval)
                 {
-                    IncreaseScore(2, 1);
+                    IncreaseScore(2, 0);
                     jar2Timer = 0f;
                 }
             }
@@ -61,7 +61,7 @@ public class JarScore : MonoBehaviourPunCallbacks
                 jar3Timer += Time.deltaTime;
                 if (jar3Timer >= scoreIncreaseInterval)
                 {
-                    IncreaseScore(3, 1);
+                    IncreaseScore(3, 0);
                     jar3Timer = 0f;
                 }
             }
@@ -70,7 +70,7 @@ public class JarScore : MonoBehaviourPunCallbacks
                 jar4Timer += Time.deltaTime;
                 if (jar4Timer >= scoreIncreaseInterval)
                 {
-                    IncreaseScore(4, 1);
+                    IncreaseScore(4, 0);
                     jar4Timer = 0f;
                 }
             }

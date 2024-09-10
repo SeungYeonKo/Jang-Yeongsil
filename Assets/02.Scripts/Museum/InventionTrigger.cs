@@ -22,8 +22,17 @@ public class InventionTrigger : MonoBehaviour
             {
                 QuickSlotManager.ActivateAfterQuickSlot(InventionType);
                 GlobalInventionManager.Instance.SetInventionActive(InventionType, true);
+
+                // PhotonView를 가져와서 RPC 호출
                 PhotonView photonView = PhotonView.Get(this);
-                photonView.RPC("DestroyObject", RpcTarget.AllBuffered); // Buffered로 설정
+                if (photonView != null)
+                {
+                    photonView.RPC("DestroyObject", RpcTarget.AllBuffered); // Buffered로 설정
+                }
+                else
+                {
+                    Debug.LogError("PhotonView를 찾을 수 없습니다.");
+                }
             }
         }
     }
@@ -31,6 +40,9 @@ public class InventionTrigger : MonoBehaviour
     [PunRPC]
     private void DestroyObject()
     {
-        Destroy(this.gameObject);
+        if (PhotonNetwork.IsMasterClient)
+        {
+            PhotonNetwork.Destroy(this.gameObject); // PhotonNetwork.Destroy 사용
+        }
     }
 }

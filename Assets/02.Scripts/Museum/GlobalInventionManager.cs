@@ -22,6 +22,12 @@ public class GlobalInventionManager : MonoBehaviourPunCallbacks
             DontDestroyOnLoad(this.gameObject);
         }
 
+        // photonView 초기화 확인
+        if (photonView == null)
+        {
+            Debug.LogError("PhotonView가 할당되지 않았습니다.");
+        }
+
         LoadQuickSlotData(); // 퀵슬롯 데이터 불러오기
 
         // 초기 상태 설정
@@ -51,7 +57,17 @@ public class GlobalInventionManager : MonoBehaviourPunCallbacks
     public void SaveQuickSlotState(InventionType inventionType, bool isActive)
     {
         QuickSlotState[inventionType] = isActive;
-        photonView.RPC("SetInventionActive", RpcTarget.AllBuffered, inventionType, isActive); // 모든 클라이언트에 상태 동기화 (Buffered 사용)
+
+        // photonView가 null이 아닌지 확인 후 RPC 호출
+        if (photonView != null)
+        {
+            photonView.RPC("SetInventionActive", RpcTarget.AllBuffered, inventionType, isActive); // 모든 클라이언트에 상태 동기화 (Buffered 사용)
+        }
+        else
+        {
+            Debug.LogError("PhotonView가 null입니다. SetInventionActive를 호출할 수 없습니다.");
+        }
+
         SaveQuickSlotData(); // 상태가 변경될 때마다 저장
     }
 

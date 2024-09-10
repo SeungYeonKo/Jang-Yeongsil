@@ -15,4 +15,12 @@ public class StoryTrigger : MonoBehaviour
             }
         }
     }
+
+    public void StartStory()
+    {
+        if (dialogueRunner != null && !dialogueRunner.IsDialogueRunning)
+        {
+            dialogueRunner.StartDialogue(startNode);
+        }
+    }
 }

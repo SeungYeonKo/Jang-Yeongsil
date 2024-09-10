@@ -12,9 +12,11 @@ public class JangChatChoice : MonoBehaviour
     public List<TextMeshProUGUI> Texts;
     public GameObject FindMe;
     public SphereCollider JangCollider;
+    public GameObject StoryMode;
     void Start()
     {
         FindMe.SetActive(true);
+        StoryMode.SetActive(false);
         Choices.SetActive(false);
         TextBG.SetActive(false);
         foreach (var textMesh in Texts)
@@ -59,6 +61,12 @@ public class JangChatChoice : MonoBehaviour
         Choices.SetActive(false);
         TextBG.SetActive(true);
         Texts[3].gameObject.SetActive(true);
+    }
+
+    public void OnClickStoryModeButton()
+    {
+        Choices.SetActive(false);
+        StoryMode.SetActive(true);
     }
 
     public void OnClickRetryButton()

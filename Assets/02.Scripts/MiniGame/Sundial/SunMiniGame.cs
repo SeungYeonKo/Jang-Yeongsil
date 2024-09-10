@@ -12,6 +12,8 @@ public class SunMiniGame : MonoBehaviour
     public PlayerMoveAbility playerMoveAbility;
     public Slider sundialSlider; // 슬라이더 오브젝트 참조
     public TextMeshProUGUI questionText; // 문제를 표시할 텍스트 UI
+    public Camera miniGameCamera; // 미니게임 카메라
+    public Camera moonCamera; // Moon을 비출 카메라
 
     private float tolerance = 5f; // 정답으로 인정되는 오차 범위
     public float answerHoldTime = 3.0f; // 정답으로 간주되기 위해 플레이어가 슬라이더를 멈추는 시간
@@ -38,9 +40,14 @@ public class SunMiniGame : MonoBehaviour
     // Moon 오브젝트들을 관리하기 위한 리스트
     public List<GameObject> moons;
     // SkyboxManager 참조
-    public SkyboxManager skyboxManager; 
+    public SkyboxManager skyboxManager;
+
     void Start()
     {
+        // 미니게임 카메라를 활성화하고, Moon 카메라는 비활성화
+        miniGameCamera.enabled = true;
+        moonCamera.enabled = false;
+
         // 문제와 정답의 경우의 수를 설정합니다.
         questionAnswerPairs = new Dictionary<string, float>
         {
@@ -180,9 +187,13 @@ public class SunMiniGame : MonoBehaviour
         Debug.Log("정답 맞춤");
         SuccsessCount += 1;
 
-        // 정답을 맞췄을 때 Moon 오브젝트를 서서히 비활성화
+        // 정답을 맞췄을 때 Moon 오브젝트를 서서히 비활성화하고 카메라 전환
         if (SuccsessCount <= moons.Count)
         {
+            // 카메라를 MoonCamera로 전환
+            moonCamera.enabled = true;
+            miniGameCamera.enabled = false;
+
             StartCoroutine(FadeOutAndDisable(moons[SuccsessCount - 1])); // 코루틴 호출
         }
 
@@ -258,6 +269,8 @@ public class SunMiniGame : MonoBehaviour
             clockInteraction.ResetMiniGame();
         }
     }
+
+    // 오브젝트가 서서히 사라지고 나면 미니게임 카메라로 복귀
     private IEnumerator FadeOutAndDisable(GameObject obj)
     {
         Renderer objRenderer = obj.GetComponent<Renderer>();
@@ -279,11 +292,16 @@ public class SunMiniGame : MonoBehaviour
             }
 
             obj.SetActive(false); // 페이드 아웃이 끝나면 오브젝트 비활성화
+
+            // 오브젝트가 사라지고 1초 후에 다시 미니게임 카메라로 전환
+            yield return new WaitForSeconds(1.0f);
+
+            moonCamera.enabled = false;
+            miniGameCamera.enabled = true;
         }
         else
         {
             Debug.LogError("Renderer가 없습니다. 페이드 아웃을 적용할 수 없습니다.");
         }
     }
-
 }

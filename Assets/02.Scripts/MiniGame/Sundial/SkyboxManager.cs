@@ -3,19 +3,20 @@ using UnityEngine;
 
 public class SkyboxManager : MonoBehaviour
 {
-    public Camera nightCamera;  // 밤하늘 스카이박스를 렌더링할 카메라
-    public Camera dayCamera;    // 낮하늘 스카이박스를 렌더링할 카메라
-    public float transitionDuration = 5.0f;  // 전환 시간
+    public Material daySkybox;  // 낮 스카이박스
+    public Material nightSkybox;  // 밤 스카이박스
+    public float transitionDuration = 5.0f;  // 스카이박스 전환 시간
 
     private bool isTransitioning = false;
 
+    // 시작 시에 어두운 하늘 설정
     private void Start()
     {
-        // 시작 시 밤 카메라만 활성화
-        nightCamera.enabled = true;
-        dayCamera.enabled = false;
+        // 처음엔 밤 스카이박스를 설정
+        RenderSettings.skybox = nightSkybox;
     }
 
+    // 3문제를 맞춘 후 호출할 스카이박스 전환 함수
     public void StartSkyboxTransition()
     {
         if (!isTransitioning)
@@ -24,29 +25,35 @@ public class SkyboxManager : MonoBehaviour
         }
     }
 
+    // 스카이박스를 낮하늘로 전환하는 코루틴
     private IEnumerator SkyboxTransitionCoroutine()
     {
         isTransitioning = true;
         float timer = 0.0f;
 
-        // 낮 카메라 활성화
-        dayCamera.enabled = true;
+        // 현재 노출도를 저장 (초기값은 1.0, 어두운 밤)
+        float initialExposure = RenderSettings.skybox.GetFloat("_Exposure");
+        float targetExposure = 1.3f;  // 전환할 목표 노출도 (밝은 하늘)
 
-        // 카메라 블렌딩 비율을 서서히 조정
+        // 스카이박스를 현재 밤 스카이박스로 설정
+        RenderSettings.skybox = nightSkybox;
+
+        // transitionDuration 동안 서서히 밝아지는 효과
         while (timer < transitionDuration)
         {
             timer += Time.deltaTime;
-            float blend = Mathf.Clamp01(timer / transitionDuration);
+            float t = timer / transitionDuration;
 
-            // 밤 카메라와 낮 카메라의 블렌딩 비율을 조정 (렌더링 비율)
-            nightCamera.rect = new Rect(0, 0, 1 - blend, 1);
-            dayCamera.rect = new Rect(blend, 0, 1, 1);
+            // 스카이박스의 노출도를 서서히 높여 밝아지게 함
+            RenderSettings.skybox.SetFloat("_Exposure", Mathf.Lerp(initialExposure, targetExposure, t));
 
             yield return null;
         }
 
-        // 전환 완료 후 밤 카메라 비활성화
-        nightCamera.enabled = false;
+        // 전환 완료 후 낮 스카이박스로 변경
+        RenderSettings.skybox = daySkybox;
+        RenderSettings.skybox.SetFloat("_Exposure", 1.3f);  // 낮 스카이박스 노출도 설정
+
         isTransitioning = false;
     }
 }

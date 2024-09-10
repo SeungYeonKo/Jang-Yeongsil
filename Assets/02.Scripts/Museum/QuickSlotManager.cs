@@ -1,8 +1,9 @@
-using System.Collections;
-using System.Collections.Generic;
-using TMPro;
 using UnityEngine;
+using TMPro;
 using Photon.Pun;
+using UnityEngine.SceneManagement;
+using System.Collections.Generic;
+using System.Collections;
 
 public class QuickSlotManager : MonoBehaviour
 {
@@ -31,15 +32,8 @@ public class QuickSlotManager : MonoBehaviour
 
     private void Awake()
     {
-        // 퀵슬롯 관련 데이터만 초기화
-        foreach (var entry in inventionSlotMap)
-        {
-            PlayerPrefs.DeleteKey(entry.Key.ToString()); // 퀵슬롯 상태만 초기화
-        }
-
-        PlayerPrefs.Save(); // PlayerPrefs 초기화 후 저장
+        // PlayerPrefs 초기화 코드는 제거. 씬마다 상태를 유지하기 위해 PlayerPrefs를 사용하는 방식으로 변경.
     }
-
 
     private void Start()
     {
@@ -51,6 +45,21 @@ public class QuickSlotManager : MonoBehaviour
 
         // PlayerPrefs에서 퀵슬롯 상태 복원
         RestoreQuickSlotStateFromPlayerPrefs();
+
+        // 씬 전환 후 퀵슬롯 상태 복원
+        SceneManager.sceneLoaded += OnSceneLoad;
+    }
+
+    private void OnDestroy()
+    {
+        // 씬이 전환될 때 이벤트 해제
+        SceneManager.sceneLoaded -= OnSceneLoad;
+    }
+
+    // 씬이 로드될 때 호출
+    private void OnSceneLoad(Scene scene, LoadSceneMode mode)
+    {
+        RestoreQuickSlotStateFromPlayerPrefs();
     }
 
     private void RestoreQuickSlotStateFromPlayerPrefs()
@@ -60,11 +69,12 @@ public class QuickSlotManager : MonoBehaviour
             InventionType inventionType = entry.Key;
             int slotIndex = entry.Value;
 
-            // PlayerPrefs에 상태가 없으면 기본값을 before 상태로 설정
+            // PlayerPrefs에서 상태 불러오기
             if (PlayerPrefs.HasKey(inventionType.ToString()))
             {
                 bool isActive = PlayerPrefs.GetInt(inventionType.ToString()) == 1;
 
+                // 퀵슬롯 활성화/비활성화
                 if (isActive)
                 {
                     AfterQuickSlots[slotIndex]?.SetActive(true);
@@ -84,7 +94,6 @@ public class QuickSlotManager : MonoBehaviour
             }
         }
     }
-
 
     public void ActivateAfterQuickSlot(InventionType inventionType)
     {
@@ -106,7 +115,6 @@ public class QuickSlotManager : MonoBehaviour
             }
         }
     }
-
 
     public void SaveQuickSlotStateWithPlayerPrefs(InventionType inventionType, bool isActive)
     {

@@ -53,7 +53,11 @@ public class RainGaugePlayer : MonoBehaviourPunCallbacks
            // Debug.LogError("JarController is not found. Make sure there is a Jar object in the scene.");
         }
 
-        GameObject.FindWithTag("FollowCamera").GetComponent<CinemachineVirtualCamera>().Follow = CameraRoot;
+        if (photonView.IsMine)
+        {
+            GameObject.FindWithTag("FollowCamera").GetComponent<CinemachineVirtualCamera>().Follow = CameraRoot;
+        }
+            
     }
 
     private void AssignPlayerNumber()
@@ -99,6 +103,12 @@ public class RainGaugePlayer : MonoBehaviourPunCallbacks
                 MoveStartPosition();
             }
         }
+    }
+
+    public void SetReadyState(bool isReady)
+    {
+        this.isReady = isReady;
+        UpdateReadyState(isReady);
     }
 
     private void SetReadyStateOnInput()

@@ -69,6 +69,17 @@ public class RiceSpawner : MonoBehaviourPun
         }
     }
 
+    public void SpawnMultipleRocks(Vector3 spawnPosition, int count, float offset)
+    {
+        for (int i = 0; i < count; i++)
+        {
+            float offsetX = Random.Range(-offset, offset);
+            float offsetZ = Random.Range(-offset, offset);
+
+            Vector3 newPosition = new Vector3(spawnPosition.x + offsetX, spawnPosition.y, spawnPosition.z + offsetZ);
+            SpawnRock(newPosition);
+        }
+    }
 
     [PunRPC]
     public void SpawnRock(Vector3 spawnPosition)

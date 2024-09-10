@@ -18,7 +18,7 @@ public class RainGaugeManager : MonoBehaviourPunCallbacks
 {
     public static RainGaugeManager Instance { get; private set; }
 
-    private float _gameDuration = 90f;
+    private float _gameDuration = 60f;
     public float TimeRemaining;
 
     private int _countDown = 5; // 시작 카운트다운
@@ -32,6 +32,8 @@ public class RainGaugeManager : MonoBehaviourPunCallbacks
     private int playerNumber;
     private Dictionary<int, RainGaugePlayer> players = new Dictionary<int, RainGaugePlayer>();
     private UI_RainGaugeManager uiRainGaugeManager;
+
+    private ParticleSystem rainParticleSystem;
 
     private void Awake()
     {
@@ -184,6 +186,16 @@ public class RainGaugeManager : MonoBehaviourPunCallbacks
 
         SoundManager.instance.StopBgm();
         SoundManager.instance.PlayBgm(SoundManager.Bgm.RainGauge);
+
+        GameObject waterfallEffect = GameObject.Find("WaterfallSmallEffect");
+        if (waterfallEffect != null)
+        {
+            rainParticleSystem = waterfallEffect.GetComponent<ParticleSystem>();
+            if (rainParticleSystem != null)
+            {
+                rainParticleSystem.gameObject.SetActive(false); 
+            }
+        }
     }
 
     private void Update()
@@ -199,10 +211,12 @@ public class RainGaugeManager : MonoBehaviourPunCallbacks
 
             case GameState.Loading:
                 uiRainGaugeManager.SetReadyImageState(false);
+                SetRainParticleSystemActive(false);
                 break;
 
             case GameState.Go:
                 uiRainGaugeManager.SetReadyImageState(false);
+                SetRainParticleSystemActive(true);
                 UpdateGameTimer();
                 if (TimeRemaining > 0)
                 {
@@ -217,6 +231,7 @@ public class RainGaugeManager : MonoBehaviourPunCallbacks
 
             case GameState.Over:
                 uiRainGaugeManager.SetReadyImageState(false);
+                SetRainParticleSystemActive(false);
                 if (!_isGameOver)
                 {
                     _isGameOver = true;
@@ -231,6 +246,15 @@ public class RainGaugeManager : MonoBehaviourPunCallbacks
             int localPlayerNumber = (int)PhotonNetwork.LocalPlayer.CustomProperties["PlayerNumber"];
             PlayerPrefs.SetInt("WinnerPlayerNumber", localPlayerNumber); // 승자 정보 저장
             SetGameState(GameState.Over); // 게임 종료
+        }
+    }
+
+    private void SetRainParticleSystemActive(bool isActive)
+    {
+        if (rainParticleSystem != null && rainParticleSystem.gameObject.activeSelf != isActive)
+        {
+            rainParticleSystem.gameObject.SetActive(isActive);
+            Debug.Log($"RainParticleSystem is now {(isActive ? "enabled" : "disabled")}");
         }
     }
 

@@ -79,7 +79,7 @@ public class PlayerMoveAbility : PlayerAbility
         SceneManager.sceneLoaded += OnSceneLoaded;
     }
 
-    private void OnDisable()
+    public void OnDisable()
     {
         // 씬 로드 이벤트 구독 해제
         SceneManager.sceneLoaded -= OnSceneLoaded;

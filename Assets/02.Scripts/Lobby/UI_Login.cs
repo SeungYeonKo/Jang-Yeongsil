@@ -18,7 +18,7 @@ public class UI_Login : MonoBehaviour
     {
         // 0 : ID, PW 입력 창 팝업후 
         LoadLoginInfo();
-        //AutoLogin();
+        AutoLogin();
     }
 
     private void Update()

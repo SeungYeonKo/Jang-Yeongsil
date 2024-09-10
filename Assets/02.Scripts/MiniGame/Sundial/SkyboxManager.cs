@@ -3,13 +3,19 @@ using UnityEngine;
 
 public class SkyboxManager : MonoBehaviour
 {
-    public Material daySkybox;  // 첫 번째 스카이박스(낮)
-    public Material nightSkybox;  // 두 번째 스카이박스(밤)
-    public float transitionDuration = 5.0f;  // 스카이박스 전환 시간
+    public Camera nightCamera;  // 밤하늘 스카이박스를 렌더링할 카메라
+    public Camera dayCamera;    // 낮하늘 스카이박스를 렌더링할 카메라
+    public float transitionDuration = 5.0f;  // 전환 시간
 
     private bool isTransitioning = false;
 
-    // Skybox 전환 코루틴
+    private void Start()
+    {
+        // 시작 시 밤 카메라만 활성화
+        nightCamera.enabled = true;
+        dayCamera.enabled = false;
+    }
+
     public void StartSkyboxTransition()
     {
         if (!isTransitioning)
@@ -23,21 +29,24 @@ public class SkyboxManager : MonoBehaviour
         isTransitioning = true;
         float timer = 0.0f;
 
-        // 현재 스카이박스의 설정을 저장
-        Material currentSkybox = RenderSettings.skybox;
+        // 낮 카메라 활성화
+        dayCamera.enabled = true;
 
+        // 카메라 블렌딩 비율을 서서히 조정
         while (timer < transitionDuration)
         {
             timer += Time.deltaTime;
-            float t = timer / transitionDuration;
+            float blend = Mathf.Clamp01(timer / transitionDuration);
 
-            // 스카이박스를 서서히 변경 (Blend)
-            RenderSettings.skybox.Lerp(currentSkybox, nightSkybox, t);
+            // 밤 카메라와 낮 카메라의 블렌딩 비율을 조정 (렌더링 비율)
+            nightCamera.rect = new Rect(0, 0, 1 - blend, 1);
+            dayCamera.rect = new Rect(blend, 0, 1, 1);
+
             yield return null;
         }
 
-        // 전환이 완료되었을 때 밤 스카이박스로 설정
-        RenderSettings.skybox = nightSkybox;
+        // 전환 완료 후 밤 카메라 비활성화
+        nightCamera.enabled = false;
         isTransitioning = false;
     }
 }

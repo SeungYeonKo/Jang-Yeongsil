@@ -18,6 +18,8 @@ public class RainGaugePlayer : MonoBehaviourPunCallbacks
     public Transform rightHandTransform;
     public Transform CameraRoot;
 
+    public GameObject GameRule;
+
     private void Awake()
     {
         if (SceneManager.GetActiveScene().name != "NewRainGauge")
@@ -44,6 +46,11 @@ public class RainGaugePlayer : MonoBehaviourPunCallbacks
         else
         {
             Debug.LogError($"Start point not found for player {MyNum}");
+        }
+        GameRule = GameObject.Find("GameRule");
+        if (GameRule == null)
+        {
+            Debug.LogError("GameRule 오브젝트를 찾을 수 없습니다.");
         }
 
         MoveStartPosition();
@@ -117,6 +124,11 @@ public class RainGaugePlayer : MonoBehaviourPunCallbacks
         {
             isReady = !isReady;
             UpdateReadyState(isReady);
+
+            if (GameRule != null)
+            {
+                GameRule.SetActive(false);
+            }
         }
     }
 

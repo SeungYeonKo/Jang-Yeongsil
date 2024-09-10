@@ -5,15 +5,15 @@ using UnityEngine.SceneManagement;
 
 public class ClockInteraction : MonoBehaviour
 {
-    public Camera mainCamera; // 메인 카메라
-    public Camera miniGameCamera; // 미니게임 전용 카메라
-    public Canvas sundialSliderCanvas; // 전체 UI 캔버스 (SundialSlider_Canvas)
-    public Slider sundialSlider; // 슬라이더 오브젝트
-    public Image sunImage; // 슬라이더 이미지 오브젝트
+    public Camera mainCamera;
+    public Camera miniGameCamera;
+    public Canvas sundialSliderCanvas;
+    public Slider sundialSlider;
+    
 
-    public TextMeshProUGUI qKeyText; // Q 키 텍스트
-    public Image additionalImage; // 추가 이미지 오브젝트
-    public SliderImageAnimator sliderImageAnimator; // SliderImageAnimator 스크립트 참조
+    public TextMeshProUGUI qKeyText;
+    public Image additionalImage;
+    public SliderImageAnimator sliderImageAnimator;
 
     private bool isNearClock = false;
     private bool isClockViewActive = false;
@@ -22,7 +22,7 @@ public class ClockInteraction : MonoBehaviour
 
     void Awake()
     {
-        // SunMiniGame 스크립트와의 연결을 설정합니다.
+        // SunMiniGame 스크립트와의 연결을 설정
         if (SunMiniGame != null)
         {
             SunMiniGame.clockInteraction = this;
@@ -44,26 +44,16 @@ public class ClockInteraction : MonoBehaviour
             ToggleClockView();
         }
 
-        if (SunMiniGame != null)
-        {
-            if (SunMiniGame.isGameActive)
-            {
-                Cursor.lockState = CursorLockMode.None;
-                Cursor.visible = true;
-            }
-            else
-            {
-                Cursor.lockState = CursorLockMode.Locked;
-                Cursor.visible = false;
-            }
-        }
+        
+
+       
     }
 
     public void ResetMiniGame()
     {
         if (miniGameCamera != null) miniGameCamera.gameObject.SetActive(false);
         if (sundialSlider != null) sundialSlider.gameObject.SetActive(false);
-        if (sunImage != null) sunImage.gameObject.SetActive(false);
+        /*if (sunImage != null) sunImage.gameObject.SetActive(false);*/
         if (additionalImage != null) additionalImage.gameObject.SetActive(false);
 
         if (mainCamera != null) mainCamera.gameObject.SetActive(true);
@@ -71,7 +61,6 @@ public class ClockInteraction : MonoBehaviour
 
         isClockViewActive = false;
 
-        // 미니게임이 종료되면 기본 TPSCamera의 커서 설정으로 돌아감
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
     }
@@ -92,11 +81,11 @@ public class ClockInteraction : MonoBehaviour
             {
                 sundialSlider.gameObject.SetActive(true);
             }
-            if (sunImage != null)
+            /*if (sunImage != null)
             {
                 sunImage.gameObject.SetActive(true);
                 sliderImageAnimator.displayImage.sprite = sliderImageAnimator.sprites[0];
-            }
+            }*/
             if (additionalImage != null)
             {
                 additionalImage.gameObject.SetActive(true);
@@ -131,4 +120,6 @@ public class ClockInteraction : MonoBehaviour
             ResetMiniGame();
         }
     }
+
+    
 }

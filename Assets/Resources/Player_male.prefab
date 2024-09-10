@@ -1159,6 +1159,7 @@ MonoBehaviour:
   MyNum: 0
   rightHandTransform: {fileID: 2607681195365636899}
   CameraRoot: {fileID: 8744754342764202041}
+  GameRule: {fileID: 0}
 --- !u!114 &-4456594737478369042
 MonoBehaviour:
   m_ObjectHideFlags: 0

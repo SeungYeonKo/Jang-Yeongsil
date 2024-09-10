@@ -21,7 +21,16 @@ public class InventionTrigger : MonoBehaviour
             if (playerPhotonView.IsMine)
             {
                 QuickSlotManager.ActivateAfterQuickSlot(InventionType);
-                GlobalInventionManager.Instance.SetInventionActive(InventionType, true);
+
+                // GlobalInventionManager가 존재하는지 확인 후 활성화 처리
+                if (GlobalInventionManager.Instance != null)
+                {
+                    GlobalInventionManager.Instance.SetInventionActive(InventionType, true);
+                }
+                else
+                {
+                    Debug.LogError("GlobalInventionManager instance is missing.");
+                }
 
                 // PhotonView를 가져와서 RPC 호출
                 PhotonView photonView = PhotonView.Get(this);

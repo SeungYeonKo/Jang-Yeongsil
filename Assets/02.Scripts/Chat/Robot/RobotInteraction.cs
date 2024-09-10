@@ -8,6 +8,7 @@ public class RobotInteraction : MonoBehaviour
 
     private void Start()
     {
+        _player = false;
         robotUI.SetActive(false);
         RobotText.SetActive(false);
     }
@@ -19,6 +20,7 @@ public class RobotInteraction : MonoBehaviour
         {
             robotUI.SetActive(!robotUI.activeSelf);
         }
+
         if (_player)
         {
             RobotText.SetActive(true);
@@ -42,7 +44,7 @@ public class RobotInteraction : MonoBehaviour
         if (other.CompareTag("Player"))
         {
             _player = false;
-            robotUI.SetActive(false); // 플레이어가 떠날 때 UI 비활성화
+            robotUI.SetActive(false);
         }
     }
 }

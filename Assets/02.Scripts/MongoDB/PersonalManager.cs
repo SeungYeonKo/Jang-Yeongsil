@@ -56,7 +56,7 @@ public class PersonalManager : MonoBehaviour
         if (user != null)
         {
             _cachedUserName = user.Name;
-            PlayerPrefs.SetString("CachedUserName", _cachedUserName);
+            PlayerPrefs.SetString("LoggedInId", _cachedUserName);
         }
 
         return user;
@@ -106,7 +106,7 @@ public class PersonalManager : MonoBehaviour
     // 사용자 이름을 캐시에서 가져오는 메서드
     public string GetCachedUserName()
     {
-        _cachedUserName = PlayerPrefs.GetString("CachedUserName", string.Empty);
+        _cachedUserName = PlayerPrefs.GetString("LoggedInId", string.Empty);
         return _cachedUserName;
     }
 }

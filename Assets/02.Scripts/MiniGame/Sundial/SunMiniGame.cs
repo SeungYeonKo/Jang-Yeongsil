@@ -44,6 +44,8 @@ public class SunMiniGame : MonoBehaviour
     public List<GameObject> moons;
     public SkyboxManager skyboxManager;
 
+    public bool SceneChangeDelays = false;
+
     // 추가된 변수
     public Sprite[] sunSprites; // 슬라이더 값에 따른 스프라이트 배열
     private int currentSpriteIndex = 0; // 현재 선택된 스프라이트 인덱스
@@ -98,15 +100,10 @@ public class SunMiniGame : MonoBehaviour
         }
 
 
-        if (SuccsessCount == 3 && isGameActive)
+        /*if (SuccsessCount == 3 && isGameActive)
         {
-            StartCoroutine(EndGameSequence());
-            if (skyboxManager != null)
-            {
-                skyboxManager.StartSkyboxTransition();
-            }
-            isGameActive = false;
-        }
+            
+        }*/
     }
 
     public void StartMiniGame()
@@ -200,8 +197,22 @@ public class SunMiniGame : MonoBehaviour
         {
             StartMiniGame();  // 정답이 3개 미만일 경우 새 문제를 시작합니다.
         }
+        else if (SuccsessCount == 3&& isGameActive)
+        {
+            OnCoroutineCompleted(); // 코루틴이 완료된 후 콜백 호출
+        }
     }
-
+    private void OnCoroutineCompleted()
+    {
+        StartCoroutine(EndGameSequence());
+        if (skyboxManager != null)
+        {
+            skyboxManager.StartSkyboxTransition();
+        }
+        isGameActive = false;
+        // 코루틴이 완료된 후 실행할 코드
+        Debug.Log("코루틴 완료 후 처리 로직 실행");
+    }
     private IEnumerator FadeOutAndDisable(GameObject obj)
     {
         Renderer objRenderer = obj.GetComponent<Renderer>();
@@ -279,6 +290,9 @@ public class SunMiniGame : MonoBehaviour
 
         // SceneChangeText 활성화 및 5초 대기
         SceneChangeText.gameObject.SetActive(true);
+
+        GameEND();
+
         yield return new WaitForSeconds(5.0f);
 
         // MainCamera 활성화 후 UI 레이어 비활성화
@@ -286,7 +300,7 @@ public class SunMiniGame : MonoBehaviour
         miniGameCamera.gameObject.SetActive(false);
         moonCamera.gameObject.SetActive(false);
         DisableUILayerOnMainCamera();  // MainCamera에서 UI 레이어 비활성화
-
+        
         // 씬 전환 로직
         PhotonManager.Instance.LeaveAndLoadRoom("Main");
     }
@@ -321,6 +335,10 @@ public class SunMiniGame : MonoBehaviour
     // sunImage를 활성화하는 함수
     public void ActivateSunImage()
     {
+        if (SuccsessCount == 3)
+        {
+            return;
+        }
         if (SunImage != null)
         {
             SunImage.gameObject.SetActive(true);

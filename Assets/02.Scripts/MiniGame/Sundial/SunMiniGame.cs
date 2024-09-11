@@ -52,7 +52,7 @@ public class SunMiniGame : MonoBehaviour
     {
         miniGameCamera.enabled = true;
         moonCamera.enabled = false;
-
+        DisableUILayerOnMainCamera();
         questionAnswerPairs = new Dictionary<string, float>
         {
             {"오전 8시30분을 표시하세요", 85f},
@@ -65,6 +65,12 @@ public class SunMiniGame : MonoBehaviour
             {"오후 12시를 표시하세요", 265f},
             {"오전 12시30분을 표시하세요", 300f},
             {"오후 1시를 표시하세요", 320f},
+            {"오후 1시30분을 표시하세요", 338f},
+            {"오후 2시를 표시하세요", 355f},
+            {"오후 2시30분을 표시하세요", 370f},
+            {"오후 3시를 표시하세요", 389f},
+            {"오후 3시30분을 표시하세요", 405f},
+            {"오후 4시를 표시하세요", 428f}
         };
 
         remainingQuestions = new List<string>(questionAnswerPairs.Keys);
@@ -90,20 +96,15 @@ public class SunMiniGame : MonoBehaviour
         {
             CheckAnswer();
         }
-        else if (Timer >= 0 && SuccsessCount >= 3)
-        {
-            Timer += Time.deltaTime;
-            SceneChangeText.gameObject.SetActive(true);
-            if (Timer >= SuccsessTimer)
-            {
-                Timer = 0;
-                PhotonManager.Instance.LeaveAndLoadRoom("Main");
-            }
-        }
+
 
         if (SuccsessCount == 3 && isGameActive)
         {
             StartCoroutine(EndGameSequence());
+            if (skyboxManager != null)
+            {
+                skyboxManager.StartSkyboxTransition();
+            }
             isGameActive = false;
         }
     }
@@ -185,18 +186,20 @@ public class SunMiniGame : MonoBehaviour
         moonCamera.enabled = false;
         miniGameCamera.enabled = true;
 
+        // **슬라이더 값에 맞는 이미지 다시 설정**
+        UpdateSunImage(sundialSlider.value);  // 슬라이더 값에 맞는 이미지를 다시 설정합니다.
+
         // 6. 미니게임 UI 활성화
         ActivateSunImage(); // 카메라가 돌아오면 SunImage 다시 활성화
         sundialSlider.gameObject.SetActive(true);
         qzText.gameObject.SetActive(true);
         ImagePP.gameObject.SetActive(true);
 
-        // 슬라이더 값에 맞는 이미지 다시 설정
-        UpdateSunImage(sundialSlider.value);
-
-        // 7. 새로운 문제 제시
+        // **7. 새로운 문제 제시**
         if (SuccsessCount < 3)
-            StartMiniGame();
+        {
+            StartMiniGame();  // 정답이 3개 미만일 경우 새 문제를 시작합니다.
+        }
     }
 
     private IEnumerator FadeOutAndDisable(GameObject obj)
@@ -252,7 +255,8 @@ public class SunMiniGame : MonoBehaviour
     private int GetSpriteIndexBySliderValue(float sliderValue)
     {
         int maxIndex = sunSprites.Length - 1;
-        float valueRange = sundialSlider.maxValue / maxIndex;
+        float valueRange = sundialSlider
+.maxValue / maxIndex;
 
         // 슬라이더 값이 잘못된 경우를 방지
         if (maxIndex <= 0)
@@ -266,70 +270,51 @@ public class SunMiniGame : MonoBehaviour
 
     private IEnumerator EndGameSequence()
     {
-        // 정답 맞췄을 때 UI를 2초 동안 활성화
-        rightImage.gameObject.SetActive(true);
-        SuccsessText.gameObject.SetActive(true);
-
-        yield return new WaitForSeconds(2.0f); // 2초 대기
-
         // UI 비활성화
-        rightImage.gameObject.SetActive(false);
-        SuccsessText.gameObject.SetActive(false);
+        if (SunImage != null) SunImage.gameObject.SetActive(false);
+        if (rightImage != null) rightImage.gameObject.SetActive(false);
+        if (SuccsessText != null) SuccsessText.gameObject.SetActive(false);
+        if (sundialSlider != null) sundialSlider.gameObject.SetActive(false);
+        if (ImagePP != null) ImagePP.gameObject.SetActive(false);
 
-        // 미니게임 관련 UI 비활성화
-        sundialSlider.gameObject.SetActive(false);
-        qzText.gameObject.SetActive(false);
-        SunImage.gameObject.SetActive(false); // 이 부분은 필요하다면
-        ImagePP.gameObject.SetActive(false);
-
-        // SceneChangeText 활성화
+        // SceneChangeText 활성화 및 5초 대기
         SceneChangeText.gameObject.SetActive(true);
-
-        // 5초 대기 후 씬을 전환
         yield return new WaitForSeconds(5.0f);
 
-        // 씬 변경 로직이 있는 Photon 관련 코드
-        PhotonManager.Instance.LeaveAndLoadRoom("Main");
+        // MainCamera 활성화 후 UI 레이어 비활성화
+        mainCamera.gameObject.SetActive(true);
+        miniGameCamera.gameObject.SetActive(false);
+        moonCamera.gameObject.SetActive(false);
+        DisableUILayerOnMainCamera();  // MainCamera에서 UI 레이어 비활성화
 
-        // 씬 전환 후 게임 종료 처리 (초기화)
-        GameEND();  // GameEND()를 마지막에 호출
+        // 씬 전환 로직
+        PhotonManager.Instance.LeaveAndLoadRoom("Main");
     }
 
     private void GameEND()
     {
-        // 정답 처리 후 미니게임 비활성화
+        Debug.Log("GameEND 함수 호출됨"); // 함수 호출 확인 로그
+
+        // 기존 내용
         isGameActive = false;
         _isGameOver = true;
         qzText.gameObject.SetActive(false);
 
-        // 플레이어 이동 활성화
+        if (clockInteraction != null)
+        {
+            clockInteraction.ResetMiniGame();
+        }
+
         if (playerMoveAbility != null)
         {
             playerMoveAbility.EnableMovement();
         }
 
-        // Photon 네트워크 처리
         if (PhotonNetwork.IsMasterClient)
         {
             Hashtable playerProperties = new Hashtable { { "SunMiniGameOver", true } };
             PhotonNetwork.LocalPlayer.SetCustomProperties(playerProperties);
             Debug.Log($"{playerProperties} 저장");
-        }
-
-        // **MainCamera로 전환** 추가
-        if (mainCamera != null)
-        {
-            mainCamera.enabled = true;
-        }
-        if (miniGameCamera != null)
-        {
-            miniGameCamera.enabled = false;
-        }
-
-        // **UI 리셋** 추가
-        if (clockInteraction != null)
-        {
-            clockInteraction.ResetMiniGame();  // 기존 리셋 함수에서 UI 처리를 수행
         }
     }
 
@@ -350,5 +335,33 @@ public class SunMiniGame : MonoBehaviour
         {
             SunImage.gameObject.SetActive(false);
         }
+    }
+    void DisableUILayerOnMainCamera()
+    {
+        int uiLayer = LayerMask.NameToLayer("UI");
+        if (mainCamera != null)
+        {
+            mainCamera.cullingMask &= ~(1 << uiLayer);  // UI 레이어의 비트 마스크를 해제
+        }
+        int playerLayer = LayerMask.NameToLayer("Player");
+        if (miniGameCamera != null)
+        {
+            miniGameCamera.cullingMask &= ~(1 << uiLayer);  // Player 레이어의 비트 마스크를 해제
+        }
+    }
+    private void ActivateGameCameras()
+    {
+        // miniGameCamera와 moonCamera 활성화, mainCamera 비활성화
+        if (mainCamera != null) mainCamera.gameObject.SetActive(false);
+        if (miniGameCamera != null) miniGameCamera.gameObject.SetActive(true);
+        if (moonCamera != null) moonCamera.gameObject.SetActive(true);
+    }
+
+    private void ActivateMainCamera()
+    {
+        // mainCamera 활성화, miniGameCamera와 moonCamera 비활성화
+        if (mainCamera != null) mainCamera.gameObject.SetActive(true);
+        if (miniGameCamera != null) miniGameCamera.gameObject.SetActive(false);
+        if (moonCamera != null) moonCamera.gameObject.SetActive(false);
     }
 }

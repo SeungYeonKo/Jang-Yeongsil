@@ -5,7 +5,7 @@ public class SkyboxManager : MonoBehaviour
 {
     public Material daySkybox;  // 낮 스카이박스
     public Material nightSkybox;  // 밤 스카이박스
-    public float transitionDuration = 5.0f;  // 스카이박스 전환 시간
+    public float transitionDuration = 2f;  // 스카이박스 전환 시간
 
     private bool isTransitioning = false;
 

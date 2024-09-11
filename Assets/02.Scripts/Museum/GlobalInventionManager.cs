@@ -24,12 +24,6 @@ public class GlobalInventionManager : MonoBehaviourPunCallbacks
         Instance = this;
         DontDestroyOnLoad(this.gameObject); // 씬 전환 시 파괴되지 않도록 설정
 
-        // PhotonView가 유효한지 확인
-        if (photonView == null)
-        {
-            Debug.LogError("PhotonView가 할당되지 않았습니다.");
-        }
-
         // 발명품 상태 초기화
         InitializeInventionStates();
     }

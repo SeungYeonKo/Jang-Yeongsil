@@ -15,32 +15,24 @@ public class InventionTrigger : MonoBehaviour
     {
         if (other.CompareTag("Player"))
         {
-            Debug.Log("Player entered the trigger zone.");
-
             PhotonView playerPhotonView = other.GetComponent<PhotonView>();
-            if (playerPhotonView.IsMine)
+            if (playerPhotonView != null && playerPhotonView.IsMine)
             {
-                Debug.Log("Trigger event for local player.");
-
+                // 퀵슬롯 상태 업데이트
                 QuickSlotManager.ActivateAfterQuickSlot(InventionType);
 
-                // GlobalInventionManager가 존재하는지 확인 후 발명품 활성화 처리
+                // 발명품 활성화 처리
                 if (GlobalInventionManager.Instance != null)
                 {
                     GlobalInventionManager.Instance.SetInventionActive(InventionType, true);
-                    Debug.Log($"Invention {InventionType} activated in the museum.");
-                }
-                else
-                {
-                    Debug.LogError("GlobalInventionManager instance is missing.");
+                    Debug.Log($"Invention {InventionType} activated.");
                 }
 
-                // PhotonView를 가져와서 RPC 호출
-                PhotonView photonView = PhotonView.Get(this);
+                // 오브젝트 삭제 요청
+                PhotonView photonView = GetComponent<PhotonView>();
                 if (photonView != null)
                 {
-                    Debug.Log("PhotonView found, calling DestroyObject RPC.");
-                    photonView.RPC("DestroyObject", RpcTarget.AllBuffered); // Buffered로 설정하여 나중에 방에 들어온 플레이어도 반영
+                    photonView.RPC("DestroyObject", RpcTarget.AllBuffered); // 모든 클라이언트에서 오브젝트 삭제
                 }
                 else
                 {
@@ -50,20 +42,9 @@ public class InventionTrigger : MonoBehaviour
         }
     }
 
-
-
-
     [PunRPC]
     private void DestroyObject()
     {
-        if (PhotonNetwork.IsMasterClient)
-        {
-            Debug.Log("Destroying object as the MasterClient.");
-            PhotonNetwork.Destroy(this.gameObject); // PhotonNetwork.Destroy 사용
-        }
-        else
-        {
-            Debug.Log("Not the MasterClient, skipping destroy.");
-        }
+        PhotonNetwork.Destroy(this.gameObject);
     }
 }

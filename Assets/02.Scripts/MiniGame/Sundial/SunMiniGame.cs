@@ -8,6 +8,8 @@ using Hashtable = ExitGames.Client.Photon.Hashtable;
 
 public class SunMiniGame : MonoBehaviour
 {
+    public AudioSource audioSource;
+
     public ClockInteraction clockInteraction;
     public PlayerMoveAbility playerMoveAbility;
     public Slider sundialSlider;
@@ -50,8 +52,16 @@ public class SunMiniGame : MonoBehaviour
     public Sprite[] sunSprites; // 슬라이더 값에 따른 스프라이트 배열
     private int currentSpriteIndex = 0; // 현재 선택된 스프라이트 인덱스
 
+    public GameObject itemPrefab;
+
+
+
     void Start()
     {
+        SoundManager.instance.StopBgm();
+        SoundManager.instance.PlayBgm(SoundManager.Bgm.SundialScene);
+       
+
         miniGameCamera.enabled = true;
         moonCamera.enabled = false;
         DisableUILayerOnMainCamera();
@@ -105,7 +115,15 @@ public class SunMiniGame : MonoBehaviour
             
         }*/
     }
-
+    private void DropItem()
+    {
+        if (itemPrefab != null)
+        {
+            Vector3 dropPosition = new Vector3(0.2268f, 1.87f, -21f);
+            Instantiate(itemPrefab, dropPosition, Quaternion.identity); // 아이템 드랍
+            Debug.Log("아이템 드랍 완료");
+        }
+    }
     public void StartMiniGame()
     {
         if (playerMoveAbility != null)
@@ -157,6 +175,8 @@ public class SunMiniGame : MonoBehaviour
 
     private IEnumerator HandleCorrectAnswer()
     {
+        
+        SoundManager.instance.PlaySfx(SoundManager.Sfx.Quiz_OX);
         // 1. UI 2초간 활성화
         rightImage.gameObject.SetActive(true);
         SuccsessText.gameObject.SetActive(true);
@@ -199,6 +219,8 @@ public class SunMiniGame : MonoBehaviour
         }
         else if (SuccsessCount == 3&& isGameActive)
         {
+            SoundManager.instance.StopBgm();
+            
             OnCoroutineCompleted(); // 코루틴이 완료된 후 콜백 호출
         }
     }
@@ -207,7 +229,11 @@ public class SunMiniGame : MonoBehaviour
         StartCoroutine(EndGameSequence());
         if (skyboxManager != null)
         {
+            
+            
             skyboxManager.StartSkyboxTransition();
+
+
         }
         isGameActive = false;
         // 코루틴이 완료된 후 실행할 코드
@@ -287,10 +313,11 @@ public class SunMiniGame : MonoBehaviour
         if (SuccsessText != null) SuccsessText.gameObject.SetActive(false);
         if (sundialSlider != null) sundialSlider.gameObject.SetActive(false);
         if (ImagePP != null) ImagePP.gameObject.SetActive(false);
-
+        SoundManager.instance.PlaySfx(SoundManager.Sfx.PuzzleInPlace);
         // SceneChangeText 활성화 및 5초 대기
         SceneChangeText.gameObject.SetActive(true);
-
+         
+        
         GameEND();
 
         yield return new WaitForSeconds(5.0f);
@@ -324,14 +351,19 @@ public class SunMiniGame : MonoBehaviour
             playerMoveAbility.EnableMovement();
         }
 
-        if (PhotonNetwork.IsMasterClient)
-        {
+
             Hashtable playerProperties = new Hashtable { { "SunMiniGameOver", true } };
             PhotonNetwork.LocalPlayer.SetCustomProperties(playerProperties);
             Debug.Log($"{playerProperties} 저장");
+        
+    }
+    void OnTriggerEnter(Collider other)
+    {
+        if (other.CompareTag("Invention"))
+        {
+           
         }
     }
-
     // sunImage를 활성화하는 함수
     public void ActivateSunImage()
     {

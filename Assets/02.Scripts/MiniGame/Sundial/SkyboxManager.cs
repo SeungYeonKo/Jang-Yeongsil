@@ -3,6 +3,7 @@ using UnityEngine;
 
 public class SkyboxManager : MonoBehaviour
 {
+    public AudioSource audioPlus;
     public Material daySkybox;  // 낮 스카이박스
     public Material nightSkybox;  // 밤 스카이박스
     public float transitionDuration = 2f;  // 스카이박스 전환 시간
@@ -12,6 +13,7 @@ public class SkyboxManager : MonoBehaviour
     // 시작 시에 어두운 하늘 설정
     private void Start()
     {
+        
         // 처음엔 밤 스카이박스를 설정
         RenderSettings.skybox = nightSkybox;
     }
@@ -52,6 +54,7 @@ public class SkyboxManager : MonoBehaviour
 
         // 전환 완료 후 낮 스카이박스로 변경
         RenderSettings.skybox = daySkybox;
+        SoundManager.instance.PlayBgm(SoundManager.Bgm.SundialSceneClear);
         RenderSettings.skybox.SetFloat("_Exposure", 1.3f);  // 낮 스카이박스 노출도 설정
 
         isTransitioning = false;
